@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_Menu_PermMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_Menu_Perm" >
+    <id column="ID" property="id" jdbcType="NVARCHAR" />
+    <result column="MenuName" property="menuname" jdbcType="NVARCHAR" />
+    <result column="ParentId" property="parentid" jdbcType="NVARCHAR" />
+    <result column="OrderId" property="orderid" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="Path" property="path" jdbcType="NVARCHAR" />
+    <result column="NavImg" property="navimg" jdbcType="NVARCHAR" />
+    <result column="Type" property="type" jdbcType="NVARCHAR" />
+    <result column="Status" property="status" jdbcType="NVARCHAR" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="Date_Enter" property="dateEnter" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MenuName, ParentId, OrderId, Remark, Path, NavImg, Type, Status, Deleted, Date_Enter
+  </sql>
+  
+  <!-- 查询菜单功能树 -->
+  <select id="getMenuPermTree" resultType="Map">
+      select ID "id",MenuName "title",
+case when ParentId is null then '' else ParentId end "parent",
+case when OrderId is null then '' else OrderId end "orderid",
+case when Path is null then '' else Path end  "path",
+case when NavImg is null then '' else NavImg end "navimg" from ACL_Menu_Perm
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_Menu_Perm
+    where ID = #{id,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ACL_Menu_Perm
+    where ID = #{id,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ACL_Menu_Perm" >
+    insert into ACL_Menu_Perm (ID, MenuName, ParentId, 
+      OrderId, Remark, Path, 
+      NavImg, Type, Status, 
+      Deleted, Date_Enter)
+    values (#{id,jdbcType=NVARCHAR}, #{menuname,jdbcType=NVARCHAR}, #{parentid,jdbcType=NVARCHAR}, 
+      #{orderid,jdbcType=INTEGER}, #{remark,jdbcType=NVARCHAR}, #{path,jdbcType=NVARCHAR}, 
+      #{navimg,jdbcType=NVARCHAR}, #{type,jdbcType=NVARCHAR}, #{status,jdbcType=NVARCHAR}, 
+      #{deleted,jdbcType=NVARCHAR}, #{dateEnter,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ACL_Menu_Perm" >
+    insert into ACL_Menu_Perm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="menuname != null" >
+        MenuName,
+      </if>
+      <if test="parentid != null" >
+        ParentId,
+      </if>
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="path != null" >
+        Path,
+      </if>
+      <if test="navimg != null" >
+        NavImg,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="dateEnter != null" >
+        Date_Enter,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=NVARCHAR},
+      </if>
+      <if test="navimg != null" >
+        #{navimg,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="dateEnter != null" >
+        #{dateEnter,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_Menu_Perm" >
+    update ACL_Menu_Perm
+    <set >
+      <if test="menuname != null" >
+        MenuName = #{menuname,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentid != null" >
+        ParentId = #{parentid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderId = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="path != null" >
+        Path = #{path,jdbcType=NVARCHAR},
+      </if>
+      <if test="navimg != null" >
+        NavImg = #{navimg,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="dateEnter != null" >
+        Date_Enter = #{dateEnter,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ACL_Menu_Perm" >
+    update ACL_Menu_Perm
+    set MenuName = #{menuname,jdbcType=NVARCHAR},
+      ParentId = #{parentid,jdbcType=NVARCHAR},
+      OrderId = #{orderid,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      Path = #{path,jdbcType=NVARCHAR},
+      NavImg = #{navimg,jdbcType=NVARCHAR},
+      Type = #{type,jdbcType=NVARCHAR},
+      Status = #{status,jdbcType=NVARCHAR},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      Date_Enter = #{dateEnter,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=NVARCHAR}
+  </update>
+</mapper>

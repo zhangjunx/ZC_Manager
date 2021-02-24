@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_ManufactureMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid asc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+
+	<!--获取列表  -->
+	<select id="getList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h.holderName "operatorName" from ZC_Manufacture t
+		left join HolderData h on t.operator = h.holderNo
+		where 1=1
+		<!--查询条件：制造商名称  -->
+		<if test="name != null and name != ''">
+			and t.name like '%'+#{name}+'%'
+		</if>
+		<!--查询条件：制造商国家  -->
+		<if test="country != null and country != ''">
+			and t.country like '%'+#{country}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getListCount" resultType="integer">
+		select count(1) from ZC_Manufacture t
+		left join HolderData h on t.operator = h.holderNo
+		where 1=1
+		<!--查询条件：制造商名称  -->
+		<if test="name != null and name != ''">
+			and t.name like '%'+#{name}+'%'
+		</if>
+		<!--查询条件：制造商国家  -->
+		<if test="country != null and country != ''">
+			and t.country like '%'+#{country}+'%'
+		</if>
+	</select>
+	
+	<!--新增  -->
+	<update id="saveInfo">
+		insert into ZC_Manufacture(name,country,nature,location,manager,managerPhone,remark,operator,operateDate)
+		values(#{name},#{country},#{nature},#{location},#{manager},#{managerPhone},#{remark},#{operator},GETDATE())
+	</update>
+	
+	<!--编辑  -->
+	<update id="editInfo">
+		update ZC_Manufacture
+		   set name=#{name},
+		   	   country=#{country},
+		   	   nature=#{nature},
+		   	   location=#{location},
+		   	   manager=#{manager},
+		   	   managerPhone=#{managerPhone},
+		   	   remark=#{remark},
+		   	   operator=#{operator},
+		   	   operateDate=GETDATE()
+		 where fid=#{fid}
+	</update>
+	
+	<!--生产厂商验证  -->	
+	<select id="getSumWithName" resultType="map">
+		select * from ZC_Manufacture t where t.name=#{name}
+	</select>
+	
+	<!--获取一条信息  -->
+	<select id="getOne" resultType="map">
+		select t.*,h.holderName "operatorName" from ZC_Manufacture t
+		left join HolderData h on t.operator = h.holderNo
+		where t.fid=#{fid}
+	</select>
+	
+	<!--删除一条信息  -->
+	<delete id="delOne">
+		delete from ZC_Manufacture where fid=#{fid}
+	</delete>
+</mapper>

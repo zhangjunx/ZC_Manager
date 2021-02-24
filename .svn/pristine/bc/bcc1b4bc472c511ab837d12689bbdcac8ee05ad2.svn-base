@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_ApprovlMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--入库审批列表  -->
+	<select id="getApprovalInStoreList" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h.holderName "approverName",h2.holderName "operatorName",count(1) over(partition by t.fid ) sumVal from ZC_InStore t
+		left join HolderData h on t.approver = h.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join ZC_InStoreGoodsRecord r on t.fid=r.inStoreID
+		where t.approvalResult=#{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and t.approver = #{thisHolderNo}
+		</if>
+		<if test="inDate != null and inDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) = #{inDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getApprovalInStoreListCount" resultType="integer">
+		select count(1) from (
+		select  distinct t.*,h.holderName "approverName",h2.holderName "operatorName",count(1) over(partition by t.fid ) sumVal from ZC_InStore t
+		left join HolderData h on t.approver = h.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join ZC_InStoreGoodsRecord r on t.fid=r.inStoreID
+		where t.approvalResult=#{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and t.approver = #{thisHolderNo}
+		</if>
+		<if test="inDate != null and inDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) = #{inDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		) aa
+	</select>
+	
+	<!--入库单据审批  -->
+	<update id="updateApprovalInStore">
+		update ZC_InStore
+		   set approvalResult = 1,
+		       approvalDate = GETDATE()
+		 where bill=#{bill}
+	</update>
+	
+	
+	
+	<!--获取出库审批列表  -->
+	<select id="getApprovalOutStoreList" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName",
+		count(1) over (partition by t.fid) sumval from ZC_OutStore t
+		left join HolderData h1 on t.operator = h1.holderNo
+		left join HolderData h2 on t.approver = h2.holderNo
+		left join HolderData h3 on t.receiver = h3.holderNo
+		left join DepartmentData d on t.receiveUnit = d.departmentNo
+		left join ZC_OutStoreGoods gs on gs.outStoreID = t.fid
+		where t.approvalResult = #{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and approver = #{thisHolderNo}
+		</if>
+		<if test="outDate != null and outDate != ''">
+			and CONVERT(varchar(100), t.outDate, 23) = #{outDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getApprovalOutStoreListCount" resultType="integer">
+		select count(1) from (
+			select distinct t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName",
+			count(1) over (partition by t.fid) sumval from ZC_OutStore t
+			left join HolderData h1 on t.operator = h1.holderNo
+			left join HolderData h2 on t.approver = h2.holderNo
+			left join HolderData h3 on t.receiver = h3.holderNo
+			left join DepartmentData d on t.receiveUnit = d.departmentNo
+			left join ZC_OutStoreGoods gs on gs.outStoreID = t.fid
+			where t.approvalResult = #{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and t.approver = #{thisHolderNo}
+		</if>
+		<if test="outDate != null and outDate != ''">
+			and CONVERT(varchar(100), t.outDate, 23) = #{outDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		) aa
+	</select>
+	
+	<!--出库单据审批  -->
+	<update id="updateApprovalOutStore">
+		update ZC_OutStore
+		   set approvalResult = 1,
+		       approvalDate = GETDATE()
+		 where bill=#{bill}
+	</update>
+	
+	<!--借用单据审批  -->
+	<select id="getApprovalBorrowList" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,d.departmentName "borrowUnitNme" ,h1.holderName "borrowPerName",h2.holderName "operatorName",
+			h3.holderName "approverName",count(1) over(partition by t.fid) sumVal
+		from ZC_BorrowRecord t
+		left join ZC_BorrowRecordGoods r on t.fid=r.borrowID
+		left join DepartmentData d on t.borrowUnit = d.departmentNo
+		left join HolderData h1 on t.borrowPer = h1.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join HolderData h3 on t.approver = h3.holderNo
+		left join ZC_BorrowRecordGoods g on t.fid=g.borrowID
+		where 1=1
+		  and t.approvalResult=#{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and t.approver = #{thisHolderNo}
+		</if>
+		<if test="operateDate != null and operateDate != ''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getApprovalBorrowListCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,d.departmentName "borrowUnitNme" ,h1.holderName "borrowPerName",h2.holderName "operatorName",
+			h3.holderName "approverName",count(1) over(partition by t.fid) sumVal
+		from ZC_BorrowRecord t
+		left join ZC_BorrowRecordGoods r on t.fid=r.borrowID
+		left join DepartmentData d on t.borrowUnit = d.departmentNo
+		left join HolderData h1 on t.borrowPer = h1.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join HolderData h3 on t.approver = h3.holderNo
+		left join ZC_BorrowRecordGoods g on t.fid=g.borrowID
+		where 1=1
+		  and t.approvalResult=#{approvalResult}
+		<if test="thisHolderNo != null and thisHolderNo != ''">
+			and t.approver = #{thisHolderNo}
+		</if>  
+		<if test="operateDate != null and operateDate != ''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		) aa
+	</select>
+	
+	<!--查看借用详情  -->
+	<select id="getApprovalBorrowListGoods" resultType="map">
+		<include refid="c_start"></include>
+		select  t.*,b.bill,ty.typeName,mf.name "manufacturerName",s.name "supplierName",
+				g.specs,g.size,g.brand,ss.storeName ,g.imagePath
+		  from ZC_BorrowRecordGoods t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.borrowID = #{borrowID}
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getApprovalBorrowListGoodsCount" resultType="integer">
+		select  count(1) from ZC_BorrowRecordGoods t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.borrowID = #{borrowID}
+	</select>
+	
+	<!--借用单据审批  -->
+	<update id="updateApprovalBorrow">
+		update ZC_BorrowRecord
+		   set approvalResult = 1,
+		       approvalDate = GETDATE()
+		 where bill=#{bill}
+	</update>
+	
+	<!--审批人设置  -->
+	<update id="setApproverList">
+		update HolderData set ifApproverZC = 1 where holderNo=#{holderNo}
+	</update>
+	<!--审批人取消  -->
+	<update id="setDisApproverList">
+		update HolderData set ifApproverZC = 0 where holderNo=#{holderNo}
+	</update>
+	
+	<!--获取审批人列表  -->
+	<select id="getApproverList" resultType="map">
+		select t.holderNo,t.holderName,t.ifApproverZC ,d.DepartmentNo,d.departmentName
+		from HolderData t 
+		inner join DepartmentData d on t.DepartmentNo = d.DepartmentNo
+		where 1=1
+		<if test="departmentNo != null and departmentNo != ''">
+			and CHARINDEX(#{departmentNo},d.DepartmentNo)=1
+		</if>
+		order by t.ifApproverZC desc
+	</select>
+
+</mapper>

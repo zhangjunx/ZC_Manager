@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>车辆自助登记</title>
+    <link rel="icon" href="img/prison1.gif" sizes="32x32">
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/vehicleRegistration.css">
+</head>
+
+<body>
+    <div class="layui-container personRegistration">
+        <div class="layui-row personRegistration_top">
+            <div class="layui-col-md9">
+                <h2 class="personRegistration_tit">车辆自助登记</h2>
+            </div>
+            <div class="layui-col-md3">
+                 <div class="person_time">
+                 	<div class="person_hour"></div>
+                 	<div class="person_date"></div>
+                 </div>
+            </div>
+        </div>
+        <div class="personRegistration_box">
+        <div class="information">
+            <div class="information_left">
+            	<div class="information_police">
+                <h3 class="title_police">警察信息</h3>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" class="police_photo"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="alarm">警号:</label><span class="receiverpeopleid"></span> </dd>
+                        <dd> <label class="pliceName">姓名:</label><span class="receiversname"> </span> </dd>
+                        <!-- <dd> <label class="job">职务:</label><span class="zhiWu"> </span> </dd> -->
+                        <dd> <label class="prison">部门:</label><span class="jianQu"> </span> </dd>
+                        <dd> <label class="infoTime">时间:</label><span class="shiJian"> </span> </dd>
+                    </div>
+                    
+                </dl>
+           </div>
+            </div>
+            <div class="information_center">
+            	<div class="information_police">
+                <h3 class="title_police">司机信息</h3>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" class="driver_photo"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="idCard">身份证号:</label><span class="idNumber"> </span> </dd>
+                        <dd> <label class="driverName">人员姓名:</label><span class="driver"> </span> </dd>
+                        <dd> <label class="vehicleType">人员性别:</label><span class="carType"> </span> </dd>
+                        <!-- <dd> <label class="infoArea">进出区域:</label><span class="outArea"> </span> </dd> -->
+                        <dd> <label class="vehicleTime">登记时间:</label><span class="carTime"> </span> </dd>
+                    </div>
+                </dl>
+           </div>
+            </div>
+            <div class="information_right vehicleInformation">
+            	<div class="information_police">
+                <h3 class="title_police migrants">车辆信息</h3>
+                <div class="coordination">
+                	<ul class="vehicle_info">
+                		<li>
+                			<span>车牌号码:</span>
+                			<a href="javascript:;" class="province">豫</a>
+                			<input type="text" id="vehicleNumber" autocomplete="off">
+                		</li>
+                		<li>
+                			<span>车辆类型:</span>
+                			<input type="text" autocomplete="off" id="vehicleType">
+                		</li>
+                		<li>
+                			<span>车身颜色:</span>
+                			<input type="text" autocomplete="off" id="vehicleColor">
+                		</li>
+                	</ul>
+                	<div class="keyBoard">
+                		<div class="provinceJc">
+	                		<div>京</div>
+	                		<div>津</div>
+			                <div>沪</div>
+			                <div>渝</div>
+			                <div>冀</div>
+			                <div>晋</div>
+			                <div>辽</div>
+			                <div>吉</div>
+			                <div>黑</div>
+			                <div>苏</div>
+			                <div>浙</div>
+			                <div>皖</div>
+			                <div>闽</div>
+			                <div>赣</div>
+			                <div>鲁</div>
+			                <div>豫</div>
+			                <div>鄂</div>
+			                <div>湘</div>
+			                <div>粤</div>
+			                <div>琼</div>
+			                <div>川</div>
+			                <div>黔</div>
+			                <div>滇</div>
+			                <div>陕</div>
+			                <div>甘</div>
+			                <div>青</div>
+			                <div>台</div>
+			                <div>蒙</div>
+			                <div>桂</div>
+			                <div>藏</div>
+			                <div>宁</div>
+			                <div>新</div>
+			                <div>港</div>
+			                <div>澳</div>
+			                <div>警</div>
+	                	</div>
+	                	<div class="keyboard_number">
+                			<div>A</div>
+                			<div>B</div>
+                			<div>C</div>
+                			<div>D</div>
+                			<div>E</div>
+                			<div>F</div>
+                			<div>G</div>
+                			<div>H</div>
+                			<div>I</div>
+                			<div>J</div>
+                			<div>K</div>
+                			<div>L</div>
+                			<div>M</div>
+                			<div>N</div>
+                			<div>O</div>
+                			<div>P</div>
+                			<div>Q</div>
+                			<div>R</div>
+                			<div>S</div>
+                			<div>T</div>
+                			<div>U</div>
+                			<div>V</div>
+                			<div>W</div>
+                			<div>X</div>
+                			<div>Y</div>
+                			<div>Z</div>
+                			<div>1</div>
+                			<div>2</div>
+                			<div>3</div>
+                			<div>4</div>
+                			<div>5</div>
+                			<div>6</div>
+                			<div>7</div>
+                			<div>8</div>
+                			<div>9</div>
+                			<div>0</div>
+                			<div class="backspace">退格</div>
+                			<div class="qingKong">清除</div>
+                		</div>
+                		<div class="keyboard_vehicleType">
+                			<div>
+                				<span class="circle"></span>
+                				<p>货车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>客车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>面包车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>警车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>救护消防特种车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>垃圾车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>三轮及电瓶车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>人力板车</p>
+                			</div>
+                			<div>
+                				<span class="circle"></span>
+                				<p>其他</p>
+                			</div>
+                		</div>
+                		<div class="keyboard_vehicleColor">
+                			<div>
+                				<span class="circle2"></span>
+                				<p>白色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>银色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>黑色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>黄色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>蓝色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>绿色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>红色</p>
+                			</div>
+                			<div>
+                				<span class="circle2"></span>
+                				<p>其它</p>
+                			</div>
+                		</div>
+                	</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="approval_select">
+        	<div class="approval_selectLeft">
+        		<div class="information_police">
+                <h3 class="title_police">事由</h3>
+                <div class="selectArea">
+                	<select class="visiterReason">
+                		<option value="">请选择</option>
+                		<!-- <option value="">外加工</option>
+                		<option value="">医疗原因</option>
+                		<option value="">施工提审</option>
+                		<option value="">其他原因</option> -->
+                	</select>
+                </div>
+            </div>
+        	</div>
+        	<div class="approval_selectRight">
+        		<div class="information_police">
+                <!-- <div class="things">
+                	<div class="things_box">
+                			<img src="img/shengchan.png">
+                			<p data-visitorsreason="1">生产车辆</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/shenghuo.png">
+                			<p data-visitorsreason="2">生活车辆</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/mianbao.png">
+                			<p data-visitorsreason="3">垃圾车</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/qita.png">
+                			<p data-visitorsreason="4">其他车辆</p>
+                		<div class="shadow"></div>
+                	</div>
+                </div> -->
+                <ul class="tab">
+                		<li>工作时间审批</li>
+                		<li>非工作时间审批</li>
+                	</ul>
+                	<div class="dept_right">
+                		<select class="dept_r1">
+                			<option value="">请选择部门</option>
+                		</select>
+                		<select class="dept_r2">
+                			<option value="">请选择部门</option>
+                		</select>
+                		<select class="approvePerson">
+                			<option value="">请选择领导审批人</option>
+                			<!-- <option value="">请选择审批人</option>
+                			<option value="">请选择审批人</option>
+                			<option value="">请选择审批人</option> -->
+                		</select>
+                	</div>
+            </div>
+        	</div>
+        </div>
+          </div>
+        <div class="bottom">
+            <div>
+                <a href="javascript:;" class="sure">
+                	<img src="img/submit.png">
+                </a>
+                <div class="message"></div>
+                <a href="index.html" class="back">
+                	<img src="img/back.png">
+                </a>
+            </div>
+                
+        </div>
+      
+        <div class="prompt">
+        	<div class="prompt_in">
+        		<div class="number">1</div>
+        		<p>读卡区域放置门禁卡或身份证</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">2</div>
+        		<p>进行人证核验</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">3</div>
+        		<p>绑定警察</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">4</div>
+        		<p>选择进出区域</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">5</div>
+        		<p>选择进出事由</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">6</div>
+        		<p>点击提交审批</p>
+        	</div>
+        </div> 
+    </div>
+    <div class="shade"></div>
+    <div class="shade2"></div>
+    <div class="areaName">
+    	<ul>
+    		<!-- <li>一监区</li>
+    		<li>二监区</li>
+    		<li>三监区</li>
+    		<li>四监区</li>
+    		<li>五监区</li>
+    		<li>六监区</li>
+    		<li>七监区</li>
+    		<li>八监区</li>
+    		<li>二监区</li>
+    		<li>三监区</li>
+    		<li>四监区</li> -->
+    	</ul>
+    </div>
+    <div class="personFace">
+        <div class="face_box">
+        	<img src="img/person2.png" alt="">
+            <video id="video" autoplay></video>
+            <canvas id="canvas" width="533" height="432"></canvas>
+        </div>
+        <div class="face_r">
+            <div class="passport_photo">
+                <img src="img/person.png" id="card_photo" style="width: 192px;height: 160px;">
+                <p>证件照</p>
+            </div>
+            <div class="scene_photo">
+                <img src="img/person.png" alt="" id="img" style="width: 192px;height: 160px;">
+                <p>现场照</p>
+            </div>
+            <div class="layui-clear"></div>
+            <div class="police_information">
+               <!--  <p>警号: <span>1006</span></p>
+                <p>姓名: <span>王志高</span></p>
+                <p>职务: <span>警察</span></p>
+                <p>监区: <span>一监区</span></p> -->
+            </div>
+            <div class="discriminate">
+                <div class="pass">识别通过</div>
+                <div class="failed">识别失败</div>
+                <div class="success">相似度太低</div>
+            </div>
+        </div>
+        <div class="layui-clear"></div>
+        <div class="face_btn">
+            <a href="javascript:;" class="close">关闭</a>
+            <a href="javascript:;" class="submit_sure">拍照识别</a>
+            <a href="index.html">返回首页</a>
+        </div>
+
+    </div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/vehicleRegistration.js"></script>
+</body>
+
+</html>

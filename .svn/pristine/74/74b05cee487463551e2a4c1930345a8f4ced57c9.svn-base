@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HY_MeetingMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HY_Meeting" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="mettingtitle" property="mettingtitle" jdbcType="VARCHAR" />
+    <result column="mettingtype" property="mettingtype" jdbcType="VARCHAR" />
+    <result column="startdate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="promoter" property="promoter" jdbcType="VARCHAR" />
+    <result column="promoterphone" property="promoterphone" jdbcType="VARCHAR" />
+    <result column="roomid" property="roomid" jdbcType="VARCHAR" />
+    <result column="roomtype" property="roomtype" jdbcType="VARCHAR" />
+    <result column="host" property="host" jdbcType="VARCHAR" />
+    <result column="ifcheck" property="ifcheck" jdbcType="VARCHAR" />
+    <result column="remind" property="remind" jdbcType="VARCHAR" />
+    <result column="remindcontext" property="remindcontext" jdbcType="VARCHAR" />
+    <result column="Approver" property="approver" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creatdate" property="creatdate" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="VARCHAR" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="signinstarttime" property="signinstarttime" jdbcType="TIMESTAMP" />
+    <result column="signinendtime" property="signinendtime" jdbcType="TIMESTAMP" />
+    <result column="signbackstarttime" property="signbackstarttime" jdbcType="TIMESTAMP" />
+    <result column="signbackendtime" property="signbackendtime" jdbcType="TIMESTAMP" />
+    <result column="meetingstatus" property="meetingstatus" jdbcType="VARCHAR" />
+    <result column="outroomname" property="outroomname" jdbcType="VARCHAR" />
+    
+    <!-- ================ -->
+    <result column="outroomin" property="outroomin" jdbcType="VARCHAR" />
+    <result column="outroomback" property="outroomback" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.xr.entity.HY_Meeting" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="meetinglocation" property="meetinglocation" jdbcType="VARCHAR" />
+    <result column="meetingid" property="meetingid" jdbcType="VARCHAR" />
+    <result column="signplace" property="signplace" jdbcType="VARCHAR" />
+    <result column="checktype" property="checktype" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap3" type="com.xr.entity.HY_MeetingMember" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="meetingid" property="meetingid" jdbcType="VARCHAR" />
+    <result column="holderid" property="holderid" jdbcType="VARCHAR" />
+    <result column="signindate" property="signindate" jdbcType="TIMESTAMP" />
+    <result column="signbackdate" property="signbackdate" jdbcType="TIMESTAMP" />
+    <result column="signinstatus" property="signinstatus" jdbcType="VARCHAR" />
+    <result column="signbackstatus" property="signbackstatus" jdbcType="VARCHAR" />
+    
+    <result column="holdername" property="holdername" jdbcType="VARCHAR" />
+    <result column="holderimage" property="holderimage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    fno, mettingtitle, mettingtype, startdate, enddate, promoter, promoterphone, roomid, 
+    roomtype, host, ifcheck, remind, remindcontext, Approver, creator, creatdate, editor, 
+    editdate, remark, meetingstatus
+  </sql>
+  
+  <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by fno desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+  <select id="getMeetingList" resultType="map">
+  	<include refid="c_start"></include>
+  	select * from (
+		select t.fno,t.outroomname, t.mettingtitle, t.mettingtype,d.value meetingtypename, t.startdate, t.enddate, t.promoter, t.promoterphone, t.roomid, t.meetingstatus,
+				case when t.meetingstatus != 4 then 1 else 2 end quarytype,
+				t.roomtype, t.host, t.ifcheck, t.remind, t.remindcontext, t.Approver, t.creator, t.creatdate, t.editor, 
+				t.signinstarttime,t.signinendtime,t.signbackstarttime,t.signbackendtime,
+				t.editdate, t.remark ,h4.HolderName creatorname,h5.HolderName editorname,
+				r.roomname,CONVERT(varchar(100), t.startdate, 23) meetingdate,
+				CONVERT(varchar(5), t.startdate, 108)+'~'+CONVERT(varchar(5), t.enddate, 108) meetingtime,
+				CONVERT(varchar(5), t.signinstarttime, 108)+'~'+CONVERT(varchar(5), t.signinendtime, 108) signintime,
+				CONVERT(varchar(5), t.signbackstarttime, 108)+'~'+CONVERT(varchar(5), t.signbackendtime, 108) signbacktime
+			from HY_Meeting t 
+			left join HolderData h4 on t.creator = h4.HolderNo
+			left join HolderData h5 on t.editor = h5.HolderNo
+			left join HY_MeetingRoom r on t.roomid=r.fno
+			LEFT JOIN DictionaryData d ON t.mettingtype = d.name AND d.TypeName = 'meetingtype'
+		where t.roomtype=1
+		union all
+		select t.fno,t.outroomname, t.mettingtitle, t.mettingtype,d.value meetingtypename, t.startdate, t.enddate, t.promoter, t.promoterphone, t.roomid, 
+			    t.meetingstatus,case when t.meetingstatus != 4 then 1 else 2 end quarytype,
+				t.roomtype, t.host, t.ifcheck, t.remind, t.remindcontext, t.Approver, t.creator, t.creatdate, t.editor, 
+				t.signinstarttime,t.signinendtime,t.signbackstarttime,t.signbackendtime,
+				t.editdate, t.remark ,h4.HolderName creatorname,h5.HolderName editorname,
+				'' roomname,CONVERT(varchar(100), t.startdate, 23) meetingdate,
+				CONVERT(varchar(5), t.startdate, 108)+'~'+CONVERT(varchar(5), t.enddate, 108) meetingtime,
+				CONVERT(varchar(5), t.signinstarttime, 108)+'~'+CONVERT(varchar(5), t.signinendtime, 108) signintime,
+				CONVERT(varchar(5), t.signbackstarttime, 108)+'~'+CONVERT(varchar(5), t.signbackendtime, 108) signbacktime
+			from HY_Meeting t 
+			left join HolderData h4 on t.creator = h4.HolderNo
+			left join HolderData h5 on t.editor = h5.HolderNo
+			LEFT JOIN DictionaryData d ON t.mettingtype = d.name AND d.TypeName = 'meetingtype'
+		where t.roomtype=2) aa
+		where 1=1
+	<if test="quarytype != null and quarytype != ''">
+		and aa.quarytype=#{quarytype}
+	</if>
+	<if test="mettingtitle != null and mettingtitle != ''">
+		and aa.mettingtitle like '%'+ #{mettingtitle} +'%'
+	</if>
+	<if test="promotername != null and promotername != ''">
+		and aa.promotername like '%'+ #{promotername} +'%'
+	</if>
+	<if test="meetingdate != null and meetingdate != ''">
+		and aa.meetingdate = #{meetingdate}
+	</if>
+	<if test="meetingstatus != null and meetingstatus != ''">
+		and aa.meetingstatus in (${meetingstatus})
+	</if>
+	<if test="thisuserid != null and thisuserid != ''">
+	    and LEN(aa.Approver)-LEN(REPLACE(','+aa.Approver+',',','+#{thisuserid}+',',''))>0
+	</if>
+  	<include refid="c_end"></include>
+  </select>
+  
+  <select id="getMeetingListCount" resultType="integer">
+  	select count(1) from (
+		select t.fno,t.outroomname, t.mettingtitle, t.mettingtype,d.value meetingtypename, t.startdate, t.enddate, t.promoter, t.promoterphone, t.roomid, t.meetingstatus,
+				case when t.meetingstatus != 4 then 1 else 2 end quarytype,
+				t.roomtype, t.host, t.ifcheck, t.remind, t.remindcontext, t.Approver, t.creator, t.creatdate, t.editor, 
+				t.signinstarttime,t.signinendtime,t.signbackstarttime,t.signbackendtime,
+				t.editdate, t.remark ,h4.HolderName creatorname,h5.HolderName editorname,
+				r.roomname,CONVERT(varchar(100), t.startdate, 23) meetingdate,
+				CONVERT(varchar(5), t.startdate, 108)+'~'+CONVERT(varchar(5), t.enddate, 108) meetingtime,
+				CONVERT(varchar(5), t.signinstarttime, 108)+'~'+CONVERT(varchar(5), t.signinendtime, 108) signintime,
+				CONVERT(varchar(5), t.signbackstarttime, 108)+'~'+CONVERT(varchar(5), t.signbackendtime, 108) signbacktime
+			from HY_Meeting t 
+			left join HolderData h4 on t.creator = h4.HolderNo
+			left join HolderData h5 on t.editor = h5.HolderNo
+			left join HY_MeetingRoom r on t.roomid=r.fno
+			LEFT JOIN DictionaryData d ON t.mettingtype = d.name AND d.TypeName = 'meetingtype'
+		where t.roomtype=1
+		union all
+		select t.fno,t.outroomname, t.mettingtitle, t.mettingtype,d.value meetingtypename, t.startdate, t.enddate, t.promoter, t.promoterphone, t.roomid, 
+			    t.meetingstatus,case when t.meetingstatus != 4 then 1 else 2 end quarytype,
+				t.roomtype, t.host, t.ifcheck, t.remind, t.remindcontext, t.Approver, t.creator, t.creatdate, t.editor, 
+				t.signinstarttime,t.signinendtime,t.signbackstarttime,t.signbackendtime,
+				t.editdate, t.remark ,h4.HolderName creatorname,h5.HolderName editorname,
+				'' roomname,CONVERT(varchar(100), t.startdate, 23) meetingdate,
+				CONVERT(varchar(5), t.startdate, 108)+'~'+CONVERT(varchar(5), t.enddate, 108) meetingtime,
+				CONVERT(varchar(5), t.signinstarttime, 108)+'~'+CONVERT(varchar(5), t.signinendtime, 108) signintime,
+				CONVERT(varchar(5), t.signbackstarttime, 108)+'~'+CONVERT(varchar(5), t.signbackendtime, 108) signbacktime
+			from HY_Meeting t 
+			left join HolderData h4 on t.creator = h4.HolderNo
+			left join HolderData h5 on t.editor = h5.HolderNo
+			LEFT JOIN DictionaryData d ON t.mettingtype = d.name AND d.TypeName = 'meetingtype'
+		where t.roomtype=2) aa
+		where 1=1
+	<if test="quarytype != null and quarytype != ''">
+		and aa.quarytype=#{quarytype}
+	</if>
+	<if test="mettingtitle != null and mettingtitle != ''">
+		and aa.mettingtitle like '%'+ #{mettingtitle} +'%'
+	</if>
+	<if test="promotername != null and promotername != ''">
+		and aa.promotername like '%'+ #{promotername} +'%'
+	</if>
+	<if test="meetingdate != null and meetingdate != ''">
+		and aa.meetingdate = #{meetingdate}
+	</if>
+	<if test="meetingstatus != null and meetingstatus != ''">
+		and aa.meetingstatus in (${meetingstatus})
+	</if>
+	<if test="thisuserid != null and thisuserid != ''">
+	    and LEN(aa.Approver)-LEN(REPLACE(','+aa.Approver+',',','+#{thisuserid}+',',''))>0
+	</if>
+  </select>
+  
+  <select id="getTimeTitle" resultType="map">
+  	select t.* from DictionaryData t 
+  	 where t.TypeName = 'meetingtime' order by CAST(t.name as int) asc
+  </select>
+  
+  <select id="getHolderListWithIds" resultType="map">
+  	SELECT HolderNo,HolderName FROM dbo.HolderData WHERE HolderNo IN (${ids})
+  </select>
+  
+  <select id="getOutRoomList" resultType="map">
+  	select t.*,u.DoorName from HY_MeetingRoomOut t
+	  LEFT JOIN DoorUnit u ON t.signplace=u.DoorNo
+  </select>
+  
+  <insert id="saveMeetingInfo">
+    insert into HY_Meeting 
+     (mettingtitle, mettingtype,startdate, enddate, promoter, 
+      promoterphone, roomid, roomtype, 
+      host, ifcheck, remind, 
+      remindcontext, Approver, creator, 
+      creatdate, editor, editdate, 
+      remark,meetingstatus,
+      signinstarttime,signinendtime,
+      signbackstarttime,signbackendtime)
+    values (#{meetingtitle}, #{meetingtype},#{startdate}, #{enddate}, #{promoter}, 
+	      #{promoterphone}, #{roomid}, #{roomtype}, 
+	      #{host}, #{ifcheck}, #{remind}, 
+	      #{remindcontext}, #{Approver}, #{creator}, 
+	      CONVERT(varchar,#{creatdate},23), #{editor}, CONVERT(varchar,#{editdate},23), 
+	      #{remark},1,
+	      CONVERT(varchar,#{signinstarttime},20),CONVERT(varchar,#{signinendtime},20),
+	      CONVERT(varchar,#{signbackstarttime},20),CONVERT(varchar,#{signbackendtime},20))
+  </insert>
+  
+  <update id="editMeetingInfo">
+  	update HY_Meeting 
+       set mettingtitle=#{meetingtitle}, 
+       	   mettingtype=#{meetingtype},
+       	   startdate=#{startdate}, 
+       	   enddate=#{enddate}, 
+       	   promoter=#{promoter}, 
+      	   promoterphone=#{promoterphone}, 
+      	   roomid=#{roomid}, 
+      	   roomtype=#{roomtype}, 
+      	   host=#{host}, 
+      	   ifcheck=#{ifcheck}, 
+      	   remind=#{remind}, 
+      	   remindcontext=#{remindcontext}, 
+      	   Approver=#{Approver}, 
+      	   creator=#{creator}, 
+           creatdate=CONVERT(varchar,#{creatdate},23), 
+           editor=#{editor}, 
+           editdate=CONVERT(varchar,#{editdate},23), 
+           remark=#{remark},
+           meetingstatus=1,
+           signinstarttime=CONVERT(varchar,#{signinstarttime},20),
+           signinendtime=CONVERT(varchar,#{signinendtime},20),
+      	   signbackstarttime=CONVERT(varchar,#{signbackstarttime},20),
+      	   signbackendtime=CONVERT(varchar,#{signbackendtime},20)
+     where fno=#{fno} and meetingstatus = 1
+  </update>
+  
+  <update id="saveMeetingTime">
+  	begin
+  		delete from HY_RoomDate 
+  		 where meetingid=#{meetingid} 
+  		   and CONVERT(varchar,roomdate,23) = #{meetingdate}
+  		   and roomID = #{roomid};
+  		<foreach collection="roomtime" item="id" open="" separator="" close="">
+			insert into HY_RoomDate(roomID,meetingid,roomdate,timeid)
+	  	 	values(#{roomid},#{meetingid},#{meetingdate},#{id});
+		</foreach>
+  	end;
+  </update>
+  
+  <select id="getThisMeetingId" resultMap="BaseResultMap">
+  	select * from HY_Meeting 
+  	 where mettingtitle=#{meetingtitle}
+  	   and CONVERT(varchar,creatdate,23) = CONVERT(varchar,#{creatdate},23)
+  	   and creator = #{creator}
+  </select>
+  
+  <update id="saveOutRoomInfo">
+  	begin
+  		delete from HY_MeetingRoomOut where meetingid=#{meetingid};
+	  	<foreach collection="outroominid" item="id" open="" separator="" close="">
+			insert into HY_MeetingRoomOut(meetinglocation,meetingid,signplace,checktype)
+	  		values(#{meetinglocation},#{meetingid},#{id},1);
+		</foreach>
+		<foreach collection="outroombackid" item="id" open="" separator="" close="">
+			insert into HY_MeetingRoomOut(meetinglocation,meetingid,signplace,checktype)
+	  		values(#{meetinglocation},#{meetingid},#{id},2);
+		</foreach>
+		update HY_Meeting set outroomname = #{meetinglocation} where fno = #{meetingid};
+	end;
+  </update>
+  
+  <update id="saveMeetingHolderInfo">
+  	begin
+  		delete from HY_MeetingMember where meetingid=#{meetingid};
+	  	<foreach collection="holderids" item="id" open="" separator="" close="">
+			insert into HY_MeetingMember(holderid,meetingid,signinstatus,signbackstatus)
+	  		values(#{id},#{meetingid},0,0);
+		</foreach>
+	end;
+  </update>
+  
+  <select id="getJoinMeetingMember" resultMap="BaseResultMap3">
+  	select t.fno, t.meetingid,t.holderid, t.signindate, t.signbackdate, t.signinstatus,signbackstatus ,h.ImgUrl,h.HolderName
+	  from HY_MeetingMember t
+	  left join HolderData h on t.holderid = h.HolderNo
+	 where 1=1
+  	<if test="meetingid != null and meetingid != ''">
+  		and t.meetingid = #{meetingid}
+  	</if>
+  </select>
+  
+  <select id="getSignList" resultType="map">
+  	select * from (
+		select t.fno, t.meetingid,holderid, t.signindate, t.signbackdate, t.signinstatus,signbackstatus ,h.ImgUrl,h.HolderName,
+			   1 quarytype
+			  from HY_MeetingMember t
+			  left join HolderData h on t.holderid = h.HolderNo
+		union all
+		select t.fno, t.meetingid,holderid, t.signindate, t.signbackdate, t.signinstatus,signbackstatus ,h.ImgUrl,h.HolderName,
+			   2 quarytype
+			  from HY_MeetingMember t
+			  left join HolderData h on t.holderid = h.HolderNo) aa 
+  	 where aa.meetingid = #{meetingid}
+  	<if test="quarytype != null and quarytype != ''">
+  		and aa.quarytype = #{quarytype}
+  	</if>
+  </select>
+  
+  <select id="getMeetingTimeList" resultType="map">
+  	select t.fno,t.roomID,t.meetingid,CONVERT(varchar,t.roomdate,20) roomdate,t.timeid ,d.value
+	  from HY_RoomDate t
+	 left join DictionaryData d on t.timeid=d.name and d.TypeName = 'meetingtime'
+  </select>
+  
+  <select id="getComboList" resultType="map">
+  	select * from DictionaryData where Deleted = 1 and TypeName = #{typeName}
+  </select>
+  
+  <select id="getUsedTimeList" resultType="map">
+  	SELECT t.fno,t.roomID,t.meetingid,CONVERT(varchar,t.roomdate,23) roomdate,t.timeid,d.value timename FROM HY_RoomDate t 
+	  LEFT JOIN DictionaryData d ON t.timeid=d.name AND d.TypeName='meetingtime'
+  	 WHERE 1=1
+  	<if test="selectedDate != null and selectedDate != ''">
+  		and CONVERT(varchar,t.roomdate,23) = #{selectedDate}
+  	</if>
+  	<if test="selectedDate == null or selectedDate == ''">
+  		and CONVERT(varchar,t.roomdate,23) = CONVERT(varchar,GETDATE(),23)
+  	</if>
+  	<if test="meetingno != null and meetingno != ''">
+  		and t.meetingid=#{meetingno}
+  	</if>
+  </select>
+  
+  <select id="getOneMeetingInfo" resultType="map">
+  	select t.fno,t.outroomname,t.mettingtitle,t.mettingtype,
+		CONVERT(varchar,t.startdate,20) startdate,CONVERT(varchar,t.enddate,20) enddate,
+		CONVERT(varchar,t.signinstarttime,20) signinstarttime,CONVERT(varchar,t.signinendtime,20) signinendtime,
+		CONVERT(varchar,t.signbackstarttime,20) signbackstarttime,CONVERT(varchar,t.signbackendtime,20) signbackendtime,
+		t.promoter,t.promoterphone,t.roomid,t.roomtype,t.host,t.ifcheck,t.remind,t.remindcontext,t.meetingstatus,t.Approver,t.remark,
+		d1.value typename,h1.HolderName promotername,m.roomname,h2.HolderName hostname,s.name summaryname,
+		CONVERT(varchar(100), t.startdate, 23) meetingdate,
+		CONVERT(varchar(5), t.signinstarttime, 108)+'~'+CONVERT(varchar(108), t.signbackendtime, 5) meetingtime
+		 from HY_Meeting t
+		 LEFT JOIN DictionaryData d1 ON t.mettingtype = d1.name AND d1.TypeName = 'meetingtype'
+		 LEFT JOIN HolderData h1 ON t.promoter = h1.HolderNo
+ 		 LEFT JOIN HolderData h2 ON t.host = h2.HolderNo
+ 		 LEFT JOIN HY_MeetingRoom m ON t.roomid = m.fno 
+		 LEFT JOIN HY_MeetingSummary s ON t.fno = s.meetingid
+ 	where t.fno = #{meetingno}
+  </select>
+  
+  <select id="getPersonList" resultType="map">
+  	select t.HolderNo,t.HolderName from HolderData t where t.HolderNo in (${HolderNos})
+  </select>
+  
+  <update id="addMeetingStatusJob">
+  	begin
+  		delete from QuartzWithJob where objectid = #{meetingid};
+  		<foreach collection="jobcron" item="id" open="" separator="" close="">
+			insert into QuartzWithJob(jobanme,jobclass,jobcron,jobstatus,objectid)
+	  	 	values(#{jobanme},#{jobclass},#{id},0,#{meetingid});
+		</foreach>
+  	end;
+  </update>
+  
+  <update id="updateMeetingStatus">
+  	update HY_Meeting set meetingstatus = #{status} where fno=#{meetingid}
+  </update>
+  
+  <select id="queryIORecordList" resultType="map">
+  	   SELECT * FROM (
+		   SELECT t.DataNo,t.DeviceNo,t.DoorNo,t.HolderNo,t.IODate,'1_1' signtype 
+		     FROM (select * from (
+					select o.*,row_number() over (partition by o.HolderNo,o.DoorNo order by o.IODate asc) rowIndex  from IOData o 
+					 where DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signInSStamp} as datetime ))
+					   AND DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{enddate} as datetime ))
+					   AND o.HolderNo IN (${personIds})
+					   AND o.DoorNo IN (${signInDoorIds})) ss where ss.rowIndex = 1) t
+			WHERE DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signInSStamp} as datetime ))
+			  AND DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signInEStamp} as datetime ))
+			  AND t.HolderNo IN (${personIds})
+			  AND t.DoorNo IN (${signInDoorIds})
+			UNION ALL
+		   SELECT t.DataNo,t.DeviceNo,t.DoorNo,t.HolderNo,t.IODate,'1_3' signtype  
+		     FROM (select * from (
+					select o.*,row_number() over (partition by o.HolderNo,o.DoorNo order by o.IODate asc) rowIndex  from IOData o 
+					 where DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signInSStamp} as datetime ))
+					   AND DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{enddate} as datetime ))
+					   AND o.HolderNo IN (${personIds})
+					   AND o.DoorNo IN (${signInDoorIds})) ss where ss.rowIndex = 1) t
+			WHERE DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signInEStamp} as datetime ))
+			  AND DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{enddate} as datetime ))
+			  AND t.HolderNo IN (${personIds})
+			  AND t.DoorNo IN (${signInDoorIds})
+	
+		   UNION ALL
+		   SELECT t.DataNo,t.DeviceNo,t.DoorNo,t.HolderNo,t.IODate,'2_1' signtype 
+		     FROM (select * from (
+					select o.*,row_number() over (partition by o.HolderNo,o.DoorNo order by o.IODate desc) rowIndex  from IOData o 
+					 where DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{startdate} as datetime ))
+					   AND DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signBackEStamp} as datetime ))
+					   AND o.HolderNo IN (${personIds})
+					   AND o.DoorNo IN (${signBackDoorIds})) ss where ss.rowIndex = 1) t
+			WHERE DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signBackSStamp} as datetime ))
+			  AND DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signBackEStamp} as datetime ))
+			  AND t.HolderNo IN (${personIds})
+			  AND t.DoorNo IN (${signBackDoorIds})
+			UNION ALL
+		   SELECT t.DataNo,t.DeviceNo,t.DoorNo,t.HolderNo,t.IODate,'2_3' signtype 
+		     FROM (select * from (
+					select o.*,row_number() over (partition by o.HolderNo,o.DoorNo order by o.IODate desc) rowIndex  from IOData o 
+					 where DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{startdate} as datetime ))
+					   AND DATEDIFF(s, '1970-01-01 00:00:00', o.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signBackEStamp} as datetime ))
+					   AND o.HolderNo IN (${personIds})
+					   AND o.DoorNo IN (${signBackDoorIds})) ss where ss.rowIndex = 1) t
+			WHERE DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &gt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{startdate} as datetime ))
+			  AND DATEDIFF(s, '1970-01-01 00:00:00', t.IODate) &lt;= DATEDIFF(s, '1970-01-01 00:00:00',CAST(#{signBackSStamp} as datetime ))
+			  AND t.HolderNo IN (${personIds})
+			  AND t.DoorNo IN (${signBackDoorIds})
+		  ) aa 
+  	WHERE CONVERT(varchar,IODate,23) = CONVERT(varchar,CAST(#{startdate} AS DATETIME),23)
+  	<if test="signtype != null and signtype != ''">
+  	  and signtype in (${signtype})
+  	</if>
+  </select>
+  
+  <update id="upMeetingPersonIStatus">
+  	<foreach collection="list" item="l" open="" separator="" close="">
+		update HY_MeetingMember 
+		   set signindate = #{l.signindate},
+		   	   signinstatus = #{l.status}
+		 where meetingid = #{l.meetingid}
+		   and holderid = #{l.holderid}
+	</foreach>
+  </update>
+  
+  <update id="upMeetingPersonBStatus">
+  	<foreach collection="list" item="l" open="" separator="" close="">
+		update HY_MeetingMember 
+		   set signbackdate = #{l.signbackdate},
+		   	   signbackstatus = #{l.status}
+		 where meetingid = #{l.meetingid}
+		   and holderid = #{l.holderid}
+	</foreach>
+  </update>
+  
+  <update id="updteMeetingCancle">
+  	begin
+  		delete from HY_MeetingMember where meetingid = #{meetingid};
+  		delete from HY_RoomDate where meetingid = #{meetingid};
+  		delete from HY_MeetingSummary where meetingid = #{meetingid};
+  		delete from HY_MeetingRoomOut where meetingid = #{meetingid};
+  		delete from HY_Meeting where fno = #{meetingid};
+  	end;
+  </update>
+  
+  <!--通知表  -->
+  <update id="saveNoticeInfo">
+  	declare
+  	 @noticeno varchar(20),@delno varchar(20);
+  	begin
+  		<!--要删除的通知no  -->
+  		set @delno = 
+  		   (select fno from NoticeData 
+  		     where objectid = #{meetingid});
+  		       
+  		delete from NoticeDataMember 
+  		 where noticeno = @delno;
+  		 
+  		delete from NoticeData 
+  		 where fno = @delno;
+  		   
+  		insert into NoticeData(noticetitle,noticecontent,noticetype,noticetime,objectid)
+  		values(#{noticetitle},#{noticecontent},#{noticetype},#{noticetime},#{meetingid});
+  		
+  		set @noticeno = (
+  		select MAX(fno) from NoticeData 
+  		 where noticetype = 'meetingNotice');
+  		
+  		insert into NoticeDataMember(noticeno,holderno,status)
+  		select @noticeno,t.HolderNo,0 from HolderData t
+  		 where t.HolderNo in (${holderids});
+  	end;
+  </update>
+</mapper>

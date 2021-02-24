@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehiclePowerMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehiclePower" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DeviceName" property="devicename" jdbcType="NVARCHAR" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+    <result column="ChannelID" property="channelid" jdbcType="INTEGER" />
+    <result column="VehicleID" property="vehicleid" jdbcType="INTEGER" />
+    <result column="CommondInfo" property="commondinfo" jdbcType="NVARCHAR" />
+    <result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="ActiveTime" property="activetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DeviceName, DeviceNo, ChannelID, VehicleID, CommondInfo, SendTime, ActiveTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_VehiclePower
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_VehiclePower
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_VehiclePower" >
+    insert into LPR_VehiclePower (ID, DeviceName, DeviceNo, 
+      ChannelID, VehicleID, CommondInfo, 
+      SendTime, ActiveTime)
+    values (#{id,jdbcType=INTEGER}, #{devicename,jdbcType=NVARCHAR}, #{deviceno,jdbcType=INTEGER}, 
+      #{channelid,jdbcType=INTEGER}, #{vehicleid,jdbcType=INTEGER}, #{commondinfo,jdbcType=NVARCHAR}, 
+      #{sendtime,jdbcType=TIMESTAMP}, #{activetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_VehiclePower" >
+    insert into LPR_VehiclePower
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="devicename != null" >
+        DeviceName,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="channelid != null" >
+        ChannelID,
+      </if>
+      <if test="vehicleid != null" >
+        VehicleID,
+      </if>
+      <if test="commondinfo != null" >
+        CommondInfo,
+      </if>
+      <if test="sendtime != null" >
+        SendTime,
+      </if>
+      <if test="activetime != null" >
+        ActiveTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="devicename != null" >
+        #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="channelid != null" >
+        #{channelid,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="commondinfo != null" >
+        #{commondinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activetime != null" >
+        #{activetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_VehiclePower" >
+    update LPR_VehiclePower
+    <set >
+      <if test="devicename != null" >
+        DeviceName = #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="channelid != null" >
+        ChannelID = #{channelid,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleid != null" >
+        VehicleID = #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="commondinfo != null" >
+        CommondInfo = #{commondinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activetime != null" >
+        ActiveTime = #{activetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_VehiclePower" >
+    update LPR_VehiclePower
+    set DeviceName = #{devicename,jdbcType=NVARCHAR},
+      DeviceNo = #{deviceno,jdbcType=INTEGER},
+      ChannelID = #{channelid,jdbcType=INTEGER},
+      VehicleID = #{vehicleid,jdbcType=INTEGER},
+      CommondInfo = #{commondinfo,jdbcType=NVARCHAR},
+      SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      ActiveTime = #{activetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,65 @@
+$(function(){
+	//初始化仓库列表
+	getList();
+})
+//点击确定
+$("#insertMbasedatabtn").click(function(){
+	if($("#cont .curr").length == 0){
+		layer.msg("请选择文件!",{time:2000});
+		return;
+	}
+	parent.$("#fileBox").empty();
+	for(var i=0;i<$("#cont .curr").length;i++){
+		var path=$("#cont .curr").eq(i).attr("data-path");
+		var filename=$("#cont .curr").eq(i).attr("data-filename");
+		var $a=$("<a href="+path+" style='margin:0 5px'>"+filename+"</a>");
+		parent.$("#fileBox").append($a);
+	}
+	parent.layer.closeAll();
+})
+//点击取消
+$("#abolish").click(function(){
+	parent.layer.closeAll();
+})
+//点击复选框
+$(document).on("click","#cont .checkbox",function(){
+	if($(this).hasClass("curr")){
+		$(this).removeClass("curr");
+	}else{
+		$(this).addClass("curr");
+	}
+})
+
+//点击搜索
+$("#createInStorage").click(function(){
+	getList();
+})
+//初始化设备技术规范库
+function getList(){
+	var fileName=$("#fileName").val();
+	var obj={"fileName":fileName};
+	console.log(obj);
+	$.ajax({
+		url:url+"/zcFileManager/getFileList",
+		type:"post",
+		data:obj,
+		//contentType: 'application/json',
+		success:function(data){
+			console.log(data);
+			total=data.count;
+			$("#cont").empty();
+			if(data.flag){
+				var res=data.result;
+				var index=1;
+				for(var item of res){
+					var fileName=item.fileName==undefined?"":item.fileName;
+					var path=item.path==undefined?"":item.path;
+					var updateTime=item.updateTime==undefined?"":item.updateTime;
+					var $tr=$("<tr><td><span class='checkbox' style='float:none' data-filename="+fileName+" data-path="+path+"></span></td><td>"+index+"</td><td>"+fileName+"</td><td>"+path+"</td><td>"+updateTime+"</td></tr>");
+					index++;
+					$("#cont").append($tr);
+				}
+			}
+		}
+	})
+}

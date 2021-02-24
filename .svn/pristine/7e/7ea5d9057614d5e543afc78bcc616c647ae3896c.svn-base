@@ -1,0 +1,7 @@
+package com.xr.service.impl;
+
+import com.xr.service.ZC_FileManagerService;
+
+public class ZC_FileManagerServiceImpl implements ZC_FileManagerService {
+
+}

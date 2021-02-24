@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_PermissionsMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_Permissions" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Deleted" property="deleted" jdbcType="BIT" />
+    <result column="Date_Entered" property="dateEntered" jdbcType="TIMESTAMP" />
+    <result column="Code" property="code" jdbcType="NVARCHAR" />
+    <result column="Name" property="name" jdbcType="NVARCHAR" />
+    <result column="Description" property="description" jdbcType="NVARCHAR" />
+    <result column="Access_Mode_ID" property="accessModeId" jdbcType="INTEGER" />
+    <result column="Resource_ID" property="resourceId" jdbcType="INTEGER" />
+    <result column="ModelNo" property="modelno" jdbcType="INTEGER" />
+    <result column="ModelCode" property="modelcode" jdbcType="NVARCHAR" />
+    <result column="OrderId" property="orderid" jdbcType="INTEGER" />
+    <result column="PermPath" property="permpath" jdbcType="NVARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    ID, Deleted, Date_Entered, Code, Name, Description, Access_Mode_ID, Resource_ID, 
+    ModelNo, ModelCode, OrderId, PermPath
+  </sql>
+  
+  
+  <!-- 批量删除 -->
+  <delete id="deleteBatch">
+     delete from ACL_Permissions where ID in
+     <foreach collection="list" item="item" open="(" close=")" separator="," index="index">
+         #{item}
+     </foreach>
+  </delete>
+  
+   <!-- 查询所有菜单列表 -->
+  <select id="queryPermList" resultType="Map">
+     select p.id,p.code,p.name,p.description,p.orderid,
+     mo.id modelno, mo.modelname,p.modelcode,p.permpath
+      from ACL_Permissions p 
+      left join ACL_ModelData mo on mo.modelcode=p.modelcode
+      <where>
+          <if test="code!=null and code!='' ">
+             and p.Code=#{code}
+          </if>
+          <if test="name!=null and name!='' ">
+             and p.Name like '%'+#{name}+'%'
+          </if>
+          <if test="id!=null and id!='' ">
+             and p.ID=#{id}
+          </if>
+      </where>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_Permissions
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ACL_Permissions
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ACL_Permissions" >
+    insert into ACL_Permissions (ID, Deleted, Date_Entered, 
+      Code, Name, Description, 
+      Access_Mode_ID, Resource_ID, ModelNo, 
+      ModelCode, OrderId, PermPath)
+    values (#{id,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, #{dateEntered,jdbcType=TIMESTAMP}, 
+      #{code,jdbcType=NVARCHAR}, #{name,jdbcType=NVARCHAR}, #{description,jdbcType=NVARCHAR}, 
+      #{accessModeId,jdbcType=INTEGER}, #{resourceId,jdbcType=INTEGER}, #{modelno,jdbcType=INTEGER}, 
+      #{modelcode,jdbcType=NVARCHAR}, #{orderid,jdbcType=INTEGER}, #{permpath,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ACL_Permissions" >
+    insert into ACL_Permissions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="dateEntered != null" >
+        Date_Entered,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="accessModeId != null" >
+        Access_Mode_ID,
+      </if>
+      <if test="resourceId != null" >
+        Resource_ID,
+      </if>
+      <if test="modelno != null" >
+        ModelNo,
+      </if>
+      <if test="modelcode != null" >
+        ModelCode,
+      </if>
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="permpath != null" >
+        PermPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="dateEntered != null" >
+        #{dateEntered,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=NVARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="accessModeId != null" >
+        #{accessModeId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null" >
+        #{modelno,jdbcType=INTEGER},
+      </if>
+      <if test="modelcode != null" >
+        #{modelcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="permpath != null" >
+        #{permpath,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_Permissions" >
+    update ACL_Permissions
+    <set >
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="dateEntered != null" >
+        Date_Entered = #{dateEntered,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=NVARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=NVARCHAR},
+      </if>
+      <if test="accessModeId != null" >
+        Access_Mode_ID = #{accessModeId,jdbcType=INTEGER},
+      </if>
+      <if test="resourceId != null" >
+        Resource_ID = #{resourceId,jdbcType=INTEGER},
+      </if>
+      <if test="modelno != null" >
+        ModelNo = #{modelno,jdbcType=INTEGER},
+      </if>
+      <if test="modelcode != null" >
+        ModelCode = #{modelcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderId = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="permpath != null" >
+        PermPath = #{permpath,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ACL_Permissions" >
+    update ACL_Permissions
+    set Deleted = #{deleted,jdbcType=BIT},
+      Date_Entered = #{dateEntered,jdbcType=TIMESTAMP},
+      Code = #{code,jdbcType=NVARCHAR},
+      Name = #{name,jdbcType=NVARCHAR},
+      Description = #{description,jdbcType=NVARCHAR},
+      Access_Mode_ID = #{accessModeId,jdbcType=INTEGER},
+      Resource_ID = #{resourceId,jdbcType=INTEGER},
+      ModelNo = #{modelno,jdbcType=INTEGER},
+      ModelCode = #{modelcode,jdbcType=NVARCHAR},
+      OrderId = #{orderid,jdbcType=INTEGER},
+      PermPath = #{permpath,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

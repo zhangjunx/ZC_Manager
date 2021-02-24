@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>考勤管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/style_.css" />
+</head>
+	<style>
+		#cont tr td{
+			line-height:28px;
+		}
+		#cont tr td div span{
+			color: #333;
+    		margin-left: 30px;
+		}
+		
+	</style>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">我的考勤表</a></div>
+                <div class="btn-box fr">
+                    <!-- <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div> -->
+                </div>
+                <div class="main-table" id="dayindaju1">
+                    <!--查询条件-->
+                    <!-- <div class="search-box main-form fl">
+                      <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>月份：</div>
+                        <div class="control clearfix">
+                            <input type="text" class="input" id="month">
+                        </div>
+                    </div>
+                    
+                    
+                   <div class="btn fl">
+                        <a href="javascript:;" id="queryInformation">搜索</a>
+                    </div> 
+                    
+                    </div> -->
+                    <!--查询结果如下-->
+                    	<div class="mychart">
+                    		<div class="mychart_top">
+                    			<img src="../img/mycahrtleft.png" class="mychartleft">
+                    			<img src="../img/mychartrigth.png" class="mychartright">
+                    			<div class="mon"></div>
+                    			<select class="year">
+                    			</select>
+                    		</div>
+                    <div class="form-term fl clearfix" style="margin-left: 340px;">
+                        <div class="lable">正常：<span class="normal">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">休息：<span class="rest">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">迟到：<span class="delay">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">早退：<span class="early">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">旷工：<span class="nowork">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">请假：<span class="holiday">0</span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">出差：<span class="business">0</span></div>
+                    </div>
+                    <table>
+                    	<tr>
+                    		<th>星期一</th>
+                    		<th>星期二</th>
+                    		<th>星期三</th>
+                    		<th>星期四</th>
+                    		<th>星期五</th>
+                    		<th>星期六</th>
+                    		<th>星期日</th>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    		<td>
+                    			<p>班次:<span></span></p>
+                    			<i class="day">0</i>
+                    			<div class="status">无</div>
+                    		</td>
+                    	</tr>
+                    </table>
+                    
+                    	</div>
+                </div>
+            </div>
+        </div>
+      </div>
+    
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../chu/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+	 <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+	 <script type="text/javascript" src="js/mychart.js"></script>
+</body>
+</html>

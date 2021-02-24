@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>自助登记审批系统</title>
+    <link rel="icon" href="img/prison1.gif" sizes="32x32">
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/approval_self.css">
+</head>
+
+<body>
+	<div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">待我审批</a></div>
+                <div class="label fl"><a href="javascript:;">我已审批</a></div>
+                <!-- <div class="label fl"><a href="javascript:;">审批设置</a></div> -->
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="insertDeptBtn" style='display:none'>确定</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+            	<!-- 待我审批 -->
+            	<div class="search-box main-form fl">
+            		<div class="center">
+            			<span class="checkbox" id="selectAll" style="float: none;">全选</span>
+            		</div>
+            		<div class="btn_right">
+            			<button type="button" class="layui-btn layui-btn-normal" id="sure">批准</button>
+                		<button type="button" class="layui-btn layui-btn-danger" id="no">驳回</button>
+            		</div>
+            	</div>
+            	
+            	
+            	 <!-- <div class="approval_pending">
+                <div class="approval_tit">
+                    <span class="checkbox curr" style="float: none;"></span>
+                    <p class="apply_time">申请时间：<span>2019-11-18  18:17</span></p>
+                </div>
+				<div class='scroll'>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">警号:</span>0006</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="job">职务:</span>警察</dd>
+                        <dd> <span class="prison">监区:</span>一监区</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0009</dd>
+                        <dd><span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0009</dd>
+                        <dd><span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                </div>
+                <div class="layui-clear"></div>
+                <div class="rightTop">
+                    <a href="javascript:;" class="tongYi">批准</a>
+                    <a href="javascript:;" class="boHui">驳回</a>
+                </div>
+            </div> 
+            
+             <div class="approval_pending">
+                <div class="approval_tit">
+                    <span class="checkbox curr" style="float: none;"></span>
+                    <p class="apply_time">申请时间:<span>2019-11-18  18:17</span></p>
+                </div>
+                <ul class="vehicleInfo">
+                    <li> <span>车牌号码:</span>102656 </li>
+                    <li> <span>车牌类型:</span>蓝牌车 </li>
+                    <li> <span>车身颜色:</span>白色 </li>
+                </ul>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">警号:</span>0006</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="job">职务:</span>警察</dd>
+                        <dd> <span class="prison">监区:</span>一监区</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0009</dd>
+                        <dd><span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <div class="layui-clear"></div>
+                <div class="rightTop">
+                    <a href="javascript:;" class="tongYi">批准</a>
+                    <a href="javascript:;" class="boHui">驳回</a>
+                </div> 
+            </div>   -->
+            <!-- 审批记录 -->
+       <!-- <div class="approval_pending">
+                <div class="approval_tit">
+                    <h4 class="approval_audited">已驳回</h4>
+                    <p class="apply_time">2019-11-18<span>18:17</span></p>
+                </div>
+                <div class='scroll'>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">警号:</span>0009</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="job">职务:</span>警察</dd>
+                        <dd> <span class="prison">监区:</span>一监区</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0099</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                </div>
+
+                <div class="layui-clear"></div>
+
+            </div>
+            <div class="approval_pending">
+                <div class="approval_tit">
+                    <h4 class="approval_status">已同意</h4>
+                    <p class="apply_time">2019-11-18<span>18:17</span></p>
+                </div>
+                <ul class="vehicleInfo">
+                    <li> <span>车牌号码:</span>102656 </li>
+                    <li> <span>车牌类型:</span>蓝牌车 </li>
+                    <li> <span>车身颜色:</span>白色 </li>
+                </ul>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">警号:</span>0006</dd>
+                        <dd> <span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="job">职务:</span>警察</dd>
+                        <dd> <span class="prison">监区:</span>一监区</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" alt=""></dt>
+                    <div class="infor_right">
+                        <dd> <span class="alarm">卡号:</span>0009</dd>
+                        <dd><span class="policeName">姓名:</span>权志龙</dd>
+                        <dd> <span class="infoTime">时间:</span>10:30:26</dd>
+                    </div>
+                </dl>
+                <div class="layui-clear"></div>
+            </div>  -->
+            
+            </div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/approval_self.js"></script>
+</body>
+
+</html>

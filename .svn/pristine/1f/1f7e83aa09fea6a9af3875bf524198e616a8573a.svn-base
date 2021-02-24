@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_RolesMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_Roles" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Deleted" property="deleted" jdbcType="BIT" />
+    <result column="Date_Entered" property="dateEntered" jdbcType="TIMESTAMP" />
+    <result column="Code" property="code" jdbcType="NVARCHAR" />
+    <result column="Name" property="name" jdbcType="NVARCHAR" />
+    <result column="Description" property="description" jdbcType="NVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, Deleted, Date_Entered, Code, Name, Description
+  </sql>
+  
+  
+  
+  
+  <!-- 删除角色时 查看该角色是否有人员暂用 -->
+  <select id="queryHolderByRoleID" resultType="Map" parameterType="java.lang.Integer">
+       select top 1 HolderNo,HolderName,RoleID from HolderData 
+       where RoleID=#{roleid,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据登录人的角色 查角色下的部门  添加或修改仓库时 下拉选择部门 -->
+  <select id="queryDeptListByLoginRole" resultType="com.xr.entity.DepartmentData" parameterType="java.util.List">
+      select DepartmentNo,DepartmentName from DepartmentData 
+      where DepartmentNo in
+      <foreach collection="list" item="item" separator="," index="," open="(" close=")">
+        #{item}
+      </foreach>
+  </select>
+  
+  <!-- 人员角色分配  选中角色 查该角色下的人 -->
+  <select id="getHolderListByRoleId" resultType="Map" >
+      select holderno,holdername,roleid,departmentno,(select departmentname from DepartmentData 
+      where departmentno=HolderData.departmentno) departmentname from HolderData 
+      where RoleID=#{roleid}
+  </select>
+  
+   <!--人员角色分配  点保存时  批量修改    给人员赋予角色 或更改角色 -->
+  <update id="updateRoleIDBatchs" parameterType="Map">
+     <foreach collection="list" item="item" index="index" separator=";">
+      update HolderData set RoleID='', 
+      updatePerson=#{item.updateperson},
+      updateDate=#{item.updatedate}
+      where HolderNo=#{item.holderno}
+     </foreach>  
+  </update>
+  
+   <!--人员角色分配  点保存时  批量修改    给人员赋予角色 或更改角色 updateRoleIDBatch-->
+  <update id="updateRoleIDBatch" parameterType="Map">
+     <foreach collection="list" item="item" index="index" separator=";">
+      update HolderData set RoleID=#{item.roleid},
+      updatePerson=#{item.updateperson},
+      updateDate=#{item.updatedate}
+      where HolderNo=#{item.holderno}
+     </foreach>  
+  </update>
+  
+  <select id="getDeptTreeByMyRole" resultType="Map" parameterType="java.lang.String">
+       select a.deptno "id",d.DepartmentName "title",
+   case when d.underno is null then ''else d.underno end "parent",
+   '' "children"
+    from (select h.holdername,h.holderno,h.roleid,rd.deptno
+  from HolderData h 
+  inner join ACL_Roles_Dept rd on h.RoleID=rd.Role_ID
+   and h.HolderNo=#{holderno,jdbcType=VARCHAR})a  
+   inner join DepartmentData d on a.deptno=d.DepartmentNo
+  </select>
+  
+  <!-- 根据登录人的工号 查角色下的部门 -->
+  <select id="queryDeptNoListByLoginPerson" resultType="Map" parameterType="java.lang.String">
+ select h.holdername,h.holderno,h.roleid,rd.deptno
+  from HolderData h 
+  inner join ACL_Roles_Dept rd on h.RoleID=rd.Role_ID
+ and h.HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 批量删除 -->
+  <!--  <delete id="deleteRoleDataBatch" parameterType="java.util.List">
+     delete from  ACL_Roles where ID in
+     <foreach collection="list" item="item" open="(" close=")" index="index" separator=",">
+        #{item}
+     </foreach>
+  </delete>  -->
+  
+  <!-- 查询角色列表 -->
+  <select id="queryRoleList" resultMap="BaseResultMap">
+      select ID,Code, Name, Description from ACL_Roles
+      <where>
+      <if test="name != null and name!=''" >
+       and Name like '%'+#{name}+'%'
+      </if>
+      </where>
+  </select>
+  
+  <!-- 添加角色 -->
+   <insert id="insertRoleData" parameterType="com.xr.entity.ACL_Roles" >
+    insert into ACL_Roles (   
+      Code, Name, Description
+      )
+    values (  
+      #{code,jdbcType=NVARCHAR}, 
+      #{name,jdbcType=NVARCHAR},
+      #{description,jdbcType=NVARCHAR}
+      )
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_Roles
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 删除角色 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ACL_Roles
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  
+  <!-- 更新角色 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_Roles" >
+    update ACL_Roles
+    <set >
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="dateEntered != null" >
+        Date_Entered = #{dateEntered,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=NVARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

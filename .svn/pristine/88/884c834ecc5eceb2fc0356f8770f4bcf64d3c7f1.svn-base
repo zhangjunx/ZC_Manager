@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_InStoreGoodsWaringMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--获取物品报废列表  -->
+	<select id="getScrapList" resultType="map">
+		<include refid="c_start"></include>
+		select g.*,t.labelCode,ty.typeName,t.operateDate "waringDate", t.operator "setWaringPerID",t.waringType,h1.holderName "setWaringPerName",
+			   mf.name "manfacturerName",s.name "supplierName",t.waringLocal,g.imagePath
+		from ZC_InStoreGoodsWaring t
+		inner join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_GoodsType ty on g.type = ty.fid
+		left join HolderData h1 on t.operator = h1.holderNo 
+		left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+		left join ZC_Supplier s on t.supplierID = s.fid
+		where 1=1 and t.waringType = 1
+		<if test="type != null and type !=''">
+			and t.type=#{type}
+		</if>
+		
+		<if test="goodsName != null and goodsName !=''">
+			and g.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<if test="model != null and model !=''">
+			and g.model like '%'+#{model}+'%'
+		</if>
+		
+		<if test="operateDate != null and operateDate !=''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getScrapListCount" resultType="integer">
+		select count(1)
+		from ZC_InStoreGoodsWaring t
+		inner join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_GoodsType ty on g.type = ty.fid
+		left join HolderData h1 on t.operator = h1.holderNo 
+		left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+		left join ZC_Supplier s on t.supplierID = s.fid
+		where 1=1 and t.waringType = 1
+		<if test="type != null and type !=''">
+			and t.type=#{type}
+		</if>
+		
+		<if test="goodsName != null and goodsName !=''">
+			and g.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<if test="model != null and model !=''">
+			and g.model like '%'+#{model}+'%'
+		</if>
+		
+		<if test="operateDate != null and operateDate !=''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+	</select>
+	
+	<!-- 新增报废物品 -->
+	<update id="addScrapList">
+		begin
+			insert into ZC_InStoreGoodsWaring (fid,labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+				storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+				shopType,shopNo,shopDate,endDate,goodsSn,remark,status,operateDate, operator,waringType,waringLocal)
+			select t.fid,t.labelCode,t.goodsID,t.inStoreID,t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+				t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+				t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,t.status,#{operateDate}, #{operator},1,#{waringLocal}
+		    from ZC_InStoreGoods t where t.status = 1
+		     and t.labelCode in
+		    <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		   		#{l.labelCode}
+	   		</foreach>
+	   		and 1=1;
+	   		
+			<foreach collection="goodsList" item="l" open="" close="" separator="">
+		   		update ZC_InStoreGoodsWaring
+			       set waringLocal = #{l.waringLocal}
+			     where labelCode=#{l.labelCode};
+		    </foreach>
+		end;
+	   
+	</update>
+	
+	<!--删除库存中的商品信息  -->
+	<update id="deleteOneFromStoreGoods">
+		delete from ZC_InStoreGoods where status = 1 and labelCode in
+	   <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+	   	#{l.labelCode}
+	   </foreach>
+	</update>
+	
+	<!--================================================物品退役============================================================  -->
+	<!--获取物品报废列表  -->
+	<select id="getRetireList" resultType="map">
+		<include refid="c_start"></include>
+		select g.*,t.labelCode,ty.typeName,t.operateDate "waringDate", t.operator "setWaringPerID",t.waringType,h1.holderName "setWaringPerName",
+			   mf.name "manfacturerName",s.name "supplierName",t.waringLocal,g.imagePath
+		from ZC_InStoreGoodsWaring t
+		inner join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_GoodsType ty on g.type = ty.fid
+		left join HolderData h1 on t.operator = h1.holderNo 
+		left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+		left join ZC_Supplier s on t.supplierID = s.fid
+		where 1=1 and t.waringType = 2
+		<if test="type != null and type !=''">
+			and t.type=#{type}
+		</if>
+		
+		<if test="goodsName != null and goodsName !=''">
+			and g.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<if test="model != null and model !=''">
+			and g.model like '%'+#{model}+'%'
+		</if>
+		
+		<if test="operateDate != null and operateDate !=''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getRetireListCount" resultType="integer">
+		select count(1)
+		from ZC_InStoreGoodsWaring t
+		inner join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_GoodsType ty on g.type = ty.fid
+		left join HolderData h1 on t.operator = h1.holderNo 
+		left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+		left join ZC_Supplier s on t.supplierID = s.fid
+		where 1=1 and t.waringType = 2
+		<if test="type != null and type !=''">
+			and t.type=#{type}
+		</if>
+		
+		<if test="goodsName != null and goodsName !=''">
+			and g.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<if test="model != null and model !=''">
+			and g.model like '%'+#{model}+'%'
+		</if>
+		
+		<if test="operateDate != null and operateDate !=''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+	</select>
+	
+	<!-- 新增报废物品 -->
+	<update id="addRetireList">
+		begin
+			insert into ZC_InStoreGoodsWaring (fid,labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+				storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+				shopType,shopNo,shopDate,endDate,goodsSn,remark,status,operateDate, operator,waringType,waringLocal)
+		    select t.fid,t.labelCode,t.goodsID,t.inStoreID,t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+				t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+				t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,t.status,#{operateDate}, #{operator},2,#{waringLocal}
+	       from ZC_InStoreGoods t where t.status = 1
+	        and t.labelCode in
+		    <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		   		#{l.labelCode}
+		    </foreach>
+	   		and 1=1;
+		    
+			<foreach collection="goodsList" item="l" open="" close="" separator="">
+		   		update ZC_InStoreGoodsWaring
+			       set waringLocal = #{l.waringLocal}
+			     where labelCode=#{l.labelCode};
+		    </foreach>
+			
+		end;
+	</update>
+  
+</mapper>

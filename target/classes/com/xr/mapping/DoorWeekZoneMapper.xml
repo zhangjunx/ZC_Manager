@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorWeekZoneMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DoorWeekZone" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="NVARCHAR" />
+    <result column="WeekZone1" property="weekzone1" jdbcType="NVARCHAR" />
+    <result column="WeekZone2" property="weekzone2" jdbcType="NVARCHAR" />
+    <result column="WeekZone3" property="weekzone3" jdbcType="NVARCHAR" />
+    <result column="WeekZone4" property="weekzone4" jdbcType="NVARCHAR" />
+    <result column="WeekZone5" property="weekzone5" jdbcType="NVARCHAR" />
+    <result column="WeekZone6" property="weekzone6" jdbcType="NVARCHAR" />
+    <result column="WeekZone7" property="weekzone7" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="CreatePerson" property="createperson" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,Name, WeekZone1, WeekZone2, WeekZone3, WeekZone4, WeekZone5, WeekZone6, WeekZone7, 
+    CreateDate, CreatePerson, UpdateDate, UpdatePerson
+  </sql>
+  
+  <select id="queryWeekZoneList" resultType="Map">
+    select id,name,weekzone1,weekzone2,weekzone3,weekzone4,
+    weekzone5,weekzone6,weekzone7, convert(varchar(10),updatedate,21) updatedate,
+    (select holdername from HolderData where holderno=DoorWeekZone.updateperson) updateperson from DoorWeekZone
+    <where>
+       <if test="id!=null and id!='' ">
+           ID=#{id}
+       </if>
+    </where>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DoorWeekZone
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DoorWeekZone
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DoorWeekZone" >
+    insert into DoorWeekZone (ID, Name,WeekZone1, WeekZone2, 
+      WeekZone3, WeekZone4, WeekZone5, 
+      WeekZone6, WeekZone7, CreateDate, 
+      CreatePerson, UpdateDate, UpdatePerson
+      )
+    values (#{id,jdbcType=INTEGER},#{name,jdbcType=NVARCHAR}, #{weekzone1,jdbcType=NVARCHAR}, #{weekzone2,jdbcType=NVARCHAR}, 
+      #{weekzone3,jdbcType=NVARCHAR}, #{weekzone4,jdbcType=NVARCHAR}, #{weekzone5,jdbcType=NVARCHAR}, 
+      #{weekzone6,jdbcType=NVARCHAR}, #{weekzone7,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{createperson,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DoorWeekZone" >
+    insert into DoorWeekZone
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+       <if test="name != null" >
+        Name,
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1,
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2,
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3,
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4,
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5,
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6,
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+       <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone1 != null" >
+        #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DoorWeekZone" >
+    update DoorWeekZone
+    <set >
+     <if test="name != null" >
+        Name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DoorWeekZone" >
+    update DoorWeekZone
+    set Name = #{name,jdbcType=NVARCHAR},
+      WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      CreatePerson = #{createperson,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

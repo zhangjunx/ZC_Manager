@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>新建会议</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+   <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../css/Shuttle.css">
+    <link rel="stylesheet" href="css/meetingManagement.css" />
+	
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content" id="a">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新建会议</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" onclick="saveMeetingInfo()" class="layui-bg-blue" id="insertMeetingRoom">确定</a></div>
+					<div class="subbtn fl"><a href="meetingList.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>会议主题：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="meetingtitle" class="input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>会议类型：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="meetingtype" name="meetingtype">
+								
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>会议时间：</div>
+                        <div class="control clearfix">
+                          <input type="text" readonly="readonly" class="input date" placeholder="会议开始日期" id="startdate">
+                          --
+                          <input type="text" readonly="readonly" class="input date" placeholder="会议结束日期" id="enddate">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>会议签到时间：</div>
+                        <div class="control clearfix">
+                          <input type="text" readonly="readonly" class="input date" placeholder="签到开始时间" id="signinstarttime">
+                          --
+                          <input type="text" readonly="readonly" class="input date" placeholder="签到结束时间" id="signinendtime">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>会议签退时间：</div>
+                        <div class="control clearfix">
+                          <input type="text" readonly="readonly" class="input date" placeholder="签退开始时间" id="signbackstarttime">
+                          --
+                          <input type="text" readonly="readonly" class="input date" placeholder="签退结束时间" id="signbackendtime">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term control clearfix">
+                        <div class="lable"><span>*</span>召集人：</div>
+                        <div class="control clearfix" id="selectedpromoter">
+                           <a href="javascript:;" id="promoter" class="layui-bg-blue choose">选择</a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>电话：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="promoterphone" class="input">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>会议室：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="roomname" readonly="readonly" class="input" style="vertical-align: top;">
+                           <a href="javascript:;" id="openroomwin" class="layui-bg-blue readCard" style="vertical-align: top;line-height:31px">选择</a>
+                           <span class="checkbox" id="roomtype" value="1" style="margin-left:10px">其它</span>
+                        </div>
+                    </div>
+                    
+                    <div id="otherDiv">
+                    	<div></div>
+                    	<div class="form-term  clearfix">
+	                        <div class="lable"><span>*</span>会议室位置：</div>
+	                        <div class="control clearfix">
+	                           <input type="text" id="meetinglocation" class="input">
+	                        </div>
+	                    </div>
+	                    <div class="form-term control clearfix">
+	                        <div class="lable"><span>*</span>会议签到点：</div>
+	                        <div class="control clearfix" id="selectedsignin">
+	                           <a href="javascript:;" id="signinplace" class="layui-bg-blue choose">选择</a>
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="form-term control clearfix">
+	                        <div class="lable"><span>*</span>会议签退点：</div>
+	                        <div class="control clearfix" id="selectedsignback">
+	                           <a href="javascript:;" id="signbackplace" class="layui-bg-blue choose">选择</a>
+	                        </div>
+	                    </div>
+                    </div>
+                    
+                    <div class="form-term control clearfix">
+                        <div class="lable"><span>*</span>参议人员：</div>
+                        <div class="control clearfix" id="selectedperson">
+                           <a href="javascript:;" id="person" class="layui-bg-blue choose">选择</a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term control clearfix">
+                        <div class="lable"><span>*</span>主持人：</div>
+                        <div class="control clearfix" id="selectedhost">
+                           <a href="javascript:;" id="host" class="layui-bg-blue choose">选择</a>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>会议提醒：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="remind">
+	                        
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                    	<div class="lable"><span></span>提醒内容：</div>
+                    	<div class="box1_ipt">
+							<textarea  id="remindcontext" class="input personQuantity"></textarea>
+						</div>
+                	</div>
+                	
+                	<div class="form-term control clearfix">
+                        <div class="lable"><span>*</span>审批人：</div>
+                        <div class="control clearfix" id="selectedApprover">
+                           <a href="javascript:;" id="Approver" class="layui-bg-blue choose">选择</a>
+                        </div>
+                    </div>
+            	</div>
+        	</div>
+    	</div>
+    	
+    	<div class="main-content" id="b" style="display:none">
+            <div class="main-tab">
+            
+               	<div class="label fl curr switchPanel" value="0"><a href="javascript:;">会议签到点</a></div>
+               	<div class="label fl switchPanel" value="1"><a href="javascript:;">会议签退点</a></div>
+               	<div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" onclick="addCheck()" class="blue addMain">确认</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" onclick="delCheck()" class="orange">取消</a></div>
+            	</div>
+	            <div class="main-table">
+					<div class="search-box main-form fl">
+						<div class="form-term fl clearfix">
+							<div class="lable">
+								<span></span>签到/签退点：
+							</div>
+							<div class="control clearfix">
+								<input type="text" name="doorname1" id="doorname1" placeholder="" class="input">
+							</div>
+						</div>
+						<div class="btn fl">
+							<a href="javascript:;" id="queryDeptListByConditionBtn1">搜索</a>
+						</div>
+					</div>
+					<table class="grade personnel" id="dayindaju1">
+						<tr>
+							<td width="40">区域</td>
+							<td width="90%">门区</td>
+						</tr>
+						<tbody id="cont1">
+						
+						</tbody>
+					</table>
+					<div class="pages" id="test1"></div>
+				</div>
+				
+			</div>
+        </div>
+    	
+    	
+    </div>
+    
+   	<div class="select_person_box"></div>
+	<div class="select_person">
+           <div class="main-tab">
+               <div class="label fl curr"><a href="javascript:;">选择人员</a></div>
+               <div class="btn-box fr">
+                   <div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue confirm" id="sure">确定</a></div>
+                   <div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange" id="quxiao">取消</a></div>
+               </div>
+           </div>
+           <div class="main-table">
+            <div class="main-form">
+                <!--input开始-->
+	            <div class="form-term clearfix">
+		            <div class="Shuttle">
+		              <ul id="shuttle_box" class="zhaojiren">
+		                <li class="shuttle_box_li shuttle_box_near">
+		                    <h4 class="title">部门架构 </h4>
+		                    <div id="test12" class="demo-tree-more"></div>
+		                </li>
+		                <!-- <li class="shuttle_box_li" id="shuttle_box_mid">
+		                    <img src="img/add.png" alt="" id="shuttle_box_Left" lay-demo="getChecked">
+		                </li> -->
+		                <li class="shuttle_box_li shuttle_box_near">
+		                    <h4 class="title">选择人员  <span class="checkbox" id="selectll" style="float: none;">全选</span></h4>
+		                    <!--<div class="search"><img src="img/cs.png" alt=""><input type="text" placeholder="请输入关键字"></div>  -->
+		                    <ul id="shuttle_box_left">
+		              
+		                    </ul>
+		                </li>
+		                <li class="shuttle_box_li" id="shuttle_box_mid">
+		                    <button id="shuttle_box_toRight">添加>></button>
+		                    <button id="shuttle_box_toLeft"><sapn><<</sapn>移除</button>
+		                </li>
+		                <li class="shuttle_box_li shuttle_box_near" style='width: calc(100% - 671px);'>
+		                    <h4 class="title">人员显示 <span class="checkbox" id="selectAll" style="float: none;">全选</span></h4>
+		                     <!--<div class="search"><img src="img/cs.png" alt=""><input type="text" placeholder="请输入关键字"></div>  -->
+		                    <ul id="meeting_box_right">
+		
+		                    </ul>
+		                </li>
+		              </ul>
+		            </div>
+	            </div>
+             </div>
+           </div>
+	</div>
+	<!--会议室选择弹窗  -->
+	<div class="vehicleInfo_shadow" id="roomWin"></div>
+    <div class="vehicleInfo" id="roomWin1" style="width: 96%;height: 95%">
+		<div class="layer_top">
+   			<h2 class="title">选择会议时间</h2>
+   			<img src="img/cha.png" class="quxiao" id="roomquxiao">
+   		</div>
+		<div class="vehicle_top" style="padding-left:10px;padding-right:10px">
+			
+			
+			<div class="form-term clearfix" id="roomtimetable" style='overflow: auto;'>
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>会议日期：
+						</div>
+						<div class="control clearfix">
+							<input type="text" readonly="readonly" class="input" placeholder="选择日期" id="meetingdate">
+						</div>
+					</div>
+				</div>
+	            <table>
+	            	<tr id="title">
+	            		
+	            	</tr>
+	            	<tbody id="tabledata">
+	            		
+	            	</tbody>
+	            </table>
+	        </div>
+		</div>
+		
+		<div class="holder_bottom">
+			<div>
+				<a href="javascript:;" id="roombtn" class="layui-bg-blue bottom_sure">确定</a>
+				<a href="javascript:;" class="layui-bg-orange bottom_qx" id="bottom_qx">取消</a>
+			</div>
+		</div>
+	</div>
+	
+		
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/meetingDoorList.js"></script> 
+    <script type="text/javascript" src="js/meeting_add.js"></script> 
+</body>
+
+</html>

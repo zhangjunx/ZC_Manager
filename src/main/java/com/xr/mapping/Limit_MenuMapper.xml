@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.Limit_MenuMapper" >
+	
+	<!--初始化树形table  -->
+	<select id="getList" resultType="map">
+		select * from (
+		select 'z_0' "id",'系统菜单' "title" ,'0' "parent",1 "orderId",'' "menuImg",'' "deleted",'' "remark",'' "modelPath",'' "uuid",'true' "spread",'' "ifScreenFull"
+		union all
+		select 'z_'+convert(varchar,t.menuCode) "id",t.menuName "title",'z_'+convert(varchar,t.ParentId) "parent",t.orderId,t.menuImg,t.deleted,t.remark,'' "modelPath",'' "uuid",'true' "spread",'' "ifScreenFull" from ACL_MenuData t where t.publicLimit = 1
+		union all
+		select 'y_'+convert(varchar,m.modelCode) "id",m.modelName "title",'z_'+convert(varchar,m.menucode) "parent",m.orderId,'' "menuImg",m.deleted,m.remark,m.modelPath,'' "uuid",'true' "spread",m.ifScreenFull "ifScreenFull" from ACL_ModelData m 
+			where m.MenuCode in
+			(select t2.MenuCode from ACL_MenuData t2 where t2.publicLimit = 1)
+		union all 
+		select 'o_'+convert(varchar,p.id) "id",p.name "title",'y_'+convert(varchar,p.modelCode) "parent",p.orderId,'' "menuImg",p.deleted,p.description "remark",p.permPath,p.uuid,'' "spread",'' "ifScreenFull" from ACL_Permissions p
+			where p.ModelCode in
+			(select m2.modelCode from ACL_ModelData m2
+			inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode
+			where t3.publicLimit=1)
+		) aa 
+		where aa.title != '模块管理'
+		order by aa.orderID
+	</select>
+  
+  	<!--获取当前登录用户的操作权限列表  -->
+  	<select id="getBtnListWithRole" resultType="map">
+  		select 'o_'+convert(varchar,t.id) "id" from ACL_Permissions t
+		inner join ACL_Roles_Permissions m on t.id = m.Permission_ID
+		where t.ModelCode in
+					(select m2.modelCode from ACL_ModelData m2
+					inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode
+					where t3.publicLimit=1)
+		and m.Role_ID=#{roleID}
+  	</select>
+  	<!--根据操作按钮获取勾选的菜单列表  -->
+  	<select id="getHasLimitList" resultType="map">
+  		with tem_table(id, parent)
+		as
+		(
+		select   id, parent
+		     from  (
+		select 'z_0' "id" ,'0' "parent"
+				union all
+				select 'z_'+convert(varchar,t.menuCode) "id",'z_'+convert(varchar,t.ParentId) "parent" from ACL_MenuData t where t.publicLimit = 1
+				union all
+				select 'y_'+convert(varchar,m.modelCode) "id",'z_'+convert(varchar,m.menucode) "parent" from ACL_ModelData m 
+					where m.MenuCode in
+					(select t2.MenuCode from ACL_MenuData t2 where t2.publicLimit = 1)
+				union all 
+				select 'o_'+convert(varchar,p.id) "id",'y_'+convert(varchar,p.modelCode) "parent" from ACL_Permissions p
+					where p.ModelCode in
+					(select m2.modelCode from ACL_ModelData m2
+					inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode
+					where t3.publicLimit=1)
+		) aa
+		     where 
+		           aa.id in (${btnStr})
+		union all
+		select   a.id,  a.parent                      
+		    from 
+		         (
+		select 'z_0' "id",'0' "parent"
+				union all
+				select 'z_'+convert(varchar,t.menuCode) "id",'z_'+convert(varchar,t.ParentId) "parent" from ACL_MenuData t where t.publicLimit = 1
+				union all
+				select 'y_'+convert(varchar,m.modelCode) "id",'z_'+convert(varchar,m.menucode) "parent" from ACL_ModelData m 
+					where m.MenuCode in
+					(select t2.MenuCode from ACL_MenuData t2 where t2.publicLimit = 1)
+				union all 
+				select 'o_'+convert(varchar,p.id) "id",'y_'+convert(varchar,p.modelCode) "parent" from ACL_Permissions p
+					where p.ModelCode in
+					(select m2.modelCode from ACL_ModelData m2
+					inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode
+					where t3.publicLimit=1)
+		)  a 
+	    inner join tem_table  b
+		    on (a.id = b.parent)
+		)
+		select * from tem_table
+  	</select>
+  	
+  	<!--验证菜单名称不能重复  -->
+  	<select id="getSumWithMenuName" resultType="map">
+  		select * from ACL_MenuData t where t.menuName=#{menuName1}
+  	</select>
+  	
+  	<!--验证菜页面称不能重复  -->
+  	<select id="getSumWithPageName" resultType="map">
+  		select * from ACL_ModelData t where t.modelName=#{modelName2} and t.menuCode = #{menuCode2}
+  	</select>
+  	
+  	<!--添加菜单  -->
+  	<update id="addMenu1">
+  		declare
+  			@menuCode varchar(200);
+  		begin
+  			set @menuCode = (select max(cast(t.menuCode as int))+1000 from ACL_MenuData t)
+  			insert into ACL_MenuData(menuCode,menuName,parentId,orderId,menuImg,createDate,deleted,remark,publicLimit)
+  			values(@menuCode,#{menuName1},#{parentID1},#{orderID1},#{menuImg1},GETDATE(),0,#{remark1},1);
+  		end;
+  	</update>
+  	
+  	<!--添加页面  -->
+  	<update id="addMenu2">
+  		declare
+  			@modelCode varchar(200),
+  			@sum int;
+  		begin
+  			set @sum = (select count(1) from ACL_ModelData t where t.menuCode=#{menuCode2});
+  			if @sum>0
+  			begin
+  				set @modelCode = (select max(t.modelCode)+1 from ACL_ModelData t where t.menuCode=#{menuCode2});
+  			end;
+  			
+  			if @sum = 0
+  			begin
+  				set @modelCode = (cast(#{menuCode2} as int)+1);
+  			end;
+  			
+  			insert into ACL_ModelData(modelCode,modelName,menuCode,orderID,modelPath,createDate,deleted,remark,IfScreenFull)
+  			values(@modelCode,#{modelName2},#{menuCode2},#{orderID2},#{modelPath2},GETDATE(),0,#{remark2},#{ifScreenFull});
+  		end;
+  	</update>
+  	
+  	<!--添加操作按钮  -->
+  	<update id="addMenu3">
+  		insert into ACL_Permissions(code,name,description,modelCode,orderID,date_entered,deleted)
+		values(#{code3},#{name3},#{description3},#{modelCode3},#{orderID3},GETDATE(),0);
+  	</update>
+  	
+  	<!--编辑菜单  -->
+  	<update id="editMenu1">
+  		update ACL_MenuData
+  		   set menuName=#{menuName1},
+  		   	   parentId=#{parentID1},
+  		   	   orderId=#{orderID1},
+  		   	   menuImg=#{menuImg1},
+  		   	   remark=#{remark1}
+  		 where menuCode=#{menuCode1}
+  	</update>
+  	
+  	<!--编辑页面  -->
+  	<update id="editMenu2">
+  		update ACL_ModelData
+  		   set modelName=#{modelName2},
+  		   	   menuCode=#{menuCode2},
+  		   	   orderID=#{orderID2},
+  		   	   modelPath=#{modelPath2},
+  		   	   remark=#{remark2},
+  		   	   ifScreenFull=#{ifScreenFull}
+  		 where modelCode=#{modelCode2}
+  	</update>
+  	
+  	<!--编辑操作按钮  -->
+  	<update id="editMenu3">
+  		update ACL_Permissions
+  		   set code=#{code3},
+  		   	   name=#{name3},
+  		   	   description=#{description3},
+  		   	   modelCode=#{modelCode3},
+  		   	   orderID=#{orderID3}
+  		 where id=#{ID3}
+  	</update>
+  	
+  	<!--获取一条菜单数据  -->
+  	<select id="getOneMenu1" resultType="map">
+  		select 'z_'+cast(t.menuCode as varchar) menuCode,t.menuName,'z_'+cast(t.parentID as varchar) parentID,t.orderID,t.menuPath,t.createDate,
+  			   t.deleted,t.remark,t.publicLimit,t.menuImg from ACL_MenuData t 
+  		 where t.menuCode=#{menuCode1}
+  	</select>
+  	
+  	<!--获取一条页面数据  -->
+  	<select id="getOneMenu2" resultType="map">
+  		select 'y_'+cast(t.modelCode as varchar) modelCode,t.modelName,'z_'+cast(t.menuCode as varchar) menuCode,t.orderID,
+  			   t.modelPath,t.createDate,t.deleted,t.remark from ACL_ModelData t
+  	     where t.modelCode=#{modelCode2}
+  	</select>
+  	
+  	<!--获取一条操作按钮数据  -->
+  	<select id="getOneMenu3" resultType="map">
+  		select 'o_'+cast(t.id as varchar) id,t.deleted,t.date_entered,t.code,t.name,
+  			   t.description,'y_'+cast(t.modelCode as varchar) modelCode,t.orderID,t.uuid from ACL_Permissions t
+  		 where t.id=#{ID3}
+  	</select>
+  	
+  	<!--删除支节点  -->
+  	<update id="delOneMenu">
+  		begin
+  			delete from ACL_Roles_Permissions
+			 where 'o_'+convert(varchar,Permission_ID) in
+			<foreach collection="btnList" item="l" open="(" close=")" separator=",">
+				#{l.ID}
+			</foreach>
+			;
+			
+			delete from ACL_Permissions
+			 where 'o_'+convert(varchar,ID) in
+			<foreach collection="btnList" item="l" open="(" close=")" separator=",">
+				#{l.ID}
+			</foreach>
+			;
+			delete from ACL_ModelData
+			 where 'y_'+convert(varchar,modelCode) in
+			<foreach collection="pageList" item="l" open="(" close=")" separator=",">
+				#{l.modelCode}
+			</foreach>
+			;
+			delete from ACL_MenuData
+			 where 'z_'+convert(varchar,menuCode) in
+			<foreach collection="menuList" item="l" open="(" close=")" separator=",">
+				#{l.menuCode}
+			</foreach>
+			;
+  		end;
+  	</update>
+  	
+  	<!--为角色分配权限  -->
+  	<update id="addUserLimit">
+  		begin
+  			<foreach collection="perMissionList" item="l" open="" close="" separator="">
+		  		insert into ACL_Roles_Permissions(Role_ID,Permission_ID)
+		  		select #{roleID},#{l.ID} 
+		  		  where 1=1
+		  		    and not EXISTS(select 1 from ACL_Roles_Permissions m where m.Permission_ID=#{l.ID} and m.Role_ID=#{roleID});
+	  		</foreach>
+  		end;
+  	</update>
+  	
+  	<!--取消角色权限  -->
+  	<update id="cancleUserLimit">
+  		begin
+  			<foreach collection="perMissionList" item="l" open="" close="" separator="">
+		  		delete from ACL_Roles_Permissions
+		  		 where Role_ID = #{roleID}
+		  		   and Permission_ID = #{l.ID};
+	  		</foreach>
+  		end;
+  	</update>
+</mapper>

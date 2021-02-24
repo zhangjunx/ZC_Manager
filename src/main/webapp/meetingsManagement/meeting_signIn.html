@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>会议管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/meetingManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">会议实时签到</a></div>
+                 <div class="btn-box fr">
+	                <div class="subbtn fl"><a href="meetingList.html" class="orange">返回</a></div>
+	            </div>
+            </div>
+            <div class="main-table">
+					<div class="signIn_top">
+						<label>应签到人数:<span class="singIn1"></span>人</label>
+						<label>实签到人数:<span class="singIn2"></span>人</label>
+						<label>未签到人数:<span class="singIn3"></span>人</label>
+					</div>
+					<div class="signIn_center">
+						<h3>已签到人员</h3>
+						<ul class="alreadyPerson">
+						    <!-- <li>
+								<div class="img">
+									<img src="img/person.png">
+								</div>
+								<p>庆余年<span>迟</span></p>
+							</li>  -->
+						</ul>
+					</div>
+					<div class="signIn_bottom">
+						<h3>未签到人员</h3>
+						<ul class="unsignInPerson">
+							<!-- <li>
+								<div class="img">
+									<img src="img/person.png">
+								</div>
+								<p>猫腻</p>
+							</li> -->
+						</ul>
+					</div>
+				
+
+			</div>
+		</div>
+     </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+     <script type="text/javascript" src="js/meeting_signIn.js"></script>
+</body>
+
+</html>

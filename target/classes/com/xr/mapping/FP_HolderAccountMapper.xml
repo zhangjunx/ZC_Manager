@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FP_HolderAccountMapper" >
+	<sql id="c_start">
+		select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	</sql>
+	
+	<sql id="c_end">
+		) _tmp ) _res where 1=1
+		<if test="curpage != null and curpage != ''">
+			and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+			and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+		</if>
+	</sql>
+	
+	<!--获取账户列表  -->
+	<select id="getAccountList" resultType="map">
+		<include refid="c_start"></include>
+		select t.fid,
+			   t.HolderNo,
+			   t.AccountNo,
+			   t.Balance,
+			   CONVERT(varchar(100), t.createDate, 20) createDate,
+			   CONVERT(varchar(100), t.updateDate, 20) updateDate,
+			   t.fstatus,
+			   t.remark,
+			   h.HolderName,
+			   h.departmentNo,
+			   d.departmentName,
+			   h.HolderName "name",c.cardID "idcardNum",h.idCode "iDNumber",
+			   cr.fid "consumeRoleID",
+			   cr.consumeName
+		  from FP_HolderAccount t
+		  left join HolderData h on t.HolderNo = h.HolderNo
+		  left join DepartmentData d on h.departmentNo = d.departmentNo
+		  left join FP_AccountRoleRelation rr on t.fid=rr.holderAccountID
+		  left join FP_ConsumeRole cr on rr.consumeRoleID = cr.fid
+		  left join (select aa.* from (
+						select dd.CardNo,dd.cardID,dd.HolderNo,
+						ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+							from CardData dd) aa where aa. sindex=1) c on t.HolderNo=c.HolderNo
+		 where 1=1
+		<!--查询参数：姓名  -->
+		<if test="holderName != null and holderName != ''">
+			and h.holderName=#{holderName}
+		</if>
+		<!--查询参数：充值日期  -->
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.updateDate, 23)=#{updateDate}
+		</if>
+		<!--查询参数：账户号  -->
+		<if test="accountNo != null and accountNo != ''">
+			and t.accountNo like '%'+#{accountNo}+'%'
+		</if>
+		
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getAccountListCount" resultType="integer">
+		select count(1)
+		  from FP_HolderAccount t
+		  left join HolderData h on t.HolderNo = h.HolderNo
+		  left join DepartmentData d on h.departmentNo = d.departmentNo
+		  left join (select aa.* from (
+						select dd.CardNo,dd.cardID,dd.HolderNo,
+						ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+							from CardData dd) aa where aa. sindex=1) c on t.HolderNo=c.HolderNo
+		 where 1=1
+		<!--查询参数：姓名  -->
+		<if test="holderName != null and holderName != ''">
+			and h.holderName=#{holderName}
+		</if>
+		<!--查询参数：充值日期  -->
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.updateDate, 23)=#{updateDate}
+		</if>
+		<!--查询参数：账户号  -->
+		<if test="accountNo != null and accountNo != ''">
+			and t.accountNo like '%'+#{accountNo}+'%'
+		</if>
+		
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+	</select>
+	
+	<!--获取账户表中不存在的员工信息  -->
+	<select id="getHolderList" resultType="map">
+		select t.HolderNo,t.HolderName "name",t.departmentNo,c.cardID "idcardNum",t.idCode "iDNumber"
+			from HolderData t
+			left join (select aa.* from (
+						select dd.CardNo,dd.cardID,dd.HolderNo,
+						ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+							from CardData dd) aa where aa. sindex=1) c on t.HolderNo=c.HolderNo
+		 where 1=1
+		   and t.departmentNo is not null
+		   and t.HolderNo not in (select a.HolderNo from FP_HolderAccount a where a.holderNo is not null)
+		<!--根据部门查询  -->
+		<if test="departmentNo != null and departmentNo != ''">
+			and t.departmentNo in (${departmentNo})
+		</if>
+		<!--根据姓名查询  -->
+		<if test="holderName != null and holderName != ''">
+			and t.holderName like '%'+#{holderName}+'%'
+		</if>
+		<!--根据工号查询  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo like '%'+#{holderNo}+'%'
+		</if>
+	</select>
+	
+	<select id="getHolderListCount" resultType="integer">
+		select count(1) from HolderData t
+		 where 1=1
+		   and t.HolderNo not in (select a.HolderNo from FP_HolderAccount a)
+		<!--根据部门查询  -->
+		<if test="departmentNo != null and departmentNo != ''">
+			and t.departmentNo in (${departmentNo})
+		</if>
+		<!--根据姓名查询  -->
+		<if test="holderName != null and holderName != ''">
+			and t.holderName like '%'+#{holderName}+'%'
+		</if>
+		<!--根据工号查询  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo like '%'+#{holderNo}+'%'
+		</if>
+	</select>
+	
+	<!--批量生成账户  -->
+	<update id="addAccountList">
+		declare
+			@fid int;
+		begin
+			<foreach collection="list" item="ls" open="" separator="" close="">
+				insert into FP_HolderAccount(
+				 	HolderNo,AccountNo,Balance,createDate,updateDate,fstatus,remark
+				) values
+				(#{ls.holderNo},#{AccountNo},0,GETDATE(),GETDATE(),1,#{remark})
+				SELECT @fid = @@IDENTITY
+				
+				insert into FP_AccountRoleRelation(
+				 	holderAccountID,consumeRoleID
+				) values
+				(@fid,#{consumeRoleID})
+			</foreach>
+		end;
+	</update>
+	
+	<!--停用账户  -->
+	<update id="updateAccountStatus">
+		update FP_HolderAccount 
+		   set fstatus=#{fstatus},
+		       updateDate=GETDATE()
+		 where fid=#{fid}
+	</update>
+	
+	<!--获取充值记录列表  -->
+	<select id="getRechargingRecordList" resultType="map">
+		<include refid="c_start"></include>
+		select t.fid,
+			   t.accountID,
+			   t.beforeRecharging,
+			   t.afterRecharging,
+			   t.rechargingAmount,
+			   t.rechargingType,
+			   CONVERT(varchar(100),t.updateDate, 20) updateDate,
+			   t.updator,
+			   t.remark,
+			   h.holderNo,
+			   h.holderName,
+			   a.accountNo,
+			   h2.holderName "updatorName"
+		  from FP_RechargingRecord t
+		  inner join FP_HolderAccount a on t.accountID = a.fid
+		  left join HolderData h on a.HolderNo = h.HolderNo
+		  left join HolderData h2 on t.updator=h2.holderNo
+		 where 1=1
+		<!--查询参数：根据账户查询  -->
+		<if test="accountID != null and accountID != ''">
+			and t.accountID=#{accountID}
+		</if>
+		
+		<if test="holderNo != null and holderNo != ''">
+			and a.holderNo=#{holderNo}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getRechargingRecordListCount" resultType="integer">
+		select count(1)
+		  from FP_RechargingRecord t
+		  left join FP_HolderAccount a on t.accountID = a.fid
+		  left join HolderData h on a.HolderNo = h.HolderNo
+		  left join HolderData h2 on t.updator=h2.holderNo
+		 where 1=1
+		<!--查询参数：根据账户查询  -->
+		<if test="accountID != null and accountID != ''">
+			and t.accountID=#{accountID}
+		</if>
+		
+		<if test="holderNo != null and holderNo != ''">
+			and a.holderNo=#{holderNo}
+		</if>
+	</select>
+	
+	<!--账户充值  -->
+	<update id="updateRecharging">
+		declare
+			@billNo varchar(200);
+		begin
+			set @billNo = (select dbo.GETBILLNO(#{holderNo})+'')
+			
+			insert into FP_RechargingRecord(
+				accountID,beforeRecharging,afterRecharging,rechargingAmount,
+				rechargingType,updateDate,updator,remark,billNo)
+			values(
+				#{fid},#{beforeRecharging},#{afterRecharging},#{rechargingAmount},
+				#{rechargingType},GETDATE(),#{updator},#{remark},@billNo)
+				
+			update FP_HolderAccount 
+			   set Balance=#{afterRecharging},
+			       updateDate=GETDATE()
+			 where fid=#{fid}
+		end;
+	</update>
+	
+	<update id="refunds">
+		declare
+		 	@billNo varchar(200);
+		begin
+			set @billNo = (select dbo.GETBILLNO(#{holderNo})+'')
+			
+			update FP_HolderAccount 
+			   set Balance=#{afterRecharging},
+			       updateDate=GETDATE()
+			 where fid=#{fid}
+			
+			insert into FP_RechargingRecord(
+				accountID,beforeRecharging,afterRecharging,rechargingAmount,
+				rechargingType,updateDate,updator,remark,billNo)
+			values(
+				#{fid},#{beforeRecharging},#{afterRecharging},#{rechargingAmount},
+				#{rechargingType},GETDATE(),#{updator},#{remark},@billNo)
+		end;
+	</update>
+	
+	<!--账户充值APP  -->
+	<update id="updateRechargingApp">
+		declare 
+			@fid int,
+			@beforeRecharging varchar(20),
+			@billNo varchar(200);
+		begin
+			set @billNo = (select dbo.GETBILLNO(#{holderNo})+'');
+			
+			set @fid=(select fid from FP_HolderAccount where holderNo=#{holderNo});
+			set @beforeRecharging = (select Balance from FP_HolderAccount where holderNo=#{holderNo})
+			update FP_HolderAccount 
+			   set Balance=CONVERT(nvarchar(100), CAST(Balance AS numeric(18,2))+cast(#{rechargingAmount} as numeric(18,2))),
+			       updateDate=GETDATE()
+			 where holderNo=#{holderNo};
+			
+			insert into FP_RechargingRecord(
+				accountID,beforeRecharging,afterRecharging,rechargingAmount,
+				rechargingType,updateDate,updator,remark,billNo)
+			values(
+				@fid,@beforeRecharging,CONVERT(nvarchar(100), CAST(#{rechargingAmount} AS decimal(18,2))+cast(@beforeRecharging as numeric(18,2))) ,#{rechargingAmount},
+				#{rechargingType},GETDATE(),'0',#{remark},@billNo);
+		end;
+	</update>
+	
+	<update id="refundsApp">
+		declare 
+			@fid int;
+			@beforeRecharging varchar(20);
+			@billNo varchar(200);
+		begin
+			set @billNo = (select dbo.GETBILLNO(#{holderNo})+'')
+			
+			set @fid=(select fid from FP_HolderAccount where holderNo=#{holderNo});
+			set @beforeRecharging = (select Balance from FP_HolderAccount where holderNo=#{holderNo})
+			update FP_HolderAccount 
+			   set Balance=CAST(Balance AS decimal(18,2)) + CAST(#{rechargingAmount} AS decimal(18,2)),
+			       updateDate=GETDATE()
+			 where holderNo=#{holderNo};
+			
+			insert into FP_RechargingRecord(
+				accountID,beforeRecharging,afterRecharging,rechargingAmount,
+				rechargingType,updateDate,updator,remark,billNo)
+			values(
+				@fid,@beforeRecharging,CAST(@beforeRecharging AS decimal(18,2))+CAST(#{rechargingAmount} AS decimal(18,2)),#{rechargingAmount},
+				#{rechargingType},GETDATE(),'0',#{remark},@billNo);
+		end;
+	</update>
+	
+	<!--消费模式对应的账户列表  -->
+	<select id="getAccountRoleList" resultType="map">
+		<include refid="c_start"></include>
+		<!-- 已经绑定的账户 -->
+		select t.fid,t.holderNo,t.AccountNo,t.fstatus,h.holderName,'1' "resultType" from FP_HolderAccount t
+		left join FP_AccountRoleRelation m on t.fid=m.holderAccountID
+		left join HolderData h on t.holderNo = h.HolderNo
+		where m.consumeRoleID=#{consumeRoleID}
+		union all
+		<!-- 未被绑定的账户 -->
+		select t.fid,t.holderNo,t.AccountNo,fstatus,h.holderName,'2' "resultType" from FP_HolderAccount t
+		left join HolderData h on t.holderNo = h.HolderNo
+		where t.fid not in (select m.holderAccountID from FP_AccountRoleRelation m where m.consumeRoleID = #{consumeRoleID})
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getAccountRoleListCount" resultType="integer">
+		select count(1) from (
+		<!-- 已经绑定的账户 -->
+		select t.fid,t.holderNo,t.AccountNo,t.fstatus,h.holderName,'1' "resultType" from FP_HolderAccount t
+		left join FP_AccountRoleRelation m on t.fid=m.holderAccountID
+		left join HolderData h on t.holderNo = h.HolderNo
+		where m.consumeRoleID=#{consumeRoleID}
+		union all
+		<!-- 未被绑定的账户 -->
+		select t.fid,t.holderNo,t.AccountNo,fstatus,h.holderName,'2' "resultType" from FP_HolderAccount t
+		left join HolderData h on t.holderNo = h.HolderNo
+		where t.fid not in (select m.holderAccountID from FP_AccountRoleRelation m where m.consumeRoleID = #{consumeRoleID})
+		) aa where 1=1
+	</select>
+	
+	<!--账户分配消费模式（作废）  -->
+	<update id="updateConsumeTypeID">
+		begin
+			if(#{optType} = 1)
+			begin
+				insert into FP_AccountRoleRelation(
+					holderAccountID,consumeRoleID)
+				values(#{holderAccountID},#{consumeRoleID})
+			end
+			else
+			begin
+				delete from FP_AccountRoleRelation where holderAccountID=#{holderAccountID} and consumeRoleID=#{consumeRoleID}
+			end
+		end;
+		
+	</update>
+	
+	<!--根据人员获取设备列表  -->
+	<select id="getDeviceListWithPer" resultType="map">
+		select du.password "pass",du.controlSN "deviceSn",du.deviceNo,du.deviceName,du.IP from FP_RestaurantDevice rd 
+		left join DeviceUnit du on rd.deviceNo = du.deviceNo
+		where rd.restaurantID in(
+		select rr.restaurantID from FP_RestaurantRoleRelation rr
+		where rr.consumeTypeID in(
+		select t.consumeRoleID
+		from FP_AccountRoleRelation t
+		where t.holderAccountID = #{fid})
+		)
+	</select>
+</mapper>

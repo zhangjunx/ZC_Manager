@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>人脸消费</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+   <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../css/Shuttle.css">
+    <link rel="stylesheet" href="css/FaceConsume.css">
+</head>
+
+<body>
+		<div id='open' style="display:none">
+			<div class='accountBalance'><label>账户余额:</label><input id="accountMoney" type='text' readonly/></div>
+			<div class='accountBalance'><label>充值金额:</label><input type='number' id="czMoney"  min="0" value="0" placeholder='请输入充值金额'/></div>
+		</div>
+    	<div id='tF' style="display:none">
+			<div class='accountBalance'><label>账户余额:</label><input id="tf_accountMoney" type='text' readonly/></div>
+			<div class='accountBalance'><label>退费金额:</label><input type='number' id="tfMoney"  min="0" value="0" placeholder='请输入退费金额'/></div>
+		</div>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">账户管理</a></div>
+                <div class="btn-box fr">
+	                <div class="subbtn fl"><a href="account_add.html" class="blue addMain">新增</a></div>
+	            </div>
+            <div class="main-table">
+				<div class="search-box main-form fl">
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">工号</td>
+						<td width="40">姓名</td>
+						<td width="80">部门</td>
+						<td width="80">消费模式</td>
+						<td width="80">账号</td>
+						<td width="40">账户余额</td>
+						<td width="40">账户状态</td>
+						<td width="40" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+					
+					</tbody>
+				</table>
+				<div class="pages" id="test">
+				</div>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/accountManagement.js"></script>
+</body>
+
+</html>

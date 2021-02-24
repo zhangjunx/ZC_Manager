@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_PrisonerMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--获取犯人列表  -->
+	<select id="getPrisonerList" resultType="map">
+		<include refid="c_start"></include>
+			select t.*,p.prisonName,f.photoPath from RC_Prisoner t
+			left join RC_Prison p on t.prisonID = p.fid
+			left join RC_PrisonerPhoto f on t.fid=f.prisonerID and f.status = 1
+			where 1=1 and t.status != '删除'
+			<!--查询条件：姓名  -->
+			<if test="prisonerName != null and prisonerName != ''">
+				and t.prisonerName like '%'+#{prisonerName}+'%'
+			</if>
+			<!--查询条件：身份证号  -->
+			<if test="IDCard != null and IDCard != ''">
+				and t.IDCard like '%'+#{IDCard}+'%'
+			</if>
+			<!--查询条件：性别  -->
+			<if test="sex != null and sex != ''">
+				and t.sex like '%'+#{sex}+'%'
+			</if>
+			<!--查询条件：监狱名称  -->
+			<if test="prisonName != null and prisonName != ''">
+				and p.prisonName like '%'+#{prisonName}+'%'
+			</if>
+			<!--查询条件：监狱ID  -->
+			<if test="prisonID != null and prisonID != ''">
+				and t.prisonID = #{prisonID}
+			</if>
+			<!--查询条件：标签号  -->
+			<if test="labelCode != null and labelCode != ''">
+				and t.labelCode = #{labelCode}
+			</if>
+			<!--查询条件：拘留时间  -->
+			<if test="inStartTime != null and inStartTime != ''">
+				and convert(varchar,t.inStartTime,121) &gt;= #{inStartTime}
+			</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getPrisonerListCount" resultType="integer">
+		select count(1) from RC_Prisoner t
+			left join RC_Prison p on t.prisonID = p.fid
+			left join RC_PrisonerPhoto f on t.fid=f.prisonerID and f.status = 1
+			where 1=1 and t.status != '删除'
+			<!--查询条件：姓名  -->
+			<if test="prisonerName != null and prisonerName != ''">
+				and t.prisonerName like '%'+#{prisonerName}+'%'
+			</if>
+			<!--查询条件：身份证号  -->
+			<if test="IDCard != null and IDCard != ''">
+				and t.IDCard like '%'+#{IDCard}+'%'
+			</if>
+			<!--查询条件：性别  -->
+			<if test="sex != null and sex != ''">
+				and t.sex like '%'+#{sex}+'%'
+			</if>
+			<!--查询条件：监狱名称  -->
+			<if test="prisonName != null and prisonName != ''">
+				and p.prisonName like '%'+#{prisonName}+'%'
+			</if>
+			<!--查询条件：监狱ID  -->
+			<if test="prisonID != null and prisonID != ''">
+				and t.prisonID = #{prisonID}
+			</if>
+			<!--查询条件：标签号  -->
+			<if test="labelCode != null and labelCode != ''">
+				and t.labelCode = #{labelCode}
+			</if>
+			<!--查询条件：拘留时间  -->
+			<if test="inStartTime != null and inStartTime != ''">
+				and convert(varchar,t.inStartTime,121) &gt;= #{inStartTime}
+			</if>
+	</select>
+	
+	<!--添加犯人信息  -->
+	<select id="addPrisonerList" resultType="integer">
+		insert into RC_Prisoner(prisonerName,prisonerName2,prisonID,IDCard,
+				age,sex,nationality,nation,skill,political,
+				homeLocal,graduationSchool,major,marriage,
+				inStartTime,inReason,arrestingOrgan,judgmentOrgan,
+				startTime,endTime,operator,operateDate,status,creator,createDate)
+			 values(#{prisonerName},#{prisonerName2},#{prisonID},#{IDCard},
+			 	#{age},#{sex},#{nationality},#{nation},#{skill},#{political},
+			 	#{homeLocal},#{graduationSchool},#{major},#{marriage},
+			 	convert(datetime,#{inStartTime}, 20),#{inReason},#{arrestingOrgan},#{judgmentOrgan},
+			 	convert(datetime,#{startTime}, 20),convert(datetime,#{endTime}, 20),#{operator},GETDATE(),#{status},#{operator},GETDATE())
+		SELECT @@IDENTITY as sid
+	</select>
+	
+	<!--编辑犯人信息  -->
+	<update id="updatePrisonerList">
+		update RC_Prisoner 
+		   set prisonerName=#{prisonerName},
+		   	   prisonerName2=#{prisonerName2},
+		   	   prisonID=#{prisonID},
+		   	   IDCard=#{IDCard},
+			   age=#{age},
+			   sex=#{sex},
+			   nationality=#{nationality},
+			   nation=#{nation},
+			   skill=#{skill},
+			   political=#{political},
+			   homeLocal=#{homeLocal},
+			   graduationSchool=#{graduationSchool},
+			   major=#{major},
+			   marriage=#{marriage},
+			   inStartTime=convert(datetime,#{inStartTime}, 20),
+			   inReason=#{inReason},
+			   arrestingOrgan=#{arrestingOrgan},
+			   judgmentOrgan=#{judgmentOrgan},
+			   startTime=convert(datetime,#{startTime}, 20),
+			   endTime=convert(datetime,#{endTime}, 20),
+			   operator=#{operator},
+			   operateDate=GETDATE(),
+			   status=#{status}
+		 where fid=#{fid}
+	</update>
+	
+	<!--保存图片信息  -->
+	<update id="savePrisonImg">
+		begin
+			update RC_PrisonerPhoto
+			   set status=0
+			 where prisonerID=#{prisonerID};
+			
+			insert into RC_PrisonerPhoto(prisonerID,photoPath,photoData,operator,operateDate,status)
+			values(#{prisonerID},#{photoPath},'',#{operator},GETDATE(),1);
+		end;
+	</update>
+	
+	<!--获取一条信息  -->
+	<select id="getOnePrison" resultType="map">
+		select t.*,p.prisonName,f.photoPath from RC_Prisoner t
+			left join RC_Prison p on t.prisonID = p.fid
+			left join RC_PrisonerPhoto f on t.fid=f.prisonerID and f.status=1
+			where t.fid=#{fid}
+	</select>
+	
+	<!--删除犯人信息  -->
+	<update id="delOnePrison">
+		update RC_Prisoner
+		   set status = '删除'
+		 where fid=#{fid}
+		   and status = '在押'
+	</update>
+	
+	<!--批量导入犯人信息  -->
+	<update id="insertPerWithImport">
+		declare
+			@fid varchar(20);
+		begin
+			<foreach collection="perList" item="l" open="" separator="" close="">
+				insert into RC_Prisoner(prisonerName,prisonerName2,prisonID,IDCard,
+					age,sex,nationality,nation,skill,political,
+					homeLocal,graduationSchool,major,marriage,
+					inStartTime,inReason,arrestingOrgan,judgmentOrgan,
+					startTime,endTime,operator,operateDate,status,creator,createDate)
+				 values(#{l.prisonerName},#{l.prisonerName2},#{l.prisonID2},#{l.IDCard},
+				 	#{l.age},#{l.sex},#{l.nationality},#{l.nation},#{l.skill},#{l.political},
+				 	#{l.homeLocal},#{l.graduationSchool},#{l.major},#{l.marriage},
+				 	convert(datetime,#{l.inStartTime}, 20),#{l.inReason},#{l.arrestingOrgan},#{l.judgmentOrgan},
+				 	convert(datetime,#{l.startTime}, 20),convert(datetime,#{l.endTime}, 20),#{l.operator},GETDATE(),'在押',#{l.operator},GETDATE())
+				 SELECT @fid = @@IDENTITY;
+				 	
+				insert into RC_PrisonerPhoto(prisonerID,photoPath,photoData,operator,operateDate,status)
+				values(@fid,#{l.photoPath},'',#{l.operator},GETDATE(),1)
+			</foreach>
+		end;
+	</update>
+	
+	<!--获取监狱列表  -->
+	<select id="getPrisoneList" resultType="map">
+		select * from RC_Prison t
+	</select>
+	
+	<!--绑定标签  -->
+	<update id="updatePerLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},1,1,GETDATE(),#{changer},#{prisonerID})
+			SELECT @fid = @@IDENTITY;
+			
+			update RC_Prisoner
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonerID}
+		end;
+	</update>
+	
+	<!--更换标签  -->
+	<update id="changePerLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			update RC_PrisonLabel
+			   set status = 0
+			 where objID = #{prisonerID}
+			   and labelType = 1
+			   and status = 1;
+			
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},1,1,GETDATE(),#{changer},#{prisonerID})
+			SELECT @fid = @@IDENTITY;
+			
+			update RC_Prisoner
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonerID};
+		end;
+	</update>
+	
+	<!--根据身份证获取犯人数量  -->
+	<select id="getSumWithIDCard" resultType="map">
+		select t.* from RC_Prisoner t where t.IDCard = #{IDCard}
+	</select>
+	
+	<!--根据列表获取犯人数量  -->
+	<select id="getSumWithIDCardList" resultType="integer">
+		select count(1) from RC_Prisoner t where t.IDCard in
+		<foreach collection="perList" item="l" open="(" separator="," close=")">
+			#{l.IDCard}
+		</foreach>
+	</select>
+	
+	<!--根据labelCode查询总数  -->
+	<select id="getSumWithLabelCode" resultType="integer">
+		select count(1) from RC_Prisoner t where t.labelCode = #{labelCode}
+	</select>
+</mapper>

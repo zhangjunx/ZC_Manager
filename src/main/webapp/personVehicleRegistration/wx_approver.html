@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>审批设置</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/approval_self.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">审批人设置</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="insertBtn">保存</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="delBtn">移除</a></div>
+            </div>
+
+            <div class="main-table">
+		   <!-- 审批设置 -->
+            <div class="approval_self">
+            	<div class="approval_center">
+            		<h2>部门审批人</h2>
+            		<ul class="approval_role">
+            			<!-- <li>监区领导</li>
+            			<li>劳动改造科</li>
+            			<li>监狱医院</li>
+            			<li>生活卫生科</li>
+            			<li>责任监区领导</li>
+            			<li>狱政管理科</li>
+            			<li>监狱值班领导</li> -->
+            		</ul>
+            	</div>
+            	<div class="approval_right">
+            		<h2>选择审批人</h2>
+            		 <!-- <div id="DeviceTree" class="deviceTree">
+        		
+        			 </div> -->
+        			 <div class="dept"> 
+            			<h3 class="dept_title">部门</h3>
+	            		<div id="DeptTree" class="deptTree">
+        		
+        			 </div>
+            		</div>
+            		
+            		<ul class="approval_person">
+            			<!--  <li>
+            				<div class="personPhoto">
+            					<img src="img/person1.png">
+            				</div>
+            				<div class="holderInfo">
+            					<p>工号:<span class='holderno'>00000</span></p>
+            					<p>姓名:<span class='holdername'>不知道</span></p>
+            					<p>部门:<span class='dept'>软件部</span></p>
+            				</div>
+            			</li> -->
+            		</ul>
+            	</div>
+            </div>
+
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/wx_approval.js"></script>
+</body>
+
+</html>

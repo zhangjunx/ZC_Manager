@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FP_ConsumeRoleMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	
+	<!--列表  -->
+	<select id="getConsumeTypeList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*
+  		  from FP_ConsumeRole t
+		 where 1=1
+  		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getConsumeTypeListCount" resultType="integer">
+		select count(1)
+  		  from FP_ConsumeRole t
+		 where fstatus=1
+	</select>
+	
+	<!--获取餐次列表  -->
+	<select id="getConsumeTimesList" resultType="map">
+		select t.*,r.restaurantName from FP_RestaurantRoleRelation t
+		  left join FP_Restaurant r on t.restaurantID=r.fid
+		 where t.fstatus=1
+		<if test="consumeTypeID != null and consumeTypeID != ''">
+			and consumeTypeID=#{consumeTypeID}
+		</if>
+	</select>
+	
+	<!--新增  -->
+	<update id="addConsumeType">
+		declare
+			@fid varchar(20)
+		begin
+			insert into FP_ConsumeRole(
+				consumeName,fstatus,remark,
+				creator,createDate,updator,updateDate)
+			values (
+				#{consumeName},#{fstatus},#{remark},
+				#{creator},GETDATE(),#{updator},GETDATE())
+			SELECT @fid = @@IDENTITY
+			<foreach collection="addList" item="ls" open="" separator="" close="">
+				insert into FP_RestaurantRoleRelation(
+					consumeTypeID,restaurantID,mealTimesName,startTime,endTime,amount,
+					fstatus,createDate,updateDate,remark)
+				values (
+					@fid,#{ls.restaurantID},#{ls.mealTimesName},#{ls.startTime},#{ls.endTime},#{ls.amount},
+					#{ls.fstatus},GETDATE(),GETDATE(),#{ls.remark}
+				)
+			</foreach>	
+		end;
+	</update>
+	
+	<!--更新  -->
+	<update id="editConsumeType">
+		begin
+			<!--更新消费模式  -->
+			update FP_ConsumeRole 
+			   set consumeName=#{consumeName},
+			   	   fstatus=#{fstatus},
+			   	   remark=#{remark},
+			   	   updator=#{updator},
+			   	   updateDate=GETDATE()
+			 where fid=#{consumeTypeID}
+			 
+			 <if test="delList != null">
+			 	<!--1、删除餐次  -->
+				<foreach collection="delList" item="ls1" open="" separator="" close="">
+					update FP_RestaurantRoleRelation 
+					   set fstatus=0,
+					       updateDate=GETDATE()
+					 where fid = #{ls1.mealTimesID}
+				</foreach>
+			 </if>
+			
+			<if test="updateList != null">
+			 	<!--2、更新餐次  -->
+				<foreach collection="updateList" item="ls2" open="" separator="" close="">
+					update FP_RestaurantRoleRelation 
+					   set mealTimesName=#{ls2.mealTimesName},
+					       restaurantID=#{ls2.restaurantID},
+					       startTime=#{ls2.startTime},
+					       endTime=#{ls2.endTime},
+					       amount=#{ls2.amount},
+					       fstatus=#{ls2.fstatus},
+					       updateDate=GETDATE(),
+					       remark=#{ls2.remark}
+					 where consumeTypeID=#{consumeTypeID}
+					   and fid=#{ls2.mealTimesID}
+				</foreach>
+			</if>
+			
+			
+			<if test="addList != null">
+			 	<!--3、新增餐次  -->
+				<foreach collection="addList" item="ls3" open="" separator="" close="">
+					insert into FP_RestaurantRoleRelation(
+						consumeTypeID,restaurantID,mealTimesName,startTime,endTime,
+						amount,fstatus,createDate,updateDate,remark)
+					values(
+						#{consumeTypeID},#{ls3.restaurantID},#{ls3.mealTimesName},#{ls3.startTime},#{ls3.endTime},
+						#{ls3.amount},#{ls3.fstatus},GETDATE(),GETDATE(),#{ls3.remark}
+					)
+				</foreach>
+			</if>
+		end;
+	</update>
+	
+	<!--获取一条数据  -->
+	<select id="getOneConsumeType" resultType="map">
+		select t.*
+  		  from FP_ConsumeRole t
+		 where t.fid=#{fid}
+	</select>
+	
+	<!--删除  -->
+	<update id="delConsumeType">
+		update FP_ConsumeRole set fstatus=#{fstatus} where fid=#{fid}
+	</update>
+	
+	<!--==============================================================================================================  -->
+	<!--根据身份获取人员信息  -->
+	<select id="getPerListWithRole" resultType="map">
+		select a.holderNo "id",h.HolderName "name",c.cardID "idcardNum",
+					h.idCode "iDNumber" from FP_HolderAccount a 
+		left join HolderData h on a.holderNo = h.holderNo
+		left join (select aa.* from (
+						select dd.CardNo,dd.cardID,dd.HolderNo,
+						ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+							from CardData dd) aa where aa. sindex=1) c on a.HolderNo=c.HolderNo
+		where a.fid in(
+		select m.holderAccountID from FP_AccountRoleRelation m where m.consumeRoleID=#{consumeRoleID})
+	</select>
+	
+	<select id="getDeviceListWithRole" resultType="map">
+		select du.password "pass",du.controlSN "deviceSn",du.deviceNo,du.deviceName,du.IP,rd.restaurantID from FP_RestaurantDevice rd 
+		left join DeviceUnit du on rd.deviceNo= du.deviceNo
+		where rd.restaurantID in(
+		select rs.fid from FP_Restaurant rs where rs.fid in(
+		select r.restaurantID from FP_RestaurantRoleRelation r where r.consumeTypeID = #{consumeRoleID})
+		)
+	</select>
+	
+	<!--根据身份获取时间列表  -->
+	<select id="getTimesListWithRole" resultType="map">
+		select * from FP_RestaurantRoleRelation t where t.consumeTypeID = #{consumeTypeID}
+	</select>
+	
+</mapper>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>预警消息</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+				<div class="label fl curr">
+					<a href="javascript:;">预警消息</a>
+				</div>
+				
+			</div>
+
+			<div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>身份证号：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="idcode" id="idcode" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>姓名：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="holdername" id="holdername" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>年龄：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="diff" id="diff" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryWarningBtn">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<!-- <td width="40" class="no-print"><span class="checkbox"
+							id="selectAll" style="float: none;">全选</span></td> -->
+						<td width="20">工号</td>
+						<td width="20">姓名</td>
+						<td width="20">性别</td>
+						<td width="20">所属公司</td>
+						<td width="20">部门</td>
+						<td width="20">职务</td>
+						<td width="40">工种</td>
+						<td width="80">身份证号</td>
+						<td width="40">入职日期</td>
+						<td width="40">目前年龄</td>
+						<!-- <td width="40">预警提示</td> -->
+						<td width="40" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/retireWarning.js"></script>
+     <!--  <script type="text/javascript" src="chu/xlsx.full.min.js"></script>
+     <script type="text/javascript" src="chu/xlsx.core.min.js"></script>
+     <script type="text/javascript" src="chu/export.js"></script> -->
+</body>
+</html>

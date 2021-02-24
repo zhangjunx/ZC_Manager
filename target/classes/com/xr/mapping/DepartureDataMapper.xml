@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DepartureDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DepartureData" >
+    <id column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="DepartmentNo" property="departmentno" jdbcType="NVARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="NVARCHAR" />
+    <result column="HolderCard" property="holdercard" jdbcType="NVARCHAR" />
+    <result column="IDCode" property="idcode" jdbcType="NVARCHAR" />
+     <result column="Birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="NativePlace" property="nativeplace" jdbcType="NVARCHAR" />
+    <result column="MaxEducation" property="maxeducation" jdbcType="NVARCHAR" />
+    <result column="TitleNo" property="titleno" jdbcType="VARCHAR" />
+    <result column="BankCard" property="bankcard" jdbcType="NVARCHAR" />
+    <result column="EmpType" property="emptype" jdbcType="NVARCHAR" />
+    <result column="SuperiorNo2" property="superiorno2" jdbcType="NVARCHAR" />
+    <result column="Phone" property="phone" jdbcType="NVARCHAR" />
+    <result column="Email" property="email" jdbcType="NVARCHAR" />
+    <result column="NationName" property="nationname" jdbcType="NVARCHAR" />
+    <result column="PoliticFace" property="politicface" jdbcType="NVARCHAR" />
+    <result column="GraduateSchool" property="graduateschool" jdbcType="NVARCHAR" />
+    <result column="MajorSubject" property="majorsubject" jdbcType="NVARCHAR" />
+    <result column="SexName" property="sexname" jdbcType="NVARCHAR" />
+    <result column="MarryStatus" property="marrystatus" jdbcType="NVARCHAR" />
+    <result column="ExpireDate" property="expiredate" jdbcType="TIMESTAMP" />
+    <result column="LeaveReason" property="leavereason" jdbcType="NVARCHAR" />
+    <result column="LeaveType" property="leavetype" jdbcType="NVARCHAR" />
+    <result column="LeaveTypeName" property="leavetypename" jdbcType="NVARCHAR" />
+     <result column="HolderStatus" property="holderstatus" jdbcType="VARCHAR" />
+    <result column="WarningName" property="warningname" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="LoginPassword" property="loginpassword" jdbcType="NVARCHAR" />
+    <result column="RoleID" property="roleid" jdbcType="INTEGER" />
+    <result column="ImgUrl" property="imgurl" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HolderNo, HolderName, DepartmentNo, CompanyName, HolderCard, LoginPassword, IDCode, 
+    Birthday, StartDate, NativePlace, MaxEducation, TitleNo, BankCard, EmpType, SuperiorNo2, 
+    Phone, Email, NationName, PoliticFace, GraduateSchool, MajorSubject, SexName, MarryStatus, 
+    ExpireDate, LeaveReason, LeaveType,LeaveTypeName, HolderStatus, WarningName, CreatePerson, 
+    CreateDate, UpdatePerson, UpdateDate, DelPerson, DelDate, Deleted,RoleID
+  </sql>
+  
+  <!-- 通过工号查人是否存在 -->
+  <select id="queryDepartureByHolder" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select HolderNo,HolderName from DepartureData 
+      where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 通过身份证号查询人是否存在 -->
+  <select id="queryDepartureByIDCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select HolderNo,HolderName,LeaveType,LeaveReason,ExpireDate from DepartureData 
+     where IDCode=#{idcode,jdbcType=NVARCHAR}
+  </select>
+  
+  <!-- 通过主键查询实体信息 -->
+   <select id="queryDepartureByHolderNo" resultType="Map" parameterType="java.lang.String" >
+   select h.holderno,h.holdername,d.departmentname,t.titlename,h.emptype,
+h.holdercard,h.idcode,h.sexname,h.nationname, convert(varchar(10),h.birthday,23) birthday,
+h.superiorno2,h.nativeplace,convert(varchar(10),h.startdate,23) startdate,h.bankcard,h.phone,
+h.email,h.politicface,h.maxeducation,h.graduateschool,h.majorsubject,h.marrystatus,
+h.loginpassword,h.holderstatus,r.name rolename,h.warningname 
+from (select holderno,holdername,sexname,departmentno,titleno,emptype,holdercard,
+idcode,nationname,birthday,superiorno2,nativeplace,startdate,
+bankcard,phone,email,politicface,maxeducation,graduateschool,majorsubject,marrystatus,
+loginpassword,holderstatus,roleid,warningname from DepartureData 
+where holderno=#{holderno,jdbcType=NVARCHAR})h 
+left join DepartmentData d on d.DepartmentNo=h.departmentno
+left join TitleData t on t.TitleNo=h.titleno
+left join ACL_Roles r on r.ID=h.roleid
+  </select>
+  
+  <!-- 查询离职资料库信息   管理员或有权限之人 -->
+  <select id="queryDepartureList" resultType="Map">
+   select h.holderno,h.holdername,h.sexname,
+(select DepartmentName from DepartmentData where 
+DepartmentNo=substring(h.departmentno,1,3)) companyname,
+d.departmentname,t.titlename,h.emptype,h.holdercard,h.idcode,
+convert(varchar(10),h.startdate,23) startdate,r.name rolename 
+from (select holderno,holdername,sexname,departmentno,titleno,emptype,holdercard,
+idcode,startdate,roleid from DepartureData where departmentno in 
+ <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+     #{item}
+ </foreach> 
+  <if test="departmentno != null and departmentno!='' " >
+       and Departmentno =#{departmentno,jdbcType=VARCHAR}
+   </if>
+ <if test="holderno!=null and holderno!=''">
+    and HolderNo=#{holderno,jdbcType=NVARCHAR}
+ </if>
+  <if test="holdername != null and holdername!=''" >
+        and HolderName like '%'+#{holdername}+'%'
+  </if>
+)h 
+left join DepartmentData d on d.DepartmentNo=h.departmentno
+left join TitleData t on t.TitleNo=h.titleno
+left join ACL_Roles r on r.ID=h.roleid
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from DepartureData
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DepartureData
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.xr.entity.DepartureData" >
+    insert into DepartureData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="departmentno != null" >
+        DepartmentNo,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="holdercard != null" >
+        HolderCard,
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassword,
+      </if>
+      <if test="idcode != null" >
+        IDCode,
+      </if>
+      <if test="birthday != null" >
+        Birthday,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="nativeplace != null" >
+        NativePlace,
+      </if>
+      <if test="maxeducation != null" >
+        MaxEducation,
+      </if>
+      <if test="titleno != null" >
+        TitleNo,
+      </if>
+      <if test="bankcard != null" >
+        BankCard,
+      </if>
+      <if test="emptype != null" >
+        EmpType,
+      </if>
+      <if test="superiorno2 != null" >
+        SuperiorNo2,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="nationname != null" >
+        NationName,
+      </if>
+      <if test="politicface != null" >
+        PoliticFace,
+      </if>
+      <if test="graduateschool != null" >
+        GraduateSchool,
+      </if>
+      <if test="majorsubject != null" >
+        MajorSubject,
+      </if>
+      <if test="sexname != null" >
+        SexName,
+      </if>
+      <if test="marrystatus != null" >
+        MarryStatus,
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate,
+      </if>
+      <if test="leavereason != null" >
+        LeaveReason,
+      </if>
+      <if test="leavetype != null" >
+        LeaveType,
+      </if>
+       <if test="leavetypename != null" >
+        LeaveTypeName,
+      </if>
+       <if test="holderstatus != null" >
+        HolderStatus,
+      </if>
+      <if test="roleid != null" >
+        RoleID,
+      </if>
+      <if test="warningname != null" >
+        WarningName,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="departmentno != null" >
+        #{departmentno,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdercard != null" >
+        #{holdercard,jdbcType=NVARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        #{loginpassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nativeplace != null" >
+        #{nativeplace,jdbcType=NVARCHAR},
+      </if>
+      <if test="maxeducation != null" >
+        #{maxeducation,jdbcType=NVARCHAR},
+      </if>
+      <if test="titleno != null" >
+        #{titleno,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        #{bankcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="emptype != null" >
+        #{emptype,jdbcType=NVARCHAR},
+      </if>
+      <if test="superiorno2 != null" >
+        #{superiorno2,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="nationname != null" >
+        #{nationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="politicface != null" >
+        #{politicface,jdbcType=NVARCHAR},
+      </if>
+      <if test="graduateschool != null" >
+        #{graduateschool,jdbcType=NVARCHAR},
+      </if>
+      <if test="majorsubject != null" >
+        #{majorsubject,jdbcType=NVARCHAR},
+      </if>
+      <if test="sexname != null" >
+        #{sexname,jdbcType=NVARCHAR},
+      </if>
+      <if test="marrystatus != null" >
+        #{marrystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="expiredate != null" >
+        #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavereason != null" >
+        #{leavereason,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetype != null" >
+        #{leavetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetypename != null" >
+        #{leavetypename,jdbcType=NVARCHAR},
+      </if>
+       <if test="holderstatus != null" >
+        #{holderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="warningname != null" >
+        #{warningname,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        GETDATE(),
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        GETDATE(),
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+</mapper>

@@ -1,0 +1,11 @@
+/* 去掉时间插件的秒选项 */
+.laydate-time-list{
+	padding-bottom:0;
+	overflow:hidden
+}
+.laydate-time-list>li{
+	width:50%!important;
+}
+.laydate-time-list>li:last-child {
+	display: none;
+}

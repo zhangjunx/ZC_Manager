@@ -1,0 +1,299 @@
+$(function(){
+	initTable();
+});
+
+//点击设备技术规范
+$(document).on("click",".fileImg",function(){
+	var path=$(this).attr("data-path");
+	layer.confirm("设备技术规范",{
+		title:"提示",
+		btn:["下载","预览"],	
+		yes:function(index,layero){
+			layer.close(index);
+			var form = $('<form method="GET" action="' + url+"/zcFileManager/downLoadFile?path="+path+'"><input type = "hidden" name = "path" value="'+path+'"> </form>');
+	        form.append($('<input type="hidden">'));
+	        $('body').append(form);
+	        form.submit();
+		},
+		btn2:function(index,layero){
+			layer.close(index);
+			var i=layer.load(2);
+			$.ajax({
+				url:url+"/zcFileManager/viewFileOnLine",
+				type:"post",
+				data:{"path":path},
+				success:function(data){
+					layer.close(i);
+					if(data.flag){
+					  layer.open({
+					        type : 2,
+					        title : '<span class="layer-title-move-text">文件预览</span>',
+					        shadeClose : true,
+					        move : '.layer-title-move-text',
+					        shade : false,
+					        resize : true,
+					        maxmin : true, // 开启最大化最小化按钮
+					        area : ['90%', '92%'],
+					        content : data.result
+					    });
+					}else{
+						layer.msg(data.reason,{time:2000});
+					}
+				},
+				error:function(){
+					layer.close(i);
+				}
+			})
+		}
+	})
+	
+})
+
+//初始化表格
+function initTable(){
+	layui.use('table', function(){
+		  var table = layui.table;
+		  table.render({
+		    elem: '#test',
+		    url:url+'/zcInStore/getInStoreGoodsRecord',
+		    where: {
+		    	inStoreID: getUrlParam("fid") 
+		      },
+		      request:{
+					pageName:"curpage",
+					limitName:"pagesize"
+				},
+		    parseData: function(res){ //res 即为原始返回的数据
+		    	console.log(res)
+		        return {
+		          "code": res.flag==true?"0":"", //解析接口状态
+		          "msg": res.reason, //解析提示文本
+		          "count": res.count, //解析数据长度
+		          "data": res.result //解析数据列表
+		        };
+		      },
+		    cols: [[//标题栏
+		      {field:'bill', width:200 ,title: '入库单号', },
+		      {field:'goodsType', width:150 ,title: '物品类别', },
+		      {field:'goodsName', width:150 , title: '物品名称'},
+		      {field:'labelCode', width:250 ,title: '物品RFID标签'},
+		      {field:'model',width:100,  title: '型号'},
+		      {field:'brand', width:100, title: '品牌'},
+		      //{field:'specs', width:80, title: '规格'},
+		      //{field:'size', width:80, title: '尺寸'},
+		      {field:'filePath', width:150, title: '设备技术规范',templet:function(d){
+		    	  var html="";
+		    	  if(d.filePath == undefined || d.filePath == ""){
+		    		  return "";
+		    	  }else if(d.filePath.indexOf(";") == -1){
+		    		  return "<img src='img/file.png' class='fileImg' data-path='"+d.filePath+"' style='width:30px;cursor:pointer'>"
+		    	  }else{
+		    		  var patharr=d.filePath.split(";");
+		    		  for(var item of patharr){
+		    			  html+="<img src='img/file.png' class='fileImg' data-path='"+item+"' style='width:30px;cursor:pointer'>";
+		    		  }
+		    		  return html;
+		    	  }
+		      }},
+		      {field:'imagePath', width:100, title: '图片',templet:function(d){
+		    	  if(d.imagePath!=undefined&&d.imagePath!=""){
+		    		  if(d.imagePath.indexOf("ZC_Manager")!=-1){
+		    			  return "<img src="+d.imagePath+" style='width:60px'>";
+		    		  }else{
+		    			  return "";
+		    		  }
+		    	  }else{
+		    		  return "";
+		    	  }
+		      }},
+		      {field:'inStoreDate',width:150 , title: '入库日期',templet: function(d){
+		          return timestampToTime(d.inStoreDate);
+		      }
+		      },
+		      //{field:'storeName', width:100 ,title: '入库仓库'},
+		      //{field:'shelf', width:120,title: '存放货架'},
+		      {field:'supplierName', width:100 ,title: '供应商'},
+		      {field:'projectName', width:100 ,title: '项目名称'},
+		      //{field:'manufacturerName', width:100 ,title: '制造商'},
+		      {fixed:'right', title:'操作',width:82, toolbar: '#barDemo'}
+		      
+//		      {field:'useDate', width:100 ,title: '投运时间',templet: function(d){
+//		          return timestampToTime(d.useDate);
+//		      }},
+//		      {field:'retireDate',width:100 , title: '退役时间',templet: function(d){
+//		          return timestampToTime(d.retireDate);
+//		      }},
+//		      {field:'shopType',width:100 , title: '采购方式'},
+//		      {field:'shopNo',width:150 , title: '采购合同编号'},
+//		      {field:'shopDate', width:150 ,title: '采购日期',templet: function(d){
+//		          return timestampToTime(d.shopDate);
+//		      }},
+//		      {field:'endDate',width:150 , title: '售后到期日期',templet: function(d){
+//		          return timestampToTime(d.endDate);
+//		      }},
+//		      {field:'goodsSn', width:150 ,title: '出厂序列号'},
+//		      {field:'parm', width:150 ,title: '参数及配置'},
+//		      {field:'remark', width:150 ,title: '备注'},	
+		    ]],
+		    page:true
+		  });
+		//监听行单击事件
+		table.on('row(demo)', function(obj){
+			 $(".layui-table-body tr ").find("td").attr({"style":"background:#FFFFFF"});//其他tr恢复原样
+            $(obj.tr.selector).find("td").attr({"style":"background:lightblue"});//改变当前tr颜色
+		});
+		 
+		//监听行双击事件
+		table.on('rowDouble(demo)', function(obj){
+		  //obj 同上
+			var data=obj.data;
+			console.log(data);
+			watchDetail(data);
+		});
+			//监听工具条
+		  table.on('tool(demo)', function(obj){
+		    var data = obj.data;
+		    if(obj.event==="save"){
+		    	console.log(data)
+		    	watchDetail(data);
+		    }
+		});
+    });
+}
+function  watchDetail(data){
+	var supplierName=data.supplierName==undefined?"":data.supplierName;
+	var useDate=data.useDate==undefined?"":data.useDate;
+	useDate=timestampToTime(useDate);
+	var retireDate=data.retireDate==undefined?"":data.retireDate;
+	retireDate=timestampToTime(retireDate);
+	var shopType=data.shopType==undefined?"":data.shopType;
+	var shopNo=data.shopNo==undefined?"":data.shopNo;
+	var shopDate=data.shopDate==undefined?"":data.shopDate;
+	shopDate=timestampToTime(shopDate);
+	var endDate=data.endDate==undefined?"":data.endDate;
+	endDate=timestampToTime(endDate);
+	var goodsSn=data.goodsSn==undefined?"":data.goodsSn;
+	var param=data.parm==undefined?"":data.parm;
+	var remark=data.remark==undefined?"":data.remark;
+	var labelCode=data.labelCode==undefined?"":data.labelCode;
+	var specs=data.specs==undefined?"":data.specs;
+	var size=data.size==undefined?"":data.size;
+	var storeName=data.storeName==undefined?"":data.storeName;
+	var shelf=data.shelf==undefined?"":data.shelf;
+	var manufacturerName=data.manufacturerName==undefined?"":data.manufacturerName;
+	
+	var bill=data.bill==undefined?"":data.bill;
+	var goodsType=data.goodsType==undefined?"":data.goodsType;
+	var goodsName=data.goodsName==undefined?"":data.goodsName;
+	var labelCode=data.labelCode==undefined?"":data.labelCode;
+	var model=data.model==undefined?"":data.model;
+	var brand=data.brand==undefined?"":data.brand;
+	var filePath=data.filePath==undefined?"":data.filePath;
+	var imagePath=data.imagePath==undefined?"":data.imagePath;
+	var inStoreDate=data.inStoreDate==undefined?"":data.inStoreDate;
+	inStoreDate=timestampToTime(inStoreDate);
+	var supplierName=data.supplierName==undefined?"":data.supplierName;
+	var projectName=data.projectName==undefined?"":data.projectName;
+
+	 var html="";
+	  if(filePath == undefined || filePath == ""){
+		  html="";
+	  }else if(filePath.indexOf(";") == -1){
+		  html="<img src='img/file.png' class='fileImg' data-path='"+filePath+"' style='width:30px;cursor:pointer'>"
+	  }else{
+		  var patharr=filePath.split(";");
+		  for(var item of patharr){
+			  html+="<img src='img/file.png' class='fileImg' data-path='"+item+"' style='width:30px;cursor:pointer'>";
+		  }
+	  }
+	  var str="";
+	  if(imagePath.indexOf("ZC_Manager")!=-1){
+		  str="<img src="+imagePath+" style='width:60px'>";
+	  }
+	  $("#imagePath").empty();
+	  $("#filePath").empty();
+	  $("#imagePath").append(str);
+	  $("#filePath").append(html);
+	$("#bill").val(bill);
+	$("#goodsType").val(goodsType);
+	$("#goodsName").val(goodsName);
+	$("#labelCode").val(labelCode);
+	$("#model").val(model);
+	$("#brand").val(brand);
+	$("#inStoreDate").val(inStoreDate);
+	$("#supplierName").val(supplierName);
+	$("#projectName").val(projectName);
+	
+	
+	$("#shelf").val(shelf);
+	$("#storeName").val(storeName);
+	$("#size").val(size);
+	$("#specs").val(specs);
+	$("#manufacturerName").val(manufacturerName);
+	$("#useDate1").val(useDate);
+	$("#retireDate1").val(retireDate);
+	$("#shopType").val(shopType);
+	$("#shopNo").val(shopNo);
+	$("#shopDate").val(shopDate);
+	$("#endDate").val(endDate);
+	$("#goodsSn").val(goodsSn);
+	$("#remark1").val(remark);
+	$("#param").val(param);
+	layer.open({
+		type:1,
+		title:"详情",
+		content:$("#inventoryDetails"),
+		area:["60%","70%"],
+		cancel:function(index){
+			layer.close(index);
+			$("#inventoryDetails").hide();
+		}
+	})
+}
+
+
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]); return null;
+}
+function timestampToTime(timestamp) {
+	if(timestamp==""){
+		return "";
+	}
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}
+
+$("#printInStorage").click(function(){
+	printInStorage();
+})
+function printInStorage(){
+	$.ajax({
+		url:url+"/zcInStore/printIntBill",
+		type:"post",
+		data:{"bill":getUrlParam("bill")},
+		success:function(data){
+			console.log(data);
+			if(data.flag){
+				createPrintTable(data.result);
+			}
+		}
+	})
+}
+
+function createPrintTable(res){
+	$("#printDanJu tr:gt(0)").empty();
+	for(var item of res){
+		var $tr=$("<tr><td>"+item.bill+"</td><td>"+item.typeName+"</td><td>"+item.goodsName+"</td><td>"+item.model+"</td>" +
+				"<td>"+item.brand+"</td><td>"+item.specs+"</td><td>"+item.size+"</td><td>"+item.sumval+"</td><td>"+item.inDate+"</td></tr>");
+		$("#printDanJu").append($tr);
+	}
+	printTable('printDanJu');
+}

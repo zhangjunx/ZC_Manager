@@ -1,0 +1,1017 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DeviceUnitMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DeviceUnit" >
+    <id column="DeviceNo" property="deviceno" jdbcType="SMALLINT" />
+    <result column="DeviceName" property="devicename" jdbcType="VARCHAR" />
+    <result column="MapNo" property="mapno" jdbcType="SMALLINT" />
+    <result column="DeviceEnabled" property="deviceenabled" jdbcType="SMALLINT" />
+    <result column="DeviceID" property="deviceid" jdbcType="SMALLINT" />
+    <result column="DeviceSERIAL" property="deviceserial" jdbcType="VARCHAR" />
+    <result column="DeviceTypeNo" property="devicetypeno" jdbcType="SMALLINT" />
+    <result column="DevicePortNo" property="deviceportno" jdbcType="SMALLINT" />
+    <result column="DeviceModeNo" property="devicemodeno" jdbcType="SMALLINT" />
+    <result column="Site" property="site" jdbcType="VARCHAR" />
+    <result column="ShowLeft" property="showleft" jdbcType="SMALLINT" />
+    <result column="ShowTop" property="showtop" jdbcType="SMALLINT" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="APBEvenMove" property="apbevenmove" jdbcType="SMALLINT" />
+    <result column="APBGroupNo" property="apbgroupno" jdbcType="SMALLINT" />
+    <result column="ControlType" property="controltype" jdbcType="VARCHAR" />
+    <result column="ControlStatus" property="controlstatus" jdbcType="VARCHAR" />
+    <result column="MaxDoorNum" property="maxdoornum" jdbcType="INTEGER" />
+    <result column="MaxCardNum" property="maxcardnum" jdbcType="INTEGER" />
+    <result column="SafePwd1" property="safepwd1" jdbcType="VARCHAR" />
+    <result column="SafePwd2" property="safepwd2" jdbcType="VARCHAR" />
+    <result column="SafePwd3" property="safepwd3" jdbcType="VARCHAR" />
+    <result column="SafePwd4" property="safepwd4" jdbcType="VARCHAR" />
+    <result column="MainCardID1" property="maincardid1" jdbcType="VARCHAR" />
+    <result column="MainCardID2" property="maincardid2" jdbcType="VARCHAR" />
+    <result column="MainCardID3" property="maincardid3" jdbcType="VARCHAR" />
+    <result column="MainCardPwd1" property="maincardpwd1" jdbcType="VARCHAR" />
+    <result column="MainCardPwd2" property="maincardpwd2" jdbcType="VARCHAR" />
+    <result column="MainCardPwd3" property="maincardpwd3" jdbcType="VARCHAR" />
+    <result column="EngiCardID1" property="engicardid1" jdbcType="VARCHAR" />
+    <result column="EngiCardID2" property="engicardid2" jdbcType="VARCHAR" />
+    <result column="EngiCardID3" property="engicardid3" jdbcType="VARCHAR" />
+    <result column="EngiCardPwd1" property="engicardpwd1" jdbcType="VARCHAR" />
+    <result column="EngiCardPwd2" property="engicardpwd2" jdbcType="VARCHAR" />
+    <result column="EngiCardPwd3" property="engicardpwd3" jdbcType="VARCHAR" />
+    <result column="OperCardID1" property="opercardid1" jdbcType="VARCHAR" />
+    <result column="OperCardID2" property="opercardid2" jdbcType="VARCHAR" />
+    <result column="OperCardID3" property="opercardid3" jdbcType="VARCHAR" />
+    <result column="OperCardID4" property="opercardid4" jdbcType="VARCHAR" />
+    <result column="OperCardID5" property="opercardid5" jdbcType="VARCHAR" />
+    <result column="OperCardID6" property="opercardid6" jdbcType="VARCHAR" />
+    <result column="OperCardID7" property="opercardid7" jdbcType="VARCHAR" />
+    <result column="OperCardID8" property="opercardid8" jdbcType="VARCHAR" />
+    <result column="OperCardPwd1" property="opercardpwd1" jdbcType="VARCHAR" />
+    <result column="OperCardPwd2" property="opercardpwd2" jdbcType="VARCHAR" />
+    <result column="OperCardPwd3" property="opercardpwd3" jdbcType="VARCHAR" />
+    <result column="OperCardPwd4" property="opercardpwd4" jdbcType="VARCHAR" />
+    <result column="OperCardPwd5" property="opercardpwd5" jdbcType="VARCHAR" />
+    <result column="OperCardPwd6" property="opercardpwd6" jdbcType="VARCHAR" />
+    <result column="OperCardPwd7" property="opercardpwd7" jdbcType="VARCHAR" />
+    <result column="OperCardPwd8" property="opercardpwd8" jdbcType="VARCHAR" />
+    <result column="ControlVer" property="controlver" jdbcType="VARCHAR" />
+    <result column="DI0_Name" property="di0Name" jdbcType="VARCHAR" />
+    <result column="DI0_Action" property="di0Action" jdbcType="VARCHAR" />
+    <result column="DI1_Name" property="di1Name" jdbcType="VARCHAR" />
+    <result column="DI1_Action" property="di1Action" jdbcType="VARCHAR" />
+    <result column="DI2_Name" property="di2Name" jdbcType="VARCHAR" />
+    <result column="DI2_Action" property="di2Action" jdbcType="VARCHAR" />
+    <result column="DI3_Name" property="di3Name" jdbcType="VARCHAR" />
+    <result column="DI3_Action" property="di3Action" jdbcType="VARCHAR" />
+    <result column="ControlBit" property="controlbit" jdbcType="INTEGER" />
+    <result column="CommState" property="commstate" jdbcType="VARCHAR" />
+    <result column="DeviceTypeCode" property="devicetypecode" jdbcType="NVARCHAR" />
+    <result column="ManufacturerCode" property="manufacturercode" jdbcType="NVARCHAR" />
+    <result column="IP" property="ip" jdbcType="NVARCHAR" />
+    <result column="Port" property="port" jdbcType="NVARCHAR" />
+    <result column="UserName" property="username" jdbcType="NVARCHAR" />
+    <result column="PassWord" property="password" jdbcType="NVARCHAR" />
+    <result column="IfElevator" property="ifelevator" jdbcType="NCHAR" />
+    <result column="Enabled" property="enabled" jdbcType="NCHAR" />
+    <result column="AreaID" property="areaid" jdbcType="NVARCHAR" />
+    <result column="UpdateStatue" property="updatestatue" jdbcType="NVARCHAR" />
+    <result column="ControlSN" property="controlsn" jdbcType="NVARCHAR" />
+    <result column="MaxIONum" property="maxionum" jdbcType="NVARCHAR" />
+    <result column="NetStatus" property="netstatus" jdbcType="NVARCHAR" />
+    <result column="ConnectStatus" property="connectstatus" jdbcType="NVARCHAR" />
+    <result column="InstallLocation" property="installlocation" jdbcType="NVARCHAR" />
+    <result column="DeviceCode" property="devicecode" jdbcType="NVARCHAR" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+    <result column="UseStop" property="usestop" jdbcType="INTEGER" />
+    <result column="ParkType" property="parktype" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DeviceNo, DeviceName, MapNo, DeviceEnabled, DeviceID, DeviceSERIAL, DeviceTypeNo, 
+    DevicePortNo, DeviceModeNo, Site, ShowLeft, ShowTop, Description, APBEvenMove, APBGroupNo, 
+    ControlType, ControlStatus, MaxDoorNum, MaxCardNum, SafePwd1, SafePwd2, SafePwd3, 
+    SafePwd4, MainCardID1, MainCardID2, MainCardID3, MainCardPwd1, MainCardPwd2, MainCardPwd3, 
+    EngiCardID1, EngiCardID2, EngiCardID3, EngiCardPwd1, EngiCardPwd2, EngiCardPwd3, 
+    OperCardID1, OperCardID2, OperCardID3, OperCardID4, OperCardID5, OperCardID6, OperCardID7, 
+    OperCardID8, OperCardPwd1, OperCardPwd2, OperCardPwd3, OperCardPwd4, OperCardPwd5, 
+    OperCardPwd6, OperCardPwd7, OperCardPwd8, ControlVer, DI0_Name, DI0_Action, DI1_Name, 
+    DI1_Action, DI2_Name, DI2_Action, DI3_Name, DI3_Action, ControlBit, CommState, DeviceTypeCode, 
+    ManufacturerCode, IP, Port, UserName, PassWord, IfElevator, Enabled, AreaID, UpdateStatue, 
+    ControlSN, MaxIONum, NetStatus, ConnectStatus, InstallLocation, DeviceCode, NetNode, 
+    UseStop, ParkType
+  </sql>
+  
+  <!--车辆管理  权限设置时   查询车牌识别摄像机  -->
+  <select id="queryLPRDeviceList" resultMap="BaseResultMap">
+       select DeviceNo,DeviceName,DeviceTypeCode
+        from IOTPlatForm.dbo.DeviceUnit 
+        where DeviceTypeCode='30'
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from DeviceUnit
+    where DeviceNo = #{deviceno,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from DeviceUnit
+    where DeviceNo = #{deviceno,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DeviceUnit" >
+    insert into DeviceUnit (DeviceNo, DeviceName, MapNo, 
+      DeviceEnabled, DeviceID, DeviceSERIAL, 
+      DeviceTypeNo, DevicePortNo, DeviceModeNo, 
+      Site, ShowLeft, ShowTop, 
+      Description, APBEvenMove, APBGroupNo, 
+      ControlType, ControlStatus, MaxDoorNum, 
+      MaxCardNum, SafePwd1, SafePwd2, 
+      SafePwd3, SafePwd4, MainCardID1, 
+      MainCardID2, MainCardID3, MainCardPwd1, 
+      MainCardPwd2, MainCardPwd3, EngiCardID1, 
+      EngiCardID2, EngiCardID3, EngiCardPwd1, 
+      EngiCardPwd2, EngiCardPwd3, OperCardID1, 
+      OperCardID2, OperCardID3, OperCardID4, 
+      OperCardID5, OperCardID6, OperCardID7, 
+      OperCardID8, OperCardPwd1, OperCardPwd2, 
+      OperCardPwd3, OperCardPwd4, OperCardPwd5, 
+      OperCardPwd6, OperCardPwd7, OperCardPwd8, 
+      ControlVer, DI0_Name, DI0_Action, 
+      DI1_Name, DI1_Action, DI2_Name, 
+      DI2_Action, DI3_Name, DI3_Action, 
+      ControlBit, CommState, DeviceTypeCode, 
+      ManufacturerCode, IP, Port, 
+      UserName, PassWord, IfElevator, 
+      Enabled, AreaID, UpdateStatue, 
+      ControlSN, MaxIONum, NetStatus, 
+      ConnectStatus, InstallLocation, DeviceCode, 
+      NetNode, UseStop, ParkType
+      )
+    values (#{deviceno,jdbcType=SMALLINT}, #{devicename,jdbcType=VARCHAR}, #{mapno,jdbcType=SMALLINT}, 
+      #{deviceenabled,jdbcType=SMALLINT}, #{deviceid,jdbcType=SMALLINT}, #{deviceserial,jdbcType=VARCHAR}, 
+      #{devicetypeno,jdbcType=SMALLINT}, #{deviceportno,jdbcType=SMALLINT}, #{devicemodeno,jdbcType=SMALLINT}, 
+      #{site,jdbcType=VARCHAR}, #{showleft,jdbcType=SMALLINT}, #{showtop,jdbcType=SMALLINT}, 
+      #{description,jdbcType=VARCHAR}, #{apbevenmove,jdbcType=SMALLINT}, #{apbgroupno,jdbcType=SMALLINT}, 
+      #{controltype,jdbcType=VARCHAR}, #{controlstatus,jdbcType=VARCHAR}, #{maxdoornum,jdbcType=INTEGER}, 
+      #{maxcardnum,jdbcType=INTEGER}, #{safepwd1,jdbcType=VARCHAR}, #{safepwd2,jdbcType=VARCHAR}, 
+      #{safepwd3,jdbcType=VARCHAR}, #{safepwd4,jdbcType=VARCHAR}, #{maincardid1,jdbcType=VARCHAR}, 
+      #{maincardid2,jdbcType=VARCHAR}, #{maincardid3,jdbcType=VARCHAR}, #{maincardpwd1,jdbcType=VARCHAR}, 
+      #{maincardpwd2,jdbcType=VARCHAR}, #{maincardpwd3,jdbcType=VARCHAR}, #{engicardid1,jdbcType=VARCHAR}, 
+      #{engicardid2,jdbcType=VARCHAR}, #{engicardid3,jdbcType=VARCHAR}, #{engicardpwd1,jdbcType=VARCHAR}, 
+      #{engicardpwd2,jdbcType=VARCHAR}, #{engicardpwd3,jdbcType=VARCHAR}, #{opercardid1,jdbcType=VARCHAR}, 
+      #{opercardid2,jdbcType=VARCHAR}, #{opercardid3,jdbcType=VARCHAR}, #{opercardid4,jdbcType=VARCHAR}, 
+      #{opercardid5,jdbcType=VARCHAR}, #{opercardid6,jdbcType=VARCHAR}, #{opercardid7,jdbcType=VARCHAR}, 
+      #{opercardid8,jdbcType=VARCHAR}, #{opercardpwd1,jdbcType=VARCHAR}, #{opercardpwd2,jdbcType=VARCHAR}, 
+      #{opercardpwd3,jdbcType=VARCHAR}, #{opercardpwd4,jdbcType=VARCHAR}, #{opercardpwd5,jdbcType=VARCHAR}, 
+      #{opercardpwd6,jdbcType=VARCHAR}, #{opercardpwd7,jdbcType=VARCHAR}, #{opercardpwd8,jdbcType=VARCHAR}, 
+      #{controlver,jdbcType=VARCHAR}, #{di0Name,jdbcType=VARCHAR}, #{di0Action,jdbcType=VARCHAR}, 
+      #{di1Name,jdbcType=VARCHAR}, #{di1Action,jdbcType=VARCHAR}, #{di2Name,jdbcType=VARCHAR}, 
+      #{di2Action,jdbcType=VARCHAR}, #{di3Name,jdbcType=VARCHAR}, #{di3Action,jdbcType=VARCHAR}, 
+      #{controlbit,jdbcType=INTEGER}, #{commstate,jdbcType=VARCHAR}, #{devicetypecode,jdbcType=NVARCHAR}, 
+      #{manufacturercode,jdbcType=NVARCHAR}, #{ip,jdbcType=NVARCHAR}, #{port,jdbcType=NVARCHAR}, 
+      #{username,jdbcType=NVARCHAR}, #{password,jdbcType=NVARCHAR}, #{ifelevator,jdbcType=NCHAR}, 
+      #{enabled,jdbcType=NCHAR}, #{areaid,jdbcType=NVARCHAR}, #{updatestatue,jdbcType=NVARCHAR}, 
+      #{controlsn,jdbcType=NVARCHAR}, #{maxionum,jdbcType=NVARCHAR}, #{netstatus,jdbcType=NVARCHAR}, 
+      #{connectstatus,jdbcType=NVARCHAR}, #{installlocation,jdbcType=NVARCHAR}, #{devicecode,jdbcType=NVARCHAR}, 
+      #{netnode,jdbcType=NVARCHAR}, #{usestop,jdbcType=INTEGER}, #{parktype,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DeviceUnit" >
+    insert into DeviceUnit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="devicename != null" >
+        DeviceName,
+      </if>
+      <if test="mapno != null" >
+        MapNo,
+      </if>
+      <if test="deviceenabled != null" >
+        DeviceEnabled,
+      </if>
+      <if test="deviceid != null" >
+        DeviceID,
+      </if>
+      <if test="deviceserial != null" >
+        DeviceSERIAL,
+      </if>
+      <if test="devicetypeno != null" >
+        DeviceTypeNo,
+      </if>
+      <if test="deviceportno != null" >
+        DevicePortNo,
+      </if>
+      <if test="devicemodeno != null" >
+        DeviceModeNo,
+      </if>
+      <if test="site != null" >
+        Site,
+      </if>
+      <if test="showleft != null" >
+        ShowLeft,
+      </if>
+      <if test="showtop != null" >
+        ShowTop,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="apbevenmove != null" >
+        APBEvenMove,
+      </if>
+      <if test="apbgroupno != null" >
+        APBGroupNo,
+      </if>
+      <if test="controltype != null" >
+        ControlType,
+      </if>
+      <if test="controlstatus != null" >
+        ControlStatus,
+      </if>
+      <if test="maxdoornum != null" >
+        MaxDoorNum,
+      </if>
+      <if test="maxcardnum != null" >
+        MaxCardNum,
+      </if>
+      <if test="safepwd1 != null" >
+        SafePwd1,
+      </if>
+      <if test="safepwd2 != null" >
+        SafePwd2,
+      </if>
+      <if test="safepwd3 != null" >
+        SafePwd3,
+      </if>
+      <if test="safepwd4 != null" >
+        SafePwd4,
+      </if>
+      <if test="maincardid1 != null" >
+        MainCardID1,
+      </if>
+      <if test="maincardid2 != null" >
+        MainCardID2,
+      </if>
+      <if test="maincardid3 != null" >
+        MainCardID3,
+      </if>
+      <if test="maincardpwd1 != null" >
+        MainCardPwd1,
+      </if>
+      <if test="maincardpwd2 != null" >
+        MainCardPwd2,
+      </if>
+      <if test="maincardpwd3 != null" >
+        MainCardPwd3,
+      </if>
+      <if test="engicardid1 != null" >
+        EngiCardID1,
+      </if>
+      <if test="engicardid2 != null" >
+        EngiCardID2,
+      </if>
+      <if test="engicardid3 != null" >
+        EngiCardID3,
+      </if>
+      <if test="engicardpwd1 != null" >
+        EngiCardPwd1,
+      </if>
+      <if test="engicardpwd2 != null" >
+        EngiCardPwd2,
+      </if>
+      <if test="engicardpwd3 != null" >
+        EngiCardPwd3,
+      </if>
+      <if test="opercardid1 != null" >
+        OperCardID1,
+      </if>
+      <if test="opercardid2 != null" >
+        OperCardID2,
+      </if>
+      <if test="opercardid3 != null" >
+        OperCardID3,
+      </if>
+      <if test="opercardid4 != null" >
+        OperCardID4,
+      </if>
+      <if test="opercardid5 != null" >
+        OperCardID5,
+      </if>
+      <if test="opercardid6 != null" >
+        OperCardID6,
+      </if>
+      <if test="opercardid7 != null" >
+        OperCardID7,
+      </if>
+      <if test="opercardid8 != null" >
+        OperCardID8,
+      </if>
+      <if test="opercardpwd1 != null" >
+        OperCardPwd1,
+      </if>
+      <if test="opercardpwd2 != null" >
+        OperCardPwd2,
+      </if>
+      <if test="opercardpwd3 != null" >
+        OperCardPwd3,
+      </if>
+      <if test="opercardpwd4 != null" >
+        OperCardPwd4,
+      </if>
+      <if test="opercardpwd5 != null" >
+        OperCardPwd5,
+      </if>
+      <if test="opercardpwd6 != null" >
+        OperCardPwd6,
+      </if>
+      <if test="opercardpwd7 != null" >
+        OperCardPwd7,
+      </if>
+      <if test="opercardpwd8 != null" >
+        OperCardPwd8,
+      </if>
+      <if test="controlver != null" >
+        ControlVer,
+      </if>
+      <if test="di0Name != null" >
+        DI0_Name,
+      </if>
+      <if test="di0Action != null" >
+        DI0_Action,
+      </if>
+      <if test="di1Name != null" >
+        DI1_Name,
+      </if>
+      <if test="di1Action != null" >
+        DI1_Action,
+      </if>
+      <if test="di2Name != null" >
+        DI2_Name,
+      </if>
+      <if test="di2Action != null" >
+        DI2_Action,
+      </if>
+      <if test="di3Name != null" >
+        DI3_Name,
+      </if>
+      <if test="di3Action != null" >
+        DI3_Action,
+      </if>
+      <if test="controlbit != null" >
+        ControlBit,
+      </if>
+      <if test="commstate != null" >
+        CommState,
+      </if>
+      <if test="devicetypecode != null" >
+        DeviceTypeCode,
+      </if>
+      <if test="manufacturercode != null" >
+        ManufacturerCode,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="port != null" >
+        Port,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="password != null" >
+        PassWord,
+      </if>
+      <if test="ifelevator != null" >
+        IfElevator,
+      </if>
+      <if test="enabled != null" >
+        Enabled,
+      </if>
+      <if test="areaid != null" >
+        AreaID,
+      </if>
+      <if test="updatestatue != null" >
+        UpdateStatue,
+      </if>
+      <if test="controlsn != null" >
+        ControlSN,
+      </if>
+      <if test="maxionum != null" >
+        MaxIONum,
+      </if>
+      <if test="netstatus != null" >
+        NetStatus,
+      </if>
+      <if test="connectstatus != null" >
+        ConnectStatus,
+      </if>
+      <if test="installlocation != null" >
+        InstallLocation,
+      </if>
+      <if test="devicecode != null" >
+        DeviceCode,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+      <if test="usestop != null" >
+        UseStop,
+      </if>
+      <if test="parktype != null" >
+        ParkType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="devicename != null" >
+        #{devicename,jdbcType=VARCHAR},
+      </if>
+      <if test="mapno != null" >
+        #{mapno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceenabled != null" >
+        #{deviceenabled,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceserial != null" >
+        #{deviceserial,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetypeno != null" >
+        #{devicetypeno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceportno != null" >
+        #{deviceportno,jdbcType=SMALLINT},
+      </if>
+      <if test="devicemodeno != null" >
+        #{devicemodeno,jdbcType=SMALLINT},
+      </if>
+      <if test="site != null" >
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="showleft != null" >
+        #{showleft,jdbcType=SMALLINT},
+      </if>
+      <if test="showtop != null" >
+        #{showtop,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="apbevenmove != null" >
+        #{apbevenmove,jdbcType=SMALLINT},
+      </if>
+      <if test="apbgroupno != null" >
+        #{apbgroupno,jdbcType=SMALLINT},
+      </if>
+      <if test="controltype != null" >
+        #{controltype,jdbcType=VARCHAR},
+      </if>
+      <if test="controlstatus != null" >
+        #{controlstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maxdoornum != null" >
+        #{maxdoornum,jdbcType=INTEGER},
+      </if>
+      <if test="maxcardnum != null" >
+        #{maxcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="safepwd1 != null" >
+        #{safepwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd2 != null" >
+        #{safepwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd3 != null" >
+        #{safepwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd4 != null" >
+        #{safepwd4,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid1 != null" >
+        #{maincardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid2 != null" >
+        #{maincardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid3 != null" >
+        #{maincardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd1 != null" >
+        #{maincardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd2 != null" >
+        #{maincardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd3 != null" >
+        #{maincardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid1 != null" >
+        #{engicardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid2 != null" >
+        #{engicardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid3 != null" >
+        #{engicardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd1 != null" >
+        #{engicardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd2 != null" >
+        #{engicardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd3 != null" >
+        #{engicardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid1 != null" >
+        #{opercardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid2 != null" >
+        #{opercardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid3 != null" >
+        #{opercardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid4 != null" >
+        #{opercardid4,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid5 != null" >
+        #{opercardid5,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid6 != null" >
+        #{opercardid6,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid7 != null" >
+        #{opercardid7,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid8 != null" >
+        #{opercardid8,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd1 != null" >
+        #{opercardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd2 != null" >
+        #{opercardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd3 != null" >
+        #{opercardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd4 != null" >
+        #{opercardpwd4,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd5 != null" >
+        #{opercardpwd5,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd6 != null" >
+        #{opercardpwd6,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd7 != null" >
+        #{opercardpwd7,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd8 != null" >
+        #{opercardpwd8,jdbcType=VARCHAR},
+      </if>
+      <if test="controlver != null" >
+        #{controlver,jdbcType=VARCHAR},
+      </if>
+      <if test="di0Name != null" >
+        #{di0Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di0Action != null" >
+        #{di0Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di1Name != null" >
+        #{di1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di1Action != null" >
+        #{di1Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di2Name != null" >
+        #{di2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di2Action != null" >
+        #{di2Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di3Name != null" >
+        #{di3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di3Action != null" >
+        #{di3Action,jdbcType=VARCHAR},
+      </if>
+      <if test="controlbit != null" >
+        #{controlbit,jdbcType=INTEGER},
+      </if>
+      <if test="commstate != null" >
+        #{commstate,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetypecode != null" >
+        #{devicetypecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="manufacturercode != null" >
+        #{manufacturercode,jdbcType=NVARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=NVARCHAR},
+      </if>
+      <if test="port != null" >
+        #{port,jdbcType=NVARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=NVARCHAR},
+      </if>
+      <if test="ifelevator != null" >
+        #{ifelevator,jdbcType=NCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=NCHAR},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatestatue != null" >
+        #{updatestatue,jdbcType=NVARCHAR},
+      </if>
+      <if test="controlsn != null" >
+        #{controlsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="maxionum != null" >
+        #{maxionum,jdbcType=NVARCHAR},
+      </if>
+      <if test="netstatus != null" >
+        #{netstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="connectstatus != null" >
+        #{connectstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="installlocation != null" >
+        #{installlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="devicecode != null" >
+        #{devicecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="usestop != null" >
+        #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="parktype != null" >
+        #{parktype,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DeviceUnit" >
+    update DeviceUnit
+    <set >
+      <if test="devicename != null" >
+        DeviceName = #{devicename,jdbcType=VARCHAR},
+      </if>
+      <if test="mapno != null" >
+        MapNo = #{mapno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceenabled != null" >
+        DeviceEnabled = #{deviceenabled,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceid != null" >
+        DeviceID = #{deviceid,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceserial != null" >
+        DeviceSERIAL = #{deviceserial,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetypeno != null" >
+        DeviceTypeNo = #{devicetypeno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceportno != null" >
+        DevicePortNo = #{deviceportno,jdbcType=SMALLINT},
+      </if>
+      <if test="devicemodeno != null" >
+        DeviceModeNo = #{devicemodeno,jdbcType=SMALLINT},
+      </if>
+      <if test="site != null" >
+        Site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="showleft != null" >
+        ShowLeft = #{showleft,jdbcType=SMALLINT},
+      </if>
+      <if test="showtop != null" >
+        ShowTop = #{showtop,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="apbevenmove != null" >
+        APBEvenMove = #{apbevenmove,jdbcType=SMALLINT},
+      </if>
+      <if test="apbgroupno != null" >
+        APBGroupNo = #{apbgroupno,jdbcType=SMALLINT},
+      </if>
+      <if test="controltype != null" >
+        ControlType = #{controltype,jdbcType=VARCHAR},
+      </if>
+      <if test="controlstatus != null" >
+        ControlStatus = #{controlstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="maxdoornum != null" >
+        MaxDoorNum = #{maxdoornum,jdbcType=INTEGER},
+      </if>
+      <if test="maxcardnum != null" >
+        MaxCardNum = #{maxcardnum,jdbcType=INTEGER},
+      </if>
+      <if test="safepwd1 != null" >
+        SafePwd1 = #{safepwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd2 != null" >
+        SafePwd2 = #{safepwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd3 != null" >
+        SafePwd3 = #{safepwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="safepwd4 != null" >
+        SafePwd4 = #{safepwd4,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid1 != null" >
+        MainCardID1 = #{maincardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid2 != null" >
+        MainCardID2 = #{maincardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardid3 != null" >
+        MainCardID3 = #{maincardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd1 != null" >
+        MainCardPwd1 = #{maincardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd2 != null" >
+        MainCardPwd2 = #{maincardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="maincardpwd3 != null" >
+        MainCardPwd3 = #{maincardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid1 != null" >
+        EngiCardID1 = #{engicardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid2 != null" >
+        EngiCardID2 = #{engicardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardid3 != null" >
+        EngiCardID3 = #{engicardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd1 != null" >
+        EngiCardPwd1 = #{engicardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd2 != null" >
+        EngiCardPwd2 = #{engicardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="engicardpwd3 != null" >
+        EngiCardPwd3 = #{engicardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid1 != null" >
+        OperCardID1 = #{opercardid1,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid2 != null" >
+        OperCardID2 = #{opercardid2,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid3 != null" >
+        OperCardID3 = #{opercardid3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid4 != null" >
+        OperCardID4 = #{opercardid4,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid5 != null" >
+        OperCardID5 = #{opercardid5,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid6 != null" >
+        OperCardID6 = #{opercardid6,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid7 != null" >
+        OperCardID7 = #{opercardid7,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardid8 != null" >
+        OperCardID8 = #{opercardid8,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd1 != null" >
+        OperCardPwd1 = #{opercardpwd1,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd2 != null" >
+        OperCardPwd2 = #{opercardpwd2,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd3 != null" >
+        OperCardPwd3 = #{opercardpwd3,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd4 != null" >
+        OperCardPwd4 = #{opercardpwd4,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd5 != null" >
+        OperCardPwd5 = #{opercardpwd5,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd6 != null" >
+        OperCardPwd6 = #{opercardpwd6,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd7 != null" >
+        OperCardPwd7 = #{opercardpwd7,jdbcType=VARCHAR},
+      </if>
+      <if test="opercardpwd8 != null" >
+        OperCardPwd8 = #{opercardpwd8,jdbcType=VARCHAR},
+      </if>
+      <if test="controlver != null" >
+        ControlVer = #{controlver,jdbcType=VARCHAR},
+      </if>
+      <if test="di0Name != null" >
+        DI0_Name = #{di0Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di0Action != null" >
+        DI0_Action = #{di0Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di1Name != null" >
+        DI1_Name = #{di1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di1Action != null" >
+        DI1_Action = #{di1Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di2Name != null" >
+        DI2_Name = #{di2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di2Action != null" >
+        DI2_Action = #{di2Action,jdbcType=VARCHAR},
+      </if>
+      <if test="di3Name != null" >
+        DI3_Name = #{di3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="di3Action != null" >
+        DI3_Action = #{di3Action,jdbcType=VARCHAR},
+      </if>
+      <if test="controlbit != null" >
+        ControlBit = #{controlbit,jdbcType=INTEGER},
+      </if>
+      <if test="commstate != null" >
+        CommState = #{commstate,jdbcType=VARCHAR},
+      </if>
+      <if test="devicetypecode != null" >
+        DeviceTypeCode = #{devicetypecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="manufacturercode != null" >
+        ManufacturerCode = #{manufacturercode,jdbcType=NVARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=NVARCHAR},
+      </if>
+      <if test="port != null" >
+        Port = #{port,jdbcType=NVARCHAR},
+      </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=NVARCHAR},
+      </if>
+      <if test="password != null" >
+        PassWord = #{password,jdbcType=NVARCHAR},
+      </if>
+      <if test="ifelevator != null" >
+        IfElevator = #{ifelevator,jdbcType=NCHAR},
+      </if>
+      <if test="enabled != null" >
+        Enabled = #{enabled,jdbcType=NCHAR},
+      </if>
+      <if test="areaid != null" >
+        AreaID = #{areaid,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatestatue != null" >
+        UpdateStatue = #{updatestatue,jdbcType=NVARCHAR},
+      </if>
+      <if test="controlsn != null" >
+        ControlSN = #{controlsn,jdbcType=NVARCHAR},
+      </if>
+      <if test="maxionum != null" >
+        MaxIONum = #{maxionum,jdbcType=NVARCHAR},
+      </if>
+      <if test="netstatus != null" >
+        NetStatus = #{netstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="connectstatus != null" >
+        ConnectStatus = #{connectstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="installlocation != null" >
+        InstallLocation = #{installlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="devicecode != null" >
+        DeviceCode = #{devicecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="usestop != null" >
+        UseStop = #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="parktype != null" >
+        ParkType = #{parktype,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DeviceNo = #{deviceno,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DeviceUnit" >
+    update DeviceUnit
+    set DeviceName = #{devicename,jdbcType=VARCHAR},
+      MapNo = #{mapno,jdbcType=SMALLINT},
+      DeviceEnabled = #{deviceenabled,jdbcType=SMALLINT},
+      DeviceID = #{deviceid,jdbcType=SMALLINT},
+      DeviceSERIAL = #{deviceserial,jdbcType=VARCHAR},
+      DeviceTypeNo = #{devicetypeno,jdbcType=SMALLINT},
+      DevicePortNo = #{deviceportno,jdbcType=SMALLINT},
+      DeviceModeNo = #{devicemodeno,jdbcType=SMALLINT},
+      Site = #{site,jdbcType=VARCHAR},
+      ShowLeft = #{showleft,jdbcType=SMALLINT},
+      ShowTop = #{showtop,jdbcType=SMALLINT},
+      Description = #{description,jdbcType=VARCHAR},
+      APBEvenMove = #{apbevenmove,jdbcType=SMALLINT},
+      APBGroupNo = #{apbgroupno,jdbcType=SMALLINT},
+      ControlType = #{controltype,jdbcType=VARCHAR},
+      ControlStatus = #{controlstatus,jdbcType=VARCHAR},
+      MaxDoorNum = #{maxdoornum,jdbcType=INTEGER},
+      MaxCardNum = #{maxcardnum,jdbcType=INTEGER},
+      SafePwd1 = #{safepwd1,jdbcType=VARCHAR},
+      SafePwd2 = #{safepwd2,jdbcType=VARCHAR},
+      SafePwd3 = #{safepwd3,jdbcType=VARCHAR},
+      SafePwd4 = #{safepwd4,jdbcType=VARCHAR},
+      MainCardID1 = #{maincardid1,jdbcType=VARCHAR},
+      MainCardID2 = #{maincardid2,jdbcType=VARCHAR},
+      MainCardID3 = #{maincardid3,jdbcType=VARCHAR},
+      MainCardPwd1 = #{maincardpwd1,jdbcType=VARCHAR},
+      MainCardPwd2 = #{maincardpwd2,jdbcType=VARCHAR},
+      MainCardPwd3 = #{maincardpwd3,jdbcType=VARCHAR},
+      EngiCardID1 = #{engicardid1,jdbcType=VARCHAR},
+      EngiCardID2 = #{engicardid2,jdbcType=VARCHAR},
+      EngiCardID3 = #{engicardid3,jdbcType=VARCHAR},
+      EngiCardPwd1 = #{engicardpwd1,jdbcType=VARCHAR},
+      EngiCardPwd2 = #{engicardpwd2,jdbcType=VARCHAR},
+      EngiCardPwd3 = #{engicardpwd3,jdbcType=VARCHAR},
+      OperCardID1 = #{opercardid1,jdbcType=VARCHAR},
+      OperCardID2 = #{opercardid2,jdbcType=VARCHAR},
+      OperCardID3 = #{opercardid3,jdbcType=VARCHAR},
+      OperCardID4 = #{opercardid4,jdbcType=VARCHAR},
+      OperCardID5 = #{opercardid5,jdbcType=VARCHAR},
+      OperCardID6 = #{opercardid6,jdbcType=VARCHAR},
+      OperCardID7 = #{opercardid7,jdbcType=VARCHAR},
+      OperCardID8 = #{opercardid8,jdbcType=VARCHAR},
+      OperCardPwd1 = #{opercardpwd1,jdbcType=VARCHAR},
+      OperCardPwd2 = #{opercardpwd2,jdbcType=VARCHAR},
+      OperCardPwd3 = #{opercardpwd3,jdbcType=VARCHAR},
+      OperCardPwd4 = #{opercardpwd4,jdbcType=VARCHAR},
+      OperCardPwd5 = #{opercardpwd5,jdbcType=VARCHAR},
+      OperCardPwd6 = #{opercardpwd6,jdbcType=VARCHAR},
+      OperCardPwd7 = #{opercardpwd7,jdbcType=VARCHAR},
+      OperCardPwd8 = #{opercardpwd8,jdbcType=VARCHAR},
+      ControlVer = #{controlver,jdbcType=VARCHAR},
+      DI0_Name = #{di0Name,jdbcType=VARCHAR},
+      DI0_Action = #{di0Action,jdbcType=VARCHAR},
+      DI1_Name = #{di1Name,jdbcType=VARCHAR},
+      DI1_Action = #{di1Action,jdbcType=VARCHAR},
+      DI2_Name = #{di2Name,jdbcType=VARCHAR},
+      DI2_Action = #{di2Action,jdbcType=VARCHAR},
+      DI3_Name = #{di3Name,jdbcType=VARCHAR},
+      DI3_Action = #{di3Action,jdbcType=VARCHAR},
+      ControlBit = #{controlbit,jdbcType=INTEGER},
+      CommState = #{commstate,jdbcType=VARCHAR},
+      DeviceTypeCode = #{devicetypecode,jdbcType=NVARCHAR},
+      ManufacturerCode = #{manufacturercode,jdbcType=NVARCHAR},
+      IP = #{ip,jdbcType=NVARCHAR},
+      Port = #{port,jdbcType=NVARCHAR},
+      UserName = #{username,jdbcType=NVARCHAR},
+      PassWord = #{password,jdbcType=NVARCHAR},
+      IfElevator = #{ifelevator,jdbcType=NCHAR},
+      Enabled = #{enabled,jdbcType=NCHAR},
+      AreaID = #{areaid,jdbcType=NVARCHAR},
+      UpdateStatue = #{updatestatue,jdbcType=NVARCHAR},
+      ControlSN = #{controlsn,jdbcType=NVARCHAR},
+      MaxIONum = #{maxionum,jdbcType=NVARCHAR},
+      NetStatus = #{netstatus,jdbcType=NVARCHAR},
+      ConnectStatus = #{connectstatus,jdbcType=NVARCHAR},
+      InstallLocation = #{installlocation,jdbcType=NVARCHAR},
+      DeviceCode = #{devicecode,jdbcType=NVARCHAR},
+      NetNode = #{netnode,jdbcType=NVARCHAR},
+      UseStop = #{usestop,jdbcType=INTEGER},
+      ParkType = #{parktype,jdbcType=INTEGER}
+    where DeviceNo = #{deviceno,jdbcType=SMALLINT}
+  </update>
+  
+  <select id="queryDeviceSum" resultType="Map">
+  select count(1) as deviceSum,sum(cast((case when ConnectStatus='-1' then '1' else '0' end) as int)) as offLine,
+  sum(cast((case when ConnectStatus='1' then '1' else '0' end) as int)) as onLine from DeviceUnit;
+  </select>
+  
+  <!-- 通过SN码.来查询设备是否存在 * 该方法用于在同步设备的时候,检查Syris云平台是否已经存在该设备 -->
+  <select id="queryEquipmentBySN" resultType="Map">
+     SELECT 
+		   DeviceEnabled,<!--1启用.0禁用-->
+		   InstallLocation,<!--安装位置-->
+		   ControlSN,<!--sn号-->
+		   ip, <!--设备ip-->
+		   port<!--端口-->
+		  FROM  dbo.DeviceUnit WHERE ControlSN=#{ControlSN}
+  </select>
+  
+</mapper>

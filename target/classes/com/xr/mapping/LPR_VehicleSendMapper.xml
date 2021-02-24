@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleSendMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleSend" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="VehicleSendNo" property="vehiclesendno" jdbcType="NVARCHAR" />
+    <result column="uVehicleID" property="uvehicleid" jdbcType="INTEGER" />
+    <result column="license" property="license" jdbcType="NVARCHAR" />
+    <result column="DriverNo" property="driverno" jdbcType="NVARCHAR" />
+    <result column="VehicleType" property="vehicletype" jdbcType="NVARCHAR" />
+    <result column="Driver" property="driver" jdbcType="NVARCHAR" />
+    <result column="UseUnitNo" property="useunitno" jdbcType="CHAR" />
+    <result column="UseUnit" property="useunit" jdbcType="NVARCHAR" />
+    <result column="Contacts" property="contacts" jdbcType="NVARCHAR" />
+    <result column="OdometerStart" property="odometerstart" jdbcType="NVARCHAR" />
+    <result column="OdometerEnd" property="odometerend" jdbcType="NVARCHAR" />
+    <result column="VehicleUse" property="vehicleuse" jdbcType="NVARCHAR" />
+    <result column="DispatchTime" property="dispatchtime" jdbcType="TIMESTAMP" />
+    <result column="ReturnTime" property="returntime" jdbcType="TIMESTAMP" />
+    <result column="RegistLocation" property="registlocation" jdbcType="NVARCHAR" />
+    <result column="DrivingRoute" property="drivingroute" jdbcType="NVARCHAR" />
+    <result column="FillPeopleNo" property="fillpeopleno" jdbcType="NVARCHAR" />
+    <result column="FillPeople" property="fillpeople" jdbcType="NVARCHAR" />
+    <result column="ServiceQuality" property="servicequality" jdbcType="NVARCHAR" />
+    <result column="ApprovalLeadership2" property="approvalleadership2" jdbcType="NVARCHAR" />
+    <result column="ApprovalLeadership" property="approvalleadership" jdbcType="NVARCHAR" />
+    <result column="CarSignature" property="carsignature" jdbcType="NVARCHAR" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+    <result column="LeaveTime" property="leavetime" jdbcType="TIMESTAMP" />
+    <result column="EntryTime" property="entrytime" jdbcType="TIMESTAMP" />
+    <result column="SentryDutyNo" property="sentrydutyno" jdbcType="NVARCHAR" />
+    <result column="SentryDuty" property="sentryduty" jdbcType="NVARCHAR" />
+    <result column="DutyNote" property="dutynote" jdbcType="NVARCHAR" />
+    <result column="FillDate" property="filldate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="NVARCHAR" />
+    <result column="SendType" property="sendtype" jdbcType="NVARCHAR" />
+    <result column="SendReason" property="sendreason" jdbcType="NVARCHAR" />
+    <result column="SendGoods" property="sendgoods" jdbcType="NVARCHAR" />
+    <result column="iPlateType" property="iplatetype" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VehicleSendNo, uVehicleID, license, DriverNo, VehicleType, Driver, UseUnitNo, 
+    UseUnit, Contacts, OdometerStart, OdometerEnd, VehicleUse, DispatchTime, ReturnTime, 
+    RegistLocation, DrivingRoute, FillPeopleNo, FillPeople, ServiceQuality, ApprovalLeadership2, 
+    ApprovalLeadership, CarSignature, Note, LeaveTime, EntryTime, SentryDutyNo, SentryDuty, 
+    DutyNote, FillDate, status, SendType, SendReason, SendGoods, iPlateType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_VehicleSend
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_VehicleSend
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_VehicleSend" >
+    insert into LPR_VehicleSend (ID, VehicleSendNo, uVehicleID, 
+      license, DriverNo, VehicleType, 
+      Driver, UseUnitNo, UseUnit, 
+      Contacts, OdometerStart, OdometerEnd, 
+      VehicleUse, DispatchTime, ReturnTime, 
+      RegistLocation, DrivingRoute, FillPeopleNo, 
+      FillPeople, ServiceQuality, ApprovalLeadership2, 
+      ApprovalLeadership, CarSignature, Note, 
+      LeaveTime, EntryTime, SentryDutyNo, 
+      SentryDuty, DutyNote, FillDate, 
+      status, SendType, SendReason, 
+      SendGoods, iPlateType)
+    values (#{id,jdbcType=INTEGER}, #{vehiclesendno,jdbcType=NVARCHAR}, #{uvehicleid,jdbcType=INTEGER}, 
+      #{license,jdbcType=NVARCHAR}, #{driverno,jdbcType=NVARCHAR}, #{vehicletype,jdbcType=NVARCHAR}, 
+      #{driver,jdbcType=NVARCHAR}, #{useunitno,jdbcType=CHAR}, #{useunit,jdbcType=NVARCHAR}, 
+      #{contacts,jdbcType=NVARCHAR}, #{odometerstart,jdbcType=NVARCHAR}, #{odometerend,jdbcType=NVARCHAR}, 
+      #{vehicleuse,jdbcType=NVARCHAR}, #{dispatchtime,jdbcType=TIMESTAMP}, #{returntime,jdbcType=TIMESTAMP}, 
+      #{registlocation,jdbcType=NVARCHAR}, #{drivingroute,jdbcType=NVARCHAR}, #{fillpeopleno,jdbcType=NVARCHAR}, 
+      #{fillpeople,jdbcType=NVARCHAR}, #{servicequality,jdbcType=NVARCHAR}, #{approvalleadership2,jdbcType=NVARCHAR}, 
+      #{approvalleadership,jdbcType=NVARCHAR}, #{carsignature,jdbcType=NVARCHAR}, #{note,jdbcType=NVARCHAR}, 
+      #{leavetime,jdbcType=TIMESTAMP}, #{entrytime,jdbcType=TIMESTAMP}, #{sentrydutyno,jdbcType=NVARCHAR}, 
+      #{sentryduty,jdbcType=NVARCHAR}, #{dutynote,jdbcType=NVARCHAR}, #{filldate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=NVARCHAR}, #{sendtype,jdbcType=NVARCHAR}, #{sendreason,jdbcType=NVARCHAR}, 
+      #{sendgoods,jdbcType=NVARCHAR}, #{iplatetype,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_VehicleSend" >
+    insert into LPR_VehicleSend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="vehiclesendno != null" >
+        VehicleSendNo,
+      </if>
+      <if test="uvehicleid != null" >
+        uVehicleID,
+      </if>
+      <if test="license != null" >
+        license,
+      </if>
+      <if test="driverno != null" >
+        DriverNo,
+      </if>
+      <if test="vehicletype != null" >
+        VehicleType,
+      </if>
+      <if test="driver != null" >
+        Driver,
+      </if>
+      <if test="useunitno != null" >
+        UseUnitNo,
+      </if>
+      <if test="useunit != null" >
+        UseUnit,
+      </if>
+      <if test="contacts != null" >
+        Contacts,
+      </if>
+      <if test="odometerstart != null" >
+        OdometerStart,
+      </if>
+      <if test="odometerend != null" >
+        OdometerEnd,
+      </if>
+      <if test="vehicleuse != null" >
+        VehicleUse,
+      </if>
+      <if test="dispatchtime != null" >
+        DispatchTime,
+      </if>
+      <if test="returntime != null" >
+        ReturnTime,
+      </if>
+      <if test="registlocation != null" >
+        RegistLocation,
+      </if>
+      <if test="drivingroute != null" >
+        DrivingRoute,
+      </if>
+      <if test="fillpeopleno != null" >
+        FillPeopleNo,
+      </if>
+      <if test="fillpeople != null" >
+        FillPeople,
+      </if>
+      <if test="servicequality != null" >
+        ServiceQuality,
+      </if>
+      <if test="approvalleadership2 != null" >
+        ApprovalLeadership2,
+      </if>
+      <if test="approvalleadership != null" >
+        ApprovalLeadership,
+      </if>
+      <if test="carsignature != null" >
+        CarSignature,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+      <if test="leavetime != null" >
+        LeaveTime,
+      </if>
+      <if test="entrytime != null" >
+        EntryTime,
+      </if>
+      <if test="sentrydutyno != null" >
+        SentryDutyNo,
+      </if>
+      <if test="sentryduty != null" >
+        SentryDuty,
+      </if>
+      <if test="dutynote != null" >
+        DutyNote,
+      </if>
+      <if test="filldate != null" >
+        FillDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendtype != null" >
+        SendType,
+      </if>
+      <if test="sendreason != null" >
+        SendReason,
+      </if>
+      <if test="sendgoods != null" >
+        SendGoods,
+      </if>
+      <if test="iplatetype != null" >
+        iPlateType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vehiclesendno != null" >
+        #{vehiclesendno,jdbcType=NVARCHAR},
+      </if>
+      <if test="uvehicleid != null" >
+        #{uvehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="license != null" >
+        #{license,jdbcType=NVARCHAR},
+      </if>
+      <if test="driverno != null" >
+        #{driverno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="driver != null" >
+        #{driver,jdbcType=NVARCHAR},
+      </if>
+      <if test="useunitno != null" >
+        #{useunitno,jdbcType=CHAR},
+      </if>
+      <if test="useunit != null" >
+        #{useunit,jdbcType=NVARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=NVARCHAR},
+      </if>
+      <if test="odometerstart != null" >
+        #{odometerstart,jdbcType=NVARCHAR},
+      </if>
+      <if test="odometerend != null" >
+        #{odometerend,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleuse != null" >
+        #{vehicleuse,jdbcType=NVARCHAR},
+      </if>
+      <if test="dispatchtime != null" >
+        #{dispatchtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registlocation != null" >
+        #{registlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivingroute != null" >
+        #{drivingroute,jdbcType=NVARCHAR},
+      </if>
+      <if test="fillpeopleno != null" >
+        #{fillpeopleno,jdbcType=NVARCHAR},
+      </if>
+      <if test="fillpeople != null" >
+        #{fillpeople,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicequality != null" >
+        #{servicequality,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvalleadership2 != null" >
+        #{approvalleadership2,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvalleadership != null" >
+        #{approvalleadership,jdbcType=NVARCHAR},
+      </if>
+      <if test="carsignature != null" >
+        #{carsignature,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetime != null" >
+        #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entrytime != null" >
+        #{entrytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sentrydutyno != null" >
+        #{sentrydutyno,jdbcType=NVARCHAR},
+      </if>
+      <if test="sentryduty != null" >
+        #{sentryduty,jdbcType=NVARCHAR},
+      </if>
+      <if test="dutynote != null" >
+        #{dutynote,jdbcType=NVARCHAR},
+      </if>
+      <if test="filldate != null" >
+        #{filldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtype != null" >
+        #{sendtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendreason != null" >
+        #{sendreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendgoods != null" >
+        #{sendgoods,jdbcType=NVARCHAR},
+      </if>
+      <if test="iplatetype != null" >
+        #{iplatetype,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_VehicleSend" >
+    update LPR_VehicleSend
+    <set >
+      <if test="vehiclesendno != null" >
+        VehicleSendNo = #{vehiclesendno,jdbcType=NVARCHAR},
+      </if>
+      <if test="uvehicleid != null" >
+        uVehicleID = #{uvehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="license != null" >
+        license = #{license,jdbcType=NVARCHAR},
+      </if>
+      <if test="driverno != null" >
+        DriverNo = #{driverno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        VehicleType = #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="driver != null" >
+        Driver = #{driver,jdbcType=NVARCHAR},
+      </if>
+      <if test="useunitno != null" >
+        UseUnitNo = #{useunitno,jdbcType=CHAR},
+      </if>
+      <if test="useunit != null" >
+        UseUnit = #{useunit,jdbcType=NVARCHAR},
+      </if>
+      <if test="contacts != null" >
+        Contacts = #{contacts,jdbcType=NVARCHAR},
+      </if>
+      <if test="odometerstart != null" >
+        OdometerStart = #{odometerstart,jdbcType=NVARCHAR},
+      </if>
+      <if test="odometerend != null" >
+        OdometerEnd = #{odometerend,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleuse != null" >
+        VehicleUse = #{vehicleuse,jdbcType=NVARCHAR},
+      </if>
+      <if test="dispatchtime != null" >
+        DispatchTime = #{dispatchtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returntime != null" >
+        ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registlocation != null" >
+        RegistLocation = #{registlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivingroute != null" >
+        DrivingRoute = #{drivingroute,jdbcType=NVARCHAR},
+      </if>
+      <if test="fillpeopleno != null" >
+        FillPeopleNo = #{fillpeopleno,jdbcType=NVARCHAR},
+      </if>
+      <if test="fillpeople != null" >
+        FillPeople = #{fillpeople,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicequality != null" >
+        ServiceQuality = #{servicequality,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvalleadership2 != null" >
+        ApprovalLeadership2 = #{approvalleadership2,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvalleadership != null" >
+        ApprovalLeadership = #{approvalleadership,jdbcType=NVARCHAR},
+      </if>
+      <if test="carsignature != null" >
+        CarSignature = #{carsignature,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetime != null" >
+        LeaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entrytime != null" >
+        EntryTime = #{entrytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sentrydutyno != null" >
+        SentryDutyNo = #{sentrydutyno,jdbcType=NVARCHAR},
+      </if>
+      <if test="sentryduty != null" >
+        SentryDuty = #{sentryduty,jdbcType=NVARCHAR},
+      </if>
+      <if test="dutynote != null" >
+        DutyNote = #{dutynote,jdbcType=NVARCHAR},
+      </if>
+      <if test="filldate != null" >
+        FillDate = #{filldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtype != null" >
+        SendType = #{sendtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendreason != null" >
+        SendReason = #{sendreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendgoods != null" >
+        SendGoods = #{sendgoods,jdbcType=NVARCHAR},
+      </if>
+      <if test="iplatetype != null" >
+        iPlateType = #{iplatetype,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_VehicleSend" >
+    update LPR_VehicleSend
+    set VehicleSendNo = #{vehiclesendno,jdbcType=NVARCHAR},
+      uVehicleID = #{uvehicleid,jdbcType=INTEGER},
+      license = #{license,jdbcType=NVARCHAR},
+      DriverNo = #{driverno,jdbcType=NVARCHAR},
+      VehicleType = #{vehicletype,jdbcType=NVARCHAR},
+      Driver = #{driver,jdbcType=NVARCHAR},
+      UseUnitNo = #{useunitno,jdbcType=CHAR},
+      UseUnit = #{useunit,jdbcType=NVARCHAR},
+      Contacts = #{contacts,jdbcType=NVARCHAR},
+      OdometerStart = #{odometerstart,jdbcType=NVARCHAR},
+      OdometerEnd = #{odometerend,jdbcType=NVARCHAR},
+      VehicleUse = #{vehicleuse,jdbcType=NVARCHAR},
+      DispatchTime = #{dispatchtime,jdbcType=TIMESTAMP},
+      ReturnTime = #{returntime,jdbcType=TIMESTAMP},
+      RegistLocation = #{registlocation,jdbcType=NVARCHAR},
+      DrivingRoute = #{drivingroute,jdbcType=NVARCHAR},
+      FillPeopleNo = #{fillpeopleno,jdbcType=NVARCHAR},
+      FillPeople = #{fillpeople,jdbcType=NVARCHAR},
+      ServiceQuality = #{servicequality,jdbcType=NVARCHAR},
+      ApprovalLeadership2 = #{approvalleadership2,jdbcType=NVARCHAR},
+      ApprovalLeadership = #{approvalleadership,jdbcType=NVARCHAR},
+      CarSignature = #{carsignature,jdbcType=NVARCHAR},
+      Note = #{note,jdbcType=NVARCHAR},
+      LeaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      EntryTime = #{entrytime,jdbcType=TIMESTAMP},
+      SentryDutyNo = #{sentrydutyno,jdbcType=NVARCHAR},
+      SentryDuty = #{sentryduty,jdbcType=NVARCHAR},
+      DutyNote = #{dutynote,jdbcType=NVARCHAR},
+      FillDate = #{filldate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=NVARCHAR},
+      SendType = #{sendtype,jdbcType=NVARCHAR},
+      SendReason = #{sendreason,jdbcType=NVARCHAR},
+      SendGoods = #{sendgoods,jdbcType=NVARCHAR},
+      iPlateType = #{iplatetype,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

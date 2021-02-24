@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_ShiftDataMapper" >
+  
+    <!-- * 同时插入班次和班段-->
+    <update id="insertShiftAndSenction">
+       DECLARE
+       @fid VARCHAR(20);
+       begin 
+       
+          insert into KQ_ShiftData (HolderNo,DepartmentNo, ShiftName, 
+	      Nickname, remark, CodeNo)
+	    values (#{holderno,jdbcType=VARCHAR},#{departmentno,jdbcType=VARCHAR},#{shiftname,jdbcType=VARCHAR}, 
+	      #{nickname,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR}, #{codeno,jdbcType=VARCHAR})
+       
+       select @fid  = @@identity;
+       
+          <foreach collection="list" index="index" item="item" separator="">
+           INSERT INTO dbo.KQ_ShiftSection
+	(ShiftNo,ClassNo,SectionStatus,WhichEarliest,WorkEarliest,
+	WhichWork,WorkTime,WhichLatest,WorkLatest,NodeOrder)
+           values( @fid, #{item.classno},#{item.sectionstatus},
+             #{item.whichearliest},#{item.workearliest},
+             #{item.whichwork},#{item.worktime},
+             #{item.whichlatest},#{item.worklatest},#{item.nodeorder})
+		  </foreach>
+       end;
+    </update>
+    
+     <!-- *  查询班次和班段的基本信息 -->
+     <select id="queryShiftAndSection" resultType="Map" parameterType="java.lang.String">
+	SELECT 
+                t.shiftno as shiftno,
+				t.shiftname as shiftname,
+				t.nickname as nickname,
+				t.codeno as codeno,
+				s.SectionNo as sectionno,
+				s.classno as classno,
+				s.sectionstatus as sectionstatus,
+				s.WhichEarliest as whichearliest,
+				s.workearliest as workearliest,
+				s.WhichWork as whichwork,
+				s.worktime as worktime,
+				s.WhichLatest as whichlatest,
+				s.worklatest as worklatest
+				  FROM dbo.KQ_ShiftData t INNER JOIN 
+				  (SELECT TOP 1000000    ShiftNo,SectionNo,classno,sectionstatus,whichearliest,workearliest,whichwork,worktime,whichlatest,worklatest FROM dbo.KQ_ShiftSection ORDER BY SectionNo desc) s
+				  ON s.ShiftNo = t.ShiftNo   INNER JOIN (select departmentno,departmentname as title,underno from DepartmentData where substring(DepartmentNo,1,3)= 
+    substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)) d
+				  ON d.DepartmentNo = t.DepartmentNo			  
+				  ORDER BY  s.ShiftNo, workearliest, s.ClassNo
+     </select>
+     
+      <!-- * 通过班次编号(shiftno)* 删除班次 -->
+      <delete id="deleteShiftData">
+        begin
+          DELETE FROM dbo.KQ_ShiftData WHERE ShiftNo=#{shiftno};
+          DELETE FROM dbo.KQ_ShiftSection WHERE ShiftNo=#{shiftno};
+         end;
+      </delete>
+   
+     <!--* 通过班次编号* 查询班次和班段的所有信息* @param shiftno  -->
+     <select id="queryShiftUnionSection" resultType="Map">
+	          SELECT
+				t.shiftno as shiftno,
+				t.shiftname as shiftname,
+				t.nickname as nickname,
+				t.remark AS remark,
+				t.codeno as codeno,
+				s.SectionNo as sectionno,
+				s.classno as classno,
+				s.sectionstatus as sectionstatus,
+				s.WhichEarliest as whichearliest,
+				s.workearliest as workearliest,
+				s.WhichWork as whichwork,
+				s.worktime as worktime,
+				s.WhichLatest as whichlatest,
+				s.worklatest as worklatest
+			 FROM 
+			dbo.KQ_ShiftData AS  t INNER JOIN dbo.KQ_ShiftSection AS  s
+			ON S.ShiftNo = t.ShiftNo WHERE t.ShiftNo=#{shiftno}
+			ORDER BY s.NodeOrder
+     </select>
+   
+   <!-- * 通过班次的实体类来修改班次* @param shift -->
+   <update id="updateShiftData" parameterType="com.xr.entity.KQ_ShiftData">
+       UPDATE dbo.KQ_ShiftData
+        SET 
+	        ShiftName=#{shiftname},
+	        nickname=#{nickname},
+	        remark=#{remark},
+	        CodeNo=#{codeno}
+        WHERE ShiftNo =#{shiftno}
+   </update>
+   
+      <!-- * 通过班次昵称查询班次编号 -->
+   <select id="queryNoShift" resultType="Map">
+     select ShiftNo AS shiftno FROM dbo.KQ_ShiftData  WHERE NickName = #{nickname}
+   </select>
+  
+   
+  
+</mapper>

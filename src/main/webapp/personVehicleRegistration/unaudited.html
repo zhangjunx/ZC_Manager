@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自助登记审批</title>
+    <link rel="icon" href="img/prison1.gif" sizes="32x32">
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <div class="layui-container personRegistration">
+        <div class="layui-row personRegistration_top">
+            <div class="layui-col-md9">
+                <h2 class="personRegistration_tit">自助登记待审核信息</h2>
+            </div>
+            <div class="layui-col-md3">
+                <div class="person_time">
+                	<div class="person_hour"></div>
+                	<div class="person_date"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row main-content">
+        	<!-- 默认页面 -->
+        		<div class="approval_empty">
+        			请刷卡或者身份证进行查询!
+        		</div>
+        	<!-- 默认页面结束 -->
+            <!-- <div class="approval_pending">
+                <div class="approval_tit">
+                    <h4 class="approval_status">待审核信息</h4>
+                    <div class="approval_process">
+                    <span class="refer"><img src="img/complete.png"> 提交</span>
+                    <span class="line"></span>
+                    <span class="approval approval_person"><img src="img/wait.png">监区领导审批</span>
+                    <span class="approval approval_person"><img src="img/wait.png">劳动改造科审批</span>
+                    <span class="line"></span>
+                    <span class="approval"><img src="img/wait.png">完成</span>
+                </div>
+                <p class="apply_time">申请时间:<span>2019-11-26 12:00</span></p>
+                </div>
+                <div class="scroll_approvalPending">
+                 <dl>
+                    <dt class="infor_left"><img src="img/upload.png"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="alarm">警号:</label><span class="receiverpeopleid"> </span> </dd>
+                        <dd> <label class="pliceName">姓名:</label><span class="receiversname"> </span> </dd>
+                        <dd> <label class="job">职务:</label><span class="zhiWu"> </span> </dd>
+                        <dd> <label class="prison">监区:</label><span class="jianQu"> </span> </dd>
+                        <dd> <label class="infoTime">时间:</label><span class="shiJian"> </span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png"></dt>
+                    <div class="infor_right">
+                    	<dd> <label class="cardNumber">卡号:</label><span class="outsourcing_number"></span></dd>
+                        <dd> <label class="peopleName">姓名:</label><span class="outsourcing_name"></span> </dd>
+                        <dd> <label>区域:</label><span class="area"></span></dd>
+                        <dd> <label>类型:</label><span class="personType"></span></dd>
+                        <dd> <label class="readTime">时间:</label><span class="outsourcing_time"></span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="cardNumber">卡号:</label><span class="outsourcing_number"></span></dd>
+                        <dd> <label class="peopleName">姓名:</label><span class="outsourcing_name"></span> </dd>
+                        <dd> <label>区域:</label><span class="area"></span></dd>
+                        <dd> <label>类型:</label><span class="personType"></span></dd>
+                        <dd> <label class="readTime">时间:</label><span class="outsourcing_time"></span> </dd>
+                    </div>
+                </dl>
+                </div>
+                <div class="layui-clear"></div>
+                
+            </div> -->
+    <!--         <div class="approval_pending">
+                <div class="approval_tit">
+                    <h4 class="approval_status">待审核信息</h4>
+                    <div class="approval_process">
+                    <span class="refer"><img src="img/complete.png"> 提交</span>
+                    <span class="line"></span>
+                    <span class="approval"><img src="img/wait.png">监区领导审批</span>
+                    <span class="line"></span>
+                    <span class="approval"><img src="img/wait.png">劳动改造科审批</span>
+                    <span class="line"></span>
+                    <span class="approval"><img src="img/wait.png">完成</span>
+                </div>
+                 <p class="apply_time">申请时间:<span>2019-11-18 12:00</span></p>
+                </div>
+                <div class="scroll_approvalPending">
+                <ul class="vehicleInfo">
+                    <li> <label>车牌号码:</label><span class="vehicle_number">102656</span> </li>
+                    <li> <label>车牌类型:</label><span class="vehicle_type">蓝牌车</span> </li>
+                    <li> <label>车身颜色:</label><span class="vehicle_color">白色</span> </li>
+                </ul>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="alarm">警号:</label><span class="receiverpeopleid"> </span> </dd>
+                        <dd> <label class="pliceName">姓名:</label><span class="receiversname"> </span> </dd>
+                        <dd> <label class="job">职务:</label><span class="zhiWu"> </span> </dd>
+                        <dd> <label class="prison">监区:</label><span class="jianQu"> </span> </dd>
+                        <dd> <label class="infoTime">时间:</label><span class="shiJian"> </span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="cardNumber">卡号:</label><span class="outsourcing_number"></span></dd>
+                        <dd> <label class="peopleName">姓名:</label><span class="outsourcing_name"></span> </dd>
+                        <dd> <label>区域:</label><span class="area"></span></dd>
+                        <dd> <label>类型:</label><span class="personType"></span></dd>
+                        <dd> <label class="readTime">时间:</label><span class="outsourcing_time"></span> </dd>
+                    </div>
+                </dl>
+                </div>
+                <div class="layui-clear"></div>
+                
+            </div> -->
+        </div>
+        <div class="layui-row back_unaudited">
+                <a href="index.html" class="back">
+                	<img src="img/back.png">
+                </a>
+        </div>
+        <div class="layui-row bottom_copyright">
+        	<h4 class="copyright">河南省豫南监狱</h4>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/unaudited.js"></script>
+</body>
+
+</html>

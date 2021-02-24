@@ -1,0 +1,937 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.WX_VisitorsInfoAddMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.WX_VisitorsInfoAdd" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="VisitorsInfoID" property="visitorsinfoid" jdbcType="INTEGER" />
+    <result column="RecType" property="rectype" jdbcType="VARCHAR" />
+    <result column="RecTypeText" property="rectypetext" jdbcType="VARCHAR" />
+    <result column="VisitorsName" property="visitorsname" jdbcType="VARCHAR" />
+    <result column="VisitorsSex" property="visitorssex" jdbcType="CHAR" />
+    <result column="VisitorsSexText" property="visitorssextext" jdbcType="VARCHAR" />
+    <result column="VisitorsType" property="visitorstype" jdbcType="VARCHAR" />
+    <result column="VisitorsDepartmentsName" property="visitorsdepartmentsname" jdbcType="VARCHAR" />
+    <result column="VisitorsAddress" property="visitorsaddress" jdbcType="VARCHAR" />
+    <result column="IDCardNo" property="idcardno" jdbcType="VARCHAR" />
+    <result column="ORGName" property="orgname" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="CarNo" property="carno" jdbcType="VARCHAR" />
+    <result column="IssuingUnit" property="issuingunit" jdbcType="VARCHAR" />
+    <result column="EffectDate" property="effectdate" jdbcType="VARCHAR" />
+    <result column="FailDate" property="faildate" jdbcType="VARCHAR" />
+    <result column="AcsCardNo" property="acscardno" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="VisitorsStatus" property="visitorsstatus" jdbcType="VARCHAR" />
+    <result column="VisitorsStatusName" property="visitorsstatusname" jdbcType="VARCHAR" />
+    <result column="RegisterID" property="registerid" jdbcType="INTEGER" />
+    <result column="Birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="VisitorsDate" property="visitorsdate" jdbcType="TIMESTAMP" />
+    <result column="VisitorsStatus1" property="visitorsstatus1" jdbcType="VARCHAR" />
+    <result column="VisitorsNumber" property="visitorsnumber" jdbcType="INTEGER" />
+    <result column="VisitorsReason" property="visitorsreason" jdbcType="VARCHAR" />
+    <result column="VisitorsReasonText" property="visitorsreasontext" jdbcType="VARCHAR" />
+    <result column="ReckonLeaveDate" property="reckonleavedate" jdbcType="TIMESTAMP" />
+    <result column="RealLeaveDate" property="realleavedate" jdbcType="CHAR" />
+    <result column="Note" property="note" jdbcType="VARCHAR" />
+    <result column="ReceiverPeopleID" property="receiverpeopleid" jdbcType="VARCHAR" />
+    <result column="CarInfo" property="carinfo" jdbcType="VARCHAR" />
+    <result column="Deposit" property="deposit" jdbcType="VARCHAR" />
+    <result column="GoodsInfo" property="goodsinfo" jdbcType="VARCHAR" />
+    <result column="ReceiversName" property="receiversname" jdbcType="VARCHAR" />
+    <result column="Departments" property="departments" jdbcType="VARCHAR" />
+    <result column="DepartmentsName" property="departmentsname" jdbcType="VARCHAR" />
+    <result column="ReceiversPosition" property="receiversposition" jdbcType="VARCHAR" />
+    <result column="ReceiversPHONE" property="receiversphone" jdbcType="VARCHAR" />
+    <result column="ISEND" property="isend" jdbcType="CHAR" />
+    <result column="CardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="CredentialNO" property="credentialno" jdbcType="VARCHAR" />
+    <result column="WorkSpaces" property="workspaces" jdbcType="VARCHAR" />
+    <result column="Domicile" property="domicile" jdbcType="VARCHAR" />
+    <result column="Divisions" property="divisions" jdbcType="VARCHAR" />
+    <result column="WorkPost" property="workpost" jdbcType="VARCHAR" />
+    <result column="WorkRank" property="workrank" jdbcType="VARCHAR" />
+    <result column="DringModels" property="dringmodels" jdbcType="VARCHAR" />
+    <result column="SendStatus" property="sendstatus" jdbcType="VARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="endDate" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="FixedTelephone" property="fixedtelephone" jdbcType="NVARCHAR" />
+    <result column="MobilePhone" property="mobilephone" jdbcType="NVARCHAR" />
+    <result column="FloorName" property="floorname" jdbcType="NVARCHAR" />
+    <result column="RoomName" property="roomname" jdbcType="NVARCHAR" />
+    <result column="CardNum" property="cardnum" jdbcType="NVARCHAR" />
+    <result column="IDImgUrl" property="idimgurl" jdbcType="NVARCHAR" />
+    <result column="DataImgUrl" property="dataimgurl" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.WX_VisitorsInfoAdd" extends="BaseResultMap" >
+    <result column="VisitorsPhoto" property="visitorsphoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VisitorsInfoID, RecType, RecTypeText, VisitorsName, VisitorsSex, VisitorsSexText, 
+    VisitorsType, VisitorsDepartmentsName, VisitorsAddress, IDCardNo, ORGName, PHONE, 
+    CarNo, IssuingUnit, EffectDate, FailDate, AcsCardNo, nationality, VisitorsStatus, 
+    VisitorsStatusName, RegisterID, Birthday, VisitorsDate, VisitorsStatus1, VisitorsNumber, 
+    VisitorsReason, VisitorsReasonText, ReckonLeaveDate, RealLeaveDate, Note, ReceiverPeopleID, 
+    CarInfo, Deposit, GoodsInfo, ReceiversName, Departments, DepartmentsName, ReceiversPosition, 
+    ReceiversPHONE, ISEND, CardID, CredentialNO, WorkSpaces, Domicile, Divisions, WorkPost, 
+    WorkRank, DringModels, SendStatus, StartDate, endDate, FixedTelephone, MobilePhone, 
+    FloorName, RoomName, CardNum
+  </sql>
+  <sql id="Blob_Column_List" >
+    VisitorsPhoto
+  </sql>
+  
+  <!-- 访客来访人数统计： 临时外协  司机 -->
+  <select id="getVisitorsStatic" resultType="Map">
+  select count(holderno) count,visitorstype, iodate from (select a.holderno,a.iodate,v.id,v.visitorstype
+  from (select HolderNo, convert(varchar(10),IODate,23) iodate
+from IOData where HolderNo like 'WX%' 
+       <if test="date1!=null and date1!='' ">
+		   and convert(varchar(10),IODate,23)>=#{date1}
+		</if>
+		<if test="date2!=null and date2!='' ">
+		   and convert(varchar(10),IODate,23) &lt;=#{date2}
+		</if>
+group by HolderNo,convert(varchar(10),IODate,23))a 
+inner join WX_VisitorsInfo v on  
+'WX_'+convert(varchar(10),v.ID)=a.HolderNo 
+or 'WX'+convert(varchar(10),v.ID)=a.HolderNo) b group by iodate,visitorstype
+  </select>
+  
+  <!-- 统计打开的员工数 -->
+  <select id="getHolderCount" resultType="Map">
+     select count(d.holderno) count,d.iodate,'G'  from (select b.HolderNo,b.iodate 
+     from (select i.HolderNo,convert(varchar(10),i.IODate,23) iodate,i.DataNo 
+from IOData i inner join HolderData h on h.HolderNo=i.HolderNo
+<where>
+ convert(varchar(10),i.IODate,23) is not null
+        <if test="date1!=null and date1!='' ">
+		   and convert(varchar(10),IODate,23)>=#{date1}
+		</if>
+		<if test="date2!=null and date2!='' ">
+		   and convert(varchar(10),IODate,23) &lt;=#{date2}
+		</if>
+</where> 
+ 
+ )b
+group by b.HolderNo,b.iodate
+)d group by d.iodate
+order by iodate desc
+
+     
+  
+  </select>
+  
+  <!--待我审批 消息提醒     -->
+<select id="queryMyCurrNewsInfo" resultType="Map" parameterType="Map">
+  select id,visitorstype,approvertype,approvertypename,
+ applystatus,applystatusname,
+ approverrole1,approverrolename1,
+ approverrole2,approverrolename2,
+directorchargecode,directorchargename,
+directorcode,directorname  
+from WX_VisitorsInfo v 
+where DATEDIFF(day,v.FillDate,GETDATE())=0 
+and ApplyStatus in(10,20)
+and (approverrole1=#{rolecode} or approverrole2=#{rolecode}) 
+and id>#{maxid}
+</select>
+  
+  <!--待我审批 消息提醒     -->
+<select id="queryMyNewsInfo" resultType="Map" parameterType="Map">
+select id,visitorstype,approvertype,approvertypename,
+ applystatus,applystatusname,
+ approverrole1,approverrolename1,
+ approverrole2,approverrolename2,
+directorchargecode,directorchargename,
+directorcode,directorname  
+from WX_VisitorsInfo v 
+where ApplyStatus in(10,20)
+and (approverrole1=#{rolecode} or approverrole2=#{rolecode}) 
+</select>
+  
+   <!--待我审批   根据卡号或身份证号   登记端 干警或外协查看已提交的申请是否已审批完成   -->
+<select id="queryUnauditedByMy" resultType="Map" parameterType="Map">
+select v.id,va.visitorsinfoid,v.receiverpeopleid,v.receiversname,
+v.departmentsname,v.departments,v.flowtracing,
+convert(varchar(100),v.filldate,20) filldate,
+v.visitorstype,v.approvertype,v.approvertypename,
+ v.cardid,v.visitorsreason,v.visitorsreasontext,
+ v.applystatus,v.applystatusname,
+ v.approverrole1,v.approverrolename1,
+ v.approverrole2,v.approverrolename2,
+v.directorchargecode,v.directorchargename,
+v.directorcode,v.directorname,
+ va.visitorsname,va.idcardno,va.visitorssextext,
+ va.note,va.carinfo,va.dringmodels,
+ p.dataphoto policephoto,vp.idphoto visitorphoto  
+from WX_VisitorsInfo v 
+left join WX_VisitorsInfoAdd va on v.ID=va.VisitorsInfoID
+left join HolderPhoto p on p.holderno=v.receiverpeopleid
+left join WX_VisitorsPhoto vp on vp.visitorsid=va.id
+where DATEDIFF(day,v.FillDate,GETDATE())=0 
+and v.ApplyStatus in(10,20)
+and (v.approverrole1=#{rolecode} or v.approverrole2=#{rolecode}) 
+order by v.id desc
+</select>
+
+
+
+    <!--我已审批   根据卡号或身份证号   登记端 干警或外协查看已提交的申请是否已审批完成   -->
+<select id="queryAuditedByMy" resultType="Map" parameterType="Map">
+select v.id,va.visitorsinfoid,v.receiverpeopleid,v.receiversname,
+v.departments,v.departmentsname,v.flowtracing,
+convert(varchar(100),v.filldate,20) filldate,
+v.cardid,v.visitorsreason,v.visitorsreasontext,
+v.approverrole1,v.approverrolename1,
+v.approverrole2,v.approverrolename2,
+v.directorchargecode,v.directorchargename,
+v.directorcode,v.directorname,
+ v.approvertype,v.approvertypename,
+ v.applystatus,v.applystatusname,
+ va.visitorsname,va.idcardno,va.visitorssextext,
+ va.visitorstype,va.note,va.carinfo,va.dringmodels,
+ p.dataphoto policephoto,vp.idphoto visitorphoto  
+from WX_VisitorsInfo v 
+left join WX_VisitorsInfoAdd va on v.ID=va.VisitorsInfoID
+left join HolderPhoto p on p.holderno=v.receiverpeopleid
+left join WX_VisitorsPhoto vp on vp.visitorsid=va.id
+where DATEDIFF(day,v.FillDate,GETDATE())=0 and 
+v.ApplyStatus in(20,21,30,31) 
+ and (v.directorchargecode=#{holderno} or v.directorcode=#{holderno}) 
+order by v.ID desc
+</select>
+  
+  
+  
+  <!--未审批   根据卡号或身份证号   登记端 干警或外协查看已提交的申请是否已审批完成   -->
+<select id="queryVisitorsInfoByUnaudited" resultType="Map" parameterType="Map">
+select v.id,va.visitorsinfoid,v.receiverpeopleid,v.receiversname,
+v.departmentsname,v.departments,v.flowtracing,
+convert(varchar(100),v.filldate,20) filldate,
+convert(varchar(10),v.filldate,24) filltime,
+v.visitorstype,v.approvertype,v.approvertypename,
+ v.cardid,v.visitorsreason,v.visitorsreasontext,
+ v.applystatus,v.applystatusname,
+ v.approverrole1,v.approverrolename1,
+ v.approverrole2,v.approverrolename2,
+v.directorchargecode,v.directorchargename,
+v.directorcode,v.directorname,
+ va.visitorsname,va.idcardno,va.visitorssextext,
+ va.visitorsstatus,
+ va.note,va.carinfo,va.dringmodels,
+ p.dataphoto policephoto,vp.idphoto visitorphoto  
+from WX_VisitorsInfo v 
+left join WX_VisitorsInfoAdd va on v.ID=va.VisitorsInfoID
+left join HolderPhoto p on p.holderno=v.receiverpeopleid
+left join WX_VisitorsPhoto vp on vp.visitorsid=va.id
+where DATEDIFF(day,v.FillDate,GETDATE())=0 and v.ApplyStatus in(10,20) 
+ and (va.IDCardNo=#{str} or v.CardID like '%'+#{str}+'%')  
+order by v.id desc
+</select>
+
+
+    <!--已审批   根据卡号或身份证号   登记端 干警或外协查看已提交的申请是否已审批完成   -->
+<select id="queryVisitorsInfoByAudited" resultType="Map" parameterType="Map">
+select v.id,va.visitorsinfoid,v.receiverpeopleid,v.receiversname,
+v.departments,v.departmentsname,v.flowtracing,
+convert(varchar(100),v.filldate,20) filldate,
+convert(varchar(10),v.filldate,24) filltime,
+v.cardid,v.visitorsreason,v.visitorsreasontext,
+v.approverrole1,v.approverrolename1,
+v.approverrole2,v.approverrolename2,
+v.directorchargecode,v.directorchargename,
+v.directorcode,v.directorname,
+ v.approvertype,v.approvertypename,
+ v.applystatus,v.applystatusname,
+ va.visitorsstatus,
+ va.visitorsname,va.idcardno,va.visitorssextext,
+ va.visitorstype,va.note,va.carinfo,va.dringmodels,
+ p.dataphoto policephoto,vp.idphoto visitorphoto  
+from WX_VisitorsInfo v 
+left join WX_VisitorsInfoAdd va on v.ID=va.VisitorsInfoID
+left join HolderPhoto p on p.holderno=v.receiverpeopleid
+left join WX_VisitorsPhoto vp on vp.visitorsid=va.id
+where DATEDIFF(day,v.FillDate,GETDATE())=0 and 
+v.ApplyStatus in(21,30,31) 
+ and (va.IDCardNo=#{str} or v.CardID like '%'+#{str}+'%') 
+order by v.ID desc
+</select>
+
+  <!-- 查询已审批信息 -->
+  <select id="queryAuditedRecordList" resultType="Map"> 
+    select id,visitorstype,receiversname,departmentsname,applystatusname,approvertypename,
+     approverrolename1,approverrolename2,directorchargename,directorname,
+     convert(varchar(100),filldate,24) filldate,
+     visitorsreasontext from WX_VisitorsInfo
+     where datediff(day,filldate,getdate())=0
+     and applystatus='30'
+     order by id desc
+  </select>
+  
+  <!-- 根据主键查看 登记成功的详情信息 -->
+  <select  id="queryDetailInfo" resultType="Map" parameterType="java.lang.Integer">
+     select v.id,va.visitorsinfoid,v.receiverpeopleid,v.receiversname,
+v.departments,v.departmentsname,v.flowtracing,
+convert(varchar(10),v.filldate,23) filldate,
+convert(varchar(10),v.filldate,24) filltime,
+v.cardid,v.visitorsreason,v.visitorsreasontext,
+v.approverrole1,v.approverrolename1,
+v.approverrole2,v.approverrolename2,
+v.directorchargecode,v.directorchargename,
+convert(varchar(10),v.directorchargeappdate,24) date1,
+v.directorcode,v.directorname,
+convert(varchar(10),v.directornameappdate,24) date2,
+ v.approvertype,v.approvertypename,
+ v.applystatus,v.applystatusname,
+ va.visitorsname,va.idcardno,va.visitorssextext,
+ va.visitorsstatus,va.visitorsstatusname,
+ va.visitorstype,va.note,va.carinfo,va.dringmodels,
+ p.dataphoto policephoto,vp.idphoto visitorphoto  
+from WX_VisitorsInfo v 
+left join WX_VisitorsInfoAdd va on v.ID=va.VisitorsInfoID
+left join HolderPhoto p on p.holderno=v.receiverpeopleid
+left join WX_VisitorsPhoto vp on vp.visitorsid=va.id
+where  v.id=#{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据工号查人员姓名 -->
+  <select id="queryHolderNameByHolderno" resultType="java.lang.String" parameterType="java.lang.String">
+      select HolderName from HolderData where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据工号查审批人所属审批部门 -->
+  <select id="queryApproverRoleCodeByholder" resultType="java.lang.String" parameterType="java.lang.String">
+      select rolecode from WX_Approver 
+      where holderno=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 根据工号查审批人所属审批部门 -->
+  <select id="queryApproverDeptByholder" resultType="java.lang.String" parameterType="java.lang.String">
+      select d.departmentname from WX_Approver a 
+      inner join DepartmentData d on d.DepartmentNo=a.rolecode
+      where a.holderno=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据主键查访客信息 -->
+  <select id="queryVisitorsInfoByPrimary" resultType="com.xr.entity.WX_VisitorsInfo" parameterType="java.lang.Integer">
+   select ID, VisitorsType, ApplyStatusName, ApplyStatus, FlowTracing, 
+   DirectorChargeCode,  DirectorChargeName, DirectorChargeAppDate, 
+   DirectorCode, DirectorName, DirectorNameAppDate, 
+   ApproverRole1,ApproverRoleName1,
+   ApproverRole2,ApproverRoleName2,
+   ApproverType,ApproverTypeName
+    from WX_VisitorsInfo
+    where ID=#{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 查询审批角色   查询责任科室代码   通过名称-->
+  <select id="queryApproverRoleCodeByName" parameterType="java.lang.String" resultType="java.lang.String">
+      select departmentno from DepartmentData where DepartmentName like '%'+#{name}+'%'
+  </select>
+  
+   
+  
+  <!-- 批量查询登记信息 -->
+  <select id="queryVisitorsInfoListBatch" parameterType="java.util.List" resultType="com.xr.entity.WX_VisitorsInfo">
+        select ID,VisitorsType, ApplyStatusName, ApplyStatus, FlowTracing,DepartmentNo, ReturnReason, 
+   DirectorChargeCode,  DirectorChargeName, DirectorChargeAppDate, 
+   DirectorCode, DirectorName, DirectorNameAppDate, ApproverRole1,
+    ApproverRoleName1,ApproverRole2,ApproverRoleName2 from WX_VisitorsInfo
+    where ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+       #{item}
+    </foreach>
+  </select>
+  
+  <!-- 批量审批同意  -->
+  <update id="updateApplyStatusAgreeOrNoAgreeBatch" parameterType="java.util.List">
+      <foreach collection="list" item="item" index="index" separator=";">
+          update WX_VisitorsInfo 
+          <set>
+              ApplyStatus=#{item.applystatus},
+              ApplyStatusName=#{item.applystatusname},
+              FlowTracing=#{item.flowtracing},
+              DirectorChargeCode=#{item.directorchargecode},
+              DirectorChargeName=#{item.directorchargename},
+              DirectorChargeAppDate=#{item.directorchargeappdate},
+              DirectorCode=#{item.directorcode},
+              DirectorName=#{item.directorname},
+              DirectorNameAppDate=#{item.directornameappdate}
+          </set>
+         where ID=#{item.id}
+      </foreach>
+  </update>
+  
+  <!-- 审批同意 -->
+  <update id="updateApplyStatusAgreeOrNoAgree" parameterType="com.xr.entity.WX_VisitorsInfo">
+      update WX_VisitorsInfo
+    <set >
+      <if test="applystatusname != null" >
+        ApplyStatusName = #{applystatusname,jdbcType=NVARCHAR},
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus = #{applystatus,jdbcType=NCHAR},
+      </if>
+      <if test="flowtracing != null" >
+        FlowTracing = #{flowtracing,jdbcType=NVARCHAR},
+      </if>
+      <if test="departmentno != null" >
+        DepartmentNo = #{departmentno,jdbcType=NVARCHAR},
+      </if>
+      <if test="returnreason != null" >
+        ReturnReason = #{returnreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="directorchargecode != null" >
+        DirectorChargeCode = #{directorchargecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="directorchargename != null" >
+        DirectorChargeName = #{directorchargename,jdbcType=NVARCHAR},
+      </if>
+      <if test="directorchargeappdate != null" >
+        DirectorChargeAppDate = #{directorchargeappdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="directorcode != null" >
+        DirectorCode = #{directorcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="directorname != null" >
+        DirectorName = #{directorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="directornameappdate != null" >
+        DirectorNameAppDate = #{directornameappdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backdate != null" >
+        BackDate = #{backdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 查询所有的访客记录 -->
+  <select id="queryVisitorsRegisterRecordList" resultType="Map" >
+   select id,visitorstype,receiversname,departmentsname,
+   applystatusname,approvertypename,
+     approverrolename1,approverrolename2,
+     directorchargename,directorname,
+      convert(varchar(10),filldate,23) filldate,
+     convert(varchar(10),filldate,24) filltime,
+     visitorsreasontext from WX_VisitorsInfo
+     <where>
+         <if test="receiversname!=null and receiversname!='' ">
+            and receiversname like '%'+#{receiversname}+'%'
+        </if>
+        <if test="visitorstype!=null and visitorstype!='' ">
+            and visitorstype =#{visitorstype,jdbcType=VARCHAR} 
+        </if>
+        <if test="approvertype!=null and approvertype!='' ">
+            and approvertype =#{approvertype,jdbcType=VARCHAR} 
+        </if>
+         <if test="filldate!=null and filldate!='' ">
+            and convert(varchar(10),filldate,23) =#{filldate,jdbcType=TIMESTAMP} 
+        </if>
+      </where>
+     order by id desc
+  </select>
+  
+  
+  <!-- 查询所有要参与审批的部门 -->
+  <select id="queryApproveDeptList" resultType="com.xr.entity.DepartmentData">
+       select departmentno,departmentname
+        from DepartmentData where UnderNo='002'
+  </select>
+  
+  
+  
+ <!-- 通过部门号查该部门下的人员 -->
+  <select id="queryHolderListByDeptNo" resultType="Map" parameterType="java.lang.String">
+      select h.holderno,h.holdername,h.departmentno,d.departmentname 
+      from (select holderno,holdername,departmentno from HolderData 
+      where departmentno=#{departmentno,jdbcType=VARCHAR}) h 
+      left join DepartmentData d on h.departmentno=d.departmentno 
+  </select>
+  
+  
+   <!-- 根据卡号查询干警信息 -->
+  <select id="queryHolderInfoByCarNo" parameterType="java.lang.String" resultType="Map">
+    select c.holderno,c.cardno,c.cardid,h.holdername,h.departmentno,d.departmentname,
+      p.dataphoto from (select CardNo,CardID ,HolderNo 
+from CardData where CardID like '%'+#{cardid}+'%')c inner join HolderData h on h.HolderNo=c.HolderNo
+      inner join HolderPhoto p on p.holderno=h.holderno and p.holderno=c.holderno
+      inner join DepartmentData d on d.departmentno=h.departmentno
+  </select>
+  
+  
+  <!-- 添加访客照片 -->
+  <insert id="insertVisitorsPhoto" parameterType="com.xr.entity.WX_VisitorsPhoto">
+      insert into WX_VisitorsPhoto (VisitorsID, PhotoData, IDPhoto)
+    values (#{visitorsid,jdbcType=INTEGER},  
+      #{photodata,jdbcType=LONGVARBINARY}, 
+      #{idphoto,jdbcType=LONGVARBINARY})
+  </insert>
+  
+  
+    <!-- 批量添加访客信息 -->
+ <!--  <insert id="insertVisitorsInfoAddBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+     insert into WX_VisitorsInfoAdd (VisitorsInfoID,  
+      RecTypeText, VisitorsName, VisitorsSexText, 
+      VisitorsType,VisitorsAddress, IDCardNo,  
+       CarNo,nationality, VisitorsStatus, VisitorsStatusName, 
+      VisitorsDate, VisitorsReason, VisitorsReasonText,IDImgUrl,DataImgUrl)
+    <foreach collection="list" item="item" index="index" separator="union all">
+      select #{item.visitorsinfoid,jdbcType=INTEGER}, #{item.rectypetext,jdbcType=VARCHAR}, 
+      #{item.visitorsname,jdbcType=VARCHAR}, #{item.visitorssextext,jdbcType=VARCHAR}, 
+      #{item.visitorstype,jdbcType=VARCHAR},  #{item.visitorsaddress,jdbcType=VARCHAR}, 
+      #{item.idcardno,jdbcType=VARCHAR}, #{item.carno,jdbcType=VARCHAR}, 
+      #{item.nationality,jdbcType=VARCHAR}, #{item.visitorsstatus,jdbcType=VARCHAR}, 
+      #{item.visitorsstatusname,jdbcType=VARCHAR}, #{item.visitorsdate,jdbcType=TIMESTAMP}, 
+      #{item.visitorsreason,jdbcType=VARCHAR}, #{item.visitorsreasontext,jdbcType=VARCHAR}, 
+       #{item.idimgurl,jdbcType=NVARCHAR}, #{item.dataimgurl,jdbcType=NVARCHAR}
+    </foreach>   
+  </insert> -->
+  
+  <!-- 添加登记信息 -->
+  <insert id="insertVisitorsInfo" parameterType="com.xr.entity.WX_VisitorsInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into WX_VisitorsInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+       <if test="carno != null" >
+        CarNo,
+      </if>
+       <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="visitorsreason != null" >
+        VisitorsReason,
+      </if>
+      <if test="visitorsreasontext != null" >
+        VisitorsReasonText,
+      </if>
+      <if test="receiverpeopleid != null" >
+        ReceiverPeopleID,
+      </if>
+      
+      <if test="receiversname != null" >
+        ReceiversName,
+      </if>
+      <if test="departments != null" >
+        Departments,
+      </if>
+      <if test="departmentsname != null" >
+        DepartmentsName,
+      </if>
+       <if test="departmentno != null" >
+        DepartmentNo,
+      </if>
+      <if test="filldate != null" >
+        FillDate,
+      </if>
+      <if test="applystatusname != null" >
+        ApplyStatusName,
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus,
+      </if>
+      <if test="flowtracing != null" >
+        FlowTracing,
+      </if>
+       <if test="visitorstype != null" >
+        VisitorsType,
+      </if>
+       <if test="approverrole1 != null" >
+        ApproverRole1,
+      </if>
+       <if test="approverrolename1 != null" >
+        ApproverRoleName1,
+      </if>
+        <if test="approverrole2 != null" >
+        ApproverRole2,
+      </if>
+       <if test="approverrolename2 != null" >
+        ApproverRoleName2,
+      </if>
+       <if test="approvertype != null" >
+        ApproverType,
+      </if>
+      <if test="approvertypename != null" >
+        ApproverTypeName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+       <if test="carno != null" >
+        #{carno,jdbcType=VARCHAR},
+      </if>
+       <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsreason != null" >
+        #{visitorsreason,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsreasontext != null" >
+        #{visitorsreasontext,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpeopleid != null" >
+        #{receiverpeopleid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiversname != null" >
+        #{receiversname,jdbcType=VARCHAR},
+      </if>
+      <if test="departments != null" >
+        #{departments,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentsname != null" >
+        #{departmentsname,jdbcType=VARCHAR},
+      </if>
+       <if test="departmentno != null" >
+        #{departmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="filldate != null" >
+        #{filldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatusname != null" >
+        #{applystatusname,jdbcType=NVARCHAR},
+      </if>
+      <if test="applystatus != null" >
+        #{applystatus,jdbcType=NCHAR},
+      </if>
+      <if test="flowtracing != null" >
+        #{flowtracing,jdbcType=NVARCHAR},
+      </if>
+       <if test="visitorstype != null" >
+        #{visitorstype,jdbcType=NVARCHAR},
+      </if>
+       <if test="approverrole1 != null" >
+        #{approverrole1,jdbcType=NVARCHAR},
+      </if>
+       <if test="approverrolename1 != null" >
+        #{approverrolename1,jdbcType=NVARCHAR},
+      </if>
+        <if test="approverrole2 != null" >
+        #{approverrole2,jdbcType=NVARCHAR},
+      </if>
+       <if test="approverrolename2 != null" >
+        #{approverrolename2,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvertype != null" >
+        #{approvertype,jdbcType=VARCHAR},
+      </if>
+      <if test="approvertypename != null" >
+        #{approvertypename,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+ 
+  <insert id="insert" parameterType="com.xr.entity.WX_VisitorsInfoAdd" >
+    insert into WX_VisitorsInfoAdd (VisitorsInfoID,  
+      RecTypeText, VisitorsName,
+      VisitorsSexText, VisitorsType,
+      VisitorsAddress, IDCardNo, CarNo, 
+      nationality, VisitorsStatus, VisitorsStatusName, 
+      VisitorsDate, VisitorsReason, 
+      VisitorsReasonText,Note, CarInfo,DringModels)
+    values (#{visitorsinfoid,jdbcType=INTEGER},
+      #{rectypetext,jdbcType=VARCHAR}, #{visitorsname,jdbcType=VARCHAR},
+      #{visitorssextext,jdbcType=VARCHAR}, #{visitorstype,jdbcType=VARCHAR}, 
+      #{visitorsaddress,jdbcType=VARCHAR}, #{idcardno,jdbcType=VARCHAR}, #{carno,jdbcType=VARCHAR}, 
+      #{nationality,jdbcType=VARCHAR}, #{visitorsstatus,jdbcType=VARCHAR}, #{visitorsstatusname,jdbcType=VARCHAR}, 
+     #{visitorsdate,jdbcType=TIMESTAMP}, #{visitorsreason,jdbcType=VARCHAR}, 
+      #{visitorsreasontext,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{carinfo,jdbcType=VARCHAR}, #{dringmodels,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 添加外来人信息 -->
+  <insert id="insertSelective" parameterType="com.xr.entity.WX_VisitorsInfoAdd" useGeneratedKeys="true" keyProperty="id">
+    insert into WX_VisitorsInfoAdd
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="visitorsinfoid != null" >
+        VisitorsInfoID,
+      </if>
+      <if test="rectypetext != null" >
+        RecTypeText,
+      </if>
+      <if test="visitorsname != null" >
+        VisitorsName,
+      </if>
+      <if test="visitorssextext != null" >
+        VisitorsSexText,
+      </if>
+      <if test="visitorsreason != null" >
+        VisitorsReason,
+      </if>
+      <if test="visitorsreasontext != null" >
+        VisitorsReasonText,
+      </if>
+      <if test="visitorstype != null" >
+        VisitorsType,
+      </if>
+      <if test="visitorsaddress != null" >
+        VisitorsAddress,
+      </if>
+      <if test="idcardno != null" >
+        IDCardNo,
+      </if> 
+      <if test="nationality != null" >
+        nationality,
+      </if>
+      <if test="visitorsstatus != null" >
+        VisitorsStatus,
+      </if>
+      <if test="visitorsstatusname != null" >
+        VisitorsStatusName,
+      </if> 
+      <if test="visitorsdate != null" >
+        VisitorsDate,
+      </if> 
+      <if test="dringmodels != null" >
+        DringModels,
+      </if> 
+      <if test="carinfo != null" >
+        CarInfo,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="visitorsinfoid != null" >
+        #{visitorsinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="rectypetext != null" >
+        #{rectypetext,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsname != null" >
+        #{visitorsname,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorssextext != null" >
+        #{visitorssextext,jdbcType=VARCHAR},
+      </if>
+       <if test="visitorsreason != null" >
+        #{visitorsreason,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsreasontext != null" >
+        #{visitorsreasontext,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorstype != null" >
+        #{visitorstype,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsaddress != null" >
+        #{visitorsaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardno != null" >
+        #{idcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsstatus != null" >
+        #{visitorsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsstatusname != null" >
+        #{visitorsstatusname,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsdate != null" >
+        #{visitorsdate,jdbcType=TIMESTAMP},
+      </if> 
+      <if test="dringmodels != null" >
+        #{dringmodels,jdbcType=VARCHAR},
+      </if> 
+      <if test="carinfo != null" >
+        #{carinfo,jdbcType=VARCHAR},
+      </if>
+       <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.WX_VisitorsInfoAdd" >
+    update WX_VisitorsInfoAdd
+    <set >
+      <if test="visitorsinfoid != null" >
+        VisitorsInfoID = #{visitorsinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="rectype != null" >
+        RecType = #{rectype,jdbcType=VARCHAR},
+      </if>
+      <if test="rectypetext != null" >
+        RecTypeText = #{rectypetext,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsname != null" >
+        VisitorsName = #{visitorsname,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorssex != null" >
+        VisitorsSex = #{visitorssex,jdbcType=CHAR},
+      </if>
+      <if test="visitorssextext != null" >
+        VisitorsSexText = #{visitorssextext,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorstype != null" >
+        VisitorsType = #{visitorstype,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsdepartmentsname != null" >
+        VisitorsDepartmentsName = #{visitorsdepartmentsname,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsaddress != null" >
+        VisitorsAddress = #{visitorsaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardno != null" >
+        IDCardNo = #{idcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null" >
+        ORGName = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="carno != null" >
+        CarNo = #{carno,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingunit != null" >
+        IssuingUnit = #{issuingunit,jdbcType=VARCHAR},
+      </if>
+      <if test="effectdate != null" >
+        EffectDate = #{effectdate,jdbcType=VARCHAR},
+      </if>
+      <if test="faildate != null" >
+        FailDate = #{faildate,jdbcType=VARCHAR},
+      </if>
+      <if test="acscardno != null" >
+        AcsCardNo = #{acscardno,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        nationality = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsstatus != null" >
+        VisitorsStatus = #{visitorsstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsstatusname != null" >
+        VisitorsStatusName = #{visitorsstatusname,jdbcType=VARCHAR},
+      </if>
+      <if test="registerid != null" >
+        RegisterID = #{registerid,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        Birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsdate != null" >
+        VisitorsDate = #{visitorsdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitorsstatus1 != null" >
+        VisitorsStatus1 = #{visitorsstatus1,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsnumber != null" >
+        VisitorsNumber = #{visitorsnumber,jdbcType=INTEGER},
+      </if>
+      <if test="visitorsreason != null" >
+        VisitorsReason = #{visitorsreason,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorsreasontext != null" >
+        VisitorsReasonText = #{visitorsreasontext,jdbcType=VARCHAR},
+      </if>
+      <if test="reckonleavedate != null" >
+        ReckonLeaveDate = #{reckonleavedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realleavedate != null" >
+        RealLeaveDate = #{realleavedate,jdbcType=CHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverpeopleid != null" >
+        ReceiverPeopleID = #{receiverpeopleid,jdbcType=VARCHAR},
+      </if>
+      <if test="carinfo != null" >
+        CarInfo = #{carinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deposit != null" >
+        Deposit = #{deposit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsinfo != null" >
+        GoodsInfo = #{goodsinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="receiversname != null" >
+        ReceiversName = #{receiversname,jdbcType=VARCHAR},
+      </if>
+      <if test="departments != null" >
+        Departments = #{departments,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentsname != null" >
+        DepartmentsName = #{departmentsname,jdbcType=VARCHAR},
+      </if>
+      <if test="receiversposition != null" >
+        ReceiversPosition = #{receiversposition,jdbcType=VARCHAR},
+      </if>
+      <if test="receiversphone != null" >
+        ReceiversPHONE = #{receiversphone,jdbcType=VARCHAR},
+      </if>
+      <if test="isend != null" >
+        ISEND = #{isend,jdbcType=CHAR},
+      </if>
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="credentialno != null" >
+        CredentialNO = #{credentialno,jdbcType=VARCHAR},
+      </if>
+      <if test="workspaces != null" >
+        WorkSpaces = #{workspaces,jdbcType=VARCHAR},
+      </if>
+      <if test="domicile != null" >
+        Domicile = #{domicile,jdbcType=VARCHAR},
+      </if>
+      <if test="divisions != null" >
+        Divisions = #{divisions,jdbcType=VARCHAR},
+      </if>
+      <if test="workpost != null" >
+        WorkPost = #{workpost,jdbcType=VARCHAR},
+      </if>
+      <if test="workrank != null" >
+        WorkRank = #{workrank,jdbcType=VARCHAR},
+      </if>
+      <if test="dringmodels != null" >
+        DringModels = #{dringmodels,jdbcType=VARCHAR},
+      </if>
+      <if test="sendstatus != null" >
+        SendStatus = #{sendstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fixedtelephone != null" >
+        FixedTelephone = #{fixedtelephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        MobilePhone = #{mobilephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="floorname != null" >
+        FloorName = #{floorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="roomname != null" >
+        RoomName = #{roomname,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        CardNum = #{cardnum,jdbcType=NVARCHAR},
+      </if>
+      <if test="visitorsphoto != null" >
+        VisitorsPhoto = #{visitorsphoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+ 
+</mapper>

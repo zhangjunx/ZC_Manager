@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增备品备件详细库存</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/style_.css" />
+</head>
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <!-- <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief"> -->
+                <div class="label fl curr"><a href="javascript:;">新增备品备件详细库存</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a style="background: #30c430;" id="save">保存</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl">
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>库存量：</div>
+                            <div class="control clearfix">
+                                <input type="text" placeholder="" id="storage" name="storage" class="input">
+                            </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>所在仓库：</div>
+                            <div class="control clearfix">
+                            	<select id="warecode" name="warecode">
+                            		<option value=""></option>
+                            	</select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                           <tr>
+                                <td width="40">序号</td>
+                                <td width="100">备品备件条码</td>
+                                <td width="100">原材料名称</td>
+                                <td width="100">规格</td>
+                                <td width="100">型号</td>
+                                <td width="100">计量单位</td>
+                                <td width="100">所属类别</td>
+                               <!--  <td width="100">库存量</td> -->
+                                <td width="100">备注</td>
+                            </tr>
+                       
+                            <tr>
+                                <td class="center">1</td>
+                                <td><input type="text" class="input" id="itemcode" name="itemcode" autocomplete="off">
+	                               
+                                <td class="center" id="itemname"></td>
+                                <td class="center" id="spec"></td>
+                                <td class="center" id="type"></td>
+                                <td class="center" id="unitname"></td>
+                                <td class="center" id="itemtype"></td>
+                                <td class="center" id="remark"></td>
+                            </tr>
+                       
+                    </table>
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/printThis.js"></script>
+  	<script type="text/javascript" src="js/b_stock.js"></script>
+  	
+  
+</body>
+</html>

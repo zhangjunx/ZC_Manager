@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>人脸消费</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+   <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../css/Shuttle.css">
+     <link rel="stylesheet" href="../css/removeSeconds.css">
+    <link rel="stylesheet" href="css/FaceConsume.css">
+    
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增消费模式</a></div>
+                <div class="btn-box fr">
+	                <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="sureBtn">确定</a></div>
+				   <div class="subbtn fl"><a href="consumptionPattern.html" class="layui-bg-orange">取消</a></div>
+	            </div>
+
+            <div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+							<div class="lable"><span>*</span>消费模式名称：</div>
+							<div class="control clearfix">
+								<input type="text" id="consumeName" placeholder="" class="input"  autocomplete="off"/>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span>*</span>状态：</div>
+								<div class="control clearfix">
+									<select id="fstatus">
+										<option value="1">启用</option>
+										<option value="0">禁用</option>
+									</select>
+								</div>
+						</div>
+						<div class="form-term fl clearfix" style="clear:both">
+								<div class="lable"><span></span>备注：</div>
+								<div class="control clearfix">
+								<textarea id="description" class="textinput"
+								style="width: 232px; height: 80px; resize:none; border:1px solid #ddd" ></textarea>
+								</div>
+						</div>
+				</div>
+				<div class="addMeal layui-clear">
+					<a href="javascript:;" class="layui-btn layui-btn-sm layui-bg-blue">添加餐次</a>
+				</div>
+				<table class="grade">
+					<tr>
+						<td>餐次名称</td>
+						<td>开始时间</td>
+						<td>结束时间</td>
+						<td>消费金额</td>
+						<td>餐厅</td>
+						<td>操作</td>
+					</tr>
+					<tr>
+						<td>
+							<select class="mealName">
+								<option value="">请选择</option>
+								<option value="早餐">早餐</option>
+								<option value="中餐">中餐</option>
+								<option value="晚餐">晚餐</option>
+								<option value="夜宵">夜宵</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" class="startDate test-item" placeholder="请输入开始时间">
+						</td>
+						<td>
+							<input type="text" class="endDate test-item" placeholder="请输入结束时间">
+						</td>
+						<td>
+							<input type="number" class="amount" placeholder="请输入消费金额">
+						</td>
+						<td>
+							<select class="resturant">
+							</select>
+						</td>
+						<td>
+							<a href="javascript:;" class="layui-btn layui-btn-xs layui-btn-danger del">删除</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+     <script type="text/javascript" src="js/consumptionPattern_add.js"></script>
+</body>
+
+</html>

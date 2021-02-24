@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>个人信息</title>
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/public1.css" />
+	<!--<link rel="stylesheet" href="css/style_.css" />  -->
+	<link rel="stylesheet" href="css/list_style.css" />
+	<link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+				<div class="label fl curr"><a href="javascript:;">个人信息</a></div>
+				<div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="orange"
+                          onclick="printTable('dayindaju1')">打印</a></div>	
+                    <!--  <div class="subbtn fl"><a href="updata_holderdata.html" class="blue addMain" id="edit">编辑</a></div> -->
+				</div>
+			</div>
+		</div>
+		<div class="main-table" id="dayindaju1">
+			<div class="content" style="margin-left:150px">
+				   	<div class="avator">
+    					 <img id="avatarPreview" src="img/person.png">
+      					 <h5 class="photo" style="font-size: 16px;margin-left:25px">证件照</h5>
+      				</div>
+      				<div class="avator_digital">
+    					 <img id="digitalPhoto" src="img/person.png">
+      					 <h5 class="photo" style="font-size: 16px;margin-left:25px">数码照</h5>
+      				</div>
+      				<div id="content">
+      				</div>
+      		</div>		
+		</div>
+
+	</div>
+
+	<script type="text/javascript" src="hyf/path_js.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	 <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+	<script type="text/javascript" src="hyf/personal_data.js"></script>
+	<script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script>
+</body>
+
+</html>

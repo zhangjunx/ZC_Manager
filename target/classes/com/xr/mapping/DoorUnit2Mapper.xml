@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorUnit2Mapper" >
+  <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by DeviceNo desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+  <select id="getDoorLit" resultType="map">
+  	<include refid="c_start"></include>
+	  	SELECT t.DoorNo,t.DoorChannel,t.DoorName,t.EntryReaderCH,t.EntryReaderType,t.ExitReaderCH,t.ExitReaderType,t.DeviceNo,
+			   r1.TypeName EntryReaderTypeName,r2.TypeName ExitReaderTypeNme,
+			   case when t.ExitReaderCh>0 then '2' else '1' end "IOType",t.MacCode,t.MacName,t.DoorLimit,t.ifPrisonerDoor
+		  FROM dbo.DoorUnit t
+		  LEFT JOIN dbo.IoTReaderType r1 ON t.EntryReaderType = r1.Code
+		  LEFT JOIN dbo.IoTReaderType r2 ON t.ExitReaderType = r2.Code
+		where 1=1
+		<!--根据设备类型查询设备列表  -->
+		<if test="DeviceNo != null and DeviceNo != ''">
+			AND t.DeviceNo = #{DeviceNo}
+		</if>
+		<if test="DoorName != null and DoorName != ''">
+			and (t.DoorName like '%'+#{DoorName}+'%' or DoorChannel like '%'+#{DoorName}+'%')
+		</if>
+	<include refid="c_end"></include>
+  </select>
+  
+  <select id="getDoorLitCount" resultType="integer">
+  	SELECT count(1)
+		  FROM dbo.DoorUnit t
+		  LEFT JOIN dbo.IoTReaderType r1 ON t.EntryReaderType = r1.Code
+		  LEFT JOIN dbo.IoTReaderType r2 ON t.ExitReaderType = r2.Code
+		where 1=1
+		<!--根据设备类型查询设备列表  -->
+		<if test="DeviceNo != null and DeviceNo != ''">
+			AND t.DeviceNo = #{DeviceNo}
+		</if>
+		<if test="DoorName != null and DoorName != ''">
+			and (t.DoorName like '%'+#{DoorName}+'%' or t.DoorChannel like '%'+#{DoorName}+'%')
+		</if>
+  </select>
+  
+  <select id="getDoorChannelLit" resultType="map">
+  	<include refid="c_start"></include>
+	  	SELECT t.ID,t.DeviceNo,t.ChannelName,t.DvsChannelNum,t.DvsID ,d.DoorNo,d.DoorName
+		  FROM dbo.IoTNVRChannel t
+		  LEFT JOIN DoorUnit d ON t.DvsID = d.DoorNo
+		  WHERE t.DeviceNo=#{DeviceNo}
+		<!--根据设备类型查询设备列表  -->
+		<if test="DeviceNo != null and DeviceNo != ''">
+			AND t.DeviceNo = #{DeviceNo}
+		</if>
+		<if test="ChannelName != null and ChannelName != ''">
+			and (t.ChannelName like '%'+#{ChannelName}+'%' or t.DvsChannelNum like '%'+#{ChannelName}+'%')
+		</if>
+	<include refid="c_end"></include>
+  </select>
+  
+  <select id="getDoorChannelLitCount" resultType="integer">
+  	SELECT count(1)
+		  FROM dbo.IoTNVRChannel t
+		  LEFT JOIN DoorUnit d ON t.DvsID = d.DoorNo
+		  WHERE t.DeviceNo=#{DeviceNo}
+		<!--根据设备类型查询设备列表  -->
+		<if test="DeviceNo != null and DeviceNo != ''">
+			AND t.DeviceNo = #{DeviceNo}
+		</if>
+		<if test="ChannelName != null and ChannelName != ''">
+			and (t.ChannelName like '%'+#{ChannelName}+'%' or t.DvsChannelNum like '%'+#{ChannelName}+'%')
+		</if>
+  </select>
+  
+  <update id="saveDoorInfo">
+  	declare
+  		@doorNo varchar(20);
+  	begin
+  		set @doorNo = (select max(t.DoorNo) from DoorUnit t);
+  		insert into DoorUnit
+			(DoorNo,DoorChannel,DeviceNo,DoorName,EntryReaderCH,EntryReaderType,ExitReaderCH,ExitReaderType,MacCode,MacName,DoorLimit,ifPrisonerDoor)
+		VALUES
+		    (@doorNo+1,#{DoorChannel},#{DeviceNo},#{DoorName},#{EntryReaderCH},#{EntryReaderType},#{ExitReaderCH},#{ExitReaderType},#{MacCode},#{MacName},#{DoorLimit},#{ifPrisonerDoor});
+  	end;
+  	
+  </update>
+  
+  <update id="editDoorInfo">
+  	update DoorUnit
+	   set DoorChannel=#{DoorChannel},
+	       DeviceNo=#{DeviceNo},
+	       DoorName=#{DoorName},
+	       EntryReaderCH=#{EntryReaderCH},
+	       EntryReaderType=#{EntryReaderType},
+	       ExitReaderCH=#{ExitReaderCH},
+	       ExitReaderType=#{ExitReaderType},
+	       MacCode = #{MacCode},
+	       MacName = #{MacName},
+	       DoorLimit = #{DoorLimit},
+	       ifPrisonerDoor=#{ifPrisonerDoor}
+  	 where DoorNo = #{DoorNo}
+  </update>
+  
+  <update id="saveChannelInfo">
+  	INSERT INTO IoTNVRChannel(DeviceNo,ChannelName,DvsChannelNum,DvsID)
+	VALUES(#{DeviceNo},#{ChannelName},#{DvsChannelNum},#{DvsID})
+  </update>
+  
+  <update id="editChannelInfo">
+  	update IoTNVRChannel
+  	   set DeviceNo=#{DeviceNo},
+  	       ChannelName=#{ChannelName},
+  	       DvsChannelNum=#{DvsChannelNum},
+  	       DvsID=#{DvsID}
+  	 where ID=#{ID}
+  </update>
+  
+  <select id="getOneDoorInfo" resultType="map">
+  	SELECT t.DoorNo,t.DoorChannel,t.DoorName,t.EntryReaderCH,t.EntryReaderType,t.ExitReaderCH,
+  	       t.ExitReaderType,t.DeviceNo,u.DeviceTypeCode,u.AreaID,
+			   r1.TypeName EntryReaderTypeName,r2.TypeName ExitReaderTypeNme,u.DeviceName,t.MacCode,t.MacName,t.DoorLimit,t.ifPrisonerDoor
+		  FROM dbo.DoorUnit t
+		  LEFT JOIN dbo.IoTReaderType r1 ON t.EntryReaderType = r1.Code
+		  LEFT JOIN dbo.IoTReaderType r2 ON t.ExitReaderType = r2.Code
+		  left join DeviceUnit u on t.DeviceNo = u.DeviceNo
+  	where t.DoorNo=#{id}
+  </select>
+  
+  <select id="getOneChnnelInfo" resultType="map">
+  	SELECT t.ID,t.DeviceNo,t.ChannelName,t.DvsChannelNum,t.DvsID ,d.DoorNo,d.DoorName,
+  	       u.DeviceName,u.DeviceTypeCode,u.AreaID
+	  FROM dbo.IoTNVRChannel t
+	  LEFT JOIN DoorUnit d ON t.DvsID = d.DoorNo
+	  left join DeviceUnit u on t.DeviceNo = u.DeviceNo
+	  where t.ID=#{id}
+  </select>
+  
+  <update id="delOneDoorInfo">
+  	begin 
+  		delete from DoorPermHolder where doorNo = #{DoorNo};
+  		delete from DoorUnit where DoorNo = #{DoorNo};
+  	end;
+  </update>
+  
+  <update id="delOneChannelInfo">
+  	delete from DoorUnit where DoorNo = #{ID}
+  </update>
+  
+  <select id="getRederTypeCombo" resultType="map">
+  	SELECT * FROM IoTReaderType t WHERE t.flag='y'
+  </select>
+  
+  <select id="getDeviceTreeList" resultType="map">
+  	SELECT t.AreaID "id",t.AreaName "title",case when t.PreAreaID is null then '' else t.PreAreaID end "parent",'' "children",'' DeviceTypeCode,t.AreaID,'' "ip"
+	  	FROM dbo.AreaList t 
+	    UNION ALL 
+	SELECT 'd'+convert(varchar(50),d.DeviceNo) "id",d.DeviceName "title",d.AreaID "parent",'' "children" ,d.DeviceTypeCode,d.AreaID ,d.ip "ip"
+	  FROM dbo.DeviceUnit d where d.AreaID is not null
+  </select>
+  
+  <select id="getAreaListCombo" resultType="map">
+  	select s.AreaID "id",s.AreaName "title",case when s.PreAreaId is null then '' else s.PreAreaId end "parent",'' "children" from AreaList s
+	union all
+	SELECT 'd'+convert(varchar(50),t.DoorNo) "id",t.DoorName "title",u.AreaID "parent",'' "children"
+	 FROM dbo.DoorUnit t 
+	 left join DeviceUnit u on t.DeviceNo = u.DeviceNo
+	 where u.AreaID != 'NULL';
+  </select>
+  
+  <select id="getChannelMaXIndex" resultType="integer">
+  	SELECT case when max(t.ID) is null then 1 else max(t.ID) end FROM dbo.IoTNVRChannel t
+  </select>
+  
+  <select id="getDoorMaXIndex" resultType="integer">
+  	SELECT case when max(t.DoorNo) is null then 1 else max(t.DoorNo) end FROM dbo.DoorUnit t
+  </select>
+  
+  <!--查询人脸机关联的门区列表  -->
+  <select id="getDoorWithAEFService" resultType="map">
+  	select t.doorNo,t.doorName from DoorUnit t
+	inner join DeviceUnit d on t.deviceNo = d.deviceNo
+	where d.deviceTypeCode = '20'
+  </select>
+  
+  <!--在门区列表中勾选属于犯人通道的门区  -->
+  <update id="updateDoorPrisonerCheck">
+  	update DoorUnit set ifPrisonerDoor = #{ifPrisonerDoor} where doorNo=#{doorNo}
+  </update>
+  
+  <!--获取门区列表，分为勾选犯人的与未勾选犯人的  -->
+  <select id="getDoorPrisonerCheck" resultType="map">
+  	select t.doorNo,t.doorName,t.doorChannel,t.deviceNo,d.deviceName,a.AreaID,a.areaName,t.ifPrisonerDoor from DoorUnit t 
+	left join DeviceUnit d on t.DeviceNo = d.DeviceNo
+	left join AreaList a on t.AreaID = a.AreaID
+  </select>
+  
+  <!--设置门区权限  -->
+  <update id="setABDoorLimit">
+  	insert into DoorUnitOPerateLimit(doorID,holderNo,pageID,operateDate,operator)
+	select #{doorID},#{holderNo},#{pageID},GETDATE(),#{operator}
+	where not EXISTS(select 1 from DoorUnitOPerateLimit t where t.doorID=#{doorID} and t.holderNo = #{holderNo} and t.pageID=#{pageID})
+  </update>
+  
+  <update id="setDisABDoorLimit">
+  	delete from DoorUnitOPerateLimit where doorID=#{doorID} and holderNo = #{holderNo} and pageID=#{pageID}
+  </update>
+  
+  <!--获取AB门门区列表  -->
+  <select id="getABDoorList" resultType="map">
+  	select t.doorNo,t.doorName,l.holderNo from DoorUnit t
+	inner join DeviceUnit d on t.deviceNo = d.deviceNo
+	 left join (select * from DoorUnitOPerateLimit m where m.pageID = #{pageID} and m.holderNo=#{holderNo}) l on t.doorNo=l.doorID
+	where d.deviceTypeCode = '20' 
+  </select>
+  
+  <!--获取犯人通道门区  -->
+  <select id="getPrisonDoorList" resultType="map">
+  	select t.doorNo,t.doorName,t.doorChannel,t.deviceNo,d.deviceName,a.AreaID,a.areaName,t.ifPrisonerDoor,l.holderNo from DoorUnit t 
+	left join DeviceUnit d on t.DeviceNo = d.DeviceNo
+	left join AreaList a on t.AreaID = a.AreaID
+	left join (select * from DoorUnitOPerateLimit m where m.pageID = #{pageID} and m.holderNo=#{holderNo}) l on t.doorNo=l.doorID
+	where t.ifPrisonerDoor=1
+  </select>
+  
+</mapper>

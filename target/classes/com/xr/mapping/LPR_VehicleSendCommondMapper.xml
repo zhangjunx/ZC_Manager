@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleSendCommondMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleSendCommond" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DeviceName" property="devicename" jdbcType="NVARCHAR" />
+    <result column="VehicleSendID" property="vehiclesendid" jdbcType="INTEGER" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+    <result column="CommondType" property="commondtype" jdbcType="NVARCHAR" />
+    <result column="CommondInfo" property="commondinfo" jdbcType="NVARCHAR" />
+    <result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="ActiveTime" property="activetime" jdbcType="TIMESTAMP" />
+    <result column="ResultInfo" property="resultinfo" jdbcType="NVARCHAR" />
+    <result column="ResultStatus" property="resultstatus" jdbcType="NVARCHAR" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DeviceName, VehicleSendID, DeviceNo, CommondType, CommondInfo, SendTime, ActiveTime, 
+    ResultInfo, ResultStatus, Note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_VehicleSendCommond
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_VehicleSendCommond
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_VehicleSendCommond" >
+    insert into LPR_VehicleSendCommond (ID, DeviceName, VehicleSendID, 
+      DeviceNo, CommondType, CommondInfo, 
+      SendTime, ActiveTime, ResultInfo, 
+      ResultStatus, Note)
+    values (#{id,jdbcType=INTEGER}, #{devicename,jdbcType=NVARCHAR}, #{vehiclesendid,jdbcType=INTEGER}, 
+      #{deviceno,jdbcType=INTEGER}, #{commondtype,jdbcType=NVARCHAR}, #{commondinfo,jdbcType=NVARCHAR}, 
+      #{sendtime,jdbcType=TIMESTAMP}, #{activetime,jdbcType=TIMESTAMP}, #{resultinfo,jdbcType=NVARCHAR}, 
+      #{resultstatus,jdbcType=NVARCHAR}, #{note,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_VehicleSendCommond" >
+    insert into LPR_VehicleSendCommond
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="devicename != null" >
+        DeviceName,
+      </if>
+      <if test="vehiclesendid != null" >
+        VehicleSendID,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="commondtype != null" >
+        CommondType,
+      </if>
+      <if test="commondinfo != null" >
+        CommondInfo,
+      </if>
+      <if test="sendtime != null" >
+        SendTime,
+      </if>
+      <if test="activetime != null" >
+        ActiveTime,
+      </if>
+      <if test="resultinfo != null" >
+        ResultInfo,
+      </if>
+      <if test="resultstatus != null" >
+        ResultStatus,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="devicename != null" >
+        #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclesendid != null" >
+        #{vehiclesendid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="commondtype != null" >
+        #{commondtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondinfo != null" >
+        #{commondinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activetime != null" >
+        #{activetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultinfo != null" >
+        #{resultinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="resultstatus != null" >
+        #{resultstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_VehicleSendCommond" >
+    update LPR_VehicleSendCommond
+    <set >
+      <if test="devicename != null" >
+        DeviceName = #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclesendid != null" >
+        VehicleSendID = #{vehiclesendid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="commondtype != null" >
+        CommondType = #{commondtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondinfo != null" >
+        CommondInfo = #{commondinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activetime != null" >
+        ActiveTime = #{activetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultinfo != null" >
+        ResultInfo = #{resultinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="resultstatus != null" >
+        ResultStatus = #{resultstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_VehicleSendCommond" >
+    update LPR_VehicleSendCommond
+    set DeviceName = #{devicename,jdbcType=NVARCHAR},
+      VehicleSendID = #{vehiclesendid,jdbcType=INTEGER},
+      DeviceNo = #{deviceno,jdbcType=INTEGER},
+      CommondType = #{commondtype,jdbcType=NVARCHAR},
+      CommondInfo = #{commondinfo,jdbcType=NVARCHAR},
+      SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      ActiveTime = #{activetime,jdbcType=TIMESTAMP},
+      ResultInfo = #{resultinfo,jdbcType=NVARCHAR},
+      ResultStatus = #{resultstatus,jdbcType=NVARCHAR},
+      Note = #{note,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

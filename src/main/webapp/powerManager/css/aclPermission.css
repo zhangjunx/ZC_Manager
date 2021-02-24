@@ -1,0 +1,157 @@
+/* CSS Document */
+html {
+	border: 0px; 
+}
+body{
+    background: #f0f2f5;
+}
+.layui-layer-btn{
+	text-align:center !important;
+}
+
+body, div,th,td,ul,li{
+	margin: 0px;
+	padding: 0px;
+	border: 0px; 
+	font-family: 微软雅黑,Microsoft yahei,Arial,Verdana,Tahoma,sans-serif;
+	font-size: 12px;
+ }
+input, select, textarea {
+	margin: 0px;
+	padding: 0px;
+	font-family: 微软雅黑,Microsoft yahei,Arial,Verdana,Tahoma,sans-serif;
+	font-size: 12px; 
+}
+form, img, dl, dt, dd, iframe {
+	margin: 0px;
+	padding: 0px; 
+	border: 0px; 
+}
+ul, li {
+	margin: 0px; 
+	padding: 0px; 
+	border: 0px; 
+	list-style-type: none; 
+	list-style-position: outside; 
+}
+a { 
+	color: #08f; 
+	text-decoration: none; 
+	cursor: pointer; 
+}
+a, input { 
+	outline: none; 
+}
+a{
+	text-decoration:none;
+	cursor:pointer;
+	outline:none;
+	color: #666;
+}
+a:hover{
+	text-decoration:none;
+	cursor:pointer;
+	outline:none;
+	color: #1777C6;
+}
+/* .search-box{
+	margin-left:-71px;
+} */
+.fl { 
+	float: left;
+}
+.fr { 
+	float: right;
+}
+.clear { 
+	clear: both; 
+}
+
+/*新加公用样式  开始*/
+ul,ol,dl,ul li,ol li,dl,dt,dd{
+	list-style:none;
+}
+input[type="text"],input[type="password"],input[type="button"]{
+	color:#ccc;
+	padding:0px 10px;
+	outline: none;
+	color: #333;
+}
+textarea{
+	color:#ccc;
+	padding:10px;
+	outline: none;
+}
+textarea:focus{
+	color:#000;
+}
+button{
+	cursor:pointer;
+	border:0;
+	font-family: "微软雅黑";
+}
+i,em,cite{
+	font-style: normal; 
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.clearfix:after{
+	content:"";
+	display:block;
+	clear: both;
+}
+/*新加公用样式  结束*/
+
+
+/* 左侧角色样式 */
+.approval_role{
+	width:100%;
+	height:calc(100% - 99px);
+	overflow:auto;
+	box-sizing:border-box;
+}
+
+/*修改滚动条样式*/
+.approval_role::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_role::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_role::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_role::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_role::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_role li{
+	font-size: 18px;
+    border: 1px solid #ddd;
+    text-align: left;
+    color: #333;
+    line-height: 60px;
+    width: 261PX;
+    cursor: pointer;
+    height: 60px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding-left:59px;
+    box-sizing:border-box;
+    border-radius:3px;
+    background:url(../img/wx_approver2.png) no-repeat 24px center;
+}
+.approval_role li.current{
+	background:url(../img/wx_approver1.png) no-repeat 24px center;
+	color:#008EDE;
+	border-color:#008EDE;
+}

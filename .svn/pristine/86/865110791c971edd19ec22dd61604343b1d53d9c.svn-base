@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>报废物品管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+     <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+     <link rel="stylesheet" href="css/fixedGoodsManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增退役物品</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl">
+						<a href="javascript:;" class="blue addMain" id="saveScrap">保存</a>
+					</div>
+                    <div class="subbtn fl"><a href="javascript:history.go(-1)" class="orange" id="printInStorage">返回</a></div> 
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>RFID标签：</div>
+                            <div class="control clearfix">
+                                	<input type="text" class="input" id="labelCode">
+                            </div>
+                     </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>退役日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="scrapDate" readonly>
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="supplierSearch">生成</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                        <thead>
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">物品类别</td>
+                                <td width="100">物品名称</td>
+                                <td width="100">物品RFID标签</td>
+                                <td width="100">型号</td>
+                                <td width="100">品牌</td>
+                                <td width="100">规格</td>
+                                <td width="100">尺寸</td>
+                                <td width="100">备注</td>
+                                <td width="100">退役日期</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/retireManagement_add.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+  	<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+</body>
+
+</html>

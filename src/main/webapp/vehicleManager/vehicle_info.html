@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>车辆管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">车辆信息</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="vehicle_insert.html" class="blue addMain" id="insertVehicle">新增</a></div>
+                    <div class="subbtn fl"><a href="javascritp:;" class="blue addMain" id="del">删除</a></div>
+                    <div class="subbtn fl"><a href="Vehiceimport-file.html" class="blue addMain">导入</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="export">导出</a></div>
+                </div> 
+            </div>
+
+            <div class="main-table">
+				<div class="search-box main-form fl">
+					
+					<div class="form-term fl clearfix">
+						<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable" style="width:115px;"><span></span>车主部门：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" style="width: calc(100% - 125px);">
+			                	<span id="deptName"></span>
+			                    <input type="hidden" id="deptID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+					</div>
+					
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>车主姓名：
+						</div>
+						<div class="control clearfix">
+							<select id="carOwnerNo">
+								<option value="">请选择</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>车牌号码：
+						</div>
+						<div class="control clearfix">
+							<input type="text" id="carNumber" name="strplateid" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryCarInfo">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td> 
+						<td width="40">序号</td> 
+						<td width="40">车主姓名</td>
+						<td width="80">部门</td>
+						<td width="40">车辆类型</td>
+						<td width="80">车牌号码</td>
+						<td width="120">车牌类型</td>
+						<td width="120">有效期开始日期</td>
+						<td width="120">有效期截止日期</td>
+						<td width="120">车身颜色</td>
+						<td width="120">车辆品牌</td>
+						<td width="40">状态</td>
+						<td width="120" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+		</div>
+        </div>
+    <div class="holder_add"></div>
+		<div class="holder_box">
+			<div class="layer_top">
+    			<h2 class="title">允许出入位置</h2>
+    			<img src="../img/cha.png" class="quxiao" >
+    		</div>
+			<div class="holder_top door_top">
+				<span class="checkbox">全选</span>
+			</div>
+			<div class="door_center">
+				<ul>
+					<!-- <li>
+						<span class="checkbox curr">大门</span>
+					</li>
+					<li>
+						<span class="checkbox">大门</span>
+					</li> -->
+				</ul>
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">取消</a>
+				</div>
+				
+			</div>
+		</div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/vehicle_info.js"></script>
+    <script type="text/javascript" src="../chu/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="../chu/export.js"></script>
+</body>
+
+</html>

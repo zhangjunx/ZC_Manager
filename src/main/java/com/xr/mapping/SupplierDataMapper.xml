@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.SupplierDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.SupplierData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="CompanyCode" property="companycode" jdbcType="NVARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="NVARCHAR" />
+    <result column="CompanyAddress" property="companyaddress" jdbcType="NVARCHAR" />
+    <result column="SupplierName" property="suppliername" jdbcType="NVARCHAR" />
+    <result column="IDCard" property="idcard" jdbcType="NVARCHAR" />
+    <result column="Phone" property="phone" jdbcType="NVARCHAR" />
+    <result column="PayType" property="paytype" jdbcType="NVARCHAR" />
+    <result column="TransDate" property="transdate" jdbcType="TIMESTAMP" />
+    <result column="FinalDate" property="finaldate" jdbcType="TIMESTAMP" />
+    <result column="Email" property="email" jdbcType="NVARCHAR" />
+    <result column="Fax" property="fax" jdbcType="NVARCHAR" />
+    <result column="BankCard" property="bankcard" jdbcType="NVARCHAR" />
+    <result column="PayPeriod" property="payperiod" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="BankName" property="bankname" jdbcType="NVARCHAR" />
+    <result column="MnemonicCode" property="mnemoniccode" jdbcType="NVARCHAR" />
+    <result column="Type" property="type" jdbcType="NVARCHAR" />
+    <result column="TypeName" property="typename" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, CompanyCode, CompanyName, CompanyAddress, SupplierName, IDCard, Phone, PayType, 
+    TransDate, FinalDate, Email, Fax, BankCard, PayPeriod, Remark, CreatePerson, CreateDate, 
+    UpdatePerson, UpdateDate, DelPerson, DelDate, Deleted, BankName, MnemonicCode, Type, TypeName
+  </sql>
+  <!-- 查询供应商列表信息 -->
+  <select id="querySupplierDataList" resultMap="BaseResultMap" parameterType="com.xr.entity.SupplierData">
+    select DataNo, CompanyCode, CompanyName, CompanyAddress, SupplierName, IDCard, Phone, PayType, 
+    TransDate, FinalDate, Email, Fax, BankCard, PayPeriod, Remark, CreatePerson, CreateDate, 
+    UpdatePerson, UpdateDate, DelPerson, DelDate, Deleted, BankName, MnemonicCode, Type, TypeName from SupplierData
+    <where>
+      <if test="companycode != null and companycode!=''" >
+        CompanyCode like '%${companycode}%'
+      </if>
+      <if test="companyname != null and companyname!=''" >
+       and CompanyName like '%${companyname}%'
+      </if>
+      <if test="suppliername != null and suppliername!=''" >
+       and SupplierName=#{suppliername,jdbcType=NVARCHAR}
+      </if>
+      <if test="phone != null and phone!=''" >
+       and Phone=#{phone,jdbcType=NVARCHAR}
+      </if>
+      <if test="paytype != null and paytype!=''" >
+       and PayType=#{paytype,jdbcType=NVARCHAR}
+      </if>
+      <if test="transdate != null and transdate!=''" >
+        and TransDate=#{transdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="finaldate != null and finaldate!=''" >
+        and FinalDate=#{finaldate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="mnemoniccode != null and mnemoniccode!=''" >
+        and MnemonicCode like '%${mnemoniccode}%'
+      </if>
+      <if test="type != null and type!=''" >
+        and Type=#{type,jdbcType=NVARCHAR}
+      </if>
+    </where>
+  
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from SupplierData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SupplierData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.SupplierData" >
+    insert into SupplierData (CompanyCode, CompanyName, 
+      CompanyAddress, SupplierName, IDCard, 
+      Phone, PayType, TransDate, 
+      FinalDate, Email, Fax, 
+      BankCard, PayPeriod, Remark, 
+      CreatePerson, CreateDate, UpdatePerson, 
+      UpdateDate, DelPerson, DelDate, 
+      Deleted, BankName, MnemonicCode, Type, TypeName)
+    values (#{companycode,jdbcType=NVARCHAR}, #{companyname,jdbcType=NVARCHAR}, 
+      #{companyaddress,jdbcType=NVARCHAR}, #{suppliername,jdbcType=NVARCHAR}, #{idcard,jdbcType=NVARCHAR}, 
+      #{phone,jdbcType=NVARCHAR}, #{paytype,jdbcType=NVARCHAR}, #{transdate,jdbcType=TIMESTAMP}, 
+      #{finaldate,jdbcType=TIMESTAMP}, #{email,jdbcType=NVARCHAR}, #{fax,jdbcType=NVARCHAR}, 
+      #{bankcard,jdbcType=NVARCHAR}, #{payperiod,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{createperson,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=NVARCHAR},#{bankname,jdbcType=NVARCHAR},#{mnemoniccode,jdbcType=NVARCHAR},
+      #{type,jdbcType=NVARCHAR},#{typename,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.SupplierData" >
+    insert into SupplierData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="companycode != null" >
+        CompanyCode,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="companyaddress != null" >
+        CompanyAddress,
+      </if>
+      <if test="suppliername != null" >
+        SupplierName,
+      </if>
+      <if test="idcard != null" >
+        IDCard,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="paytype != null" >
+        PayType,
+      </if>
+      <if test="transdate != null" >
+        TransDate,
+      </if>
+      <if test="finaldate != null" >
+        FinalDate,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="fax != null" >
+        Fax,
+      </if>
+      <if test="bankcard != null" >
+        BankCard,
+      </if>
+      <if test="payperiod != null" >
+        PayPeriod,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="bankname != null" >
+        BankName,
+      </if>
+      <if test="mnemoniccode != null" >
+        MnemonicCode,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="typename != null" >
+        TypeName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="companycode != null" >
+        #{companycode,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyaddress != null" >
+        #{companyaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=NVARCHAR},
+      </if>
+      <if test="transdate != null" >
+        #{transdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finaldate != null" >
+        #{finaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        #{bankcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="payperiod != null" >
+        #{payperiod,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankname != null" >
+        #{bankname,jdbcType=NVARCHAR},
+      </if>
+      <if test="mnemoniccode != null" >
+        #{mnemoniccode,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.SupplierData" >
+    update SupplierData
+    <set >
+      <if test="companycode != null" >
+        CompanyCode = #{companycode,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        CompanyName = #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyaddress != null" >
+        CompanyAddress = #{companyaddress,jdbcType=NVARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        SupplierName = #{suppliername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcard != null" >
+        IDCard = #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="paytype != null" >
+        PayType = #{paytype,jdbcType=NVARCHAR},
+      </if>
+      <if test="transdate != null" >
+        TransDate = #{transdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finaldate != null" >
+        FinalDate = #{finaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="fax != null" >
+        Fax = #{fax,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        BankCard = #{bankcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="payperiod != null" >
+        PayPeriod = #{payperiod,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankname != null" >
+        BankName = #{bankname,jdbcType=NVARCHAR},
+      </if>
+      <if test="mnemoniccode != null" >
+        MnemonicCode = #{mnemoniccode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.SupplierData" >
+    update SupplierData
+    set CompanyCode = #{companycode,jdbcType=NVARCHAR},
+      CompanyName = #{companyname,jdbcType=NVARCHAR},
+      CompanyAddress = #{companyaddress,jdbcType=NVARCHAR},
+      SupplierName = #{suppliername,jdbcType=NVARCHAR},
+      IDCard = #{idcard,jdbcType=NVARCHAR},
+      Phone = #{phone,jdbcType=NVARCHAR},
+      PayType = #{paytype,jdbcType=NVARCHAR},
+      TransDate = #{transdate,jdbcType=TIMESTAMP},
+      FinalDate = #{finaldate,jdbcType=TIMESTAMP},
+      Email = #{email,jdbcType=NVARCHAR},
+      Fax = #{fax,jdbcType=NVARCHAR},
+      BankCard = #{bankcard,jdbcType=NVARCHAR},
+      PayPeriod = #{payperiod,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+      BankName = #{bankname,jdbcType=NVARCHAR}
+      MnemonicCode = #{mnemoniccode,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  
+  <select id="querySupplierDataByCode" resultType="Map" parameterType="String" >
+  	select DataNo from SupplierData where CompanyCode=#{companyCode} 
+  </select>
+  
+</mapper>

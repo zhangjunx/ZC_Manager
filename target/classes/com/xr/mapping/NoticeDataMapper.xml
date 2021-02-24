@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.NoticeDataMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fno desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	
+	<select id="getMeeingNoticeList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,b.status,m.mettingtitle,d.value meetingtypename,CONVERT(varchar(100), t.noticetime, 23) meetingdate,CONVERT(varchar(100), t.noticetime, 8) meetingtime 
+		  from dbo.NoticeData t
+		  LEFT JOIN dbo.HY_Meeting m ON t.objectid = m.fno
+		  LEFT JOIN DictionaryData d ON m.mettingtype=d.name AND d.TypeName='meetingtype'
+		  INNER JOIN NoticeDataMember b ON t.fno = b.noticeno 
+		 WHERE b.holderno=#{thisuserid}
+		 <include refid="c_end"></include>
+	</select>
+	
+	<select id="getMeeingNoticeListCount" resultType="integer">
+		select count(1)
+		  from dbo.NoticeData t
+		  LEFT JOIN dbo.HY_Meeting m ON t.objectid = m.fno
+		  LEFT JOIN DictionaryData d ON m.mettingtype=d.name AND d.TypeName='meetingtype'
+		  INNER JOIN NoticeDataMember b ON t.fno = b.noticeno 
+		 WHERE b.holderno=#{thisuserid}
+	</select>
+	
+	<update id="updateWatchSatus">
+		update NoticeDataMember 
+		   set status=#{noticestatus}
+		 WHERE noticeno=#{noticeno}
+		   AND holderno=#{thisuserid}
+	</update>
+  
+</mapper>

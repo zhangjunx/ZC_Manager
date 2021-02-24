@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户路线管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/usergl.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">用户路线管理</a></div>
+                <div class="btn-box fr">
+                    <!-- <div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="btn_save">确定</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange" id="btn_quxiao">取消</a></div> -->
+                </div>
+            </div>
+
+            <div class="main-table">
+                <div class="user_l">
+                    <div class="user_tit">
+                        <img src="images/deparment_tree_tit.png" alt="">
+                        <h4>用户管理</h4>
+                    </div>
+                    <ul class="user_con">
+                       <!--  <li>指挥中心</li>
+                        <li>分控点1</li>
+                        <li>分控点2</li> -->
+                    </ul>
+
+                </div>
+                <div class="user_r">
+                    <h4>路线选择</h4>
+                    <div class="user_r_in">
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+   
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+     <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/userRoute.js"></script>
+
+</body>
+
+</html>

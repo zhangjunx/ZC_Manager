@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>门卫状态监控</title>
+    <link rel="icon" href="../img/logo3.png" sizes="32x32">
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/doorStatus.css" />
+</head>
+
+<body>
+	<img src="img/closeYeMian.png" class="closeYeMian">
+	<div class="layui-container doorControl">
+		<div class="layui-row doorControl_top">
+		    <div class="layui-col-md3">
+		    	<img src="img/door_logo.png" title="郑州玺瑞">
+		    </div>
+		    <div class="layui-col-md6 top_center">
+		    	门位状态监控系统
+	        </div>
+	        <div class="layui-col-md3 top_right">
+	        	<div class="layui-inline top_closeDoor">门关</div>
+	        	<div class="layui-inline top_openDoor current">门开</div>
+	        	<div class="layui-inline top_time">2020-01-08  10:20</div>
+	        </div>
+	   </div>
+	   <div class="layui-row doorControl_con">
+		    <div class="grid">
+				<!-- <div class="grid-item">
+					 <div class="layui-card">
+				        <div class="layui-card-header">
+				   			<h4 class="con_title">卡片面板</h4>
+				   			<div class="con_doorOpen"><img src="img/item_doorOpen.png">门开:<span class="doorOpenNumber">5</span></div>    
+				   			<div class="con_doorClose"><img src="img/item_doorClose.png">门关:<span class="doorCloseNumber">7</span></div>
+				        </div>
+				        <ul class="layui-card-body">
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorOpen.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorClose.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorOpen.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorClose.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorOpen.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+				        	<li class="layui-inline">
+				        		<img src="img/areaDoorClose.png">
+				        		<p class="layui-elip">5号机组电子</p>
+				        	</li>
+		        		</ul>
+      				</div>
+				</div>
+				<div class="grid-item"></div> -->
+			</div>
+	   </div>
+	   <div class="layui-row doorControl_bottom">
+	   		<div class="layui-inline bottom_box current">第一页内容</div>
+	   		<div class="layui-inline bottom_box">第二页内容</div>
+	   		<div class="layui-inline bottom_box">第三页内容</div>
+	   		<div class="layui-inline bottom_box">第四页内容</div>
+	   		<div class="layui-inline bottom_swiper cur">自动轮播</div>
+	   </div>
+	</div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" src="js/currentDoorStatus.js"></script>
+</body>
+
+</html>

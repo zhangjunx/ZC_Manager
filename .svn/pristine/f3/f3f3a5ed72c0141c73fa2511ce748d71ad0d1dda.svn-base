@@ -1,0 +1,135 @@
+var total;
+var curpage=1;//当前页
+var pagesize=20;//每页显示的条数
+$(function(){
+	//初始化仓库列表
+	getList();
+})
+//分页
+function getPage(){
+	layui.use("laypage",function(){
+		var laypage=layui.laypage;
+		laypage.render({
+			elem:"test",
+			limit:pagesize,//每页显示条数
+			count:total,//总条数
+			curr:curpage,
+			layout:['count','prev','page','next','limit','refresh','skip'],
+			jump:function(obj,first){
+				curpage=obj.curr;
+				pagesize=obj.limit;
+				if(!first){
+					getList();
+				}
+			}
+		})
+	})
+}//end
+//点击搜索
+$("#createInStorage").click(function(){
+	getList();
+})
+
+//点击新增弹出层
+$("#insertWareHouseData").click(function(){
+	layer.open({
+		type:1,
+		title:"新增",
+		content:$("#wareHouse"),
+		area:["500px","200px"],
+		btn:["确定","取消"],
+		yes:function(index){
+			saveInfo(index);
+		}
+	})
+})
+
+//点击删除
+$(document).on("click",".shan",function(){
+	var path=$(this).attr("data-path");
+	layer.confirm("确定删除?",{title:"提示信息"},function(index){
+		$.ajax({
+			url:url+"/zcFileManager/delFile",
+			type:"post",
+			data:{"fileName":path},
+			success:function(data){
+				layer.close(index);
+				if(data.flag){
+					layer.msg(data.reason,{time:1000},function(){
+						getList();
+					})
+				}else{
+					layer.msg(data.reason,{time:2000});
+				}
+			}
+		})
+	})
+})
+//提交信息
+function saveInfo(index){
+	var fileArr=document.getElementById("upload").files;
+	var formData = new FormData();
+	for(var item of fileArr){
+		formData.append("files", item);
+	}
+	$.ajax({
+		url:url+"/zcFileManager/uploadFile",
+		type:"post",
+		 data: formData,
+	     dataType:"json",
+	     cache:false,
+	     contentType: false,
+	     processData: false,
+		success:function(data){
+			console.log(data);
+			if(data.flag){
+				layer.msg(data.reason,{time:1000},function(){
+					layer.close(index);
+					getList();
+				})
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+//点击选择文件
+$("#upload").change(function(e){
+	var imgUrl=this.files[0];
+	var filename="";
+	for(var item of this.files){
+		filename+=item.name+";";
+	}
+	$("#file").val(filename);
+})
+//初始化设备技术规范库
+function getList(){
+	var fileName=$("#fileName").val();
+	var obj={"fileName":fileName,"curpage":curpage,"pagesize":pagesize};
+	console.log(obj);
+	$.ajax({
+		url:url+"/zcFileManager/getFileList",
+		type:"post",
+		data:obj,
+		//contentType: 'application/json',
+		success:function(data){
+			console.log(data);
+			total=data.count;
+			$("#cont").empty();
+			if(data.flag){
+				var res=data.result;
+				var index=1;
+				for(var item of res){
+					var fileName=item.fileName==undefined?"":item.fileName;
+					var path=item.path==undefined?"":item.path;
+					var updateTime=item.updateTime==undefined?"":item.updateTime;
+					var $tr=$("<tr><td>"+index+"</td><td>"+fileName+"</td><td>"+path+"</td><td>"+updateTime+"</td><td>" +
+						    "<a href='javascript:;' data-path="+item.path+" class='shan layui-btn layui-btn-xs layui-btn-danger'>删除</a></td></tr>");
+					index++;
+					$("#cont").append($tr);
+				}
+				getPage();
+			}
+		}
+	})
+}

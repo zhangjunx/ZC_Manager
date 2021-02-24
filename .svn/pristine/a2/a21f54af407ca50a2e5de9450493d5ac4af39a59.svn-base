@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FacePayRecordMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+
+	<!--获取下发列表  -->
+	<select id="getRecordList" resultType="map">
+		<include refid="c_start"></include>
+			select * from FP_OperateRecord t where t.fstatus=0
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getRecordListCount" resultType="integer">
+		select count(1) from FP_OperateRecord t where t.fstatus=0
+	</select>
+	
+	<!--获取命令列表  -->
+	<select id="getCommandList" resultType="map">
+		select t.* from FP_OperateRecordParm t 
+		left join FP_OperateRecord o on t.operateRecordID = o.fid
+		where 1=1
+		<if test="fid != null and fid != ''">
+			and t.operateRecordID = #{fid}
+		</if>
+		order by o.operateDate ,t.findex asc
+	</select>
+	
+	<!--根据ID获取用户信息  -->
+	<select id="getPhotoList" resultType="map">
+		select t.holderNo "personId" ,p.ID "faceId",p.DataPhoto "imgBase64"
+		from HolderData t
+		left join HolderPhoto p on t.holderNo = p.holderNo
+		where t.holderNo in
+		<foreach collection="list" item="ls" open="(" separator="," close=")">
+			#{ls.id}
+		</foreach>
+	</select>
+	
+	<!--添加账户，添加记录  -->
+	<update id="updateAddAccount">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+			values('添加账户信息',0,#{operator},GETDATE())
+			SELECT @fid = @@IDENTITY
+			
+			<foreach collection="deviceList" item="ls1" open="" separator="" close="">
+				<foreach collection="personList" item="ls2" open="" separator="" close="">
+					insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+					values(@fid,#{ls1.deviceSn},convert(varchar(20),#{ls1.IP}) + ':8090/person/create',#{ls2},'I',1);	
+				</foreach>
+				
+				<foreach collection="photoList" item="ls3" open="" separator="" close="">
+					insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+					values(@fid,#{ls1.deviceSn},convert(varchar(20),#{ls1.IP}) + ':8090/face/create',#{ls3},'I',2);	
+				</foreach>
+				
+				<!--时间权限  -->
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},convert(varchar(20),#{ls1.IP}) + ':8090/person/passtime',#{passTime},'I',3);	
+			</foreach>
+		end;
+	</update>
+	
+	<!--启用账户  -->
+	<update id="updateAddAccountStatus1">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('启用账户操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="deviceList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/create',#{person},'I',1);
+				
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/face/create',#{photo},'I',2);
+			</foreach>
+		end;
+	</update>
+	
+	<!--禁用账户  -->
+	<update id="updateAddAccountStatus2">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('禁用账户操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="deviceList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},convert(varchar(20),#{ls1.IP}) + ':8090/person/delete',#{person},'D',1);
+			</foreach>
+		end;
+	</update>
+	
+	<!--账户充值  -->
+	<update id="updateAddAccountVal1">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('账户充值操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="deviceList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/deletePasstime',#{ls1.person},'D',1);
+				
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/passtime',#{ls1.person},'I',2);
+			</foreach>
+		end;
+	</update>
+	
+	<!--账户退费  -->
+	<update id="updateAddAccountVal2">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('账户充值操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="deviceList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/deletePasstime',#{ls1.person},'D',1);
+				
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/passtime',#{ls1.person},'I',2);
+			</foreach>
+		end;
+	</update>
+	
+	<!--绑定新设备  -->
+	<update id="updateAddDevice1">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('餐厅绑定新设备操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="personList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{deviceSn},convert(varchar(20),#{IP}) + ':8090/person/create',#{ls1},'I',1);
+			</foreach>
+			
+			<foreach collection="photoList" item="ls2" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{deviceSn},convert(varchar(20),#{IP}) + ':8090/face/create',#{ls2},'I',1);	
+			</foreach>
+		end;
+	</update>
+	
+	<!--解除新设备  -->
+	<update id="updateAddDevice2">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+				values('餐厅解除新设备操作',0,#{operator},GETDATE())
+				SELECT @fid = @@IDENTITY
+			<foreach collection="personList" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{deviceSn},convert(varchar(20),#{IP}) + ':8090/person/create',#{ls1},'D',1);
+			</foreach>
+		end;
+	</update>
+	
+	<!--身份更新添加记录  -->
+	<update id="updateRoleInfoRecord">
+		declare
+			@fid int;
+		begin
+			insert into FP_OperateRecord(description,fstatus,operator,operateDate)
+			values('身份餐次相关信息变更',0,#{operator},GETDATE())
+			SELECT @fid = @@IDENTITY
+			
+			<foreach collection="data" item="ls1" open="" separator="" close="">
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},convert(varchar(20),#{ls1.IP}) + ':8090/person/deletePasstime','{"personId":"'+#{ls1.personId}+'"}','D',1);	
+			
+				insert into FP_OperateRecordParm(operateRecordID,deviceSn,deviceIP,parm,optType,findex)
+				values(@fid,#{ls1.deviceSn},#{ls1.IP} + ':8090/person/passtime',#{ls1.timesInfo},'I',2);
+			</foreach>
+		end;
+	</update>
+	
+	<!--根据SN获取设备信息  -->
+	<select id="getDeviceInfoWithSn" resultType="map">
+		select t.deviceNo,t.deviceName,t.controlSn,t.password from DeviceUnit t where t.controlSn = #{data}
+	</select>
+</mapper>

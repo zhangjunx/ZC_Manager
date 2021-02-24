@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>考勤月报</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/style_.css" />
+</head>
+	<style>
+		#cont tr td{
+			line-height:28px;
+		}
+		#cont tr td div span{
+			color: #333;
+    		margin-left: 30px;
+		}
+		table{
+			table-layout:fixed;
+			}
+		 table tr td{
+		 white-space:normal;
+		 }
+		
+	</style>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">考勤月报详细</a></div>
+                <div class="btn-box fr">
+                 <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="daochu">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+                </div>
+                <div class="main-table" id="dayindaju1">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl">
+                      <div class="form-term fl clearfix">
+                        <div class="lable" style="color: #48B9F1; width:auto;margin-left:50px">部门：<span style="color: #48B9F1;" class="dept"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable" style="color: #48B9F1; width:auto">工号：<span style="color: #48B9F1;" class="holderno"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable" style="color: #48B9F1; width:auto">姓名：<span style="color: #48B9F1;" class="holdername"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix" style="margin-left: 220px;">
+                        <div class="lable">应打卡：<span class="daKa"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">正常：<span class="normal"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">异常：<span class="yc" style="color:#666;font-weight:normal"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">休息：<span class="queQin"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">迟到：<span class="delay"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">早退：<span class="early"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">旷工：<span class="kuangGong"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">请假：<span class="holiday"></span></div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable">出差：<span class="business"></span></div>
+                    </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                          <tr>
+                              <td width="50">日期</td>
+                              <td width="50">班次名称</td>
+                              <td width="50">状态</td>
+                              <td width="200">工作时间</td>
+                             <!--  <td width="20">操作</td> -->
+                          </tr>
+                    	<tbody class="pinjie" id="cont">
+                         </tbody>
+                    </table>
+                    <div class="pages" id="test">
+					</div>
+                </div>
+            </div>
+        </div>
+      </div>
+    
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/attendance_monthly_detail.js"></script>
+    <script type="text/javascript" src="js/xlsx.full.min.js"></script>
+      <script type="text/javascript" src="js/export.js"></script>
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	 <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleDevice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DeviceName" property="devicename" jdbcType="NVARCHAR" />
+    <result column="VehicleID" property="vehicleid" jdbcType="INTEGER" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+    <result column="strPlateID" property="strplateid" jdbcType="NVARCHAR" />
+    <result column="CommondInfo" property="commondinfo" jdbcType="NVARCHAR" />
+    <result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="ActiveTime" property="activetime" jdbcType="TIMESTAMP" />
+    <result column="ResultInfo" property="resultinfo" jdbcType="NVARCHAR" />
+    <result column="ResultStatus" property="resultstatus" jdbcType="NVARCHAR" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DeviceName, VehicleID, DeviceNo, strPlateID, CommondInfo, SendTime, ActiveTime, 
+    ResultInfo, ResultStatus, Note
+  </sql>
+  
+  <!-- 权限设置时 先查询已有的权限 -->
+  <select id="queryVehicleDeviceByVehicleidAndDeviceNo" resultMap="BaseResultMap" parameterType="com.xr.entity.LPR_VehicleDevice">
+      select ID, DeviceName, VehicleID, DeviceNo  
+      from LPR_VehicleDevice
+      <where>
+          <if test="deviceno!=null and deviceno!=''">
+             DeviceNo=#{deviceno,jdbcType=INTEGER}
+          </if>
+          <if test="vehicleid!=null and vehicleid!=''">
+             and VehicleID=#{vehicleid,jdbcType=INTEGER}
+          </if>
+      </where>
+  </select>
+  
+  <!-- 根据车牌号查询车辆权限信息 -->
+  <select id="queryAuthority" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		select DeviceName from LPR_VehicleDevice where strPlateID=#{strplateid}
+  </select>
+  
+  <!-- 批量添加 -->
+  <insert id="insertVehicleDeviceBatch" parameterType="java.util.List">
+       insert into LPR_VehicleDevice(DeviceName, VehicleID, DeviceNo)
+       <foreach collection="list" item="item" separator="union all" index="index">
+         (select #{item.devicename,jdbcType=NVARCHAR},
+        #{item.vehicleid,jdbcType=INTEGER},
+        #{item.deviceno,jdbcType=INTEGER})
+       </foreach>
+  </insert>
+  
+   <!-- 批量删除 -->
+  <delete id="deleteVehicleDeviceBatch" parameterType="java.util.List">
+        delete from LPR_VehicleDevice where ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+           #{item}
+        </foreach>
+  </delete>
+  
+  <!-- 根据vehicleid 查设备信息 -->
+  <select id="queryLPRDeviceListByVehicleid" resultType="Map" parameterType="java.lang.Integer">
+       select a.DeviceNo deviceno,a.DeviceName devicename,vd.DeviceNo deviceno1,
+    vd.DeviceName devicename1,vd.VehicleID from (select DeviceNo,DeviceName
+ from IOTPlatForm.dbo.DeviceUnit
+  where DeviceTypeCode='30')a left join LPR_VehicleDevice vd on
+    a.DeviceNo=vd.DeviceNo
+    and vd.VehicleID=#{vehicleid,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 插入摄像机和车辆信息 -->
+  <insert id="insertVehicleDevice"  parameterType="java.util.Map" >
+    insert into LPR_VehicleDevice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="devicename != null" >
+        DeviceName,
+      </if>
+      <if test="vehicleid != null" >
+        VehicleID,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="strplateid != null" >
+        strPlateID,
+      </if>
+      <if test="commondinfo != null" >
+        CommondInfo,
+      </if>
+      <if test="sendtime != null" >
+        SendTime,
+      </if>
+      <if test="activetime != null" >
+        ActiveTime,
+      </if>
+      <if test="resultinfo != null" >
+        ResultInfo,
+      </if>
+      <if test="resultstatus != null" >
+        ResultStatus,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="devicename != null" >
+        #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="strplateid != null" >
+        #{strplateid,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondinfo != null" >
+        #{commondinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activetime != null" >
+        #{activetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultinfo != null" >
+        #{resultinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="resultstatus != null" >
+        #{resultstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,14 @@
+# 全局配置: 只显示错误级别的日志，输出为名字为 stdou 的日志
+log4j.rootLogger=ERROR, stdout
+# MyBatis 的日志配置，只输出 com.oukele.bookshop_ssm.dao 包下产生 INFO （trace 追踪所有信息） 以及以上级别的日志
+log4j.logger.com.xr.service.impl=TRACE
+ 
+#日志输出到文件
+log4j.appender.logfile = org.apache.log4j.DailyRollingFileAppender
+#${webapp.root}WEB-INF/logs/log4j.log 日志文件存放在tomcat编译项目web-inf/log目录下
+log4j.appender.logfile.File = ${catalina.home}/logs_project/info.log
+  
+ # 定义名字为 stdout 的日志，将日志输出到控制台
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%t] - %m%n

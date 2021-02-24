@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.CardDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.CardData" >
+    <id column="CardNo" property="cardno" jdbcType="INTEGER" />
+    <result column="CardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="CardTypeNo" property="cardtypeno" jdbcType="VARCHAR" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="CardFlag" property="cardflag" jdbcType="VARCHAR" />
+    <result column="CardStopUse" property="cardstopuse" jdbcType="VARCHAR" />
+    <result column="ExecAPB" property="execapb" jdbcType="VARCHAR" />
+    <result column="EffectiveDate" property="effectivedate" jdbcType="TIMESTAMP" />
+    <result column="ExpireDate" property="expiredate" jdbcType="TIMESTAMP" />
+    <result column="AccessMinute" property="accessminute" jdbcType="INTEGER" />
+    <result column="CardStatus" property="cardstatus" jdbcType="INTEGER" />
+    <result column="DataStatus" property="datastatus" jdbcType="INTEGER" />
+    <result column="CardTypeName" property="cardtypename" jdbcType="NVARCHAR" />
+    <result column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+    <result column="CardNum" property="cardnum" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CardNo, CardID, CardTypeNo, HolderNo, CardFlag, CardStopUse, ExecAPB, EffectiveDate, 
+    ExpireDate, AccessMinute, CardStatus, DataStatus, CardTypeName, DataNo, NetNode, 
+    CardNum
+  </sql>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteBatch"  parameterType="java.util.List">
+    delete from CardData  where CardNo in
+    <foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+       #{item}
+   </foreach>
+  </delete>
+  
+  
+  
+  <select id="queryByCardID" resultType="map" parameterType="Map">
+      select CardNo,CardID from CardData where CardID=#{cardid}
+  </select>
+  
+  <!--通过部门查该部门下的人员与其拥有的卡的列表树   -->
+  <select id="getHolderCardTree" resultType="map">
+        select holderno "id",holdername "title",
+   '' "parent",'' "children" ,
+    case when departmentno  is null then '' else departmentno end "deptno"
+   from HolderData where departmentno=#{deptno}
+   UNION ALL
+   select 'c'+convert(varchar(20),c.cardno) "id",c.cardid "title",
+   case when c.holderno is null then '' else c.holderno end "parent" ,
+   '' "children",
+    case when h.departmentno  is null then '' else h.departmentno end "deptno"
+    from HolderData h inner join CardData c on c.HolderNo=h.HolderNo
+   where h.departmentno=#{deptno}
+  </select>
+  
+  <!-- 通过部门查人员与人拥有的卡的列表树 -->
+   <select id="getCardTree" resultType="map">
+   select HolderNo "id",HolderName "title",'' "parent",'' "children" 
+from HolderData where DepartmentNo in
+<foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+   #{item}
+</foreach>
+UNION ALL
+select 'd'+convert(varchar(10),c.CardNo) "id",c.CardID "title",
+h.HolderNo "parent", '' "children"
+from CardData c inner join HolderData h on h.HolderNo=c.HolderNo 
+where h.DepartmentNo in
+<foreach item="item" collection="list" separator="," open="(" close=")" index="index">
+   #{item}
+</foreach>
+  </select>
+  
+   
+  <select id="queryCardList" resultType="Map" parameterType="java.lang.String" >
+    select cardno, cardid,   holderno, cardflag, cardstopuse, execapb, 
+    convert(varchar(10),EffectiveDate,23) effectivedate, 
+    convert(varchar(10),ExpireDate,23) expiredate, 
+    cardstatus, cardtypename  from CardData
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <!-- 添加员工卡片时  获取最大卡号 加1 即为新的添加的卡号 -->
+  <select id="queryCardNo" resultType="java.lang.Integer">
+     select (ISNULL(max(CardNo),0)+1) cardno from CardData where CardNo &lt;8000
+  </select>
+  
+   <!-- 添加访客卡片时  获取最大卡号 加1 即为新的添加的卡号 -->
+  <select id="queryVCardNo" resultType="java.lang.Integer">
+     select (ISNULL(max(CardNo),7999)+1) cardno from CardData where CardNo >=8000
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from CardData
+    where CardNo = #{cardno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from CardData
+    where CardNo = #{cardno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.CardData" >
+    insert into CardData (CardNo, CardID, CardTypeNo, 
+      HolderNo, CardFlag, CardStopUse, 
+      ExecAPB, EffectiveDate, ExpireDate, 
+      AccessMinute, CardStatus, DataStatus, 
+      CardTypeName, DataNo, NetNode, 
+      CardNum)
+    values (#{cardno,jdbcType=INTEGER}, #{cardid,jdbcType=VARCHAR}, #{cardtypeno,jdbcType=VARCHAR}, 
+      #{holderno,jdbcType=VARCHAR}, #{cardflag,jdbcType=VARCHAR}, #{cardstopuse,jdbcType=VARCHAR}, 
+      #{execapb,jdbcType=VARCHAR}, #{effectivedate,jdbcType=TIMESTAMP}, #{expiredate,jdbcType=TIMESTAMP}, 
+      #{accessminute,jdbcType=INTEGER}, #{cardstatus,jdbcType=INTEGER}, #{datastatus,jdbcType=INTEGER}, 
+      #{cardtypename,jdbcType=NVARCHAR}, #{datano,jdbcType=INTEGER}, #{netnode,jdbcType=NVARCHAR}, 
+      #{cardnum,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.CardData" >
+    insert into CardData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardno != null" >
+        CardNo,
+      </if>
+      <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="cardtypeno != null" >
+        CardTypeNo,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="cardflag != null" >
+        CardFlag,
+      </if>
+      <if test="cardstopuse != null" >
+        CardStopUse,
+      </if>
+      <if test="execapb != null" >
+        ExecAPB,
+      </if>
+      <if test="effectivedate != null" >
+        EffectiveDate,
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate,
+      </if>
+      <if test="accessminute != null" >
+        AccessMinute,
+      </if>
+      <if test="cardstatus != null" >
+        CardStatus,
+      </if>
+      <if test="datastatus != null" >
+        DataStatus,
+      </if>
+      <if test="cardtypename != null" >
+        CardTypeName,
+      </if>
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+      <if test="cardnum != null" >
+        CardNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardno != null" >
+        #{cardno,jdbcType=INTEGER},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypeno != null" >
+        #{cardtypeno,jdbcType=VARCHAR},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardflag != null" >
+        #{cardflag,jdbcType=VARCHAR},
+      </if>
+      <if test="cardstopuse != null" >
+        #{cardstopuse,jdbcType=VARCHAR},
+      </if>
+      <if test="execapb != null" >
+        #{execapb,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivedate != null" >
+        #{effectivedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredate != null" >
+        #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessminute != null" >
+        #{accessminute,jdbcType=INTEGER},
+      </if>
+      <if test="cardstatus != null" >
+        #{cardstatus,jdbcType=INTEGER},
+      </if>
+      <if test="datastatus != null" >
+        #{datastatus,jdbcType=INTEGER},
+      </if>
+      <if test="cardtypename != null" >
+        #{cardtypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        #{cardnum,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.CardData" >
+    update CardData
+    <set >
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypeno != null" >
+        CardTypeNo = #{cardtypeno,jdbcType=VARCHAR},
+      </if>
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="cardflag != null" >
+        CardFlag = #{cardflag,jdbcType=VARCHAR},
+      </if>
+      <if test="cardstopuse != null" >
+        CardStopUse = #{cardstopuse,jdbcType=VARCHAR},
+      </if>
+      <if test="execapb != null" >
+        ExecAPB = #{execapb,jdbcType=VARCHAR},
+      </if>
+      <if test="effectivedate != null" >
+        EffectiveDate = #{effectivedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate = #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accessminute != null" >
+        AccessMinute = #{accessminute,jdbcType=INTEGER},
+      </if>
+      <if test="cardstatus != null" >
+        CardStatus = #{cardstatus,jdbcType=INTEGER},
+      </if>
+      <if test="datastatus != null" >
+        DataStatus = #{datastatus,jdbcType=INTEGER},
+      </if>
+      <if test="cardtypename != null" >
+        CardTypeName = #{cardtypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="datano != null" >
+        DataNo = #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardnum != null" >
+        CardNum = #{cardnum,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where CardNo = #{cardno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.CardData" >
+    update CardData
+    set CardID = #{cardid,jdbcType=VARCHAR},
+      CardTypeNo = #{cardtypeno,jdbcType=VARCHAR},
+      HolderNo = #{holderno,jdbcType=VARCHAR},
+      CardFlag = #{cardflag,jdbcType=VARCHAR},
+      CardStopUse = #{cardstopuse,jdbcType=VARCHAR},
+      ExecAPB = #{execapb,jdbcType=VARCHAR},
+      EffectiveDate = #{effectivedate,jdbcType=TIMESTAMP},
+      ExpireDate = #{expiredate,jdbcType=TIMESTAMP},
+      AccessMinute = #{accessminute,jdbcType=INTEGER},
+      CardStatus = #{cardstatus,jdbcType=INTEGER},
+      DataStatus = #{datastatus,jdbcType=INTEGER},
+      CardTypeName = #{cardtypename,jdbcType=NVARCHAR},
+      DataNo = #{datano,jdbcType=INTEGER},
+      NetNode = #{netnode,jdbcType=NVARCHAR},
+      CardNum = #{cardnum,jdbcType=NVARCHAR}
+    where CardNo = #{cardno,jdbcType=INTEGER}
+  </update>
+  
+  <!--  * 通过工号查询用户的卡内码和卡编号* @param holderno* 用于小程序开门 -->
+  <select id="querySmallProgram" resultType="Map">
+      SELECT cardno,cardid FROM dbo.CardData WHERE holderno=#{holderno}
+  </select>
+   
+  
+</mapper>

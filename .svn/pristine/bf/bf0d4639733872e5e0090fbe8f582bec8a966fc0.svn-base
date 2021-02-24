@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorPermHolderRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DoorPermHolderRecord" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="CardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+    <result column="DoorNo" property="doorno" jdbcType="INTEGER" />
+    <result column="WeekZone1" property="weekzone1" jdbcType="NVARCHAR" />
+    <result column="WeekZone2" property="weekzone2" jdbcType="NVARCHAR" />
+    <result column="WeekZone3" property="weekzone3" jdbcType="NVARCHAR" />
+    <result column="WeekZone4" property="weekzone4" jdbcType="NVARCHAR" />
+    <result column="WeekZone5" property="weekzone5" jdbcType="NVARCHAR" />
+    <result column="WeekZone6" property="weekzone6" jdbcType="NVARCHAR" />
+    <result column="WeekZone7" property="weekzone7" jdbcType="NVARCHAR" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="VARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdateStatus" property="updatestatus" jdbcType="VARCHAR" />
+    <result column="Grade" property="grade" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="VARCHAR" />
+    <result column="FinalDate" property="finaldate" jdbcType="TIMESTAMP" />
+    <result column="FailReason" property="failreason" jdbcType="NVARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, CardID, DeviceNo, DoorNo, WeekZone1, WeekZone2, WeekZone3, 
+    WeekZone4, WeekZone5, WeekZone6, WeekZone7, UpdatePerson, UpdateDate, UpdateStatus, 
+    Grade, Status, FinalDate, FailReason, StartDate, EndDate
+  </sql>
+  
+  <!-- 根据部门编号查部门号和设备号 -->
+  <select id="getByDoor" resultType="java.lang.Integer">
+       select deviceno from DoorUnit
+        where doorno=#{doorno}
+  </select>
+  
+  <!-- 查询列表 -->
+  <select id="queryPermRecordList" resultType="Map">
+   select dr.id, dr.holderno,dr.holdername, dr.cardid, de.devicename, do.doorname, 
+		   dr.weekzone1, dr.weekzone2, dr.weekzone3, dr.weekzone4, 
+	       dr.weekzone5, dr.weekzone6, dr.weekzone7,  h2.HolderName updateperson, 
+	       convert(varchar(100),dr.UpdateDate,20) updatedate, 
+	       dr.updatestatus, dr.grade, dr.status, 
+	       convert(varchar(100),dr.FinalDate,20) finaldate ,
+	       convert(varchar(100),dr.StartDate,20) startdate ,
+	       convert(varchar(100),dr.EndDate,20) enddate ,
+		   dr.deviceno,dr.doorno
+	from DoorPermHolderRecord dr 
+	left join holderData h2 on h2.holderNo = dr.updateperson
+	left join DoorUnit do on do.DoorNo=dr.doorNo
+	left join DeviceUnit de on de.DeviceNo=dr.DeviceNo
+    <where>
+       <if test="holderno != null and holderno!='' " >
+       and dr.HolderNo= #{holderno,jdbcType=VARCHAR}
+      </if>
+      <if test="doorno != null and doorno!='' " >
+       and dr.DoorNo= #{doorno,jdbcType=INTEGER}
+      </if>
+      <if test="status != null and status!='' " >
+       and dr.status= #{status,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by dr.id desc
+  </select>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteRecordBatch">
+     delete from DoorPermHolderRecord where ID in
+     <foreach collection="list" item="item" separator="," index="index" open="(" close=")">
+        #{item}
+     </foreach>
+  </delete>
+  
+  
+  <!-- 批量添加 -->
+  <insert  id="insertRecordBatch">
+  insert into DoorPermHolderRecord (HolderNo,HolderName, CardID, 
+      DeviceNo, DoorNo, WeekZone1, 
+      WeekZone2, WeekZone3, WeekZone4, 
+      WeekZone5, WeekZone6, WeekZone7, 
+      UpdatePerson, UpdateDate, UpdateStatus, Status)
+      <foreach collection="list" item="item" separator="union all" index="index">
+      ( select #{item.holderno},#{item.holdername}, #{item.cardid}, 
+      #{item.deviceno}, #{item.doorno}, #{item.weekzone1}, 
+      #{item.weekzone2}, #{item.weekzone3}, #{item.weekzone4}, 
+      #{item.weekzone5}, #{item.weekzone6}, #{item.weekzone7}, 
+      #{item.updateperson}, #{item.updatedate}, #{item.updatestatus}, 
+     #{item.status} )
+   </foreach>
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DoorPermHolderRecord
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DoorPermHolderRecord
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DoorPermHolderRecord" >
+    insert into DoorPermHolderRecord (ID, HolderNo, HolderName, 
+      CardID, DeviceNo, DoorNo, 
+      WeekZone1, WeekZone2, WeekZone3, 
+      WeekZone4, WeekZone5, WeekZone6, 
+      WeekZone7, UpdatePerson, UpdateDate, 
+      UpdateStatus, Grade, Status, 
+      FinalDate, FailReason, StartDate, 
+      EndDate)
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, 
+      #{cardid,jdbcType=VARCHAR}, #{deviceno,jdbcType=INTEGER}, #{doorno,jdbcType=INTEGER}, 
+      #{weekzone1,jdbcType=NVARCHAR}, #{weekzone2,jdbcType=NVARCHAR}, #{weekzone3,jdbcType=NVARCHAR}, 
+      #{weekzone4,jdbcType=NVARCHAR}, #{weekzone5,jdbcType=NVARCHAR}, #{weekzone6,jdbcType=NVARCHAR}, 
+      #{weekzone7,jdbcType=NVARCHAR}, #{updateperson,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{updatestatus,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{finaldate,jdbcType=TIMESTAMP}, #{failreason,jdbcType=NVARCHAR}, #{startdate,jdbcType=TIMESTAMP}, 
+      #{enddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DoorPermHolderRecord" >
+    insert into DoorPermHolderRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="doorno != null" >
+        DoorNo,
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1,
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2,
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3,
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4,
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5,
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6,
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updatestatus != null" >
+        UpdateStatus,
+      </if>
+      <if test="grade != null" >
+        Grade,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="finaldate != null" >
+        FinalDate,
+      </if>
+      <if test="failreason != null" >
+        FailReason,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="doorno != null" >
+        #{doorno,jdbcType=INTEGER},
+      </if>
+      <if test="weekzone1 != null" >
+        #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatestatus != null" >
+        #{updatestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="finaldate != null" >
+        #{finaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failreason != null" >
+        #{failreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DoorPermHolderRecord" >
+    update DoorPermHolderRecord
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="doorno != null" >
+        DoorNo = #{doorno,jdbcType=INTEGER},
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatestatus != null" >
+        UpdateStatus = #{updatestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        Grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="finaldate != null" >
+        FinalDate = #{finaldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="failreason != null" >
+        FailReason = #{failreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        EndDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DoorPermHolderRecord" >
+    update DoorPermHolderRecord
+    set HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      CardID = #{cardid,jdbcType=VARCHAR},
+      DeviceNo = #{deviceno,jdbcType=INTEGER},
+      DoorNo = #{doorno,jdbcType=INTEGER},
+      WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdateStatus = #{updatestatus,jdbcType=VARCHAR},
+      Grade = #{grade,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=VARCHAR},
+      FinalDate = #{finaldate,jdbcType=TIMESTAMP},
+      FailReason = #{failreason,jdbcType=NVARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      EndDate = #{enddate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!--  * 查询当天下发的添加和删除的记录.
+	 * 与SenseLink进行对接.员工组中的人员下发 -->
+  <select id="getPermRecord" resultType="Map">
+        SELECT   
+		                        d.ID as id,<!-- 记录的ID -->
+		                        d.HolderNo as holderno ,<!-- 工号 -->
+                                d.DeviceNo as deviceno ,<!-- 设备编号 -->
+                                d.DoorNo as doorno ,<!-- 门区编号 -->
+                                d.UpdateStatus as updatestatus ,<!-- 操作状态 -->
+								a.emergencygroup as emergencygroup,
+                                ROW_NUMBER() OVER ( PARTITION BY d.DoorNo ORDER BY d.DoorNo ) sindex
+                      FROM      dbo.DoorPermHolderRecord d
+                       INNER JOIN   (
+                                SELECT  
+								        r.DoorNo AS doorno,
+										r.EmergencyGroup AS emergencygroup
+                                FROM    dbo.DoorUnit r
+                                        INNER JOIN dbo.DeviceUnit e ON e.DeviceNo = r.DeviceNo
+                                WHERE   r.Description IS NOT  NULL
+                                        AND r.Description != '' ) AS  a  ON a.doorno = d.DoorNo
+                                AND Status = '0'
+                                AND DATEDIFF(dd, UpdateDate, GETDATE()) = 0
+								AND d.UpdateStatus IN ('a','d')
+                      GROUP BY  d.HolderNo ,
+                                d.DeviceNo ,
+                                d.DoorNo ,
+                                d.UpdateStatus,
+								d.ID,
+								a.emergencygroup
+  </select>
+  
+  <!--  * 批量修改
+	 * 通过DoorPermHolderRecord表的ID主键来进行修改 -->
+  <update id="updatePremRecordStatus" parameterType="java.util.List">
+       UPDATE dbo.DoorPermHolderRecord SET Status='1' WHERE ID 
+       in <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+          </foreach>
+  </update>
+  
+</mapper>

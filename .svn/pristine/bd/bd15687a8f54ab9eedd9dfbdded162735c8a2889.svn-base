@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>仓库</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">仓库管理</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="wareHouse_add.html" class="blue addMain" id="insertWareHouseData">新增</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue delMain" id="deleteWareHouseData">删除</a></div>
+                    <!-- <div class="subbtn fl"><a href="javascript:;" class="blue exportMain" id="exportWareHouseData">导出</a></div> --> 
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="printWareHouseData">打印</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                         <div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>所在部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						
+                        <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>仓库名称：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" name="warename" id="warename1" autocomplete="off">
+                                <!-- <ul class="sel" id="sel">
+                                   
+                                    
+                                </ul> -->
+                            </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>仓库类别：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" name="waretype" id="waretype1" autocomplete="off">
+                              <!--   <ul class="sel" id="sel2">
+                                   
+                                    
+                                </ul> -->
+                            </div>
+                        </div>
+                        
+                        <div class="btn fl">
+                            <a href="javascript:;" id="waresearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                        <thead>
+                            <tr>
+                                <td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td>
+                               <!--  <td width="100">仓库编号</td> -->
+                                <td width="100">仓库名称</td>
+                                <td width="100">仓库地址</td>
+                               <!--  <td width="100">所属部门</td> -->
+                                 <td width="100">所属部门名称</td>
+                                <td width="100">仓库类别</td>
+                                <td width="100">备注</td>
+                                <td width="100" class="no-print">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+   <script type="text/javascript" src="js/wareHouse_list.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    <!-- <script type="text/javascript" src="chu/xlsx.full.min.js"></script>
+     <script type="text/javascript" src="chu/xlsx.core.min.js"></script>
+     <script type="text/javascript" src="chu/export.js"></script> -->
+</body>
+
+</html>

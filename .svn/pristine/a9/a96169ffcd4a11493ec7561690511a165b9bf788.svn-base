@@ -1,0 +1,5 @@
+package com.xr.service;
+
+public interface ZC_FileManagerService {
+
+}

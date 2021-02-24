@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>排班中心</title>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/public1.css" />
+		<link rel="stylesheet" href="css/shifts.css" />
+		<link rel="stylesheet" href="css/list_style.css" />
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="css/deviceManger.css">
+		<link rel="stylesheet" href="css/Shuttle.css">
+		<style>
+			.cell-more{
+				cursor:pointer;
+			}
+			
+			 #test4{
+      			display: inline-block;
+  			}
+
+
+  			#test5{
+      			display: inline-block;
+  			}
+		
+		</style>
+    </head>
+	<body>
+	<dl class="hover">
+       <!-- <dt class='cell'>早</dt>
+       <dt class='cell'>中</dt>
+       <dt class='cell'>晚</dt>
+       <dt class='cell'>休</dt> -->
+       <dt class="cellDt" data-codeno="11" data-shiftno="0" style="background:#ccc">休</dt>
+   	</dl>
+		<div id="cme-main">
+			<!-- 排班中心 -->
+			<div class="main-content">
+				<div class="main-tab">
+					<div class="label fl curr"><a href="javascript:;">排班中心</a></div>
+					<div class="label fl"><a href="javascript:;">常用班次分配</a></div>
+					<div class="btn-box fr">
+	                    <div class="subbtn fl"><a href="attendance_person.html" class="blue addMain" id="personAttendance">批量分配</a></div>
+	                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange" id="delMore">批量删除</a></div>
+	                </div>
+	            </div>
+	            <div class="main-table">
+					<div class="main-form">
+						<!--input开始-->
+						<div class="form-term-first">
+							<div class="form-term clearfix">
+								<div class="lable"><span>*</span>选择月份：</div>
+								<div class="control">
+									<span class="application application-first"  >
+										<select id="Year"></select>
+						            </span>
+									<span class="application ction" data-id="1">1月</span>
+								    <span class="application ction" data-id="2">2月</span>
+								    <span class="application ction" data-id="3">3月</span>
+								    <span class="application ction" data-id="4">4月</span>
+								    <span class="application ction" data-id="5">5月</span>
+								    <span class="application ction" data-id="6">6月</span>
+								    <span class="application ction" data-id="7">7月</span>
+								    <span class="application ction" data-id="8">8月</span>
+								    <span class="application ction" data-id="9">9月</span>
+								    <span class="application ction" data-id="10">10月</span>
+								    <span class="application ction" data-id="11">11月</span>
+								    <span class="application ction" data-id="12">12月</span>
+								</div>
+							</div>
+						</div>
+						<div class="form-term clearfix">
+							<div class="lable" style="margin-top: 16px;"><span>*</span>选择班次：</div>
+							<div class="control clearfix" id="control">
+							    <div class="write clearfix" id="radio">
+	                                <span class="radio three">三班倒</span>
+	                                <span class="radio curr Administration">行政班</span>
+	                            </div>
+								<select class="banci shift" name="shiftno" >
+									<option value="" data-code="" data-shiftno="">请选择</option>
+									<option value="休" data-code="11" data-shiftno="0">休息</option>
+								</select>
+	                            <!-- <div class="rest_day"style="width: 800px;">
+	                                <td> <span class="checkbox"  style="float: none;"><time class="you" style="color:#666;">星期一</time></td> 
+	                            </div> -->
+	                            <div class="rest_day1">
+	                            	<div class="rest" style="display:none;">
+		                                <select id="shift1" class="shift">
+		                                	<option value="" data-code="" data-shiftno="">请选择</option>
+		                                	<option value="休" data-code="11" data-shiftno="0">休息</option>
+		                                </select>
+		                                <select id="shift2" class="shift">
+		                                	<option value="" data-code="" data-shiftno="">请选择</option>
+		                                	<option value="休" data-code="11" data-shiftno="0">休息</option>
+		                                </select>
+		                                <select id="shift3" class="shift">
+		                                	<option value="" data-code="" data-shiftno="">请选择</option>
+		                                	<option value="休" data-code="11" data-shiftno="0">休息</option>
+		                                </select>
+	                                </div>
+	                            </div>
+	                             <div class="doubleRest">
+	                            	<span class="doubleRest_tit">休息:</span>
+	                            	<div>
+	                            		<span class="checkbox1" data-shiftno="0" data-code="11"></span>
+	                            		<span class="doubleRest_sat">周六</span>
+	                            	</div>
+	                            	<div>
+	                            		<span class="checkbox2" data-shiftno="0" data-code="11"></span>
+	                            		<span class="doubleRest_mon">周日</span>
+	                            	</div>
+	                            </div> 
+	                            <button class="Sure_">确定</button>
+							</div>								
+	                    </div>
+	                    <div class="" id="special">
+	                            <h4 class="special_title"><span class="dayue"></span>月</h4>
+	                            <table class="grade">
+	                            <thead id="cont"> 
+	                                <tr class="da_date">
+	               
+	                                </tr>
+	                                <tr class="da_week">
+	                                    
+	                                </tr>
+	                                <tr class="da_cell">
+	                                    
+	                                </tr>
+	                                
+	                            </thead>
+	                            <tbody class="specified " id="cont">
+	                            </tbody>
+	                            </table>
+	                    </div>
+						<div class="form-term clearfix" id="people">
+						<div class="lable"><span>*</span>选择人员：</div>
+							<div class="control clearfix">
+								<div class="fl-box">
+								</div>
+									<div id="anniu" class="fl more charge-men" style="border:1px solid #2f8eed; border-radius: 5px; background: #fff; margin-left: 15px;">
+										<img src="images/more1.png"/>
+									</div>
+							</div>
+						</div>
+					</div>
+				
+			</div>
+			
+			<!-- 排版中心结束 -->
+			
+			<!-- 人员班次分配 -->
+	            <div class="main-table" style="display:none">
+	              <div class="search-box main-form fl">
+	              		<div class="form-term fl clearfix">
+						<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable" style="width:115px;"><span></span>选择部门：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" style="width: calc(100% - 125px);">
+			                	<span id="deptName"></span>
+			                    <input type="hidden" id="deptID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+					</div>
+	                  <form class="layui-form fl" action="">
+	                    <div class="layui-form-item">
+						  <label class="layui-form-label" style="width:80px;color:#666;font-size:14px">姓名:</label>
+						  <div class="layui-input-block" style="width:232px;height:32px">
+							  <select lay-verify="" lay-search id="idcode1">
+								  <option value="">请选择</option>
+							</select>  
+						  </div>
+						</div>
+	                  </form>
+	                    <div class="btn fl">
+                        <a href="javascript:;" id="queryInformation">搜索</a>
+                    </div> 
+	                </div>
+					<table class="grade">
+						<tbody id="page">
+							<tr> 
+								<td width="20"><span class='checkbox' id="checkAll" style='float:none'>全选</span></td>
+								<td width="40">工号</td>
+								<td width="80">姓名</td>
+								<td width="100">部门</td>
+								<td width="100">班次名称</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pages" id="test"></div>
+			</div>
+			<!-- 人员班次结束 -->
+			</div>
+		</div>
+	<div class="select_person_box"></div>
+		<div class="select_person">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">选择人员</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue confirm" id="sure">确定</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange" id="quxiao">取消</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+            <div class="main-form">
+                <!--input开始-->
+            <div class="form-term clearfix">
+            <div class="Shuttle">
+              <ul id="shuttle_box">
+                <li class="shuttle_box_li shuttle_box_near">
+                    <h4 class="title">部门架构 </h4>
+                    <div id="test12" class="demo-tree-more"></div>
+                </li>
+                <li class="shuttle_box_li shuttle_box_near shuttle_box_person" style="width: calc(100% - 657px);">
+                    <h4 class="title">选择考勤人员  <span class="checkbox" id="selectll" style="float: none;">全选</span></h4>
+                    <!--<div class="search"><img src="img/cs.png" alt=""><input type="text" placeholder="请输入关键字"></div>  -->
+                    <ul id="shuttle_box_left">
+              
+                    </ul>
+                </li>
+                <li class="shuttle_box_li" id="shuttle_box_mid">
+                    <button id="shuttle_box_toRight">添加>></button>
+                    <button id="shuttle_box_toLeft"><sapn><<</sapn>移除</button>
+                </li>
+                <li class="shuttle_box_li shuttle_box_near shuttle_box_person" style="width:284px">
+                    <h4 class="title">人员显示 <span class="checkbox" id="selectAll" style="float: none;">全选</span></h4>
+                     <!--<div class="search"><img src="img/cs.png" alt=""><input type="text" placeholder="请输入关键字"></div>  -->
+                    <ul id="shuttle_box_right">
+
+                    </ul>
+                </li>
+            </ul>
+            </div>
+            </div>
+            </div>
+            </div>
+</div>
+
+		<script type="text/javascript" src="../hyf/path_js.js"></script>    
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/layer/layer.js"></script>
+		<script type="text/javascript" src="js/Csc_scheduling_center.js"></script>	  
+		<script type="text/javascript" src="js/Shuttle_center.js"></script>	 
+		<script type="text/javascript" src="js/attendance_personShift.js"></script> 
+	</body>
+</html>

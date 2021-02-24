@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>门禁管理</title>
+ 	<link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+<body>
+		<div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">进出记录查询</a></div>
+                <div class="btn-box fr">
+                   <div class="subbtn fl"><a href="javascript:;" class="blue" id="daochu">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="print">打印</a></div>
+                </div>
+            </div>
+
+            <div class="main-table">
+                <div class="search-box main-form fl">
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择日期：</div>
+                        <div class="control clearfix">
+                          <input type="text" id="date1" name="iodate" class="input date" placeholder="请选择日期" autocomplete="off" />
+                            --
+                            <input type="text" id="date2" name="iodate" class="input date" placeholder="请选择日期" autocomplete="off" />
+                        </div>
+                    </div>
+                     <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>进出时间：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="date3" name="iotime"  class="input ipt" autocomplete="off" />
+                            --
+                            <input type="text" id="date4" name="iotime"  class="input ipt" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>进出状态：</div>
+                        <div class="control clearfix">
+                           <select class="inOut" name="iostatus" id="iostatus">
+                                <option value=""></option>
+                           		<option value="11">进入</option>
+                           		<option value="12">外出</option>
+                           </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term fl clearfix ">
+                    		<div class="record_select">
+                    			<span class="checkbox" name="status" id="status"></span>
+                        		有效进出记录
+                    		</div>
+                    		<div class="record_select">
+                    			<span class="checkbox" name="datano" id="datano"></span>
+                        		显示当天最早与最晚两笔记录
+                    		</div>
+                    </div>
+                    
+                    
+                    
+                   <!--  <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择部门：</div>
+                        <div class="control clearfix">
+                           <select class="dept" name="departmentno" id="deptno">
+                           		<option value="">请选择部门</option>
+                           </select>
+                           --
+                            <select class="holder" name="holderno" id="holderno">
+                           		<option value="">请选择人员</option>
+                           </select>
+                        </div>
+                    </div> -->
+                    
+                    	<div class="form-term fl clearfix" style="clear:both">
+							<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+								<div class="lable">
+									<span></span>所在部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno" class="input">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+				<div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择人员：</div>
+                        <div class="control clearfix">
+                            <select class="holder" name="holderno" id="holderno">
+                           		<option value="">请选择人员</option>
+                           </select>
+                        </div>
+                    </div> 
+                    
+                    
+                    <div class="form-term fl clearfix">
+					<div class="layui-unselect layui-form-select downpanel"	style="width: 358px;">
+						<div class="lable"><span></span>门区：</div>
+						<div class="control clearfix layui-select-title layui-input layui-unselect">
+							<span id="doorname"></span> 
+							<input type="hidden" id="doorno">
+							<i class="layui-edge"></i>		
+						</div>
+						<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+							<dd>
+								<ul id="doortree" class="input"></ul>
+							</dd>		
+						</dl>						
+					</div>		
+				</div>
+                    
+                    <!-- <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择门区：</div>
+                        <div class="control clearfix">
+                           <select name="doorno" id="doorno">
+                           		<option value="">请选择门区</option>
+                           		<option value="1">公司大门</option>
+                           		<option value="2">财务室</option>
+                           </select>
+                        </div>
+                    </div> -->
+                    
+                    <div class="btn fl">
+                        <a href="javascript:;" id="queryIORecordListBtn">搜索</a>
+                    </div>
+                </div>
+                <table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">工号</td>
+						<td width="80">姓名</td>
+						<td width="80">部门名称</td>
+						<td width="80">部门编号</td>
+						<td width="100">进出位置</td>
+						<td width="100">进出日期</td>
+						<td width="100">进出时间</td>
+						<td width="80">进出状态</td>
+						<td width="80">体温℃</td>
+						<td width="80">卡片内码</td>
+						<td width="80">卡号</td>
+						<td width="80">设备名称</td>
+						<td width="80">进出方式</td>
+					</tr>
+					<tbody id="cont">
+						 
+					</tbody>
+				</table>
+                
+                <div class="pages" id="test">
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/IO_record.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="../chu/xlsx.full.min.js"></script>
+     <script type="text/javascript" src="../chu/export.js"></script> 
+     
+</body>
+</html>

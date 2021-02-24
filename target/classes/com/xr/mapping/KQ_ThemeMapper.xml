@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_ThemeMapper">
+
+   <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by themeno desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+
+ <!-- 通过主题表,添加出差申请-->
+ <insert id="insertEvection" parameterType="com.xr.entity.KQ_Theme">
+	INSERT INTO dbo.KQ_Theme
+	(HolderNo ,DepartmentNo ,TopicType ,Place ,CauseType ,DetailedPlace ,ApplyTime,BeginTime,
+	EndTime, FirstApproval,Remark)
+	VALUES
+	(#{holderno},#{departmentno},'cc',#{place},#{causetype},#{detailedplace},GETDATE(),
+	#{begintime},#{endtime},#{firstapproval},#{remark})
+ </insert>
+ 
+ <!-- 通过主题表,添加请假申请-->
+ <insert id="insertLeave" parameterType="com.xr.entity.KQ_Theme">
+       INSERT INTO dbo.KQ_Theme
+	(HolderNo ,DepartmentNo ,TopicType ,Place ,CauseType ,DetailedPlace ,ApplyTime
+	,BeginTime ,EndTime,FirstApproval,SecondApproval,ThirdApproval,Remark)
+	VALUES
+	(#{holderno},#{departmentno},'qj',#{place},#{causetype},#{detailedplace},GETDATE(),#{begintime},#{endtime},
+	#{firstapproval},#{secondapproval},#{thirdapproval},#{remark})
+ </insert>
+ 
+ <!-- 通过主题表,添加补打卡申请 -->
+ <insert id="insertPunchCard" parameterType="com.xr.entity.KQ_Theme">
+    INSERT INTO dbo.KQ_Theme
+        (HolderNo, DepartmentNo, TopicType, Place ,CauseType,ApplyTime ,PunchTime,FirstApproval,Remark)
+    VALUES 
+     (#{holderno},#{departmentno},'bk',#{place},#{causetype},GETDATE(),#{punchtime},#{firstapproval},#{remark})
+ </insert>
+ 
+ <!-- 通过主题表,添加加班申请 -->
+ <insert id="insertWorkOverTime" parameterType="com.xr.entity.KQ_Theme">
+    INSERT INTO dbo.KQ_Theme
+        (HolderNo , DepartmentNo ,TopicType, DetailedPlace,ApplyTime,BeginTime,EndTime,FirstApproval,Remark)
+  VALUES  (#{holderno},#{departmentno},'jb',#{detailedplace},GETDATE(),#{begintime},#{endtime},#{firstapproval},#{remark})
+ </insert>
+ 
+ <!-- 通过主题表,添加调休申请 -->
+ <insert id="insertRest" parameterType="com.xr.entity.KQ_Theme">
+     INSERT INTO dbo.KQ_Theme
+        ( HolderNo , DepartmentNo ,TopicType,ApplyTime,BeginTime,EndTime,FirstApproval,Remark)
+VALUES  (#{holderno},#{departmentno},'tx',GETDATE(),#{begintime},#{endtime},#{firstapproval},#{remark})
+ </insert>
+ 
+ <!-- 以上是(出差,请假,调休,补打卡,加班等各种申请)的添加方法 -->
+ 
+ <!-- 通过实体类来查询所有的申请详情 (申请人看到的信息)-->
+ <select id="queryAllApplyFor" resultType="Map" parameterType="com.xr.entity.KQ_Theme">
+ <include refid="c_start"></include>
+    select *  from (
+	SELECT
+		t.themeno as themeno,
+		t.holderno as holderno,
+		h.HolderName as holdername,
+		t.departmentno as departmentno,
+		d.DepartmentName as departmentname,
+		t.topictype as topictype,
+		t.place as place,
+		t.causetype as causetype,
+		t.detailedplace as detailedplace,
+		CONVERT(varchar(20), t.applytime, 120) as applytime,
+		CONVERT(varchar(20), t.begintime, 120) as begintime,
+		CONVERT(varchar(20), t.endtime, 120) as endtime,
+		CONVERT(varchar(20), t.punchtime, 120) as punchtime,
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.FirstApproval+',',number,charindex(',',t.FirstApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.FirstApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS firstapproval,<!-- 一级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.SecondApproval+',',number,charindex(',',t.SecondApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.SecondApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  secondapproval,<!-- 二级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.ThirdApproval+',',number,charindex(',',t.ThirdApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.ThirdApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  thirdapproval,<!-- 三级审批人 -->
+		t.auditstatus,<!--审批状态 -->
+		t.operationstatus,<!--操作状态 -->
+		t.remark
+	FROM dbo.KQ_Theme t INNER JOIN dbo.HolderData h ON h.HolderNo = t.HolderNo
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = t.DepartmentNo ) aa
+	    <where> 
+	           <if test="themeno != null and themeno !=''">
+	               aa.themeno=#{themeno}
+	           </if>
+	           <if test="holderno != null and holderno != ''">
+	              and aa.holderno=#{holderno}
+	           </if>
+	           <if test="departmentno != null and departmentno !=''">
+	              and aa.departmentno=#{departmentno}
+	           </if>
+	           <if test="topictype != null and topictype !=''">
+	              and aa.topictype=#{topictype}
+	           </if>
+	           <if test="place != null and place !=''">
+	              and aa.place=#{place}
+	           </if>
+	           <if test="causetype !=null and causetype !=''">
+	              and aa.causetype=#{causetype}
+	           </if>
+	           <if test="detailedplace !=null and detailedplace !=''">
+	              and aa.detailedplace=#{detailedplace}
+	           </if>
+	           <if test="applytime !=null and applytime!=''">
+	              and  CONVERT(varchar(10), aa.applytime, 120)=#{applytime}
+	           </if>
+	           <if test="begintime !=null and begintime !=''">
+	              and CONVERT(varchar(20), aa.begintime, 120)=#{begintime}
+	           </if>
+	           <if test="endtime !=null and endtime !=''">
+	              and CONVERT(varchar(20), aa.endtime, 120)=#{endtime}
+	           </if>
+	           <if test="punchtime !=null and punchtime!=''">
+	              and CONVERT(varchar(20), aa.punchtime, 120)=#{punchtime}
+	           </if>
+	            <if test="auditstatus !=null and auditstatus !=''">
+	              and aa.auditstatus=#{auditstatus}
+	           </if>
+	    </where>
+	    <include refid="c_end"></include>
+ </select>
+ 
+  <!-- 通过实体类来查询所有的申请详情 (申请人看到的信息)-->
+ <select id="queryAllApplyForCount" resultType="Integer" parameterType="com.xr.entity.KQ_Theme">
+    select count(1) from (
+	SELECT
+		t.themeno as themeno,
+		t.holderno as holderno,
+		h.HolderName as holdername,
+		t.departmentno as departmentno,
+		d.DepartmentName as departmentname,
+		t.topictype as topictype,
+		t.place as place,
+		t.causetype as causetype,
+		t.detailedplace as detailedplace,
+		CONVERT(varchar(20), t.applytime, 120) as applytime,
+		CONVERT(varchar(20), t.begintime, 120) as begintime,
+		CONVERT(varchar(20), t.endtime, 120) as endtime,
+		CONVERT(varchar(20), t.punchtime, 120) as punchtime,
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.FirstApproval+',',number,charindex(',',t.FirstApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.FirstApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS firstapproval,<!-- 一级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.SecondApproval+',',number,charindex(',',t.SecondApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.SecondApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  secondapproval,<!-- 二级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.ThirdApproval+',',number,charindex(',',t.ThirdApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.ThirdApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  thirdapproval,<!-- 三级审批人 -->
+		t.auditstatus,<!--审批状态 -->
+		t.operationstatus,<!--操作状态 -->
+		t.remark
+	FROM dbo.KQ_Theme t INNER JOIN dbo.HolderData h ON h.HolderNo = t.HolderNo
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = t.DepartmentNo ) aa
+	    <where> 
+	           <if test="themeno != null and themeno !=''">
+	               aa.themeno=#{themeno}
+	           </if>
+	           <if test="holderno != null and holderno != ''">
+	              and aa.holderno=#{holderno}
+	           </if>
+	           <if test="departmentno != null and departmentno !=''">
+	              and aa.departmentno=#{departmentno}
+	           </if>
+	           <if test="topictype != null and topictype !=''">
+	              and aa.topictype=#{topictype}
+	           </if>
+	           <if test="place != null and place !=''">
+	              and aa.place=#{place}
+	           </if>
+	           <if test="causetype !=null and causetype !=''">
+	              and aa.causetype=#{causetype}
+	           </if>
+	           <if test="detailedplace !=null and detailedplace !=''">
+	              and aa.detailedplace=#{detailedplace}
+	           </if>
+	           <if test="applytime !=null and applytime!=''">
+	              and  CONVERT(varchar(10), aa.applytime, 120)=#{applytime}
+	           </if>
+	           <if test="begintime !=null and begintime !=''">
+	              and CONVERT(varchar(20), aa.begintime, 120)=#{begintime}
+	           </if>
+	           <if test="endtime !=null and endtime !=''">
+	              and CONVERT(varchar(20), aa.endtime, 120)=#{endtime}
+	           </if>
+	           <if test="punchtime !=null and punchtime!=''">
+	              and CONVERT(varchar(20), aa.punchtime, 120)=#{punchtime}
+	           </if>
+	            <if test="auditstatus !=null and auditstatus !=''">
+	              and aa.auditstatus=#{auditstatus}
+	           </if>
+	    </where>
+ </select>
+ 
+ <!-- 通过主键查询用户的申请详情 -->
+ <select id="queryOneApply" resultType="Map">
+	SELECT
+		t.themeno as themeno,
+		t.holderno as holderno,
+		h.HolderName as holdername,
+		t.departmentno as departmentno,
+		d.DepartmentName as departmentname,
+		t.topictype as topictype,
+		t.place as place,
+		t.causetype as causetype,
+		t.detailedplace as detailedplace,
+		CONVERT(varchar(20), t.applytime, 120) as applytime,
+		CONVERT(varchar(20), t.begintime, 120) as begintime,
+		CONVERT(varchar(20), t.endtime, 120) as endtime,
+		CONVERT(varchar(20), t.punchtime, 120) as punchtime,
+		STUFF( (SELECT ','+ HolderName+','+HolderNo FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.FirstApproval+',',number,charindex(',',t.FirstApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.FirstApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS firstapproval,<!-- 一级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName+','+HolderNo FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.SecondApproval+',',number,charindex(',',t.SecondApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.SecondApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  secondapproval,<!-- 二级审批人 -->
+
+		STUFF( (SELECT ','+ HolderName+','+HolderNo FROM dbo.HolderData WHERE HolderNo IN(
+		select
+		substring(t.ThirdApproval+',',number,charindex(',',t.ThirdApproval+',',number)-number)
+		from dbo.KQ_Theme ,master..spt_values s
+		where type='p' and number>0 and substring(','+t.ThirdApproval,number,1)=',')
+		FOR XML PATH('')), 1, 1, '') AS  thirdapproval,<!-- 三级审批人 -->
+		t.auditstatus,<!--审批状态 -->
+		t.operationstatus,<!--操作状态 -->
+		t.remark
+	FROM dbo.KQ_Theme t INNER JOIN dbo.HolderData h ON h.HolderNo = t.HolderNo
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = t.DepartmentNo
+	   where t.themeno=#{themeno}
+ </select>
+ 
+ <!-- 通过实体类传入的参数来检验申请 -->
+ <select id="queryCheckApply" resultType="Map" parameterType="com.xr.entity.KQ_Theme">
+	SELECT
+		themeno,
+		holderno,
+		departmentno,
+		topictype,
+		place,
+		causetype,
+		detailedplace,
+		applytime,
+		begintime,
+		endtime,
+		punchtime,
+		FirstApproval,
+		secondapproval,
+		thirdapproval,
+		auditstatus,
+		operationstatus,
+		remark
+	FROM dbo.KQ_Theme
+        <where>
+             <if test="holderno != null and holderno !=''">
+                holderno=#{holderno}
+             </if>
+             <if test="begintime !=null and endtime != null">
+				and (
+				(#{begintime} between begintime and endtime and #{endtime} between begintime and endtime)
+				or (begintime between #{begintime} and #{endtime} or endtime between #{begintime} and #{endtime})
+				  )
+             </if>
+             <if test="punchtime !=null">
+                 and punchtime=#{punchtime}
+             </if>
+        </where>
+ </select>
+ 
+   <!-- 通过主键修改用户的申请 -->
+   <update id="updateTheme" parameterType="com.xr.entity.KQ_Theme">
+        UPDATE dbo.KQ_Theme
+	        <trim prefix="set" suffixOverrides=",">
+			  <if test="place!=null and place!=''">Place=#{place},</if><!-- 出差地点或者们去位置 -->
+			  <if test="causetype!=null and causetype!=''">CauseType=#{causetype},</if><!-- 出差事由或者请假类型或者补打卡类型 -->
+			  <if test="detailedplace!=null and detailedplace!=''">DetailedPlace=#{detailedplace},</if>
+			  <if test="begintime !=null"> BeginTime=#{begintime},</if>
+			  <if test="endtime !=null">EndTime=#{endtime},</if>
+			  <if test="punchtime !=null">PunchTime=#{punchtime},</if>
+			  <if test="firstapproval != null and firstapproval!=''">FirstApproval=#{firstapproval},</if>
+			  <if test="secondapproval != null and secondapproval!=''">SecondApproval=#{secondapproval},</if>
+			  <if test="thirdapproval != null and thirdapproval!=''">ThirdApproval=#{thirdapproval},</if>
+			  <if test="auditstatus != null and auditstatus!=null">AuditStatus=#{auditstatus},</if>
+			  <if test="operationstatus != null and operationstatus!=null">OperationStatus=#{operationstatus},</if>
+        </trim>
+         where themeno=#{themeno}
+   </update>
+ 
+	<!-- 通过主题的编号来删除记录 -->
+	<delete id="delTheme">
+	   delete FROM dbo.KQ_Theme WHERE ThemeNo=#{themeno}
+	</delete>
+	
+	<!--  * 通过前段传入的工号* 查询用户应该进行审批的信息 -->
+	<select id="queryApprovalMsg" resultType="Map" parameterType="com.xr.entity.KQ_Theme">
+	<include refid="c_start"></include>
+	select * from (
+	    SELECT 
+		   e.ThemeNo as themeno,<!--编号-->
+		   e.HolderNo as holderno,<!--工号-->
+		   e.DepartmentNo as departmentno,<!--部门编号-->
+		   d.DepartmentName as departmentname,<!--部门名称-->
+		   h.HolderName holdername,<!--姓名-->
+		   e.FirstApproval AS firstapproval,<!-- 一级审批人 -->
+	       e.SecondApproval AS secondapproval,<!-- 二级审批人 -->
+	       e.ThirdApproval AS thirdapproval,<!-- 三级审批人 -->
+		   CONVERT(varchar(20), e.ApplyTime, 120) as applytime,<!--申请时间-->
+		   e.TopicType as topictype,<!--申请类型-->
+		   CONVERT(varchar(20), e.BeginTime, 120)as begintime,<!--开始时间-->
+		   CONVERT(varchar(20), e.EndTime, 120) as endtime,<!--结束时间-->
+		   CONVERT(varchar(20),e.PunchTime, 120) as punchtime,<!--补卡时间-->
+		   e.CauseType as causetype,<!--事由或者类型-->
+		   e.Place AS place,<!-- 地址 -->
+		   e.DetailedPlace as detailedplace,<!-- 具体事由或者详细地址 -->
+		   e.Remark as remark,<!--备注-->
+		   e.AuditStatus as auditstatus,<!--审批状态-->
+		   e.OperationStatus as operationstatus<!--操作状态-->
+	 FROM 
+	    dbo.KQ_Theme e 
+	INNER JOIN dbo.HolderData h ON  h.HolderNo = e.HolderNo
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = e.DepartmentNo ) aa
+	 <where>
+	     <if test="holderno != null and topictype == null">
+               (aa.FirstApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='0' and aa.AuditStatus='10') or <!-- 一级审批查询 -->
+	           (aa.SecondApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='1' and aa.AuditStatus='11') OR <!-- 二级审批查询 -->
+	           (aa.ThirdApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='2' AND aa.AuditStatus='11')
+         </if>
+          <if test="topictype !=null and holderno !=null">
+            and  (aa.FirstApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='0' and aa.AuditStatus='10' AND aa.TopicType=#{topictype}) or <!-- 一级审批查询 -->
+	             (aa.SecondApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='1' and aa.AuditStatus='11'   AND aa.TopicType=#{topictype}) OR <!-- 二级审批查询 -->
+	             (aa.ThirdApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='2' AND aa.AuditStatus='11'  and aa.TopicType=#{topictype})
+          </if>
+	  </where>
+	  <include refid="c_end"></include>
+	</select>
+	
+		<!-- * 查询待我审批的总数,用于分页 -->
+	<select id="queryApprovalMsgCount" resultType="Integer" parameterType="com.xr.entity.KQ_Theme">
+	select count(1) from (
+	    SELECT 
+		   e.ThemeNo as themeno,<!--编号-->
+		   e.HolderNo as holderno,<!--工号-->
+		   e.DepartmentNo as departmentno,<!--部门编号-->
+		   d.DepartmentName as departmentname,<!--部门名称-->
+		   h.HolderName holdername,<!--姓名-->
+		   e.FirstApproval AS firstapproval,<!-- 一级审批人 -->
+	       e.SecondApproval AS secondapproval,<!-- 二级审批人 -->
+	       e.ThirdApproval AS thirdapproval,<!-- 三级审批人 -->
+		   CONVERT(varchar(20), e.ApplyTime, 120) as applytime,<!--申请时间-->
+		   e.TopicType as topictype,<!--申请类型-->
+		   CONVERT(varchar(20), e.BeginTime, 120)as begintime,<!--开始时间-->
+		   CONVERT(varchar(20), e.EndTime, 120) as endtime,<!--结束时间-->
+		   CONVERT(varchar(20),e.PunchTime, 120) as punchtime,<!--补卡时间-->
+		   e.CauseType as causetype,<!--事由或者类型-->
+		   e.Place AS place,<!-- 地址 -->
+		   e.DetailedPlace as detailedplace,<!-- 具体事由或者详细地址 -->
+		   e.Remark as remark,<!--备注-->
+		   e.AuditStatus as auditstatus,<!--审批状态-->
+		   e.OperationStatus as operationstatus<!--操作状态-->
+	 FROM 
+	    dbo.KQ_Theme e 
+	INNER JOIN dbo.HolderData h ON  h.HolderNo = e.HolderNo
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = e.DepartmentNo ) aa
+	 <where>
+	     <if test="holderno != null and topictype == null">
+               (aa.FirstApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='0' and aa.AuditStatus='10') or <!-- 一级审批查询 -->
+	           (aa.SecondApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='1' and aa.AuditStatus='11') OR <!-- 二级审批查询 -->
+	           (aa.ThirdApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='2' AND aa.AuditStatus='11')
+         </if>
+          <if test="topictype !=null and holderno !=null">
+            and  (aa.FirstApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='0' and aa.AuditStatus='10' AND aa.TopicType=#{topictype}) or <!-- 一级审批查询 -->
+	             (aa.SecondApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='1' and aa.AuditStatus='11'   AND aa.TopicType=#{topictype}) OR <!-- 二级审批查询 -->
+	             (aa.ThirdApproval LIKE '%'+#{holderno}+'%' AND aa.OperationStatus='2' AND aa.AuditStatus='11'  and aa.TopicType=#{topictype})
+          </if>
+	  </where>
+	</select>
+	
+    <!--  * 通过参数查询是否有(出差,请假)* 用于考勤分析 -->	
+	<select id="selectAnalTheme" resultType="Map" parameterType="com.xr.entity.KQ_Theme">
+	SELECT 
+	    ThemeNo ,HolderNo,
+	    DepartmentNo,TopicType 
+	 FROM dbo.KQ_Theme
+	 <where>
+	      <if test="holderno != null and holderno!=''">
+	         holderno = #{holderno}
+	      </if>
+	      <if test="topictype != null and topictype != ''">
+	       and topictype = #{topictype}
+	      </if>
+	      <if test="auditstatus != null and auditstatus != ''">
+	       and auditstatus = #{auditstatus}
+	      </if>
+	      <if test="begintime != null">
+	       and #{begintime}  between begintime and endtime
+	      </if>
+	 </where>
+	</select>
+
+</mapper>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>审批记录</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+     <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+     <link rel="stylesheet" href="css/fixedGoodsManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">入库审批记录</a></div>
+                <div class="label fl"><a href="javascript:;">出库审批记录</a></div>
+                <div class="label fl"><a href="javascript:;">借用审批记录</a></div>
+                <!-- 入库 -->
+                <div class="main-table">
+                    <!--查询条件-->
+                   <div class="box">
+                   		  <div class="search-box main-form fl" >
+                    	<div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库单号：</div>
+                            <div class="control clearfix">
+                               <input type="text" class="input" id="inBill">
+                            </div>
+                        </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="inDate" autocomplete="off">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="inStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">入库单号</td>
+                                <td width="100">入库日期</td>
+                                <td width="100">操作人员</td>
+                                <td width="100">入库数量</td>
+                                 <td width="100">审批时间</td>
+                                 <td width="100">审批人</td>
+                                <td width="100">备注</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                   </div>
+                   <div class="box" style="display:none">
+                   		 <!-- 出库 -->
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                    	<div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库单号：</div>
+                            <div class="control clearfix">
+                                 <input type="text" class="input" id="outBill">
+                            </div>
+                        </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="outDate" autocomplete="off">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="outStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="100">序号	</td>
+                                <td width="100">出库单号</td>
+                                <td width="100">出库日期</td>
+                                <td width="100">操作人员</td>
+                                <td width="100">出库数量</td>
+                                <td width="100">领用人</td>
+                                 <td width="100">审批时间</td>
+                                 <td width="100">审批人</td>
+                                <td width="100">备注</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont2">
+                            
+                        </tbody>
+                    </table>
+                   </div>
+                  <div class="box" style="display:none">
+                  		  <!-- 借用 -->
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                    	<div class="form-term fl clearfix">
+                            <div class="lable"><span></span>借用单号：</div>
+                            <div class="control clearfix">
+                               <input type="text" class="input" id="borrowBill">
+                            </div>
+                        </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>借用日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="borrowDate" autocomplete="off">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="borrowStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="100">序号	</td>
+                                <td width="100">借用单号</td>
+                                <td width="100">借用日期</td>
+                                <td width="100">操作人员</td>
+                                <td width="100">借用数量</td>
+                                <td width="100">借用单位</td>
+                                <td width="100">借用人</td>
+                                <td width="100">联系电话</td>
+                                 <td width="100">审批时间</td>
+                                 <td width="100">审批人</td>
+                                <td width="100">备注</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont3">
+                        </tbody>
+                    </table>
+                  </div>
+                    <div class="pages" id="test"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/allReviewedRecords.js"></script>
+</body>
+
+</html>

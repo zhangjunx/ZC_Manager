@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorPermHolderMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DoorPermHolder" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="CardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+    <result column="DoorNo" property="doorno" jdbcType="INTEGER" />
+    <result column="WeekZone1" property="weekzone1" jdbcType="NVARCHAR" />
+    <result column="WeekZone2" property="weekzone2" jdbcType="NVARCHAR" />
+    <result column="WeekZone3" property="weekzone3" jdbcType="NVARCHAR" />
+    <result column="WeekZone4" property="weekzone4" jdbcType="NVARCHAR" />
+    <result column="WeekZone5" property="weekzone5" jdbcType="NVARCHAR" />
+    <result column="WeekZone6" property="weekzone6" jdbcType="NVARCHAR" />
+    <result column="WeekZone7" property="weekzone7" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="VARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, CardID, DeviceNo, DoorNo, WeekZone1, WeekZone2, WeekZone3, 
+    WeekZone4, WeekZone5, WeekZone6, WeekZone7, UpdateDate, UpdatePerson, StartDate, 
+    EndDate
+  </sql>
+  
+  <!-- 根据工号查人员姓名 -->
+  <select id="getName" resultType="java.lang.String">
+     select holdername from HolderData where HolderNo=#{holderno}
+  </select>
+  
+  <!-- 根据工号和门区 查记录id  门禁查看时 双击 移除人员 -->
+  <select id="getByHolderDoor" resultType="Map">
+      select id, holderno,holdername, cardid, deviceno, doorno, 
+      weekzone1, weekzone2, weekzone3, weekzone4, 
+    weekzone5, weekzone6, weekzone7 from DoorPermHolder 
+      where HolderNo=#{holderno} and DoorNo=#{doorno}
+  </select>
+  
+  <!-- 根据工号 查人作用于该门区的卡 -->
+  <select id="queryCardByHolder" resultType="Map">
+      select holderno,cardid from DoorPermHolder
+     group by holderno,cardid having
+       holderno=#{holderno}
+  </select>
+  
+  <!-- 根据登录人角色查所拥有的门区区域 -->
+  <select id="getDoorAreaByWechat" resultType="Map">
+     select AreaID "id",AreaName "title",
+case when PreAreaID is null then '' else PreAreaID end "parent",
+'' "children",'' "deviceno",'' "maccode"
+,'' "macname",'' "bluetoothpassword" from AreaList
+where AreaID in (select de.areaid from DoorUnit d 
+inner join DeviceUnit de on de.DeviceNo=d.DeviceNo
+where d.DoorNo in (select DoorNo from DoorPermHolder 
+group by HolderNo,DoorNo having holderno=#{holderno}) )
+  </select>
+  
+  <!-- 根据登录人角色查所拥有的门区-->
+  <select id="getDoorByWechat" resultType="Map">
+      select convert(varchar(20),a.doorno) "id",b.doorname "title",
+case when b.areaid is null then '' else b.areaid end "parent",
+'' "children",b.deviceno "deviceno",
+case when b.maccode is null then '' else b.maccode end "maccode",
+case when b.macname is null then '' else b.macname end "macname",
+case when b.bluetoothpassword is null then '' else b.bluetoothpassword end "bluetoothpassword"  
+from (select HolderNo,DoorNo from DoorPermHolder 
+	 group by HolderNo,DoorNo having holderno=#{holderno}) a 
+left join (select d.doorno,d.doorname,d.deviceno,
+d.maccode,d.macname,d.bluetoothpassword,
+al.areaid,al.areaname from DoorUnit d 
+inner join DeviceUnit de on de.DeviceNo=d.DeviceNo
+inner join AreaList al on al.AreaID=de.AreaID ) b on a.doorno=b.doorno
+where b.areaid=#{areaid}
+  </select>
+  
+   <!-- 根据登录人工号查 人员的门区权限列表 -->
+  <select id="getDoorTreeByHolder" resultType="Map" >
+	select 'd'+convert(varchar(20),a.doorno) "id",b.doorname "title",
+case when b.areaid is null then '' else b.areaid end "parent",
+'' "children",b.deviceno "deviceno",
+case when b.maccode is null then '' else b.maccode end "maccode",
+case when b.macname is null then '' else b.macname end "macname",
+case when b.bluetoothpassword is null then '' else b.bluetoothpassword end "bluetoothpassword"  
+from (select HolderNo,DoorNo from DoorPermHolder 
+	 group by HolderNo,DoorNo having holderno=#{holderno}) a 
+left join (select d.doorno,d.doorname,d.deviceno,
+d.maccode,d.macname,d.bluetoothpassword,
+al.areaid,al.areaname from DoorUnit d 
+inner join DeviceUnit de on de.DeviceNo=d.DeviceNo
+inner join AreaList al on al.AreaID=de.AreaID ) b on a.doorno=b.doorno
+UNION ALL
+select AreaID "id",AreaName "title",
+case when PreAreaID is null then '' else PreAreaID end "parent",
+'' "children",'' "deviceno",'' "maccode"
+,'' "macname",'' "bluetoothpassword" from AreaList
+where AreaID in (select de.areaid from DoorUnit d 
+inner join DeviceUnit de on de.DeviceNo=d.DeviceNo
+where d.DoorNo in (select DoorNo from DoorPermHolder 
+group by HolderNo,DoorNo having holderno=#{holderno}) )
+  </select>
+  
+   <!-- 根据登录人工号查 人员的门区权限列表 -->
+  <select id="queryDoorListByHolder" resultType="Map" >
+	select a.doorno,d.doorname,d.deviceno,d.maccode,
+	d.macname,d.bluetoothpassword
+	 from (select HolderNo,DoorNo from DoorPermHolder 
+	 group by HolderNo,DoorNo having holderno=#{holderno}) a 
+	 left join DoorUnit d on d.DoorNo=a.DoorNo
+  </select>
+  
+  
+   <!-- 查询员工是否已添加过权限  点击保存时 后台要判断 -->
+  <select id="queryExistDoor" resultType="Map" parameterType="Map">
+      select id, holderno, holdername,cardid, deviceno, doorno, weekzone1, weekzone2, weekzone3, weekzone4, 
+    weekzone5, weekzone6, weekzone7  from DoorPermHolder
+      where holderno=#{holderno}  
+      <if test="cardid!=null and cardid!='' ">
+         and cardid=#{cardid}
+      </if>
+  </select>
+  
+  <!-- 查询员工是否已添加过权限  点击保存时 后台要判断 -->
+  <select id="queryExist" resultType="Map" >
+      select id, holderno,holdername, cardid, deviceno, doorno, weekzone1, weekzone2, weekzone3, weekzone4, 
+    weekzone5, weekzone6, weekzone7  from DoorPermHolder
+      where holderno=#{holderno} and doorno=#{doorno} 
+      <if test="cardid!=null and cardid!='' ">
+         and cardid=#{cardid}
+      </if>
+  </select>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteBatch">
+     delete from DoorPermHolder where ID in
+     <foreach collection="list" item="item" separator="," index="index" open="(" close=")">
+        #{item}
+     </foreach>
+  </delete>
+  
+  <!-- 批量修改 -->
+  <update id="updateBatch">
+      <foreach collection="list" item="item" index="index" separator=";">
+           update DoorPermHolder
+    set HolderNo = #{item.holderno},
+      HolderName = #{item.holdername},
+      CardID = #{item.cardid},
+      DeviceNo = #{item.deviceno},
+      DoorNo = #{item.doorno},
+      WeekZone1 = #{item.weekzone1},
+      WeekZone2 = #{item.weekzone2},
+      WeekZone3 = #{item.weekzone3},
+      WeekZone4 = #{item.weekzone4},
+      WeekZone5 = #{item.weekzone5},
+      WeekZone6 = #{item.weekzone6},
+      WeekZone7 = #{item.weekzone7},
+      UpdateDate = #{item.updatedate},
+      UpdatePerson = #{item.updateperson}
+    where ID = #{item.id}
+      </foreach>
+  </update>
+  
+  <!-- 批量添加 -->
+  <insert  id="insertBatch">
+      insert into DoorPermHolder (HolderNo,HolderName, CardID, 
+      DeviceNo, DoorNo, WeekZone1, 
+      WeekZone2, WeekZone3, WeekZone4, 
+      WeekZone5, WeekZone6, WeekZone7, 
+      UpdatePerson,UpdateDate)
+      <foreach collection="list" item="item" separator="union all" index="index">
+          ( select #{item.holderno},#{item.holdername}, #{item.cardid}, 
+      #{item.deviceno}, #{item.doorno}, #{item.weekzone1}, 
+      #{item.weekzone2}, #{item.weekzone3}, #{item.weekzone4}, 
+      #{item.weekzone5}, #{item.weekzone6}, #{item.weekzone7}, 
+      #{item.updateperson},#{item.updatedate})
+      </foreach>
+  </insert>
+  
+  
+  <select id="queryHolderByDoor" resultType="Map">
+ select dh.holderno,dh.doorno,d.departmentname,do.doorname, 
+h.departmentno,h.holdername from (select HolderNo,DoorNo 
+from DoorPermHolder group by HolderNo,DoorNo having DoorNo=#{doorno} ) dh 
+inner join DoorUnit do on do.DoorNo=dh.DoorNo
+inner join HolderData h on h.HolderNo=dh.HolderNo
+inner join DepartmentData d on d.DepartmentNo=h.DepartmentNo
+order by h.departmentno,len(h.departmentno)
+  </select>
+  
+  
+  
+  <!-- 区域设备门区结构树 -->
+  <select id="getAreaDeviceDoorTree" resultType="Map">
+  select AreaId "id",AreaName "title",case when PreAreaID is null then '' else PreAreaID end "parent",
+'' "children"  from AreaList
+UNION ALL
+select 'de'+convert(varchar(50),de.DeviceNo) "id",de.DeviceName+'设备' "title",case when de.AreaID is null then '' else de.AreaID
+end "parent",'' "children" from DeviceUnit de inner join AreaList al on al.AreaID=de.AreaID
+UNION ALL
+select 'do'+convert(varchar(50),do.DoorNo) "id",do.DoorName+'门区' "title",case when d.DeviceNo is null then '' else 'de'+convert(varchar(50),do.DeviceNo) end "parent",
+'' "children" from DoorUnit do inner join DeviceUnit d on d.DeviceNo=do.DeviceNo
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DoorPermHolder
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DoorPermHolder
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DoorPermHolder" >
+    insert into DoorPermHolder (ID, HolderNo, HolderName, 
+      CardID, DeviceNo, DoorNo, 
+      WeekZone1, WeekZone2, WeekZone3, 
+      WeekZone4, WeekZone5, WeekZone6, 
+      WeekZone7, UpdateDate, UpdatePerson, 
+      StartDate, EndDate)
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, 
+      #{cardid,jdbcType=VARCHAR}, #{deviceno,jdbcType=INTEGER}, #{doorno,jdbcType=INTEGER}, 
+      #{weekzone1,jdbcType=NVARCHAR}, #{weekzone2,jdbcType=NVARCHAR}, #{weekzone3,jdbcType=NVARCHAR}, 
+      #{weekzone4,jdbcType=NVARCHAR}, #{weekzone5,jdbcType=NVARCHAR}, #{weekzone6,jdbcType=NVARCHAR}, 
+      #{weekzone7,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DoorPermHolder" >
+    insert into DoorPermHolder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="doorno != null" >
+        DoorNo,
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1,
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2,
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3,
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4,
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5,
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6,
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="doorno != null" >
+        #{doorno,jdbcType=INTEGER},
+      </if>
+      <if test="weekzone1 != null" >
+        #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DoorPermHolder" >
+    update DoorPermHolder
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=INTEGER},
+      </if>
+      <if test="doorno != null" >
+        DoorNo = #{doorno,jdbcType=INTEGER},
+      </if>
+      <if test="weekzone1 != null" >
+        WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone2 != null" >
+        WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone3 != null" >
+        WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone4 != null" >
+        WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone5 != null" >
+        WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone6 != null" >
+        WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      </if>
+      <if test="weekzone7 != null" >
+        WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        EndDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DoorPermHolder" >
+    update DoorPermHolder
+    set HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      CardID = #{cardid,jdbcType=VARCHAR},
+      DeviceNo = #{deviceno,jdbcType=INTEGER},
+      DoorNo = #{doorno,jdbcType=INTEGER},
+      WeekZone1 = #{weekzone1,jdbcType=NVARCHAR},
+      WeekZone2 = #{weekzone2,jdbcType=NVARCHAR},
+      WeekZone3 = #{weekzone3,jdbcType=NVARCHAR},
+      WeekZone4 = #{weekzone4,jdbcType=NVARCHAR},
+      WeekZone5 = #{weekzone5,jdbcType=NVARCHAR},
+      WeekZone6 = #{weekzone6,jdbcType=NVARCHAR},
+      WeekZone7 = #{weekzone7,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=VARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      EndDate = #{enddate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

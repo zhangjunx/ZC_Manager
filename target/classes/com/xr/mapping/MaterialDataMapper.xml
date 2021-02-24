@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.MaterialDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.MaterialData" >
+    <id column="ItemCode" property="itemcode" jdbcType="NVARCHAR" />
+    <result column="ItemName" property="itemname" jdbcType="NVARCHAR" />
+    <result column="Spec" property="spec" jdbcType="NVARCHAR" />
+    <result column="Type" property="type" jdbcType="NVARCHAR" />
+    <result column="UnitName" property="unitname" jdbcType="NVARCHAR" />
+    <result column="ItemType" property="itemtype" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="Storage" property="storage" jdbcType="DECIMAL" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ItemCode, ItemName, Spec, Type, UnitName, ItemType, Remark, Storage, CreatePerson, 
+    CreateDate, UpdatePerson, UpdateDate, DelPerson, DelDate, Deleted
+  </sql>
+  
+  
+  
+   
+  
+  <!-- 批量删除 -->
+  <delete id="deleteBatch" parameterType="java.util.List">
+     delete from MaterialData where itemcode in
+     <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        #{item}
+     </foreach>
+  </delete>
+  
+  
+  <!-- 查询原材料列表 -->
+  <select id="getMaterialList" resultType="Map" >
+    select m.itemcode, m.itemname, m.spec, m.type, m.unitname,
+     m.remark, m.storage, m.createPerson, 
+    m.createdate, m.updateperson, 
+    m.updatedate, m.delperson, m.deldate, m.deleted,
+    t.id,t.typename,m.itemtype
+    from MaterialData m left join ZX_ItemType t on convert(varchar(10),t.id)=m.itemtype
+    <where>
+        <if test="itemcode != null and itemcode!=''" >
+       and m.ItemCode like '%'+#{itemcode}+'%'
+      </if>
+      <if test="itemname != null and itemname!=''" >
+        and m.ItemName like '%'+#{itemname}+'%'
+      </if>
+       <if test="itemtype != null and itemtype!=''" >
+        and m.ItemType like '%'+#{itemtype}+'%'
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from MaterialData
+    where ItemCode = #{itemcode,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from MaterialData
+    where ItemCode = #{itemcode,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.MaterialData" >
+    insert into MaterialData (ItemCode, ItemName, Spec, 
+      Type, UnitName, ItemType, 
+      Remark, Storage, CreatePerson, 
+      CreateDate, UpdatePerson, UpdateDate, 
+      DelPerson, DelDate, Deleted
+      )
+    values (#{itemcode,jdbcType=NVARCHAR}, #{itemname,jdbcType=NVARCHAR}, #{spec,jdbcType=NVARCHAR}, 
+      #{type,jdbcType=NVARCHAR}, #{unitname,jdbcType=NVARCHAR}, #{itemtype,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=NVARCHAR}, #{storage,jdbcType=DECIMAL}, #{createperson,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.MaterialData" >
+    insert into MaterialData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemcode != null" >
+        ItemCode,
+      </if>
+      <if test="itemname != null" >
+        ItemName,
+      </if>
+      <if test="spec != null" >
+        Spec,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="unitname != null" >
+        UnitName,
+      </if>
+      <if test="itemtype != null" >
+        ItemType,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="storage != null" >
+        Storage,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemcode != null" >
+        #{itemcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitname != null" >
+        #{unitname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        #{itemtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="storage != null" >
+        #{storage,jdbcType=DECIMAL},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.MaterialData" >
+    update MaterialData
+    <set >
+      <if test="itemname != null" >
+        ItemName = #{itemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="spec != null" >
+        Spec = #{spec,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitname != null" >
+        UnitName = #{unitname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        ItemType = #{itemtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="storage != null" >
+        Storage = #{storage,jdbcType=DECIMAL},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ItemCode = #{itemcode,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.MaterialData" >
+    update MaterialData
+    set ItemName = #{itemname,jdbcType=NVARCHAR},
+      Spec = #{spec,jdbcType=NVARCHAR},
+      Type = #{type,jdbcType=NVARCHAR},
+      UnitName = #{unitname,jdbcType=NVARCHAR},
+      ItemType = #{itemtype,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      Storage = #{storage,jdbcType=DECIMAL},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where ItemCode = #{itemcode,jdbcType=NVARCHAR}
+  </update>
+  
+  
+   <!--  * 通过原材料的编码查询编码是否存在* 用于Excel导入时的验证 -->
+   <select id="queryRepeatItemcode" resultType="String">
+        SELECT  itemcode FROM dbo.MaterialData WHERE ItemCode =#{itemcode}
+   </select>
+   
+     <!-- Excel导入原材料基本信息时的批量添加 -->
+    <insert id="insertExcelMaterial" parameterType="java.util.Map">
+       INSERT INTO dbo.MaterialData
+        (ItemCode ,ItemName ,Spec ,Type ,UnitName ,ItemType ,Remark ,CreatePerson ,CreateDate)
+        <foreach collection="list" index="index" item="item" separator="union all">
+           select #{item.itemcode},#{item.itemname},#{item.spec},#{item.type},#{item.unitname},
+                   #{item.itemtype},#{item.remark},#{item.createperson},GETDATE()
+        </foreach>
+    </insert>
+  
+</mapper>

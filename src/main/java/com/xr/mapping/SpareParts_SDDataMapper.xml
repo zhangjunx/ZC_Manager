@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.SpareParts_SDDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.SpareParts_SDData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="SDBill" property="sdbill" jdbcType="NVARCHAR" />
+    <result column="SDDate" property="sddate" jdbcType="TIMESTAMP" />
+    <result column="Operator" property="operator" jdbcType="NVARCHAR" />
+    <result column="SDPerson" property="sdperson" jdbcType="NVARCHAR" />
+    <result column="SDPersonName" property="sdpersonname" jdbcType="NVARCHAR" />
+    <result column="SDPersonDept" property="sdpersondept" jdbcType="NVARCHAR" />
+    <result column="SDPersonDeptName" property="sdpersondeptname" jdbcType="NVARCHAR" />
+    <result column="WareCode" property="warecode" jdbcType="INTEGER" />
+    <result column="WareName" property="warename" jdbcType="NVARCHAR" />
+    <result column="SupplierNo" property="supplierno" jdbcType="INTEGER" />
+    <result column="SupplierName" property="suppliername" jdbcType="NVARCHAR" />
+    <result column="SDStatus" property="sdstatus" jdbcType="NVARCHAR" />
+    <result column="StatusName" property="statusname" jdbcType="NVARCHAR" />
+    <result column="ItemCode" property="itemcode" jdbcType="NVARCHAR" />
+    <result column="ItemName" property="itemname" jdbcType="NVARCHAR" />
+    <result column="Quantity" property="quantity" jdbcType="DECIMAL" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="SumAmount" property="sumamount" jdbcType="DECIMAL" />
+    <result column="Spec" property="spec" jdbcType="NVARCHAR" />
+    <result column="Type" property="type" jdbcType="NVARCHAR" />
+    <result column="UnitName" property="unitname" jdbcType="NVARCHAR" />
+    <result column="ItemType" property="itemtype" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="AreaCode" property="areacode" jdbcType="INTEGER" />
+    <result column="AreaName" property="areaname" jdbcType="NVARCHAR" />
+    <result column="ApprovePerson" property="approveperson" jdbcType="NVARCHAR" />
+    <result column="ApprovePersonName" property="approvepersonname" jdbcType="NVARCHAR" />
+    <result column="ApproveDate" property="approvedate" jdbcType="TIMESTAMP" />
+    <result column="ApplyStatus" property="applystatus" jdbcType="NVARCHAR" />
+    <result column="ApplyName" property="applyname" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="Storage1" property="storage1" jdbcType="VARCHAR" />
+    <result column="Storage2" property="storage2" jdbcType="VARCHAR" />
+    <result column="Storage" property="storage" jdbcType="VARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" /> 
+      <result column="DelReason" property="delreason" jdbcType="NVARCHAR" />
+    <result column="TaxRate" property="taxrate" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, SDBill, SDDate, Operator, SDPerson, SDPersonName, SDPersonDept, SDPersonDeptName, 
+    WareCode, WareName, SupplierNo, SupplierName, SDStatus, StatusName, ItemCode, ItemName, 
+    Quantity, Price, SumAmount, Spec, Type, UnitName, ItemType, Remark, AreaCode, AreaName, 
+    ApprovePerson, ApprovePersonName, ApproveDate, ApplyStatus, ApplyName, CreatePerson, 
+    CreateDate, UpdatePerson, UpdateDate, DelPerson, DelDate, Deleted
+  </sql>
+  
+   <!-- 根据条码和仓库 查询库存量 -->
+  <select id="querySparePartsSDStockByItemCodeAndWareCode" resultType="Map" parameterType="com.xr.entity.SpareParts_SDData">
+ <!--  select a.ItemCode,isnull(a.quantity,0) storage1,isnull(b.quantity,0) storage2,
+(isnull(a.quantity,0)-isnull(b.quantity,0)) storage,a.warecode,a.warename,a.ItemName,
+a.Spec,a.Type,a.UnitName,a.ItemType,a.Remark,a.WareCode,a.WareName from (
+   select ItemCode,sum(isnull(quantity,0))quantity,
+ItemName,Spec,Type,UnitName,ItemType,Remark,WareCode,WareName 
+from SpareParts_SDData where SDStatus='11'
+group by ItemCode,ItemName,Spec,Type,UnitName,ItemType,Remark,WareCode,WareName
+having ItemCode=#{itemcode}  and WareCode=#{warecode}
+)a left join (
+   select ItemCode,sum(isnull(quantity,0))quantity,
+ItemName,Spec,Type,UnitName,ItemType,Remark,WareCode,WareName 
+from SpareParts_SDData where SDStatus='12'
+group by ItemCode,ItemName,Spec,Type,UnitName,ItemType,Remark,WareCode,WareName
+having ItemCode=#{itemcode}  and WareCode=#{warecode}
+) b on a.ItemCode=b.ItemCode and a.WareCode=b.WareCode -->
+select sd.warecode,w.warename,sd.itemcode,d.itemname,sd.price,sd.storage,sd.summoney,
+  d.spec,d.type,d.unitname,d.itemtype,d.remark from SpareParts_StockData sd 
+  left join SparePartsData d on d.itemcode=sd.itemcode
+  left join WareHouseData w on sd.warecode=w.warecode
+  where sd.storage>0 and  sd.WareCode=#{warecode,jdbcType=INTEGER}  
+   and sd.itemcode=#{itemcode,jdbcType=NVARCHAR}
+  </select>
+  
+  
+  <!-- 查询库存量 -->
+  <select id="querySparePartsSDStockListByPage" resultType="Map" parameterType="com.xr.entity.SparePartsData">
+select c.itemcode,m.itemname,c.storage1,c.storage2,c.storage,
+c.price,c.sum,c.warecode,m.spec,w.warename,
+m.type,m.unitname,m.itemtype,m.remark from (
+select a.itemcode,a.warecode,a.price,isnull(a.quantity,0) storage1,isnull(b.quantity,0) storage2,
+(isnull(a.quantity,0)-isnull(b.quantity,0)) storage,(isnull(a.sum1,0)-isnull(b.sum2,0))sum
+ from (select ItemCode,sum(isnull(quantity,0))quantity,WareCode,Price,sum(Price*quantity)sum1
+from SpareParts_SDData where SDStatus='11' and Deleted='1'
+group by ItemCode,WareCode,Price)a left join (select ItemCode,sum(isnull(quantity,0))quantity,WareCode,Price,sum(Price*quantity)sum2
+from SpareParts_SDData where SDStatus='12' and Deleted='1'
+group by ItemCode,WareCode,Price)b on a.Itemcode=b.ItemCode and a.WareCode=b.WareCode and a.Price=b.Price)c 
+inner join SparePartsData m on c.Itemcode=m.ItemCode
+inner join WareHouseData w on w.WareCode=c.warecode  
+<where>
+    <if test="itemcode != null and itemcode!=''" >
+        and m.ItemCode like '%'+#{itemcode}+'%'
+      </if>
+      <if test="itemname != null and itemname!=''" >
+        and m.ItemName like '%'+#{itemname}+'%'
+      </if>
+</where>  
+  </select>
+  
+  <!-- 根据备品件条码 查询是否有出入库情况 -->
+  <select id="querySparePartsSDDataListByItemCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select DataNo from SpareParts_SDData 
+     where ItemCode=#{itemcode,jdbcType=NVARCHAR}
+  </select>
+  
+   <!-- 根据仓库或仓库分区  查询是否有出入库情况 -->
+  <select id="querySparePartsSDDataListByWareCode" resultMap="BaseResultMap" parameterType="com.xr.entity.SpareParts_SDData">
+     select DataNo from SpareParts_SDData 
+     <where>
+        <if test="warecode != null and warecode!=''" >
+        and WareCode=#{warecode,jdbcType=INTEGER}
+        </if>
+        <if test="areacode != null and areacode!=''" >
+        and AreaCode=#{areacode,jdbcType=INTEGER}
+        </if>
+     </where>
+  </select>
+  
+  <!-- 批量添加 -->
+  <insert id="insertSparePartsSDDataBatch" parameterType="java.util.List">
+    insert into SpareParts_SDData (Operator, SDBill, SDDate,
+     WareCode,  WareName, SDPerson, 
+     SDPersonName, SDPersonDept,  SDPersonDeptName,
+      SupplierNo, SupplierName, SDStatus, 
+      StatusName, ItemCode, 
+      ItemName, Quantity, price, 
+      SumAmount, Spec, Type, 
+      UnitName, ItemType, Remark, 
+      CreatePerson,TaxRate 
+      )
+    <foreach collection="list" item="item" index="index" separator="union all">
+      (select
+      #{item.operator,jdbcType=NVARCHAR},  #{item.sdbill,jdbcType=NVARCHAR}, 
+      #{item.sddate,jdbcType=TIMESTAMP},   #{item.warecode,jdbcType=INTEGER}, 
+      #{item.warename,jdbcType=NVARCHAR},  #{item.sdperson,jdbcType=NVARCHAR}, 
+      #{item.sdpersonname,jdbcType=NVARCHAR},  #{item.sdpersondept,jdbcType=NVARCHAR}, 
+      #{item.sdpersondeptname,jdbcType=NVARCHAR},  #{item.supplierno,jdbcType=INTEGER},
+       #{item.suppliername,jdbcType=NVARCHAR},  #{item.sdstatus,jdbcType=NVARCHAR},
+       #{item.statusname,jdbcType=NVARCHAR}, #{item.itemcode,jdbcType=NVARCHAR}, 
+      #{item.itemname,jdbcType=NVARCHAR}, #{item.quantity,jdbcType=DECIMAL}, 
+       #{item.price,jdbcType=DECIMAL},  #{item.sumamount,jdbcType=DECIMAL},
+       #{item.spec,jdbcType=NVARCHAR}, #{item.type,jdbcType=NVARCHAR}, 
+      #{item.unitname,jdbcType=NVARCHAR},  #{item.itemtype,jdbcType=NVARCHAR}, 
+      #{item.remark,jdbcType=NVARCHAR},  #{item.createperson,jdbcType=NVARCHAR}, 
+       #{item.taxrate,jdbcType=NVARCHAR}  
+      )
+    </foreach>
+  </insert>
+  
+   
+   
+   <!--分页 查询   备品件   出入库订单列表 -->
+  <select id="querySparePartsSDDataListByPage" resultType="Map">
+     select sd.datano, sd.operator, sd.sdbill,convert(varchar(10),sd.SDDate,23) sddate, 
+     sd.warecode, sd.warename, sd.sdperson, sd.sdpersonname,sd.sdpersondept, 
+    sd.sdpersondeptname, sd.supplierno, sd.suppliername, sd.sdstatus, sd.statusname, sd.itemcode, d.itemname, 
+    sd.quantity, sd.price, sd.sumamount, d.spec, d.type, d.unitname, d.itemtype, d.remark,sd.areacode, sd.areaname, 
+     sd.deleted,sd.delreason,sd.taxrate from SpareParts_SDData sd 
+     inner join SparePartsData d on d.ItemCode=sd.ItemCode 
+      where sd.WareCode in
+     <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+       #{item}
+     </foreach>
+      <if test="sdbill != null and sdbill!=''" >
+         and sd.SDBill=#{sdbill,jdbcType=NVARCHAR}
+      </if>
+      <if test="startdate != null" >
+        and convert(varchar(10),sd.SDDate,23) >=#{startdate,jdbcType=TIMESTAMP}
+      </if>
+       <if test="enddate != null" >
+        and convert(varchar(10),sd.SDDate,23) &lt;=#{enddate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="warecode != null and warecode!=''" >
+        and sd.WareCode =#{warecode,jdbcType=INTEGER}
+      </if>
+      <if test="sdperson != null and sdperson!=''" >
+        and sd.SDPerson=#{sdperson,jdbcType=NVARCHAR}
+      </if>
+      <if test="sdpersondept != null and sdpersondept!=''" >
+       and sd.SDPersonDept=#{sdpersondept,jdbcType=NVARCHAR}
+      </if>
+      <if test="sdstatus != null and sdstatus!=''" >
+        and sd.SDStatus=#{sdstatus,jdbcType=NVARCHAR}
+      </if>
+       <if test="areacode != null and areacode!=''" >
+        and sd.AreaCode=#{areacode,jdbcType=INTEGER}
+      </if>
+       <if test="itemcode != null and itemcode!=''" >
+        and sd.ItemCode like '%'+#{itemcode}+'%'
+      </if>
+      <if test="itemname != null and itemname!=''" >
+        and sd.ItemName like '%'+#{itemname}+'%'
+      </if>
+      <if test="unitname != null and unitname!=''" >
+        and sd.UnitName like '%'+#{unitname}+'%'
+      </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from SpareParts_SDData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SpareParts_SDData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.SpareParts_SDData" >
+    insert into SpareParts_SDData (DataNo, SDBill, SDDate, 
+      Operator, SDPerson, SDPersonName, 
+      SDPersonDept, SDPersonDeptName, WareCode, 
+      WareName, SupplierNo, SupplierName, 
+      SDStatus, StatusName, ItemCode, 
+      ItemName, Quantity, Price, 
+      SumAmount, Spec, Type, 
+      UnitName, ItemType, Remark, 
+      AreaCode, AreaName, ApprovePerson, 
+      ApprovePersonName, ApproveDate, ApplyStatus, 
+      ApplyName, CreatePerson, CreateDate, 
+      UpdatePerson, UpdateDate, DelPerson, 
+      DelDate, Deleted)
+    values (#{datano,jdbcType=INTEGER}, #{sdbill,jdbcType=NVARCHAR}, #{sddate,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=NVARCHAR}, #{sdperson,jdbcType=NVARCHAR}, #{sdpersonname,jdbcType=NVARCHAR}, 
+      #{sdpersondept,jdbcType=NVARCHAR}, #{sdpersondeptname,jdbcType=NVARCHAR}, #{warecode,jdbcType=INTEGER}, 
+      #{warename,jdbcType=NVARCHAR}, #{supplierno,jdbcType=INTEGER}, #{suppliername,jdbcType=NVARCHAR}, 
+      #{sdstatus,jdbcType=NVARCHAR}, #{statusname,jdbcType=NVARCHAR}, #{itemcode,jdbcType=NVARCHAR}, 
+      #{itemname,jdbcType=NVARCHAR}, #{quantity,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{sumamount,jdbcType=DECIMAL}, #{spec,jdbcType=NVARCHAR}, #{type,jdbcType=NVARCHAR}, 
+      #{unitname,jdbcType=NVARCHAR}, #{itemtype,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{areacode,jdbcType=INTEGER}, #{areaname,jdbcType=NVARCHAR}, #{approveperson,jdbcType=NVARCHAR}, 
+      #{approvepersonname,jdbcType=NVARCHAR}, #{approvedate,jdbcType=TIMESTAMP}, #{applystatus,jdbcType=NVARCHAR}, 
+      #{applyname,jdbcType=NVARCHAR}, #{createperson,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{delperson,jdbcType=NVARCHAR}, 
+      #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.SpareParts_SDData" >
+    insert into SpareParts_SDData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="sdbill != null" >
+        SDBill,
+      </if>
+      <if test="sddate != null" >
+        SDDate,
+      </if>
+      <if test="operator != null" >
+        Operator,
+      </if>
+      <if test="sdperson != null" >
+        SDPerson,
+      </if>
+      <if test="sdpersonname != null" >
+        SDPersonName,
+      </if>
+      <if test="sdpersondept != null" >
+        SDPersonDept,
+      </if>
+      <if test="sdpersondeptname != null" >
+        SDPersonDeptName,
+      </if>
+      <if test="warecode != null" >
+        WareCode,
+      </if>
+      <if test="warename != null" >
+        WareName,
+      </if>
+      <if test="supplierno != null" >
+        SupplierNo,
+      </if>
+      <if test="suppliername != null" >
+        SupplierName,
+      </if>
+      <if test="sdstatus != null" >
+        SDStatus,
+      </if>
+      <if test="statusname != null" >
+        StatusName,
+      </if>
+      <if test="itemcode != null" >
+        ItemCode,
+      </if>
+      <if test="itemname != null" >
+        ItemName,
+      </if>
+      <if test="quantity != null" >
+        Quantity,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="sumamount != null" >
+        SumAmount,
+      </if>
+      <if test="spec != null" >
+        Spec,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="unitname != null" >
+        UnitName,
+      </if>
+      <if test="itemtype != null" >
+        ItemType,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+      <if test="approveperson != null" >
+        ApprovePerson,
+      </if>
+      <if test="approvepersonname != null" >
+        ApprovePersonName,
+      </if>
+      <if test="approvedate != null" >
+        ApproveDate,
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus,
+      </if>
+      <if test="applyname != null" >
+        ApplyName,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+       <if test="taxrate != null" >
+        TaxRate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="sdbill != null" >
+        #{sdbill,jdbcType=NVARCHAR},
+      </if>
+      <if test="sddate != null" >
+        #{sddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdperson != null" >
+        #{sdperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersonname != null" >
+        #{sdpersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersondept != null" >
+        #{sdpersondept,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersondeptname != null" >
+        #{sdpersondeptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="warecode != null" >
+        #{warecode,jdbcType=INTEGER},
+      </if>
+      <if test="warename != null" >
+        #{warename,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierno != null" >
+        #{supplierno,jdbcType=INTEGER},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdstatus != null" >
+        #{sdstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="statusname != null" >
+        #{statusname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        #{itemcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sumamount != null" >
+        #{sumamount,jdbcType=DECIMAL},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitname != null" >
+        #{unitname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        #{itemtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=NVARCHAR},
+      </if>
+      <if test="approveperson != null" >
+        #{approveperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvepersonname != null" >
+        #{approvepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvedate != null" >
+        #{approvedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null" >
+        #{applystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyname != null" >
+        #{applyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+       <if test="taxrate != null" >
+        #{taxrate,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.SpareParts_SDData" >
+    update SpareParts_SDData
+    <set >
+      <if test="sdbill != null" >
+        SDBill = #{sdbill,jdbcType=NVARCHAR},
+      </if>
+      <if test="sddate != null" >
+        SDDate = #{sddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        Operator = #{operator,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdperson != null" >
+        SDPerson = #{sdperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersonname != null" >
+        SDPersonName = #{sdpersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersondept != null" >
+        SDPersonDept = #{sdpersondept,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdpersondeptname != null" >
+        SDPersonDeptName = #{sdpersondeptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="warecode != null" >
+        WareCode = #{warecode,jdbcType=INTEGER},
+      </if>
+      <if test="warename != null" >
+        WareName = #{warename,jdbcType=NVARCHAR},
+      </if>
+      <if test="supplierno != null" >
+        SupplierNo = #{supplierno,jdbcType=INTEGER},
+      </if>
+      <if test="suppliername != null" >
+        SupplierName = #{suppliername,jdbcType=NVARCHAR},
+      </if>
+      <if test="sdstatus != null" >
+        SDStatus = #{sdstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="statusname != null" >
+        StatusName = #{statusname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemcode != null" >
+        ItemCode = #{itemcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemname != null" >
+        ItemName = #{itemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="quantity != null" >
+        Quantity = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sumamount != null" >
+        SumAmount = #{sumamount,jdbcType=DECIMAL},
+      </if>
+      <if test="spec != null" >
+        Spec = #{spec,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=NVARCHAR},
+      </if>
+      <if test="unitname != null" >
+        UnitName = #{unitname,jdbcType=NVARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        ItemType = #{itemtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AreaCode = #{areacode,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=NVARCHAR},
+      </if>
+      <if test="approveperson != null" >
+        ApprovePerson = #{approveperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvepersonname != null" >
+        ApprovePersonName = #{approvepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="approvedate != null" >
+        ApproveDate = #{approvedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus = #{applystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyname != null" >
+        ApplyName = #{applyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+       <if test="delreason != null" >
+        DelReason = #{delreason,jdbcType=NVARCHAR},
+      </if>
+       <if test="taxrate != null" >
+        TaxRate = #{taxrate,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.SpareParts_SDData" >
+    update SpareParts_SDData
+    set SDBill = #{sdbill,jdbcType=NVARCHAR},
+      SDDate = #{sddate,jdbcType=TIMESTAMP},
+      Operator = #{operator,jdbcType=NVARCHAR},
+      SDPerson = #{sdperson,jdbcType=NVARCHAR},
+      SDPersonName = #{sdpersonname,jdbcType=NVARCHAR},
+      SDPersonDept = #{sdpersondept,jdbcType=NVARCHAR},
+      SDPersonDeptName = #{sdpersondeptname,jdbcType=NVARCHAR},
+      WareCode = #{warecode,jdbcType=INTEGER},
+      WareName = #{warename,jdbcType=NVARCHAR},
+      SupplierNo = #{supplierno,jdbcType=INTEGER},
+      SupplierName = #{suppliername,jdbcType=NVARCHAR},
+      SDStatus = #{sdstatus,jdbcType=NVARCHAR},
+      StatusName = #{statusname,jdbcType=NVARCHAR},
+      ItemCode = #{itemcode,jdbcType=NVARCHAR},
+      ItemName = #{itemname,jdbcType=NVARCHAR},
+      Quantity = #{quantity,jdbcType=DECIMAL},
+      Price = #{price,jdbcType=DECIMAL},
+      SumAmount = #{sumamount,jdbcType=DECIMAL},
+      Spec = #{spec,jdbcType=NVARCHAR},
+      Type = #{type,jdbcType=NVARCHAR},
+      UnitName = #{unitname,jdbcType=NVARCHAR},
+      ItemType = #{itemtype,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      AreaCode = #{areacode,jdbcType=INTEGER},
+      AreaName = #{areaname,jdbcType=NVARCHAR},
+      ApprovePerson = #{approveperson,jdbcType=NVARCHAR},
+      ApprovePersonName = #{approvepersonname,jdbcType=NVARCHAR},
+      ApproveDate = #{approvedate,jdbcType=TIMESTAMP},
+      ApplyStatus = #{applystatus,jdbcType=NVARCHAR},
+      ApplyName = #{applyname,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+</mapper>

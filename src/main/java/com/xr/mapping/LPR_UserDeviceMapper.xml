@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_UserDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_UserDevice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserDataID" property="userdataid" jdbcType="NVARCHAR" />
+    <result column="DeviceID" property="deviceid" jdbcType="INTEGER" />
+    <result column="UseStop" property="usestop" jdbcType="INTEGER" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, UserDataID, DeviceID, UseStop, Note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_UserDevice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_UserDevice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_UserDevice" >
+    insert into LPR_UserDevice (ID, UserDataID, DeviceID, 
+      UseStop, Note)
+    values (#{id,jdbcType=INTEGER}, #{userdataid,jdbcType=NVARCHAR}, #{deviceid,jdbcType=INTEGER}, 
+      #{usestop,jdbcType=INTEGER}, #{note,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_UserDevice" >
+    insert into LPR_UserDevice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userdataid != null" >
+        UserDataID,
+      </if>
+      <if test="deviceid != null" >
+        DeviceID,
+      </if>
+      <if test="usestop != null" >
+        UseStop,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userdataid != null" >
+        #{userdataid,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="usestop != null" >
+        #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_UserDevice" >
+    update LPR_UserDevice
+    <set >
+      <if test="userdataid != null" >
+        UserDataID = #{userdataid,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        DeviceID = #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="usestop != null" >
+        UseStop = #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_UserDevice" >
+    update LPR_UserDevice
+    set UserDataID = #{userdataid,jdbcType=NVARCHAR},
+      DeviceID = #{deviceid,jdbcType=INTEGER},
+      UseStop = #{usestop,jdbcType=INTEGER},
+      Note = #{note,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

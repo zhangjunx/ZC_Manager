@@ -1,0 +1,192 @@
+.personRegistration .information_center {
+    margin-right: 20px;
+    width: 300px;
+    float: left;
+    background-color: #52A5F2;
+}
+.personRegistration .vehicleInformation{
+	width:calc(100% - 640px);
+}
+.personRegistration .information_right .information_police .coordination{
+	height:355px;
+	overflow:hidden;
+	padding:20px;
+	box-sizing:border-box;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard{
+	width:calc(100% - 496px);
+	height:100%;
+	background:#045399;
+	border-radius:3px;
+	padding:10px;
+	box-sizing:border-box;
+	float:right;
+	overflow:auto;
+}
+.information_police .vehicle_info {
+    float:left;
+}
+
+.information_police .vehicle_info li {
+    margin-top: 30px;
+    position: relative;
+}
+
+.information_police .vehicle_info li span {
+    color: #fff;
+    font-size: 26px;
+    margin-right:10px;
+}
+
+.information_police .vehicle_info li input {
+    width: 320px;
+    height: 56px;
+    line-height: 56px;
+    color: #fff;
+    font-size:24px;
+    background:#166AB5;
+    margin-left: 5px;
+    border-radius: 3px;
+    border:none;
+}
+
+.information_police .vehicle_info li #vehicleNumber {
+    padding-left: 65px;
+    width: 264px;
+}
+
+.information_police .vehicle_info li .province {
+    padding: 13px 15px;
+    background: #2598FF;
+    position: absolute;
+    left: 129px;
+    border-radius: 3px;
+    color:#fff;
+    font-size: 24px;
+}
+
+.information_police .vehicle_info li select {
+    padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-left: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+
+
+/* 选择省份  */
+.personRegistration .information_right .information_police .coordination .keyBoard .provinceJc{
+	overflow:hidden;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .provinceJc div{
+	font-size:24px;
+	padding:15px;
+	box-sizing:border-box;
+	border:1px solid #2598FF;
+	border-radius:3px;
+	color:#fff;
+	float:left;
+	margin:5px 6px;
+	cursor:pointer;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .provinceJc div.province_curr{
+	background:#2598FF;
+}
+
+/* 选择车牌号码 */
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_number{
+	overflow:hidden;
+	display:none;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_number div{
+	width:68px;
+	height:40px;
+	text-align:center;
+	line-height:40px;
+	font-size:26px;
+	color:#333;
+	box-sizing:border-box;
+	border-radius:3px;
+	border:1px solid #2598FF;
+	float:left;
+	margin:9px 5px;
+	background:linear-gradient(0deg,rgba(154,204,230,1) 0%,rgba(230,245,252,1) 100%);
+	cursor:pointer;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_number div.keyboardNumber_curr{
+	background:#2598FF;
+	color:#fff;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_number div.backspace{
+	width:146px;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_number div.qingKong{
+	width:146px;
+}
+/* 选择车牌类型  */
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleType{
+	overflow:hidden;
+	display:none;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleType div{
+	float:left;
+	margin:20px 20px;
+	position:relative;
+	cursor:pointer;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleType div .circle{
+	width:28px;
+	height:28px;
+	border-radius:50%;
+	display:inline-block;
+	background:#fff;
+	position:absolute;
+	top:9px;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleType div p{
+	color:#fff;
+	font-size:32px;
+	display:inline-block;
+	margin-left:40px;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleType div.keyboardVehicle_curr .circle{
+	background:#1BB6D7;
+}
+/* 选择车身颜色  */
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleColor{
+	overflow:hidden;
+	display:none;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleColor div{
+	float:left;
+	margin:20px 20px;
+	position:relative;
+	cursor:pointer;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleColor div .circle2{
+	width:28px;
+	height:28px;
+	border-radius:50%;
+	display:inline-block;
+	background:#fff;
+	position:absolute;
+	top:9px;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleColor div p{
+	color:#fff;
+	font-size:32px;
+	display:inline-block;
+	margin-left:40px;
+}
+.personRegistration .information_right .information_police .coordination .keyBoard .keyboard_vehicleColor div.keyboardColor_curr .circle2{
+	background:#1BB6D7;
+}
+
+

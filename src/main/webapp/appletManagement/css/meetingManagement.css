@@ -1,0 +1,371 @@
+/* 新增会议室页面 */
+#cme-main .main-content .main-table .search-box .personQuantity{
+	width:221px;
+	padding-left:10px;
+}
+#cme-main .main-content .main-table .search-box .goods span.checkbox{
+	width:40px;
+}
+#cme-main .main-content .main-table .search-box .goods .goodsName{
+	position:absolute;
+	display:none;
+}
+#cme-main .main-content .main-table .search-box .goods{
+	position:relative;
+}
+#cme-main .main-content .main-table .search-box .goods #openGoodsWin{
+	position:absolute;
+	top:2%;
+}
+#cme-main .main-content .main-table .search-box .goods #goods{
+	position:absolute;
+	top:2%;
+	left:80px;
+}
+#cme-main .main-content .main-table .search-box #remark{
+	height:120px;
+	width:350px;
+	resize:none;
+	border-color:#ddd;
+	padding:5px 10px;
+	box-sizing:border-box;
+	box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+#cme-main .main-content .main-table .search-box .form-term .control span{
+	cursor:pointer;
+}
+
+.vehicleInfo .vehicle_top .form-term span{
+	cursor:pointer;
+}
+#cme-main #b .main-tab .main-table table tr td span{
+	cursor:pointer;
+	margin:5px 0;
+}
+
+#a .main-table .search-box .form-term #selectedsignin span.checkInPoint{
+	padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing:border-box;
+    margin:0 5px;
+}
+#a .main-table .search-box .form-term #selectedsignback span.checkInPoint{
+	padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing:border-box;
+    margin:0 5px;
+}
+/* 会议室详情 */
+#cme-main .main-content .meetingRoomDetail .main-form .form-term span{
+	font-size:14px;
+	line-height:30px !important;
+}
+
+/* 会议室查看页面 */
+#cme-main .main-content .main-table .search-box h4{
+	font-size:18px;
+	color:#333;
+	font-weight:400;
+	margin-bottom:20px;
+}
+#cme-main .main-content .main-table .search-box #meetingRoom tr td{
+	background: #fff;
+    font-weight: 400;
+    line-height:28px;
+}
+
+
+/* 会议建立 */
+#cme-main .main-content .main-table .search-box .box1_ipt #remindcontext{
+	height:120px;
+	width:350px;
+	resize:none;
+	border-color:#ddd;
+	padding:5px 10px;
+	box-sizing:border-box;
+	box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+#cme-main .main-content .main-table .search-box #otherDiv{
+	margin-bottom: 10px;
+	display:none;
+	background:#eee;
+	padding: 10px 0;
+	width: 63%;
+}
+#a .main-table .search-box .form-term #selectedpromoter span.meetingperson{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+#a .main-table .search-box .form-term #selectedperson span.meetingperson{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+#a .main-table .search-box .form-term #selectedhost span.meetingperson{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+#a .main-table .search-box .form-term #selectedApprover span.meetingperson{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+#a .main-table .search-box .form-term #selectedsigninplace span.meetingPoint{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+#a .main-table .search-box .form-term #selectedsignbackplace span.meetingPoint{
+	padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+	
+
+
+
+/* 选择人员弹出层 */
+.select_person .main-table .main-form .Shuttle .zhaojiren{
+	padding-left:0 !important;
+}
+
+/* 选择会议时间弹出层 */
+#tabledata tr td{
+	height: 28px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #333;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #fff;
+    font-weight: normal;
+}
+
+/* 会议签到 */
+.signIn_top{
+	text-align:center;
+}
+.signIn_top label{
+	font-size:14px;
+	color:#666;
+	margin:0 15px;
+}
+.signIn_top label .singIn1{
+	color:#2992FC;
+	font-size:20px;
+	margin-left:10px;
+}
+.signIn_top label .singIn2{
+	color:#32C555;
+	font-size:20px;
+	margin-left:10px;
+}
+.signIn_top label .singIn3{
+	color:#EE463E;
+	font-size:20px;
+	margin-left:10px;
+}
+
+
+.signIn_center{
+	margin-top:20px;
+	border:1px solid #ddd;
+	height:350px;
+}
+.signIn_center h3{
+	font-size:14px;
+	color:#333;
+	font-weight:bold;
+	padding-left:20px;
+	background:#F2F2F2;
+	line-height:42px;
+}
+.signIn_center .alreadyPerson{
+	overflow:auto;
+	height:calc(100% - 42px);
+}
+.signIn_center .alreadyPerson li{
+	float:left;
+	margin:5px 20px;
+}
+.signIn_center .alreadyPerson li .img{
+	width:52px;
+	height:52px;
+	border-radius:50%;
+	overflow:hidden;
+}
+.signIn_center .alreadyPerson li .img img{
+	width:52px;
+	height:52px;
+}
+.signIn_center .alreadyPerson li p{
+	font-size:14px;
+	color:#666;
+	line-height:30px;
+	text-align: center;
+}
+.signIn_center .alreadyPerson li p span{
+	padding:0px 5px;
+	box-sizing:border-box;
+	background:#FC5858;
+	color:#fff;
+	font-size:12px;
+	margin-left:5px;
+}
+
+
+
+.signIn_bottom{
+	margin-top:20px;
+	border:1px solid #ddd;
+	height:350px;
+}
+.signIn_bottom h3{
+	font-size:14px;
+	color:#333;
+	font-weight:bold;
+	padding-left:20px;
+	background:#F2F2F2;
+	line-height:42px;
+}
+.signIn_bottom .unsignInPerson{
+	overflow:auto;
+	height:calc(100% - 42px);
+}
+.signIn_bottom .unsignInPerson li{
+	float:left;
+	margin:5px 20px;
+}
+.signIn_bottom .unsignInPerson li .img{
+	width:52px;
+	height:52px;
+	border-radius:50%;
+	overflow:hidden;
+}
+.signIn_bottom .unsignInPerson li .img img{
+	width:52px;
+	height:52px;
+}
+.signIn_bottom .unsignInPerson li p{
+	font-size:14px;
+	color:#666;
+	line-height:30px;
+	text-align: center;
+}
+
+/* 新建会议纪要 */
+.main-table .main-form .form-term .file{
+	 position: relative;
+    display: inline-block;
+    width:50px;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    line-height: 20px;
+}
+.main-table .main-form .form-term #filename{
+	vertical-align:top;
+	color:#333;
+	line-height:32px;
+	margin-left:10px;
+}
+.main-table .main-form .form-term .file #upload{
+	position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    width: 74px;
+    height: 29px;
+    cursor:pointer;
+}
+.main-table .main-form .form-term .file:hover{
+	background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+
+/* 会议详情 */
+#cme-main .main-content .tenant-model-body .main-form{
+	width:100%;
+}
+#cme-main .main-content .tenant-model-body .main-form .form-term .control span{
+	line-height:30px;
+	font-size:14px;
+}
+
+/* 会议通知消息 */
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice{
+	margin:10px 0;
+	overflow:hidden;
+	padding:10px 5px;
+	box-sizing:border-box;
+	cursor:pointer;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice:hover{
+	background:#eee;
+	transition:all 0.5s ease;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_left {
+	float:left;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_left dt{
+	width:50px;
+	height:50px;
+	text-align:center;
+	line-height:50px;
+	border-radius:50%;
+	background:orange;
+	color:#fff;
+	display:inline-block;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_left .dl_right{
+	display:inline-block;
+	vertical-align:middle;
+	margin-left:10px;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_left .dl_right dd{
+	line-height:25px;
+}
+
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_right {
+	float:right;
+	margin-top:6px;
+}
+#cme-main .main-content .tenant-model-body .main-form .meetingNotice .meeting_right p{
+	text-align:center;
+	line-height:20px;
+}
+.selectedPersonStyle{
+	padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing:border-box;
+    margin:0 5px;
+}
+
+

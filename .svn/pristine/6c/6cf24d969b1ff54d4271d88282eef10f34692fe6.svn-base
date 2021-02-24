@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_PrisonAppDeviceMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	  <!--获取APP设备列表  -->
+	  <select id="getAppDeviceList" resultType="map">
+	  	<include refid="c_start"></include>
+		  	select t.*,h.holderName from RC_PrisonAppDevice t
+			left join HolderData h on t.operator = h.holderNo
+			where 1=1
+			<if test="deviceAppName != null and deviceAppName != ''">
+				and t.deviceAppName like '%'+#{deviceAppName}+'%'
+			</if>
+		<include refid="c_end"></include>
+	  </select>
+	  
+	  <select id="getAppDeviceListCount" resultType="integer">
+	  	select count(1) from RC_PrisonAppDevice t
+			left join HolderData h on t.operator = h.holderNo
+			where 1=1
+			<if test="deviceAppName != null and deviceAppName != ''">
+				and t.deviceAppName like '%'+#{deviceAppName}+'%'
+			</if>
+	  </select>
+	  
+	  <!--添加APP设备  -->
+	  <update id="addAppDevice">
+	  	insert into RC_PrisonAppDevice(deviceAppName,deviceAppSn,deviceAppIp,deviceAppPort,operator,operateDate,status)
+	  	values(#{deviceAppName},#{deviceAppSn},#{deviceAppIp},#{deviceAppPort},#{operator},#{operateDate},3)
+	  </update>
+	  
+	  <!--设备审核，启用，禁用  -->
+	  <update id="updateAppDeviceStatus">
+	  	update RC_PrisonAppDevice
+	  	   set status=#{status}
+	  	 where fid=#{fid}
+	  </update>
+	  
+	  <!--编辑APP设备  -->
+	  <update id="editAppDevice">
+	  	update RC_PrisonAppDevice
+	  	   set deviceAppName=#{deviceAppName},
+	  	   	   deviceAppSn=#{deviceAppSn},
+	  	   	   deviceAppIp=#{deviceAppIp},
+	  	   	   deviceAppPort=#{deviceAppPort},
+	  	   	   operator=#{operator},
+	  	   	   operateDate=GETDATE(),
+	  	   	   status = #{status}
+	  	 where fid=#{fid}
+	  </update>
+	  
+	  <!--获取一条信息  -->
+	  <select id="getOneAppDevice" resultType="map">
+	  	select t.*,h.holderName from RC_PrisonAppDevice t
+			left join HolderData h on t.operator = h.holderNo
+		where t.fid=#{fid}
+	  </select>
+	  
+	  <!--删除设备信息  -->
+	  <update id="delOneAppDevice">
+	  	begin
+	  		delete from RC_PrisonAppDevice where fid=#{fid};
+	  		delete from RC_AppUserRelation where deviceAppID=#{fid};
+	  	end;
+	  </update>
+	  
+	  <!--获取设备已经绑定的用户列表  -->
+	  <select id="getHolderList" resultType="map">
+	  	select * from (
+	  	 select t.holderNo,t.holderName,t.departmentNo,1 "resultType" from HolderData t
+		  where t.holderNo in(
+			select m.holderNo from RC_AppUserRelation m where m.deviceAppID = #{deviceAppID})
+		 union all
+		 select t.holderNo,t.holderName,t.departmentNo,2 "resultType" from HolderData t
+		  where t.holderNo not in(
+			select m.holderNo from RC_AppUserRelation m where m.deviceAppID = #{deviceAppID})
+		) aa where 1=1
+		<if test="departmentNo != null and departmentNo != ''">
+			and aa.departmentNo in(${departmentNo})
+		</if>
+	  </select>
+	  
+	  <!--APP设备绑定用户  -->
+	  <update id="addAppUserRelation">
+	  	insert into RC_AppUserRelation(deviceAppID,holderNo,operateDate,operator)
+	  	values(#{deviceAppID},#{holderNo},GETDATE(),#{operator})
+	  </update>
+	  
+	  <!--APP设备删除用户  -->
+	  <update id="delAppUserRelation">
+	  	delete from RC_AppUserRelation where deviceAppID=#{deviceAppID} and holderNo=#{holderNo}
+	  </update>
+	  
+	  <!--根据用户名密码获取用户信息  -->
+	  <select id="getUserInfo" resultType="map">
+	  	select d.fid "deviceAppID",d.deviceAppName,d.deviceAppSn,d.deviceAppPort ,
+		t.holderNo,t.holderName,t.departmentNo,t.idCode,t.loginPassword ,p.DataPhoto
+		from RC_PrisonAppDevice d
+		left join RC_AppUserRelation r on r.deviceAppID = d.fid
+		left join HolderData t on r.holderNo=t.holderNo
+		left join HolderPhoto p on t.holderNo = p.HolderNo
+		where t.holderNo=#{userName} and t.loginPassword=#{password} and d.deviceAppSn = #{deviceSn}
+	  </select>
+	  
+	  <!--获取监区列表  -->
+	  <select id="getPrisonListWithUpdateTime" resultType="map">
+	  	select t.fid "prisonID",t.prisonName,t.localtion,t.leader,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,t.status,t.labelID,t.labelCode,'1' "resultType"
+				 from RC_Prison t
+			    where t.status != 0
+				  and t.labelID is not null 
+				  and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &gt; #{updateDate}
+			and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+				  
+		
+		union all
+		select t.fid "prisonID",t.prisonName,t.localtion,t.leader,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,t.status,t.labelID,t.labelCode,'2' "resultType"
+				 from RC_Prison t
+			    where t.status != 0
+				  and t.labelID is not null 
+				  and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+			and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		<if test="updateDate == null or updateDate == ''">
+			and 1=0
+		</if>
+				  
+		
+		union all
+		select t.fid "prisonID",t.prisonName,t.localtion,t.leader,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,t.status,t.labelID,t.labelCode,'3' "resultType"
+				 from RC_Prison t
+			    where t.status = 0
+				  and t.labelID is not null 
+				  and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+			and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+				  
+	  </select>
+	  
+	  <!--获取区域列表  -->
+	  <select id="getPrisonAreaListWithUpdateTime" resultType="map">
+	  	select t.fid "prisonAreaID",t.areaName,t.areaSize,t.personSize,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,
+			   t.status,t.labelID,t.labelCode,'1' "resultType"
+		  from RC_PrisonArea t 
+		 where t.status != 0
+		   and t.labelID is not null 
+		   and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &gt; #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		   
+		
+		union all
+		select t.fid "prisonAreaID",t.areaName,t.areaSize,t.personSize,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,
+			   t.status,t.labelID,t.labelCode,'2' "resultType"
+		  from RC_PrisonArea t 
+		 where t.status != 0
+		   and t.labelID is not null 
+		   and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		<if test="updateDate == null or updateDate == ''">
+			and 1=0
+		</if>
+		
+		union all
+		select t.fid "prisonAreaID",t.areaName,t.areaSize,t.personSize,t.operator,
+			   CONVERT(varchar(100), t.operateDate, 23) operateDate,
+			   t.status,t.labelID,t.labelCode,'3' "resultType"
+		  from RC_PrisonArea t 
+		 where t.status = 0
+		   and t.labelID is not null 
+		   and t.labelCode is not null
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		   
+	  </select>
+	  
+	  <!--获取犯人列表  -->
+	  <select id="getPrisonerListWithUpdateTime" resultType="map">
+	  	select t.fid "prisonerID",t.prisonerName,t.prisonID,t.IDCard,t.age,t.sex,
+			   t.nationality,t.nation,t.skill,t.political,t.homeLocal,t.graduationSchool,
+			   t.major,CONVERT(varchar(100), t.inStartTime, 23) inStartTime,t.inReason,t.arrestingOrgan,
+			   CONVERT(varchar(100), t.startTime, 23) startTime,CONVERT(varchar(100), t.endTime, 23) endTime, 
+			   t.operator, CONVERT(varchar(100), t.operateDate, 20) operateDate,
+			   t.creator, CONVERT(varchar(100), t.createDate, 20) operateDate,
+			   t.labelID, t.labelCode,'1' "resultType"
+		  from RC_Prisoner t 
+		 where t.labelID is not null 
+		   and t.labelCode is not null 
+		   and t.status != '删除'
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &gt; #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		   
+		
+		union all
+		select t.fid "prisonerID",t.prisonerName,t.prisonID,t.IDCard,t.age,t.sex,
+			   t.nationality,t.nation,t.skill,t.political,t.homeLocal,t.graduationSchool,
+			   t.major,CONVERT(varchar(100), t.inStartTime, 23) inStartTime,t.inReason,t.arrestingOrgan,
+			   CONVERT(varchar(100), t.startTime, 23) startTime,CONVERT(varchar(100), t.endTime, 23) endTime, 
+			   t.operator, CONVERT(varchar(100), t.operateDate, 20) operateDate,
+			   t.creator, CONVERT(varchar(100), t.createDate, 20) operateDate,
+			   t.labelID, t.labelCode,'2' "resultType"
+		  from RC_Prisoner t 
+		 where t.labelID is not null 
+		   and t.labelCode is not null 
+		   and t.status != '删除'
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		<if test="updateDate == null or updateDate == ''">
+			and 1=0
+		</if>
+		   
+		
+		union all
+		select t.fid "prisonerID",t.prisonerName,t.prisonID,t.IDCard,t.age,t.sex,
+			   t.nationality,t.nation,t.skill,t.political,t.homeLocal,t.graduationSchool,
+			   t.major,CONVERT(varchar(100), t.inStartTime, 23) inStartTime,t.inReason,t.arrestingOrgan,
+			   CONVERT(varchar(100), t.startTime, 23) startTime,CONVERT(varchar(100), t.endTime, 23) endTime, 
+			   t.operator, CONVERT(varchar(100), t.operateDate, 20) operateDate,
+			   t.creator, CONVERT(varchar(100), t.createDate, 20) operateDate,
+			   t.labelID, t.labelCode,'3' "resultType"
+		  from RC_Prisoner t 
+		 where t.labelID is not null 
+		   and t.labelCode is not null 
+		   and t.status = '删除'
+		<if test="updateDate != null and updateDate != ''">
+			and CONVERT(varchar(100), t.createDate, 20) &lt;= #{updateDate}
+		    and CONVERT(varchar(100), t.operateDate, 20) &gt; #{updateDate}
+		</if>
+		   
+	  </select>
+	  
+	  <!--下载犯人头像  -->
+	  <select id="downLoadPrisonerPic" resultType="map">
+	  	select * from RC_PrisonerPhoto t where t.prisonerID=#{prisonerID} and t.status=1
+	  </select>
+	  
+	  <!--根据SN号获取总数  -->
+	  <select id="getSumWithSn" resultType="map">
+	  	select t.* from RC_PrisonAppDevice t where t.deviceAppSn=#{deviceAppSn}
+	  </select>
+	  
+</mapper>

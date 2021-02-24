@@ -1,0 +1,145 @@
+package com.xr.service.impl;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.github.pagehelper.PageHelper;
+import com.xr.dao.DepartureDataMapper;
+import com.xr.dao.DepartureRecordMapper;
+import com.xr.dao.HolderDataMapper;
+import com.xr.entity.DepartureData;
+import com.xr.entity.DepartureRecord;
+import com.xr.entity.HolderData;
+import com.xr.entity.PageInfo;
+import com.xr.service.IDepartureRecordService;
+@Service
+@Transactional
+public class DepartureRecordServiceImpl implements IDepartureRecordService {
+	@Autowired
+	private DepartureRecordMapper drm;
+	@Autowired
+	private DepartureDataMapper ddm;
+	@Autowired
+	private HolderDataMapper hdm;
+	 
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public int insertSelectiveService(Map m) throws ParseException {
+		//添加数据
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String holderno=(String) m.get("holderno");
+		String leavetype=(String) m.get("leavetype");
+		String leavetypename=(String) m.get("leavetypename");
+		String expiredate=(String) m.get("expiredate");
+		String leavereason=(String) m.get("leavereason");
+		String loginholderno=(String) m.get("loginholderno");
+		
+		String handoverscan=(String) m.get("handoverscan");
+		String dimissionscan=(String) m.get("dimissionscan");
+		
+		HolderData hd=hdm.selectByPrimaryKey(holderno);
+		DepartureData dd=new DepartureData();
+		//添加离职表
+		dd.setHolderno(holderno);
+		dd.setHoldername(hd.getHoldername());
+		dd.setSexname(hd.getSexname());
+		dd.setNationname(hd.getNationname());
+		dd.setIdcode(hd.getIdcode());
+		dd.setDepartmentno(hd.getDepartmentno());
+		dd.setTitleno(hd.getTitleno());
+		dd.setSuperiorno2(hd.getSuperiorno2());
+		dd.setStartdate(hd.getStartdate());
+		dd.setBirthday(hd.getBirthday());
+		dd.setEmptype(hd.getEmptype());
+		dd.setHoldercard(hd.getHoldercard());
+		dd.setEmail(hd.getEmail());
+		dd.setBankcard(hd.getBankcard());
+		dd.setNativeplace(hd.getNativeplace());
+		dd.setPhone(hd.getPhone());
+		dd.setPoliticface(hd.getPoliticface());
+		dd.setMaxeducation(hd.getMaxeducation());
+		dd.setGraduateschool(hd.getGraduateschool());
+		dd.setMajorsubject(hd.getMajorsubject());
+		dd.setMarrystatus(hd.getMarrystatus());
+		dd.setLoginpassword(hd.getLoginpassword());
+		dd.setHolderstatus(hd.getHolderstatus());
+		dd.setWarningname(hd.getWarningname());
+		dd.setRoleid(hd.getRoleid());
+		dd.setCreateperson(loginholderno);
+		dd.setImgurl(hd.getImgurl());
+		int i2=0;//ddm.insertSelective(dd);
+		//添加离职记录 填写离职原因
+		DepartureRecord dr=new DepartureRecord();
+		dr.setHolderno(holderno);
+		dr.setHoldername(hd.getHoldername());
+		dr.setIdcard(hd.getIdcode());
+		dr.setLeavetype(leavetype);
+		dr.setLeavetypename(leavetypename);
+		dr.setLeavereason(leavereason);
+		dr.setStartdate(hd.getStartdate());
+		dr.setExpiredate(sdf.parse(expiredate));
+		dr.setCreateperson(loginholderno);
+		int i3=0;//drm.insertSelective(dr);
+		int i=0;//hdm.deleteByPrimaryKey(holderno);
+		
+		return i;
+	}//end
+	
+	
+
+	@Override
+	public DepartureRecord queryDepartureRecordByHolderNoService(String holderno) {
+		// 根据工号查离职记录信息
+		return drm.queryDepartureRecordByHolderNo(holderno);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryDepartureRecordListService(Map<String, Object> m) {
+		// 离职记录表
+		return drm.queryDepartureRecordList(m);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryDepartureRecordListByPageService(Map<String, Object> m, PageInfo pageinfo) {
+		// 分页查离职记录
+		PageHelper.startPage(pageinfo.getPageIndex(), pageinfo.getPageSize());
+		List<Map<String,Object>> list=drm.queryDepartureRecordList(m);
+		com.github.pagehelper.PageInfo<Map<String,Object>> p=new com.github.pagehelper.PageInfo<Map<String,Object>>(list);
+		long total=p.getTotal();
+		int totalPage=(int) (total%pageinfo.getPageSize()==0?total/pageinfo.getPageSize():total/pageinfo.getPageSize()+1);
+		pageinfo.setTotalPage(totalPage);
+		pageinfo.setSumCount((int) total);
+		return list;
+	}
+
+
+
+	@Override
+	public Map<String, Object> delOneHolder(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap <String,Object>();
+		int b = hdm.delOneHolder(map);
+		if(b>0){
+			resultMap.put("flag", true);
+			resultMap.put("result", b);
+			resultMap.put("reason","删除成功！");
+		}else{
+			resultMap.put("flag", false);
+			resultMap.put("result", b);
+			resultMap.put("reason","删除失败！");
+		}
+		return resultMap;
+	}
+
+	 
+
+}

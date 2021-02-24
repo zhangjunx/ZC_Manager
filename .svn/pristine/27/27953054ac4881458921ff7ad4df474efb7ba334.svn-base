@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorUnitMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DoorUnit" >
+    <id column="DoorNo" property="doorno" jdbcType="SMALLINT" />
+    <result column="DoorName" property="doorname" jdbcType="VARCHAR" />
+    <result column="MapNo" property="mapno" jdbcType="SMALLINT" />
+    <result column="DeviceNo" property="deviceno" jdbcType="SMALLINT" />
+    <result column="DoorChannel" property="doorchannel" jdbcType="SMALLINT" />
+    <result column="EmergencyGroup" property="emergencygroup" jdbcType="VARCHAR" />
+    <result column="Activate" property="activate" jdbcType="SMALLINT" />
+    <result column="EntryArea" property="entryarea" jdbcType="VARCHAR" />
+    <result column="ExitArea" property="exitarea" jdbcType="VARCHAR" />
+    <result column="OnImage" property="onimage" jdbcType="SMALLINT" />
+    <result column="OffImage" property="offimage" jdbcType="SMALLINT" />
+    <result column="ShowLeft" property="showleft" jdbcType="SMALLINT" />
+    <result column="ShowTop" property="showtop" jdbcType="SMALLINT" />
+    <result column="AttendanceSelect" property="attendanceselect" jdbcType="SMALLINT" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="EntryReaderType" property="entryreadertype" jdbcType="VARCHAR" />
+    <result column="EntryReaderCH" property="entryreaderch" jdbcType="SMALLINT" />
+    <result column="EntryReaderSN" property="entryreadersn" jdbcType="VARCHAR" />
+    <result column="ExitReaderType" property="exitreadertype" jdbcType="VARCHAR" />
+    <result column="ExitReaderCH" property="exitreaderch" jdbcType="SMALLINT" />
+    <result column="ExitReaderSN" property="exitreadersn" jdbcType="VARCHAR" />
+    <result column="AreaID" property="areaid" jdbcType="NVARCHAR" />
+    <result column="MacCode" property="maccode" jdbcType="VARCHAR" />
+    <result column="MacName" property="macname" jdbcType="VARCHAR" />
+    <result column="BluetoothPassword" property="bluetoothpassword" jdbcType="VARCHAR" />
+    <result column="DeviceName" property="devicename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DoorNo, DoorName, r.MapNo, e.DeviceNo, DoorChannel, EmergencyGroup, Activate, EntryArea, 
+    ExitArea, OnImage, OffImage, r.ShowLeft, r.ShowTop, r.AttendanceSelect, r.Description, r.EntryReaderType, 
+    r.EntryReaderCH, r.EntryReaderSN, r.ExitReaderType, r.ExitReaderCH, r.ExitReaderSN, r.AreaID
+  </sql>
+  
+  <select id="queryDoorByDoorNo" resultMap="BaseResultMap" parameterType="java.lang.Short">
+     select DoorNo,DoorName,DeviceNo from DoorUnit
+      where DoorNo=#{doorno,jdbcType=SMALLINT}
+  </select>
+  
+  <!-- 门区及所在控制器列表 -->
+<select id="queryDoorAndDeviceList" resultType="Map">
+  select do.DoorNo,do.DoorName,do.DoorChannel,do.DeviceNo,de.DeviceName
+ from DoorUnit do inner join DeviceUnit de on do.DeviceNo=de.DeviceNo
+ <where>
+     <if test="doorno!=null and doorno!=''">
+      do.DoorNo=#{doorno,jdbcType=SMALLINT}
+     </if>
+ </where> 
+</select>
+  
+   <!-- 区域和门区及所在控制器列表 -->
+  <select id="queryAreaAndDoorList" resultType="Map">
+    select do.DoorNo,do.DoorName,do.DoorChannel,do.DeviceNo,de.DeviceName,
+ de.AreaID,al.AreaName from DoorUnit do 
+ inner join DeviceUnit de on do.DeviceNo=de.DeviceNo
+ inner join AreaList al on al.AreaID=de.AreaID
+  </select>
+  
+  <!-- 查询门区 -->
+  <select id="queryDoorListByControl" resultMap="BaseResultMap" parameterType="java.lang.String">
+ select DoorNo,DoorName,DoorChannel,DeviceNo
+from DoorUnit where
+ DoorName like '%'+#{str}+'%' 
+  <!-- DoorNo=#{str,jdbcType=SMALLINT} 
+or DoorName like '%'+#{str}+'%'  -->
+  </select>
+  
+  <!-- 门区列表 -->
+  <select id="queryDoorUnitList" resultType="com.xr.entity.DoorUnit">
+	select doorno,doorname,deviceno,doorchannel,
+	maccode,macname,bluetoothpassword from DoorUnit
+  </select>
+  
+   <!-- 门区列表 -->
+  <select id="getDoorTree" resultType="Map">
+	select s.AreaID "id",s.AreaName "title",case when s.PreAreaId is null then '' else s.PreAreaId end "parent",'' "children",'' "deviceno" from AreaList s
+	union all
+	SELECT 'd'+convert(varchar(50),t.DoorNo) "id",t.DoorName "title",u.AreaID "parent",'' "children",
+	case when t.deviceno is null then '' else t.deviceno end "deviceno"
+	 FROM dbo.DoorUnit t 
+	 left join DeviceUnit u on t.DeviceNo = u.DeviceNo
+	 where u.AreaID != 'NULL'
+  </select>
+  
+  <select id="selectByPrimaryKey" resultType="com.xr.entity.DoorUnit" parameterType="java.lang.Short" >
+    select 
+    e.devicename,
+    <include refid="Base_Column_List" />
+    from DoorUnit  r inner join DeviceUnit e on e.deviceno= r.deviceno
+    where DoorNo = #{doorno,jdbcType=SMALLINT}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from DoorUnit
+    where DoorNo = #{doorno,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DoorUnit" >
+    insert into DoorUnit (DoorNo, DoorName, MapNo, 
+      DeviceNo, DoorChannel, EmergencyGroup, 
+      Activate, EntryArea, ExitArea, 
+      OnImage, OffImage, ShowLeft, 
+      ShowTop, AttendanceSelect, Description, 
+      EntryReaderType, EntryReaderCH, EntryReaderSN, 
+      ExitReaderType, ExitReaderCH, ExitReaderSN, 
+      AreaID)
+    values (#{doorno,jdbcType=SMALLINT}, #{doorname,jdbcType=VARCHAR}, #{mapno,jdbcType=SMALLINT}, 
+      #{deviceno,jdbcType=SMALLINT}, #{doorchannel,jdbcType=SMALLINT}, #{emergencygroup,jdbcType=VARCHAR}, 
+      #{activate,jdbcType=SMALLINT}, #{entryarea,jdbcType=VARCHAR}, #{exitarea,jdbcType=VARCHAR}, 
+      #{onimage,jdbcType=SMALLINT}, #{offimage,jdbcType=SMALLINT}, #{showleft,jdbcType=SMALLINT}, 
+      #{showtop,jdbcType=SMALLINT}, #{attendanceselect,jdbcType=SMALLINT}, #{description,jdbcType=VARCHAR}, 
+      #{entryreadertype,jdbcType=VARCHAR}, #{entryreaderch,jdbcType=SMALLINT}, #{entryreadersn,jdbcType=VARCHAR}, 
+      #{exitreadertype,jdbcType=VARCHAR}, #{exitreaderch,jdbcType=SMALLINT}, #{exitreadersn,jdbcType=VARCHAR}, 
+      #{areaid,jdbcType=NVARCHAR})
+  </insert>
+  
+  <!--   * 动态查询.csc已使用.改动前请告知本人
+      * 该方法现用于SenseLink平台的对接中.用于新增设备往DoorUnit里面 -->
+  <insert id="insertSelective" parameterType="com.xr.entity.DoorUnit" >
+     DECLARE
+	   @fid VARCHAR(20);
+	BEGIN
+	SET @fid = (SELECT  ISNull(MAX(doorno),0)+1 FROM  dbo.DoorUnit);
+    insert into DoorUnit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="doorno != null or doorno == null" >
+        DoorNo,
+      </if>
+      <if test="doorname != null" >
+        DoorName,
+      </if>
+      <if test="mapno != null" >
+        MapNo,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="doorchannel != null" >
+        DoorChannel,
+      </if>
+      <if test="emergencygroup != null" >
+        EmergencyGroup,
+      </if>
+      <if test="activate != null" >
+        Activate,
+      </if>
+      <if test="entryarea != null" >
+        EntryArea,
+      </if>
+      <if test="exitarea != null" >
+        ExitArea,
+      </if>
+      <if test="onimage != null" >
+        OnImage,
+      </if>
+      <if test="offimage != null" >
+        OffImage,
+      </if>
+      <if test="showleft != null" >
+        ShowLeft,
+      </if>
+      <if test="showtop != null" >
+        ShowTop,
+      </if>
+      <if test="attendanceselect != null" >
+        AttendanceSelect,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="entryreadertype != null" >
+        EntryReaderType,
+      </if>
+      <if test="entryreaderch != null" >
+        EntryReaderCH,
+      </if>
+      <if test="entryreadersn != null" >
+        EntryReaderSN,
+      </if>
+      <if test="exitreadertype != null" >
+        ExitReaderType,
+      </if>
+      <if test="exitreaderch != null" >
+        ExitReaderCH,
+      </if>
+      <if test="exitreadersn != null" >
+        ExitReaderSN,
+      </if>
+      <if test="areaid != null" >
+        AreaID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <if test="doorno != null or doorno==null" >
+        @fid,
+       </if>
+      <if test="doorname != null" >
+        #{doorname,jdbcType=VARCHAR},
+      </if>
+      <if test="mapno != null" >
+        #{mapno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="doorchannel != null" >
+        #{doorchannel,jdbcType=SMALLINT},
+      </if>
+      <if test="emergencygroup != null" >
+        #{emergencygroup,jdbcType=VARCHAR},
+      </if>
+      <if test="activate != null" >
+        #{activate,jdbcType=SMALLINT},
+      </if>
+      <if test="entryarea != null" >
+        #{entryarea,jdbcType=VARCHAR},
+      </if>
+      <if test="exitarea != null" >
+        #{exitarea,jdbcType=VARCHAR},
+      </if>
+      <if test="onimage != null" >
+        #{onimage,jdbcType=SMALLINT},
+      </if>
+      <if test="offimage != null" >
+        #{offimage,jdbcType=SMALLINT},
+      </if>
+      <if test="showleft != null" >
+        #{showleft,jdbcType=SMALLINT},
+      </if>
+      <if test="showtop != null" >
+        #{showtop,jdbcType=SMALLINT},
+      </if>
+      <if test="attendanceselect != null" >
+        #{attendanceselect,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="entryreadertype != null" >
+        #{entryreadertype,jdbcType=VARCHAR},
+      </if>
+      <if test="entryreaderch != null" >
+        #{entryreaderch,jdbcType=SMALLINT},
+      </if>
+      <if test="entryreadersn != null" >
+        #{entryreadersn,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreadertype != null" >
+        #{exitreadertype,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreaderch != null" >
+        #{exitreaderch,jdbcType=SMALLINT},
+      </if>
+      <if test="exitreadersn != null" >
+        #{exitreadersn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+    END;
+  </insert>
+  
+  <!--  -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DoorUnit" >
+    update DoorUnit
+    <set >
+      <if test="doorname != null" >
+        DoorName = #{doorname,jdbcType=VARCHAR},
+      </if>
+      <if test="mapno != null" >
+        MapNo = #{mapno,jdbcType=SMALLINT},
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="doorchannel != null" >
+        DoorChannel = #{doorchannel,jdbcType=SMALLINT},
+      </if>
+      <if test="emergencygroup != null" >
+        EmergencyGroup = #{emergencygroup,jdbcType=VARCHAR},
+      </if>
+      <if test="activate != null" >
+        Activate = #{activate,jdbcType=SMALLINT},
+      </if>
+      <if test="entryarea != null" >
+        EntryArea = #{entryarea,jdbcType=VARCHAR},
+      </if>
+      <if test="exitarea != null" >
+        ExitArea = #{exitarea,jdbcType=VARCHAR},
+      </if>
+      <if test="onimage != null" >
+        OnImage = #{onimage,jdbcType=SMALLINT},
+      </if>
+      <if test="offimage != null" >
+        OffImage = #{offimage,jdbcType=SMALLINT},
+      </if>
+      <if test="showleft != null" >
+        ShowLeft = #{showleft,jdbcType=SMALLINT},
+      </if>
+      <if test="showtop != null" >
+        ShowTop = #{showtop,jdbcType=SMALLINT},
+      </if>
+      <if test="attendanceselect != null" >
+        AttendanceSelect = #{attendanceselect,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="entryreadertype != null" >
+        EntryReaderType = #{entryreadertype,jdbcType=VARCHAR},
+      </if>
+      <if test="entryreaderch != null" >
+        EntryReaderCH = #{entryreaderch,jdbcType=SMALLINT},
+      </if>
+      <if test="entryreadersn != null" >
+        EntryReaderSN = #{entryreadersn,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreadertype != null" >
+        ExitReaderType = #{exitreadertype,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreaderch != null" >
+        ExitReaderCH = #{exitreaderch,jdbcType=SMALLINT},
+      </if>
+      <if test="exitreadersn != null" >
+        ExitReaderSN = #{exitreadersn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaid != null" >
+        AreaID = #{areaid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DoorNo = #{doorno,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DoorUnit" >
+    update DoorUnit
+    set DoorName = #{doorname,jdbcType=VARCHAR},
+      MapNo = #{mapno,jdbcType=SMALLINT},
+      DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      DoorChannel = #{doorchannel,jdbcType=SMALLINT},
+      EmergencyGroup = #{emergencygroup,jdbcType=VARCHAR},
+      Activate = #{activate,jdbcType=SMALLINT},
+      EntryArea = #{entryarea,jdbcType=VARCHAR},
+      ExitArea = #{exitarea,jdbcType=VARCHAR},
+      OnImage = #{onimage,jdbcType=SMALLINT},
+      OffImage = #{offimage,jdbcType=SMALLINT},
+      ShowLeft = #{showleft,jdbcType=SMALLINT},
+      ShowTop = #{showtop,jdbcType=SMALLINT},
+      AttendanceSelect = #{attendanceselect,jdbcType=SMALLINT},
+      Description = #{description,jdbcType=VARCHAR},
+      EntryReaderType = #{entryreadertype,jdbcType=VARCHAR},
+      EntryReaderCH = #{entryreaderch,jdbcType=SMALLINT},
+      EntryReaderSN = #{entryreadersn,jdbcType=VARCHAR},
+      ExitReaderType = #{exitreadertype,jdbcType=VARCHAR},
+      ExitReaderCH = #{exitreaderch,jdbcType=SMALLINT},
+      ExitReaderSN = #{exitreadersn,jdbcType=VARCHAR},
+      AreaID = #{areaid,jdbcType=NVARCHAR}
+    where DoorNo = #{doorno,jdbcType=SMALLINT}
+  </update>
+  
+  <!-- 查询考勤点(DoorUnit==门区表)用于设置门区是否用于考勤 -->
+  <select id="queryDoorUnit" resultType="Map">
+		SELECT 
+		  DoorNo as doorno,
+		  DoorName as doorname,
+		  DeviceNo AS deviceno,
+		  Enable as enable 
+		 FROM dbo.DoorUnit where Enable='20'
+  </select>
+  
+  <!-- 修改方法,修改门区是否参与考勤 -->
+  <update id="updateEnable" parameterType="com.xr.entity.DoorUnit">
+           update  dbo.DoorUnit 
+           set   Enable=#{enable}
+         where DoorNo=#{doorno}
+  </update>
+  
+  <!-- 
+     * 查询所有节点NodeCode等信息.
+     * 用于将开门接口在程序已运行时,就动态生成对应的Key
+     * 一个节点对应一个key. -->
+  <select id="queryOpenNode" resultType="Map">
+    SELECT  id,NodeCode,NodeName FROM dbo.IOPNetNode
+  </select>
+  
+  <!--     * 作用:用于小程序开门
+          通过doorNo来查询该门区属于哪一个节点(节点就是地区) -->
+    <select id="querySingleNode" resultType="Map">
+		SELECT id,NodeCode,NodeName FROM dbo.IOPNetNode
+		WHERE AreaNo LIKE 
+		(      SELECT AreaID FROM dbo.DeviceUnit WHERE DeviceNo =
+			 (SELECT DeviceNo FROM dbo.DoorUnit WHERE DoorNo = #{doorNo})
+		 )
+    </select>
+    
+    <!-- 通过sn查询是否有相同设备 -->
+    <select id="queryViceDoor" resultType="Map">
+        SELECT  DoorNo,DoorName,Description,EmergencyGroup,EntryReaderSN,ExitReaderSN FROM dbo.DoorUnit
+      WHERE  EntryReaderSN = #{sn} OR ExitReaderSN =#{sn}
+    </select>
+    
+    <!-- * 联合查询SenseLink的设备信息.* 用于同步打卡记录 -->
+    <select id="getSenseLinkDevice" resultType="Map">
+         SELECT 
+		r.DoorNo AS doorno,
+		r.DoorName AS doorname,
+		e.DeviceNo AS deviceno,
+		r.EmergencyGroup AS emergencygroup,
+		r.Description AS description,
+		ISNULL(r.EntryReaderSN,r.ExitReaderSN) AS sn,
+		 r.ExitReaderSN AS exitreadersn
+		 FROM dbo.DoorUnit r INNER JOIN dbo.DeviceUnit e ON e.DeviceNo = r.DeviceNo 
+		WHERE r.Description IS not  NULL AND r.Description != ''
+    </select>
+  
+</mapper>

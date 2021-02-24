@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorArrModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DoorArrModule" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="NVARCHAR" />
+    <result column="DoorArr" property="doorarr" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, Name, DoorArr, UpdateDate, UpdatePerson,Type
+  </sql>
+  
+  <delete id="deleteBatch">
+      delete from DoorArrModule where id in
+      <foreach collection="list" item="item" separator="," open="(" close=")" index="index">
+          #{item}
+      </foreach>
+  </delete>
+  
+  
+  <!--查询门区模块列表  -->
+  <select id="getHDoorArrList" resultType="Map">
+     select id,name,doorarr,type from DoorArrModule
+     where type='H'
+         <if test="id != null and id!='' " >
+            and ID=#{id}
+         </if>
+         <if test="name != null and name!='' " >
+            and Name= #{name}
+         </if>
+         <if test="doorarr != null and doorarr!='' " >
+            and DoorArr=#{doorarr}
+         </if>
+  </select>
+  
+  <!--查询门区模块列表  -->
+  <select id="getVDoorArrList" resultType="Map">
+     select id,name,doorarr,type from DoorArrModule
+     where type='V'
+         <if test="id != null and id!='' " >
+            and ID=#{id}
+         </if>
+         <if test="name != null and name!='' " >
+            and Name= #{name}
+         </if>
+         <if test="doorarr != null and doorarr!='' " >
+            and DoorArr=#{doorarr}
+         </if>
+  </select>
+  
+  
+  <!--查询门区模块列表  -->
+  <select id="getDoorArrList" resultType="Map">
+     select id,name,doorarr,type,
+     convert(varchar(20),updatedate,20) updatedate,
+     (select holdername from HolderData where holderno=DoorArrModule.updateperson) updateperson
+      from DoorArrModule
+     <where>
+         <if test="id != null and id!='' " >
+            and ID=#{id}
+         </if>
+         <if test="name != null and name!='' " >
+            and Name like '%'+#{name}+'%'
+         </if>
+         <if test="doorarr != null and doorarr!='' " >
+            and DoorArr=#{doorarr}
+         </if>
+         <if test="type != null and type!='' " >
+            and Type=#{type}
+         </if>
+     </where>
+  </select>
+  
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DoorArrModule
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DoorArrModule
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DoorArrModule" >
+    insert into DoorArrModule (ID, Name, DoorArr, 
+      UpdateDate, UpdatePerson,Type)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=NVARCHAR}, #{doorarr,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR},#{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DoorArrModule" >
+    insert into DoorArrModule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="doorarr != null" >
+        DoorArr,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+       <if test="type != null" >
+        Type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorarr != null" >
+        #{doorarr,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+       <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DoorArrModule" >
+    update DoorArrModule
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorarr != null" >
+        DoorArr = #{doorarr,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DoorArrModule" >
+    update DoorArrModule
+    set Name = #{name,jdbcType=NVARCHAR},
+      DoorArr = #{doorarr,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      Type = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

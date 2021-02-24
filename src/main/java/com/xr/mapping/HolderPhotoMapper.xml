@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HolderPhotoMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HolderPhoto" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+ <!--  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.HolderPhotoWithBLOBs" extends="BaseResultMap" > -->
+    <result column="DataPhoto" property="dataphoto" jdbcType="LONGVARBINARY" />
+    <result column="IDPhoto" property="idphoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo,DataPhoto, IDPhoto
+  </sql>
+ <!--  <sql id="Blob_Column_List" >
+    DataPhoto, IDPhoto
+  </sql> -->
+  <!-- 通过工号查员工照片信息 -->
+ <!--  <select id="queryHolderPhoto" resultMap="BaseResultMap"  parameterType="java.lang.String">
+     select id, holderno,IDPhoto
+      from HolderPhoto where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select> -->
+  
+  <!--  更新照片 -->
+  <update id="updatePhoto" parameterType="com.xr.entity.HolderPhoto">
+    update HolderPhoto 
+    <!-- set IDPhoto=#{idphoto,jdbcType=LONGVARBINARY} -->
+     <set>
+         <if test="idphoto!=null">
+             IDPhoto=#{idphoto,jdbcType=LONGVARBINARY},
+         </if>
+         <if test="holderno!=null">
+             HolderNo=#{holderno,jdbcType=VARCHAR},
+         </if>
+         <if test="dataphoto!=null">
+             DataPhoto=#{dataphoto,jdbcType=LONGVARBINARY},
+         </if> 
+     </set>
+      where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </update>
+ 
+   <!--  更新照片 -->
+  <update id="updateSelective" parameterType="com.xr.entity.HolderPhoto">
+    update HolderPhoto 
+     <set>
+         <if test="idphoto!=null">
+             IDPhoto=#{idphoto,jdbcType=LONGVARBINARY},
+         </if>
+         <if test="holderno!=null">
+             HolderNo=#{holderno,jdbcType=VARCHAR},
+         </if>
+         <if test="dataphoto!=null">
+             DataPhoto=#{dataphoto,jdbcType=LONGVARBINARY},
+         </if> 
+     </set>
+      where ID=#{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据员工编号 查询照片 -->
+  <select id="queryPhoto" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select  id, holderno,idphoto,dataphoto  from HolderPhoto
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 插入照片 -->
+  <insert id="insertSelective" parameterType="com.xr.entity.HolderPhoto" >
+    insert into HolderPhoto
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="dataphoto != null" >
+        DataPhoto,
+      </if>
+      <if test="idphoto != null" >
+        IDPhoto,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="dataphoto != null" >
+        #{dataphoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="idphoto != null" >
+        #{idphoto,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+   
+  
+   
+</mapper>

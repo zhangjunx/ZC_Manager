@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LH_FaceRecogParamMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LH_FaceRecogParam" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="NVARCHAR" />
+    <result column="Path" property="path" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="Score" property="score" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, Title, Path, UpdateDate, Score, Remark
+  </sql>
+  
+  <!-- 查询列表 -->
+  <select id="getFaceParamList" resultType="Map">
+      select id,title,path,score,remark from LH_FaceRecogParam
+ <where>
+      <if test="id != null and id!='' " >
+        and ID=#{id}
+      </if>
+      <if test="title != null and title!='' " >
+        and Title like '%'+#{title}+'%'
+      </if>
+ </where>
+  
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LH_FaceRecogParam
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LH_FaceRecogParam
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LH_FaceRecogParam" >
+    insert into LH_FaceRecogParam (ID, Title, Path, 
+      UpdateDate, Score, Remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=NVARCHAR}, #{path,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{score,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LH_FaceRecogParam" useGeneratedKeys="true" keyProperty="id">
+    insert into LH_FaceRecogParam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="path != null" >
+        Path,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="score != null" >
+        Score,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=NVARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LH_FaceRecogParam" >
+    update LH_FaceRecogParam
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=NVARCHAR},
+      </if>
+      <if test="path != null" >
+        Path = #{path,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        Score = #{score,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LH_FaceRecogParam" >
+    update LH_FaceRecogParam
+    set Title = #{title,jdbcType=NVARCHAR},
+      Path = #{path,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      Score = #{score,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

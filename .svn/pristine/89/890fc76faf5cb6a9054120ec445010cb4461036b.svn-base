@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>物品借用</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+     <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+     <link rel="stylesheet" href="css/fixedGoodsManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增借用</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl">
+						<a href="javascript:;" class="blue addMain" id="saveBorrow">保存</a>
+					</div>
+                    <div class="subbtn fl"><a href="javascript:history.go(-1)" class="orange">返回</a></div> 
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>借用日期：</div>
+                            <div class="control clearfix">
+                                	<input type="text" class="input" id="borrowDate" readonly>
+                            </div>
+                     </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>RFID标签：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="labelCode" >
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="supplierSearch">生成</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                        <thead>
+                            <tr>
+                                <td width="100">序号	</td>
+                                <td width="100">物品类别</td>
+                                <td width="100">物品名称</td>
+                                <td width="100">物品RFID标签</td>
+                                <td width="100">型号</td>
+                                <td width="100">品牌</td>
+                                <td width="100">规格</td>
+                                <td width="100">尺寸</td>
+                                <td width="100">所在仓库</td>
+                                <td width="100">存放货架</td>
+                                <td width="100">备注</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                    <div class="search-box main-form fl" >
+					<!-- 	<div class="form-term fl clearfix" style="margin-right:5px">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span>*</span>借用单位：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div> -->
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>借用人：</div>
+                            <div class="control clearfix">
+                                	<input type="text" class="input" id="borrowHolder">
+                            </div>
+                     </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>联系电话：</div>
+                            <div class="control clearfix">
+                                	<input type="text" class="input" id="mobilePhone">
+                            </div>
+                     </div>
+                     </div>
+                     <div class="search-box main-form fl" style="clear:both">
+                   	<h2 style="margin-bottom:20px">选择审批人：</h2>
+                    <!-- <div class="form-term fl clearfix">
+						<div class="layui-unselect layui-form-select downpanel2" style="width: 358px;">
+                    		<div class="lable" style="width:115px;"><span></span>选择部门：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" style="width: calc(100% - 125px);">
+			                	<span id="deptName"></span>
+			                    <input type="hidden" id="deptID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree2" class="input"><div class="layui-tree layui-tree-line" lay-filter="LAY-tree-1"><div data-id="001" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">郑州分公司</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="001001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">软件后端部</span></div></div></div><div data-id="001002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">软件前端部</span></div></div></div><div data-id="001003" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">综合办公室</span></div></div></div><div data-id="001004" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">工程技术部</span></div></div></div><div data-id="001005" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">软件测试部</span></div></div></div><div data-id="001007" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">公司领导</span></div></div></div><div data-id="001008" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">业务服务部</span></div></div></div><div data-id="001012" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">人员下发测试</span></div></div></div></div></div><div data-id="003" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">合肥玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="003001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">合肥玺瑞技术部</span></div></div></div><div data-id="003002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">前台部</span></div></div></div></div></div><div data-id="004" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">杭州玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="004001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">杭州技术部</span></div></div></div></div></div><div data-id="005" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">太原玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="005001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">办公室</span></div></div></div></div></div><div data-id="006" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">济南玺瑞</span></div></div></div><div data-id="007" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">福州玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="007001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">商务部</span></div></div></div><div data-id="007002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">技术部</span></div></div></div></div></div><div data-id="008" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">新疆玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="008001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">市场部</span></div></div></div><div data-id="008002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">工程部</span></div></div></div></div></div><div data-id="009" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">西安玺瑞</span></div></div></div><div data-id="010" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">无锡玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="010001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">测试部</span></div></div></div><div data-id="010002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">技术部</span></div></div></div></div></div><div data-id="011" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">上海玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="011001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">技术部</span></div></div></div><div data-id="011002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">测试</span></div></div></div></div></div><div data-id="012" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">北京玺瑞</span></div></div></div><div data-id="013" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">昆明玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="013001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">商务部</span></div></div></div></div></div><div data-id="014" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">成都玺瑞</span></div></div></div><div data-id="015" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">广州玺瑞</span></div></div></div><div data-id="016" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">武汉玺瑞</span></div></div></div><div data-id="017" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">沈阳玺瑞</span></div></div></div><div data-id="018" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon layui-icon-addition"></i></span><span class="layui-tree-txt">长沙玺瑞</span></div></div><div class="layui-tree-pack layui-tree-lineExtend layui-tree-showLine" "=""><div data-id="018001" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">办公室</span></div></div></div><div data-id="018002" class="layui-tree-set layui-tree-spread"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">技术部</span></div></div></div></div></div><div data-id="025" class="layui-tree-set layui-tree-setHide"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">无锡市人民医院</span></div></div></div><div data-id="026" class="layui-tree-set layui-tree-setHide layui-tree-setLineShort"><div class="layui-tree-entry"><div class="layui-tree-main"><span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span><span class="layui-tree-txt">测试临时部门</span></div></div></div></div></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+					</div> -->
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>姓名：</div>
+                            <div class="control clearfix">
+                                <select id="holdername">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div>
+					</div>
+					
+					  <div class="search-box main-form fl layui-clear">
+                   	<h2 style="margin-bottom:20px">借用原因：</h2>
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>备注：</div>
+                            <div class="control clearfix">
+								<textarea id="description" class="textinput"
+									style="padding:5px;width: 300px; height: 180px; resize: none; border: 1px solid #ddd"></textarea>
+							</div>
+                        </div>
+					</div>
+                    
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/goodsBorrow_add.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+  	<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+</body>
+
+</html>

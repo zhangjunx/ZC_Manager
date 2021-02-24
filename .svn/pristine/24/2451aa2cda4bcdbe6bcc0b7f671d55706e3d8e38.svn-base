@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_MenuDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_MenuData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="MenuCode" property="menucode" jdbcType="NVARCHAR" />
+    <result column="MenuName" property="menuname" jdbcType="NVARCHAR" />
+    <result column="ParentId" property="parentid" jdbcType="NVARCHAR" />
+    <result column="OrderId" property="orderid" jdbcType="INTEGER" />
+    <result column="MenuPath" property="menupath" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="MenuImg" property="menuimg" jdbcType="NVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, MenuCode, MenuName, ParentId, OrderId, MenuPath, CreateDate, Deleted, Remark,MenuImg
+  </sql>
+  
+   <!-- 查询菜单 通过主键 -->
+  <select id="getMenu" resultType="Map">
+       select id, menucode,menuname ,remark ,orderid,menupath,menuimg,parentid,
+       convert(varchar(100),createdate,20) createdate from ACL_MenuData
+       where id=#{id}
+  </select>
+  
+  
+  <!-- 查询菜单 通过主键 -->
+  <select id="getPerm" resultType="Map">
+       select p.id,p.code,p.name,p.description,p.orderid,
+     mo.id modelno, mo.modelname,p.modelcode,p.permpath
+      from ACL_Permissions p 
+      left join ACL_ModelData mo on mo.modelcode=p.modelcode
+       where p.id=#{id}
+  </select>
+  
+   <!-- 查询菜单 通过主键 -->
+  <select id="getModel" resultType="Map">
+       select mo.id,mo.modelcode,mo.modelname,mo.remark,
+     me.menucode,me.menuname,me.id menuno,mo.orderid,mo.modelpath
+      from ACL_ModelData mo 
+      left join ACL_MenuData me on mo.Menucode=me.Menucode
+       where mo.id=#{id}
+  </select>
+  
+   
+  
+  
+
+   <!-- 根据菜单id查是否有子模块   删除菜单前判断-->
+  <select id="getModelByMenu" resultType="Map">
+   select mo.id,mo.modelname,mo.modelcode
+    from ACL_ModelData mo 
+    inner join ACL_MenuData me on me.menucode=mo.menucode
+      where me.MenuNo=#{id}
+  </select>
+  
+  <!-- 菜单树 -->
+  <select id="getMenuPermTree" resultType="Map">
+  <!-- select 'e'+convert(varchar(50),id) "id",MenuName "title",'' "parent",'' "children",OrderId "orderid"   
+        from ACL_MenuData where Deleted='1'
+    UNION ALL
+select 'o'+convert(varchar(50),mo.id) "id",mo.ModelName "title",
+case when me.id is null then '' else 'e'+convert(varchar(50),me.id) end "parent",
+'' "children",'' "orderid"
+  from ACL_ModelData mo inner join ACL_MenuData me on me.menucode=mo.menucode
+UNION ALL
+select 'p'+convert(varchar(50),p.id) "id",p.Name "title",
+case when mo.id is null then '' else 'o'+convert(varchar(50),mo.id) end "parent",
+'' "children",'' "orderid"
+from ACL_Permissions p 
+inner join ACL_ModelData mo on mo.modelcode=p.modelcode
+order by orderid  -->
+         select 'e'+convert(varchar(50),id) "id",MenuName "title",'' "parent",'' "children",OrderId "orderid"   
+        from ACL_MenuData 
+    UNION ALL
+select 'o'+convert(varchar(50),mo.id) "id",mo.ModelName "title",
+case when me.id is null then '' else 'e'+convert(varchar(50),me.id) end "parent",
+'' "children",'' "orderid"
+  from ACL_ModelData mo inner join ACL_MenuData me on me.menucode=mo.menucode
+UNION ALL
+select 'p'+convert(varchar(50),p.id) "id",p.Name "title",
+case when mo.id is null then '' else 'o'+convert(varchar(50),mo.id) end "parent",
+'' "children",'' "orderid"
+from ACL_Permissions p 
+inner join ACL_ModelData mo on mo.modelcode=p.modelcode
+order by orderid  
+        
+  </select>
+  
+  <!-- 菜单模块权限树 -->
+  <select id="getMenuTree" resultType="Map">
+        select 'e'+convert(varchar(20),id) "id",MenuName "title",ParentId "parent",'' "children",
+case when MenuCode is null then '' else MenuCode  end   "code",'' "parentcode",
+case when MenuPath is null then '' else MenuPath  end "path" ,
+case when MenuImg is null then '' else MenuImg  end  "navimg",
+case when OrderId is null then '' else OrderId  end "orderid" ,
+case when remark is null then '' else remark  end "remark"
+        from ACL_MenuData 
+    UNION ALL
+select 'o'+convert(varchar(20),mo.id) "id",mo.ModelName "title",
+case when me.id is null then '' else 'e'+convert(varchar(20),me.id) end "parent",
+'' "children",
+case when mo.modelcode is null then '' else mo.modelcode  end "code",
+case when me.menucode is null then '' else me.menucode  end  "parentcode",
+case when mo.ModelPath is null then '' else mo.ModelPath  end "path" ,
+'' "navimg",
+case when mo.OrderId is null then '' else mo.OrderId  end "orderid",
+case when mo.Remark is null then '' else mo.Remark  end "remark" 
+  from ACL_ModelData mo inner join ACL_MenuData me on me.menucode=mo.menucode
+UNION ALL
+select 'p'+convert(varchar(20),p.id) "id",p.Name "title",
+case when mo.id is null then '' else 'o'+convert(varchar(20),mo.id) end "parent",
+'' "children",
+case when p.code is null then '' else p.code  end "code",
+case when mo.modelcode is null then '' else mo.modelcode  end  "parentcode",
+case when p.PermPath is null then '' else p.PermPath  end "path" ,
+'' "navimg",
+case when p.OrderId is null then '' else p.OrderId  end "orderid",
+case when p.description is null then '' else p.description  end "remark" 
+from ACL_Permissions p 
+inner join ACL_ModelData mo on mo.modelcode=p.modelcode
+<!-- order by orderid asc -->
+  </select>
+  
+  
+ 
+  
+  <!-- 查询菜单列表 -->
+  <select id="queryMenuList" resultType="Map">
+       select id, menucode,menuname ,remark ,orderid,menupath,menuimg,parentid,
+       convert(varchar(100),createdate,20) createdate from ACL_MenuData
+       <where>
+            <if test="menucode!=null and menucode!='' ">
+                and menucode=#{menucode}
+            </if>
+            <if test="menuname!=null and menuname!='' ">
+                and menuname=#{menuname}
+            </if>
+             <if test="id!=null and id!='' ">
+                and id=#{id}
+          </if>
+       </where>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_MenuData
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ACL_MenuData
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ACL_MenuData" >
+    insert into ACL_MenuData (id, MenuCode, MenuName, 
+      ParentId, OrderId, MenuPath, 
+      CreateDate, Deleted, Remark, 
+      MenuImg)
+    values (#{id,jdbcType=INTEGER}, #{menucode,jdbcType=NVARCHAR}, #{menuname,jdbcType=NVARCHAR}, 
+      #{parentid,jdbcType=NVARCHAR}, #{orderid,jdbcType=INTEGER}, #{menupath,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{menuimg,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ACL_MenuData" >
+    insert into ACL_MenuData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="menucode != null" >
+        MenuCode,
+      </if>
+      <if test="menuname != null" >
+        MenuName,
+      </if>
+      <if test="parentid != null" >
+        ParentId,
+      </if>
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="menupath != null" >
+        MenuPath,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="menuimg != null" >
+        MenuImg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="menucode != null" >
+        #{menucode,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="menupath != null" >
+        #{menupath,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuimg != null" >
+        #{menuimg,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_MenuData" >
+    update ACL_MenuData
+    <set >
+      <if test="menucode != null" >
+        MenuCode = #{menucode,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuname != null" >
+        MenuName = #{menuname,jdbcType=NVARCHAR},
+      </if>
+      <if test="parentid != null" >
+        ParentId = #{parentid,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderId = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="menupath != null" >
+        MenuPath = #{menupath,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuimg != null" >
+        MenuImg = #{menuimg,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ACL_MenuData" >
+    update ACL_MenuData
+    set MenuCode = #{menucode,jdbcType=NVARCHAR},
+      MenuName = #{menuname,jdbcType=NVARCHAR},
+      ParentId = #{parentid,jdbcType=NVARCHAR},
+      OrderId = #{orderid,jdbcType=INTEGER},
+      MenuPath = #{menupath,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+       Remark = #{remark,jdbcType=NVARCHAR},
+      MenuImg = #{menuimg,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

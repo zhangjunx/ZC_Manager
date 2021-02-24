@@ -1,0 +1,515 @@
+/* 修改密码页面 */
+#cme-main .main-content .main-table .updateLoginPassword{
+	padding:5px 5px;
+	box-sizing:border-box;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+#cme-main .main-content .main-table .updateLoginPassword:nth-of-type(2){
+	margin-top:60px;
+}
+#cme-main .main-content .main-table .updateLoginPassword span.checkbox{
+	height: 16px;
+    line-height: 16px;
+    display: inline-block;
+    margin-right:5px;
+    padding-left: 16px;
+    width: auto;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 0px;
+    cursor:pointer;
+}
+#cme-main .main-content .main-table .updateLoginPassword span.checkbox.curr{
+	display: inline-block;
+    padding-left: 16px;
+    width: auto;
+    margin-right: 5px;
+    overflow: hidden;
+    background: url(../images/icons/form_check_on.png) no-repeat left 1px;
+}
+#cme-main .main-content .main-table .openDoor{
+	display:inline-block;
+	display: inline-block;
+    width: 130px;
+    height: 130px;
+    background: rgb(245,245,245);
+    text-align: center;
+    line-height: 130px;
+}
+#cme-main .main-content .main-table .revise{
+	display: inline-block;
+    vertical-align: top;
+    width: 400px;
+}
+
+#meetingcont tr td{
+	background:#fff;
+	font-weight:normal;
+}
+
+#myProgress{
+	background: #fff;
+    width: 50%;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    border-radius: 5px;
+    display:none;
+}
+#myProgress a{
+	color:#fff;
+}
+
+#myProgress #myBar{
+	width: 0%;
+	height: 100%;
+	background-color: #4CAF50;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 5px;
+	color: white;  
+}
+.holder_add{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display: none;  
+}
+.holder_box{
+	width: 500px;
+   /*  height: 180px; */
+    background: #fff;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+    display: none;  
+    padding-bottom:10px;
+}
+.holder_box .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.holder_box .layer_top h2{
+	display: inline-block;
+    color: #fff;
+}
+.holder_box .layer_top img{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.holder_box .holder_top p{
+	line-height:30px;
+	padding-left:100px;
+	box-sizing:border-box;
+}
+.holder_box .holder_top p span{
+	margin-left:5px;
+}
+.holder_box .holder_bottom{
+	margin-top:10px;
+	display:flex;
+	justify-content: space-around;
+}
+.holder_box .holder_bottom a{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+    margin-right:20px;
+}
+.holder_box .door_top{
+	padding-left:20px;
+	border-bottom:1px solid #eee;
+	padding-top:10px;
+	padding-bottom:20px;
+	box-sizing:border-box;
+	position:relative;
+}
+.holder_box .door_top .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
+.holder_box .door_top .cur{
+	background: url(../images/icons/form_check_on.png) no-repeat right 25px top 9px;
+}
+.holder_box .door_center{
+	height: 150px;
+    padding-left: 20px;
+    padding-top: 10px;
+    overflow:auto;
+}
+.holder_box .door_center textarea{
+	width: 456px;
+    height: 120px;
+    resize: none;
+    border: 1px solid #ddd;
+    padding: 5px 5px;
+    box-sizing: border-box;
+}
+/* 审批信息 */
+.approval #dayindaju2,#dayindaju3,#dayindaju4,#dayindaju5,#dayindaju6{
+	display:none;
+}
+.approval #dayindaju6 #cont6 tr td{
+	background:#fff;
+	font-weight:normal;
+}
+
+/* 人事资料离职弹出层 */
+.holder_leave .door_center p label{
+	height: 28px;
+    line-height: 33px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    float:left;
+}
+.holder_leave .door_center p input{
+	width: 211px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.holder_leave .door_center p select{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.holder_leave .door_center{
+	
+}
+.holder_leave .door_center p{
+	margin-bottom:10px;
+	padding-left:57px;
+}
+.holder_leave .door_center p textarea{
+	width:233px;
+	height:100px;
+	resize:none;
+	border:1px solid #ddd;
+	
+}
+.holder_leave .door_center{
+	height:auto;
+}
+/* 离职资料再次入职弹出层 */
+.leave_again{
+	width:410px;
+}
+.leave_again .holder_top p label{
+	float:left;
+}
+.leave_again .holder_top p span{
+	width:200px;
+	height:auto;
+	display:inline-block;
+}
+
+/* 我的考勤表 */
+.mychart{
+	clear: both;
+    border: 1px solid #eee;
+    padding-top: 20px;
+    overflow: hidden;
+}
+.mychart_top{
+	float:left;
+	padding-left: 20px;
+}
+.mychart .mychart_top .mon{
+	display:inline-block;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin-left:20px;
+    margin-right:20px;
+    font-size:14px;
+    width: 49px;
+    text-align: center;
+    height: 41px;
+    line-height: 41px;
+}
+.mychart .mychart_top .year{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 110px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 41px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+    font-size:20px;
+}
+.mychart .form-term .lable{
+	float: left;
+    width: 116px;
+    height: 28px;
+    line-height: 16px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+.mychart .form-term .lable span{
+	color:#666;
+}
+.mychart table{
+	margin-top:70px;
+}
+.mychart table tr th{
+	border:1px solid #eee;
+	line-height:40px;
+}
+.mychart table tr td{
+	padding:10px 0;
+}
+.mychart table tr td span{
+	color:#666;
+}
+.mychart table tr td i{
+	font-size:30px;
+	color:#ccc;
+}
+.mychart table tr td .status{
+	padding:5px 10px;
+	background:#eee;
+	border-radius:15px;
+	width:50%;
+	margin:0 auto; 
+}
+.mychart table tr:hover td{
+	background:#fff;
+}
+.mychart .mychart_top img{
+	cursor:pointer;
+}
+.mychart .mychart_top img:hover{
+	opacity:0.5;
+	transition:all 0.5s ease;
+}
+
+.main-table .businessTrip #cont tr td span{
+	display: inline-block;
+    padding: 0px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    margin: 5px 0;
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+}
+.main-table .businessTrip #cont1 tr td span{
+	display: inline-block;
+    padding: 0px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+/*修改滚动条样式*/
+.holder_box .door_center::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.holder_box .door_center::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.holder_box .door_center::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.holder_box .door_center::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.holder_box .door_center::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.holder_box .door_center ul li{
+	position:relative;
+	display: inline-block;
+    width: 222px;
+    height: 24px;
+    overflow:hidden;
+}
+.holder_box .door_center ul li .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.holder_box .door_center ul li .curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 8px;
+}
+
+.avator{
+	 position: absolute;
+	 top: 14px; 
+	 left: 33px;
+}
+.avator #avatarSlect{
+	position: absolute;float: left; opacity: 0;z-index:10;width: 100px; height: 130px;
+}
+.avator #avatarPreview{position: absolute;z-index:9; float: left; width: 100px; height: 130px}
+.avator .photo{
+	margin-top: 138px;
+    margin-left: 23px;
+}
+.avator .HolderSure{
+	padding: 5px 26px;
+    border-radius: 5px;
+    margin-top: 14px;
+    display: block;
+}
+
+
+.field{ display: inline-block; height: 26px; line-height: 26px; padding: 0 16px; border-radius: 3px; background: #fffbe6; border:1px solid #ffe58f; margin: 0 10px; }
+
+.patrol{ position: relative; margin-bottom: 16px; }
+.patrol .operation{ position: absolute; top: 6px; left: 376px;}
+.patrol .operation .operation-btn{ margin-right: 10px;}
+.patrol .operation .operation-btn img{ width: 20px; height: 20px;}
+.patrol .triangle{margin-left: 136px; display: block; height: 13px; margin-top: -8px;}
+.patrol .tip{ margin-left: 30px; margin-top: -2px; width: 460px; padding-bottom: 10px;}
+.patrol .tip .write{ height:26px; line-height: 26px; color: #666;  padding-left: 16px; }
+.patrol .tip .write .input{ width: 36px; height: 22px; line-height: 22px; border: 1px solid #ddd; border-radius: 3px;}
+.patrol .tip .write p{
+   display: inline-block;
+   margin-right: 10px;
+}
+.patrol .tip .write .inputt{ 
+	width: 100px; 
+	height: 22px; line-height: 22px; border: 1px solid #ddd; border-radius: 3px;
+}
+
+
+.patrol .main-form .form-term{ height: 26px; margin-bottom: 0;}
+.patrol .tip .form-term .lable{ width: 100px; height: 26px;}
+.patrol .tip .form-term  .control{ width:calc(100% - 110px); width:-webkit-calc(100% - 110px);width:-moz-calc(100% - 110px);}
+.patrol .tip .write .radio{ width: 40px; display: inline-block; background: url(../images/icons/form_radio.png) no-repeat left center; padding-left: 20px;}
+.patrol .tip .write .radio.curr{background: url(../images/icons/form_radio_on.png) no-repeat left center}
+.patrol .sub-add{ height: 34px; margin: 10px 0 10px 126px;}
+.patrol .sub-add .on{ height: 32px; border: 1px solid #ddd;}
+
+.generate a{ display: block; text-align: center; width: 150px; height: 42px; line-height: 42px; font-size: 14px; color: #fff; font-weight: 600; border-radius: 3px; box-shadow: rgba(57,185,57,0.5) 1px 1px 3px; background: url(../images/icons/generate.png) no-repeat 28px 12px #39b939; margin:32px 0 20px 126px;}
+.add-table{ margin-top:40px; background: #f8f8f8; padding: 20px;}
+.add-table .grade{ background: #fff;}
+.add-table .form-btn{ margin-top: 20px;}
+.sertion td input{
+	width:100%;
+	margin-left:20px;
+}
+#sertion td input{
+	width:100%;
+	margin-left:20px;
+}
+.grade td input{
+    width: 70%;
+    padding: 0 5px;
+    text-align: center;
+}
+.grade .state .radio{
+    width: 15px; display: inline-block; background: url(../images/icons/form_radio.png) no-repeat left center; padding-left: 20px;
+}
+.grade .state .radio.curr{
+	background: url(../images/icons/form_radio_on.png) no-repeat left center
+}
+/**实时巡更**/
+.main-tag{height: 30px; line-height: 30px; margin: 5px 0;}
+.main-tag .tag{ padding-right: 40px;}
+.main-tag .tag .sub-tag{ width: 16px; height: 16px; vertical-align: middle; display: inline-block; border-radius: 50%; margin-top: -3px; margin: 0 5px;}
+.main-tag .tag .sub-tag.white{ border:1px solid #ddd}
+.main-tag .tag .sub-tag.green{ background: #30c430;}
+.main-tag .tag .sub-tag.orange{ background: #edc024;}
+.main-tag .tag .sub-tag.red{ background: #ed3535;}
+
+.main-process{}
+.main-process .sub-process{ height: 110px; margin-bottom: 16px;}
+.main-process .sub-process .main-process-left{ width: 100px; padding:20px 26px 0 0; text-align: right; font-size: 14px; color: #666;font-weight: 600;}
+.main-process .sub-process .main-process-left span{ display: block; line-height: 26px;}
+.main-process .sub-process .main-process-right{position: relative; width: calc(100% - 130px); width: -moz-calc(100% 130px); width: -webkit-calc(100% - 130px);}
+/*.main-process .sub-process .main-process-right .main-line{ margin-top: 46px; height: 4px; background: #eee; border-radius:2px; position: relative;}
+.main-process .sub-process .main-process-right .main-line .time-line{ position: absolute; top: 0; left: 0; height: 4px; background: #6496e1; display: inline-block; border-radius:2px;}*/
+
+.timeline-box{position: relative;height:110px;width:100%;overflow-y: auto;}
+/*.timeline-box .timeline-left{position: absolute;top:50%;left:5px;margin-top: -25px;background: url(../images/icons/timeline_left.png) no-repeat;width: 30px;height: 30px;z-index: 5;}
+.timeline-box .timeline-right{position: absolute;top:50%;margin-top: -25px;right:0;background: url(../images/icons/timeline_right.png) no-repeat;width: 30px;height: 30px;z-index: 5;}*/
+.timeline-box .timeline-content{overflow: hidden;width:calc(100% - 60px);width: -moz-calc(100% - 60px);width: -webkit-calc(100% - 60px);height:110px;position: relative;}
+.timeline-box .timeline-content .main-line{height:4px;background: #eee; margin-top:42px; border-radius:2px; position: relative;}
+.main-process .sub-process .main-process-right .main-line .time-line{ position: absolute; top: 0; left: 5%; height: 4px; background: #52C41A; display: inline-block; border-radius:2px;}
+.main-process .sub-process .main-process-right .main-line .time-lines{ position: absolute; top: 0; right: 5%; height: 4px; background: #52C41A; display: inline-block; border-radius:2px;}
+.main-process .sub-process .main-process-right .main-title{
+	position: relative;
+    top: 15px;
+    left: 108px;
+}
+.timeline-box .timeline-content .timeline-list{position: absolute; top:0;width:100%; min-width: 1100px; overflow-y: auto;}			
+.timeline-box .timeline-content .timeline-list .list{width:8%;height:110px;position: relative;float:left; margin: 0 1%;}			
+.timeline-box .timeline-content .timeline-list .list .time{ text-align: center; line-height: 30px; padding-top: 5px; color: #333;}
+.timeline-box .timeline-content .timeline-list .list .node{position: absolute;left:50%;top:50%;margin:-19px 0 0 -9px;width: 16px;height: 16px;border-radius: 50%;background: #fff;border: 1px solid #ddd;}
+.timeline-box .timeline-content .timeline-list .list .node.green{ border: 4px solid #30c430;width: 10px;height: 10px;}
+.timeline-box .timeline-content .timeline-list .list .node.orange{ border: 4px solid #edc024;width: 10px;height: 10px;}
+.timeline-box .timeline-content .timeline-list .list .node.red{ border: 4px solid #ed3535;width: 10px;height: 10px;}
+.timeline-box .timeline-content .timeline-list .list .info{width:110px;position:absolute;top:50%;left:50%;margin:10px 0 0 -56px;box-sizing: border-box;border:1px solid #ddd;border-radius: 4px;background-color:#fff;}
+.timeline-box .timeline-content .timeline-list .list .info:hover{box-shadow: 0 1px 4px rgba(34,25,25,0.4);}
+.timeline-box .timeline-content .timeline-list .list .arrow{background: url(../images/icons/time_arrow.png) no-repeat;position: absolute;top:-11px;left:50%; margin-left:-8px;width:16px;height: 11px;}
+.timeline-box .timeline-content .timeline-list .list .info .name{margin-left:4px; line-height: 22px; padding: 5px; text-align: center; color: #666;}
+.timeline-box .timeline-content .timeline-list .list.up .arrow{background: url(images/icons/layer_arrow_up.png) no-repeat;position: absolute;top:100%;left:50%;margin-left:-8px;width:16px;height: 11px;}
+.timeline-box .timeline-content .timeline-list .list.up .info{margin:-65px 0 0 -80px;box-sizing: border-box;}
+.timeline-box .timeline-content .timeline-list .list.up .info:hover{box-shadow: 0 1px 4px rgba(34,25,25,0.4);}

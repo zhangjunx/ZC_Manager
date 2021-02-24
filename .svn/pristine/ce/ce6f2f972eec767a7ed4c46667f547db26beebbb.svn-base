@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>访客管理</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/accessControl.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">登记记录详情</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange goBack">返回</a></div>
+                </div> 
+            </div>
+
+            <div class="main-table registrationDetail">
+				<div class="visitor_title" style="margin-bottom:20px">
+					<h4>访客信息</h4>	
+				</div>
+				<div class="main-form fl">
+						<div class="box1_img">
+							<img src="image/person.png" style="width:120px" id="visitorPhoto">
+							<h5>访客照片</h5>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>姓名：</div>
+							<div class="control clearfix">
+								<input type="text" id="visitorName" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>性别：</div>
+							<div class="control clearfix">
+								<input type="text" id="visitorSex"  class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>民族：</div>
+							<div class="control clearfix">
+								<input type="text" id="nationality" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>身份证号：</div>
+							<div class="control clearfix">
+								<input type="text" id="idcardno" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>卡号：</div>
+							<div class="control clearfix">
+								<input type="text" id="cardno" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>车牌号：</div>
+							<div class="control clearfix">
+								<input type="text" id="carNumber" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>来访时间：</div>
+							<div class="control clearfix">
+								<input type="text" id="visitorTime" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>来访事由：</div>
+							<div class="control clearfix">
+								<input type="text" id="visitorThings" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>携带物品：</div>
+							<div class="control clearfix">
+								<input type="text" id="things" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>单位名称：</div>
+							<div class="control clearfix">
+								<input type="text" id="unitName" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>联系电话：</div>
+							<div class="control clearfix">
+								<input type="text" id="mobilePhone" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>地址：</div>
+							<div class="control clearfix">
+								<input type="text" id="address" class="input" readonly="readonly">
+							</div>
+						</div>
+				</div>
+				
+				
+				
+				
+				<div class="visitor_title" style="margin-bottom:20px">
+					<h4>被访人信息</h4>	
+				</div>
+				<div class="main-form fl">
+						<div class="box1_img">
+							<img src="image/person.png" style="width:120px" id="reveicerPhoto">
+							<h5>被访人照片</h5>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>姓名：</div>
+							<div class="control clearfix">
+								<input type="text" id="receiverName" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>部门：</div>
+							<div class="control clearfix">
+								<input type="text" id="departmentsname" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>分机号：</div>
+							<div class="control clearfix">
+								<input type="text" id="extensionNumber" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>位置：</div>
+							<div class="control clearfix">
+								<input type="text" id="location" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>手机号：</div>
+							<div class="control clearfix">
+								<input type="text" id="telephone" class="input" readonly="readonly">
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>备注：</div>
+							<div class="control clearfix">
+								<textarea id="remark"></textarea>
+							</div>
+						</div>
+						
+				</div>
+				
+			</div>
+		</div>
+     </div>
+ 
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/visitor_registrationDetail.js"></script>
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script>
+    
+</body>
+
+</html>

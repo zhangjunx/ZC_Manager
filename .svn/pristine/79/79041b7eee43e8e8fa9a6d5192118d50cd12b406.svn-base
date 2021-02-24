@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_GoodsMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	  <!--物品列表  -->
+	  <select id="getList" resultType="map">
+	  	<include refid="c_start"></include>
+		  	select t.*,h.holderName "operatorName",ty.typeName from ZC_Goods t
+			  left join HolderData h on t.operator = h.holderNo
+			  left join ZC_GoodsType ty on t.type = ty.fid
+			 where 1=1
+		<!--查询参数：物品类别  -->
+		<if test="type != null and type != ''">
+			and CHARINDEX(#{type},t.type ) = 1 
+		</if>
+		
+		<!--查询参数：名称  -->
+		<if test="goodsName != null and goodsName != ''">
+			and t.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<!--查询参数：名编码 -->
+		<if test="goodsCode != null and goodsCode != ''">
+			and t.goodsCode like '%'+#{goodsCode}+'%'
+		</if>
+		
+		<!--查询参数：物品型号 -->
+		<if test="model != null and model != ''">
+			and t.model like '%'+#{model}+'%'
+		</if>
+		<include refid="c_end"></include>
+	  </select>
+	  
+	  <select id="getListCount" resultType="integer">
+	  	select count(1) from ZC_Goods t
+		  left join HolderData h on t.operator = h.holderNo
+		 where 1=1
+		<!--查询参数：物品类别  -->
+		<if test="type != null and type != ''">
+			and CHARINDEX(#{type},t.type ) = 1 
+		</if>
+		
+		<!--查询参数：名称  -->
+		<if test="goodsName != null and goodsName != ''">
+			and t.goodsName like '%'+#{goodsName}+'%'
+		</if>
+		
+		<!--查询参数：名编码 -->
+		<if test="goodsCode != null and goodsCode != ''">
+			and t.goodsCode like '%'+#{goodsCode}+'%'
+		</if>
+		
+		<!--查询参数：物品型号 -->
+		<if test="model != null and model != ''">
+			and t.model like '%'+#{model}+'%'
+		</if>
+	  </select>
+	  
+	  <!--编码验证  -->
+	  <select id="getSumWithCode" resultType="map">
+	  	select t.* from ZC_Goods t where t.goodsCode = #{goodsCode}
+	  </select>
+	  
+	  <!--型号验证  -->
+	  <select id="getSumWithModel" resultType="map">
+	  	select t.* from ZC_Goods t where t.model = #{model}
+	  </select>
+	  
+	  <!--新增  -->
+	  <update id="saveInfo">
+	  	insert into ZC_Goods(goodsCode,goodsName,type,model,specs,
+	  						size,brand,upperLimit,lowerLimit,operator,operateDate)
+	  	values(#{goodsCode},#{goodsName},#{type},#{model},#{specs},
+	  		#{size},#{brand},#{upperLimit},#{lowerLimit},#{operator},GETDATE())
+	  </update>
+	  
+	  <!--更新  -->
+	  <update id="editInfo">
+	  	update ZC_Goods
+	  	   set goodsCode=#{goodsCode},
+	  	   	   goodsName=#{goodsName},
+	  	   	   type=#{type},
+	  	   	   model=#{model},
+	  	   	   specs=#{specs},
+	  		   size=#{size},
+	  		   brand=#{brand},
+	  		   upperLimit=#{upperLimit},
+	  		   lowerLimit=#{lowerLimit},
+	  		   operator=#{operator},
+	  		   operateDate=GETDATE()
+	  	 where fid=#{fid}
+	  </update>
+	  
+	  <!--获取一条信息  -->
+	  <select id="getOne" resultType="map">
+	  	select t.*,h.holderName "operatorName",ty.typeName from ZC_Goods t
+			  left join HolderData h on t.operator = h.holderNo
+			  left join ZC_GoodsType ty on t.type = ty.fid
+		 where t.fid=#{fid}
+	  </select>
+	  
+	  <!--删除一条信息  -->
+	  <update id="delOne">
+	  	delete from ZC_Goods where fid=#{fid}
+	  </update>
+</mapper>

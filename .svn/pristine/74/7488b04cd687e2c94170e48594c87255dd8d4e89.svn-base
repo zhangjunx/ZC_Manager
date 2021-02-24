@@ -1,0 +1,83 @@
+.user_l {
+    width: 200px;
+    height: 749px;
+    border: 1px solid #ddd;
+    border-radius: 3px 3px 0px 0px;
+    float: left;
+}
+.user_l .user_tit {
+    width: 200px;
+    height: 38px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background: #f2f2f2;
+    line-height: 38px;
+}
+.user_l .user_con{
+	height:95%;
+	overflow:auto;
+}
+.user_l .user_tit h4 {
+    display: inline-block;
+}
+.user_l .user_con li {
+    line-height: 40px;
+    padding-left: 31px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-bottom: 1px solid #E4F0FA;
+}
+.user_l .user_con li.current {
+    background: #E4F0FA;
+}
+.user_r {
+    float: left;
+    margin-left: 20px;
+    width: calc(100% - 222px);
+    height: 100%;
+    overflow: auto;
+}
+.user_r h4 {
+    border-bottom: 2px solid #ddd;
+    line-height: 22px;
+    width: 100%;
+}
+.user_r .user_r_in{
+	height:100%;
+	overflow:auto;
+}
+/*修改滚动条样式*/
+.user_r .user_r_in::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.user_r .user_r_in::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.user_r .user_r_in::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.user_r .user_r_in::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.user_r .user_r_in::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.user_r .user_r_in>div {
+	width:190px;
+    float: left;
+    margin-top: 20px;
+}
+.user_r .user_r_in div input {
+    width: 20px;
+    height: 20px;
+    background: none;
+    vertical-align: middle;
+}
+.user_r .user_r_in div span{
+	display: inline-block;
+    margin-left: 5px;
+}

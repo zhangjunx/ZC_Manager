@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>菜单模块功能树</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+
+<body>
+			<!-- 新增或修改菜单 -->
+			 <div id="menu_add_update" style="display:none;"> 
+				<div id="menu_title" style="font-size: 16px;padding-left: 10px;margin-top: 10px;margin-bottom: 23px;color: #48B9F1;">新增菜单</div>
+				  <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>菜单编码：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="menucode" id="menucode" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>菜单名称：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="menuname" id="menuname" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>导航路径：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="menupath" id="menupath" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>导航图片：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="menuimg" id="menuimg" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                     <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;序：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="orderid" id="orderid1" placeholder="" class="input">
+                        </div>
+                    </div>
+                    
+                     <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                        <div class="control clearfix">
+                           <textarea id="remark1" name="remark" class="textinput" style="width: 395px; height: 180px; resize:none; border:1px solid #ddd" ></textarea>
+						</div>
+                    </div>
+               
+                </div>
+			</div> 
+			<!-- 新增或修改模块 -->
+			 <div id="model_add_update" style="display:none;"> 
+				<div id="model_title" style="font-size: 16px;padding-left: 10px;margin-top: 10px;margin-bottom: 23px;color: #48B9F1;">新增模块</div>
+				<div class="search-box main-form " >
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>模块编码：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="modelcode" id="modelcode" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>模块名称：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="modelname" id="modelname" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                      <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>模块路径：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="modelpath" id="modelpath" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>上级菜单：</div>
+                        <div class="control clearfix">
+                            <select name="menuno" id="menuno">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;序：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="orderid" id="orderid2" placeholder="" class="input">
+                        </div>
+                    </div>
+                    
+                     <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                        <div class="control clearfix">
+                           <textarea id="remark2" name="remark" class="textinput" style="width: 395px; height: 180px; resize:none; border:1px solid #ddd" ></textarea>
+						</div>
+                    </div>
+                    
+                </div>
+			</div> 
+			<!-- 新增或修改功能 -->
+			 <div id="perm_add_update" style="display:none;"> 
+				<div id="perm_title" style="font-size: 16px;padding-left: 10px;margin-top: 10px;margin-bottom: 23px;color: #48B9F1;">新增功能</div>
+				<div class="search-box main-form ">
+
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>功能编码：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="code" id="code" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>功能名称：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="name" id="name" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                      <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>功能按钮：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="permpath" id="permpath" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    
+                     <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span>*</span>上级模块：</div>
+                        <div class="control clearfix">
+                            <select name="modelno" id="modelno">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>排&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;序：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="orderid" id="orderid3" placeholder="" class="input">
+                        </div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <div class="lable" style="width:113px"><span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                        <div class="control clearfix">
+                           <textarea id="remark3"	name="remark" class="textinput" style="width: 395px; height: 180px; resize:none; border:1px solid #ddd" ></textarea>
+						</div>
+                    </div>
+                </div>
+			</div> 
+
+
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">菜单模块功能树</a></div>
+				<div class="btn-box fr">
+                      <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="addMenuBtn">新增</a></div> 
+            		<!--<div class="subbtn fl">
+						<a href="deptImport-file.html" class="blue addMain" id="daoRuDept">导入</a>
+					</div>
+					<div class="subbtn fl">
+						<a href="javascript:;" class="blue addMain" id="export">导出</a>
+					</div> -->
+            	</div>
+            <div class="main-table">
+            	<div id="test1" class="dept_left"></div>
+            	<!-- 点击菜单时 -->
+            	<div class="dept_right menu">
+            		<table class="grade personnel" id="dayindaju1">
+					<tr>
+					    <td width="40">编号</td>
+						<td width="80">菜单编码</td>
+						<td width="80">菜单名称</td>
+						<td width="80">导航路径</td>
+						<td width="80">导航图片</td>
+						<td width="80">上级菜单</td>
+						<td width="60">排序</td>
+						<td width="100">备注</td>
+						<td width="80" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont"></tbody>
+				</table>
+				<!-- 模块 -->
+					<table class="grade personnel" id="dayindaju2" style="display:none">
+					<tr>
+					    <td width="40">编号</td>
+						<td width="80">模块编码</td>
+						<td width="80">模块名称</td>
+						<td width="80">URL路径</td>
+						<td width="80">上级菜单</td>
+						<td width="80">上级菜单名称</td>
+						<td width="60">排序</td>
+						<td width="100">备注</td>
+						<td width="80" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont2"></tbody>
+				</table>
+				<!-- 功能 -->
+					<table class="grade personnel" id="dayindaju3" style="display:none">
+					<tr>
+					    <td width="40">编号</td>
+						<td width="80">功能编码</td>
+						<td width="80">功能名称</td>
+						<td width="80">按钮</td>
+						<td width="80">上级模块</td>
+						<td width="80">上级模块名称</td>
+						<td width="60">排序</td>
+						<td width="100">备注</td>
+						<td width="80" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont3"></tbody>
+				</table>
+				<!-- <div class="pages" id="test"></div> -->
+            	</div>
+		</div>
+        </div>
+    </div>
+    </div>
+    	
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/menu_model_perm_tree.js"></script>
+   
+</body>
+
+</html>

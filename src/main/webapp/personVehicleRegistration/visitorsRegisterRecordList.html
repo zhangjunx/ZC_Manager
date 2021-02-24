@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>访客列表</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">访客列表</a></div>
+                <div class="btn-box fr">
+                    <!-- <div class="subbtn fl"><a href="wx_approver_add.html" class="blue addMain" id="insertBtn">新增</a></div> -->
+                  <!--   <div class="subbtn fl"><a href="javascritp:;" class="blue addMain">删除</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+                </div> -->
+            </div>
+
+            <div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>带班干警：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="receiversname" id="receiversname" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>审核类型：
+						</div>
+						<div class="control clearfix">
+							<!-- <input type="text" name="approvertype" id="approvertype" placeholder="" class="input">
+						     -->
+						    <select name="approvertype" id="approvertype">
+							     <option value="">请选择</option>
+							      <option value="11">工作时间审批</option>
+							       <option value="22">非工作时间审批</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>访客类别：
+						</div>
+						<div class="control clearfix">
+							<!-- <input type="text" name="underno" id="underno1" placeholder="" class="input"> -->
+							<select name="visitorstype" id="visitorstype">
+							     <option value="">请选择</option>
+							      <option value="P">人员</option>
+							       <option value="C">车辆</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>来访日期：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="visitorsdate" id="visitorsdate" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryBtn">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<!--  <td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td>  -->
+						 <td width="40">序号</td>
+						 <td width="40">带班干警</td>
+						<td width="40">干警部门</td>
+						<td width="40">来访日期</td>
+						<td width="40">来访时间</td>
+						<td width="40">来访原因</td>
+						<td width="40">申请状态</td>
+						<td width="40">审核类型</td>
+						<td width="40">来访类别</td>
+						<td width="40" class="no-print">操作</td>  
+					</tr>
+					<tbody id="cont">
+						
+
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <!-- <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script> -->
+    <script type="text/javascript" src="js/visitorsRegisterRecord.js"></script>
+</body>
+
+</html>

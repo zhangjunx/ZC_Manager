@@ -1,0 +1,16 @@
+#the file uploadtopath
+filePath=C:\\tools\\file
+
+#alf device adviceImg path
+adviceImgPath = http://192.168.1.196:8080/SyrisFactory/adviceImg/
+
+#goods image path
+goodsImgPath = http://192.168.1.196:8080/SyrisFactory/fileImage/goodsImage/
+
+#150 service username and password
+userName150=zzsyris
+password150=E10ADC3949BA59ABBE56E057F20F883E
+servicePath150=http://192.168.1.150:8085/
+
+#administrator login-password
+supper_password=E10ADC3949BA59ABBE56E057F20F883E

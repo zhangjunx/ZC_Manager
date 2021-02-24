@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.Limit_MenuPublicMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fno desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	<!--获取模块列表  -->
+	<select id="getList" resultType="map">
+		select t.* from ACL_MenuData t where t.ParentId = 0
+	</select>
+	
+	<select id="getListCount" resultType="integer">
+		select count(1) from ACL_MenuData t where t.ParentId = 0
+	</select>
+  
+  	<!--添加/取消模块权限 -->
+  	<update id="updateMenuPublicLimit">
+  		begin
+  			update ACL_MenuData set publicLimit = #{limitStatus} where id=#{ID};
+  			update ACL_MenuData set publicLimit = #{limitStatus} where parentID=#{ID};
+  		end;
+  	</update>
+  	
+  	<!--获取当前你登录人的权限  -->
+  	<select id="getUserLimitList" resultType="map">
+  		select ab.* from (
+  		select ROW_NUMBER() over (partition by aa.id order by aa.orderId asc) findex,aa.* from (
+  		select 'y_'+convert(varchar,m.modelCode) "id",m.modelName "title",'z_'+convert(varchar,m.menucode) "parent",m.orderId,'' "menuImg",m.deleted,m.remark,m.modelPath,m.ifScreenFull "ifScreenFull" from ACL_ModelData m where m.ModelCode in
+		(select p.ModelCode from ACL_Permissions p where 'o_'+convert(varchar,p.ID) in (${btnStr}))
+		union all
+		
+		select 'z_'+convert(varchar,t.menuCode) "id",t.menuName "title",'z_'+convert(varchar,t.ParentId) "parent",t.orderId,t.menuImg,t.deleted,t.remark,'' "modelPath",'' "ifScreenFull" from ACL_MenuData t
+		where t.menuCode in 
+		(select m.MenuCode from ACL_ModelData m where m.ModelCode in
+		(select p.ModelCode from ACL_Permissions p where 'o_'+convert(varchar,p.ID) in (${btnStr})))
+		
+		union all
+		
+		select 'z_'+convert(varchar,t.menuCode) "id",t.menuName "title",'z_'+convert(varchar,t.ParentId) "parent",t.orderId,t.menuImg,t.deleted,t.remark,'' "modelPath",'' "ifScreenFull" from ACL_MenuData t
+		where 'z_'+convert(varchar,t.menuCode)  in
+		(
+			select 'z_'+convert(varchar,t.parentID) from ACL_MenuData t
+			where t.menuCode in 
+			(select m.MenuCode from ACL_ModelData m where m.ModelCode in
+			(select p.ModelCode from ACL_Permissions p where 'o_'+convert(varchar,p.ID) in (${btnStr})))
+	  	)
+		) aa
+		) ab where ab.findex = 1 order by ab.orderId asc
+  	</select>
+  	
+  	<!--获取当前登录人的权限(超级管理员所有权限)  -->
+  	<select id="getUserLimitListWithAdministrator" resultType="map">
+  		select * from (
+  		select 'z_0' "id",'系统菜单' "title" ,'0' "parent",1 "orderId",'' "menuImg",'' "deleted",'' "remark",'' "modelPath",'' "uuid",'true' "spread",'' "ifScreenFull"
+  		union all
+		select 'z_'+convert(varchar,t.menuCode) "id",t.menuName "title",'z_'+convert(varchar,t.ParentId) "parent",t.orderId,t.menuImg,t.deleted,t.remark,'' "modelPath",'' "uuid",'true' "spread",'' "ifScreenFull" from ACL_MenuData t 
+		union all
+		select 'y_'+convert(varchar,m.modelCode) "id",m.modelName "title",'z_'+convert(varchar,m.menucode) "parent",m.orderId,'' "menuImg",m.deleted,m.remark,m.modelPath,'' "uuid",'true' "spread",m.ifScreenFull "ifScreenFull" from ACL_ModelData m 
+		union all 
+		select 'o_'+convert(varchar,p.id) "id",p.name "title",'y_'+convert(varchar,p.modelCode) "parent",p.orderId,'' "menuImg",p.deleted,p.description "remark",p.permPath,p.uuid,'' "spread",'' "ifScreenFull" from ACL_Permissions p
+			where p.ModelCode in
+			(select m2.modelCode from ACL_ModelData m2
+			inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode)
+		) aa order by aa.orderID
+  	</select>
+  	
+  	<select id="getBtnListWithHolder" resultType="map">
+  		select 'o_'+convert(varchar,t.id) "id" from ACL_Permissions t
+		inner join ACL_Roles_Permissions m on t.id = m.Permission_ID
+		inner join HolderData h on m.Role_ID = h.RoleID
+		where t.ModelCode in
+					(select m2.modelCode from ACL_ModelData m2
+					inner join ACL_MenuData t3 on t3.MenuCode = m2.MenuCode
+					where t3.publicLimit=1)
+		and h.holderNo=#{thisHolderNo}
+  	</select>
+  	
+  	<!--打开页面初始化权限列表  -->
+  	<select id="getOperateList" resultType="map">
+  		select t.uuid,t.Code,t.ID,t.Name from ACL_Permissions t 
+		inner join ACL_Roles_Permissions m on t.ID = m.Permission_ID
+		inner join HolderData h on m.Role_ID = h.RoleID
+		where h.holderNo=#{thisHolderNo}
+		  and t.ModelCode=#{modelCode}
+  	</select>
+</mapper>

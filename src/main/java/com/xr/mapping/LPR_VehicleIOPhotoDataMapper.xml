@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleIOPhotoDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleIOPhotoData" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="IODataID" property="iodataid" jdbcType="INTEGER" />
+    <result column="RecordFilePath" property="recordfilepath" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.LPR_VehicleIOPhotoData" extends="BaseResultMap" >
+    <result column="Photograph" property="photograph" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, IODataID, RecordFilePath
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photograph
+  </sql>
+  
+  <!-- 查询车辆的现场照片 -->
+  <select id="queryVehicleIOPhoto" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select Photograph
+    from LPR_VehicleIOPhotoData
+    where IODataID = #{iodataid,jdbcType=INTEGER}
+  </select>
+</mapper>

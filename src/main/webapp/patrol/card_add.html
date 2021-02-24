@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>时间设置-新增</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <style>
+    	.operation{
+    		top:5px !important;
+    	}
+    
+    </style>
+</head>
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="btn_save">确定</a></div>
+                    <div class="subbtn fl"><a href="card_setting.html" class="layui-bg-orange" id="btn_quxiao">取消</a></div>
+                </div>
+            </div>
+            <div class="main-form">
+                <!--input开始-->
+                <div class="form-term clearfix ">
+                    <div class="lable"><span></span>选择路线：</div>
+                    <div class="control clearfix">
+                        <select id="luxian"></select>
+                    </div>
+
+                </div>
+                 <div class="patrol">
+                    <div class="form-term clearfix ">
+                        <div class="lable"><span>*</span>输入卡号：</div>
+                        <div class="control clearfix">
+                            <select class="sel">
+								<option value="">姓名&nbsp;&nbsp;&nbsp;工号&nbsp;&nbsp;&nbsp;卡号</option>
+							</select> 
+                        </div>
+                    </div>
+                    <div class="operation" id="opera">
+                        <a href="javascript:;" class="add operation-btn fl" title="新增"><img src="images/icons/add.png"></a>
+                        <a href="javascript:;" class="delete operation-btn fl" title="删除"><img src="images/icons/remove.png"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+     <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/card_add.js"></script>
+</body>
+
+
+
+</html>

@@ -1,0 +1,1033 @@
+/* 首页 */
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.top {
+    background: url(../img/bg.png) no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding:0;
+}
+.top .copyright{
+	height:105px;
+	line-height:105px;
+	text-align:center;
+	font-size:42px;
+	font-weight:normal;
+	color:#fff;
+	letter-spacing:2px;
+	box-sizing:border-box;
+	background:rgba(0,0,0,0.6);
+}
+.top .bottom_copyright{
+	box-sizing:border-box;
+}
+.top .row_top{
+	padding-bottom:10px;
+	box-sizing:border-box;
+	/* border-bottom:2px solid #003A77; */
+	background:url(../img/bg_line.png) repeat-x left bottom;
+}
+.top .row_top .row_title{
+	text-align:center;
+	
+}
+.top .row_top .title_system{
+	margin-top:20px;
+}
+
+.top .logo {
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+.top .time {
+    text-align: right;
+    padding-right: 40px;
+    padding-top:13px;
+    box-sizing: border-box;
+}
+
+.top .time .hour {
+    color: #fff;
+    font-size: 36PX;
+    font-weight: 400;
+    padding-right: 28px;
+}
+
+.top .time .date {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.top .con {
+    height: calc(100% - 222px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.menu {
+    width: 1045px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.menu li {
+    width: 482px;
+    height: 313px;
+    text-align: center;
+    float: left;
+    cursor: pointer;
+}
+
+.menu li:hover {
+    opacity: 0.8;
+    transition: all ease 0.5s;
+}
+
+.menu li.first {
+    background: linear-gradient(-41deg, rgba(229, 92, 0, 1), rgba(250, 139, 42, 1));
+    border-radius: 10px;
+    margin-right: 80px;
+}
+
+.menu li.second {
+    background: linear-gradient(-41deg, rgba(3, 87, 194, 1), rgba(0, 153, 227, 1));
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.menu li.third {
+    background: linear-gradient(-41deg, rgba(43, 126, 10, 1), rgba(71, 164, 24, 1));
+    border-radius: 10px;
+    margin-right: 80px;
+}
+
+.menu li.fourth {
+    background: linear-gradient(-41deg, rgba(112, 32, 165, 1), rgba(162, 77, 208, 1));
+    border-radius: 10px;
+}
+
+.menu li img {
+    margin-top: 47px;
+}
+
+.menu li p {
+    color: #fff;
+    font-size: 48px;
+}
+
+.menu li p.person {
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+.menu li p.vehicle {
+    padding-top: 26px;
+    box-sizing: border-box;
+}
+
+.menu li p.audited {
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+.menu li p.unaudited {
+    padding-top: 29px;
+    box-sizing: border-box;
+}
+
+
+/* 人员自助登记 */
+
+dl {
+    float: left;
+    margin-right:10px;
+    width:299px;
+    height:340px;
+    padding-bottom:15px;
+    background:#52A5F2;
+    /* overflow:hidden; */
+}
+
+dl dt.infor_left {
+	width:156px;
+	height:180px;
+	border:1px dashed #50AEFF;
+	background-color:#0F65AF;
+	margin:0 auto;
+	margin-top:20px;
+	margin-bottom:10px;
+	text-align:center;
+	line-height:180px;
+	position:relative;
+}
+dl dt.infor_left .delete img{
+	position:absolute;
+	top:-11px;
+	right:-8px;
+	display:none;
+	cursor:pointer;
+}
+dl div.infor_right dd {
+    font-size: 14px;
+    line-height: 26px;
+    color:#fff;
+}
+
+dl div.infor_right dd label {
+    width: 102px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+    color:#fff;
+}
+
+.personRegistration {
+    width: 100%;
+    height: 100%;
+    background: url(../img/bg.png) no-repeat;
+    box-sizing: border-box;
+    padding:0;
+}
+.personRegistration .personRegistration_box{
+	height:calc(100% - 249px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+/*修改滚动条样式*/
+.personRegistration .personRegistration_box::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.personRegistration .personRegistration_box::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.personRegistration .personRegistration_box::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.personRegistration .personRegistration_box::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.personRegistration .personRegistration_box::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+
+
+.personRegistration .personRegistration_tit {
+    color: #fff;
+    font-size: 66px;
+    line-height: 99px;
+    padding-left:92px;
+    background:url(../img/prison1.gif) no-repeat  left center;
+    background-size:74px 82px;
+}
+.personRegistration .personRegistration_top{
+	padding:0px 40px 10px 40px;
+	background:url(../img/bg_line.png) repeat-x left bottom;
+}
+
+.personRegistration .person_time {
+    color: #fff;
+    text-align: right;
+    padding-top:13px;
+}
+.personRegistration .person_time .person_hour{
+	font-size:36px;
+	padding-right:27px;
+}
+.personRegistration .person_time .person_date{
+	font-size:36px;
+}
+.personRegistration .information{
+	overflow:hidden;
+	padding:0px 40px;
+	box-sizing:border-box;
+}
+
+
+.personRegistration .information_left{
+	margin-right:20px;
+	width:300px;
+	float:left;
+	background-color:#52A5F2;;
+	
+}
+.personRegistration .information_left .information_police dl{
+	width:100%;
+}
+.personRegistration .information_right{
+	width:calc(100% - 320px);
+	float:right;
+	background-color:#52A5F2;
+}
+.personRegistration .information_right .information_police{
+	width:100%;
+}
+.personRegistration .information_right .information_police .coordination{
+	width:100%;
+	/* height:355px; */
+	overflow-x: auto;
+	white-space: nowrap;
+}
+/*修改滚动条样式*/
+.coordination::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.coordination::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.coordination::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.coordination::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.coordination::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+
+.personRegistration .information_right .information_police dl{
+	margin:0;
+	float:none;
+	display:inline-block;
+	vertical-align: top;
+}
+
+.personRegistration .information_police {
+    overflow: hidden;
+    background:#52A5F2;
+}
+
+.personRegistration .information_police .title_police {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 50px;
+    background:#005ACA;
+    padding-left:30px;
+}
+.personRegistration .approval_select{
+	padding:0 40px;
+	box-sizing:border-box;
+	overflow:hidden;
+}
+.personRegistration .approval_select .approval_selectLeft{
+	float:left;
+	width:300px;
+	
+}
+.personRegistration .approval_select .approval_selectLeft .selectArea{
+	width:100%;
+	height:190px;
+	text-align:center;
+}
+.personRegistration .approval_select .approval_selectLeft .selectArea #selectArea{
+	width:247px;
+	height:101px;
+	background:url(../img/selectArea.png) no-repeat;
+	color:#fff;
+	text-align:center;
+	line-height:101px;
+	font-size:40px;
+	display: inline-block;
+	overflow:hidden;
+	vertical-align: middle;
+}
+.personRegistration .approval_select .approval_selectLeft .selectArea #selectArea:hover{
+	cursor:pointer;
+	opacity:0.6;
+	transition:all ease 0.5s;
+}
+
+.personRegistration .approval_select .approval_selectRight{
+	float:right;
+	width: calc(100% - 320px);
+}
+.personRegistration .approval_select .things{
+	width:100%;
+	padding:20px;
+	box-sizing:border-box;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+.personRegistration .approval_select .things .things_box{
+	width:313px;
+	height:123px;
+	background:#126AD3;
+	padding:20px;
+	box-sizing:border-box;
+	display:inline-block;
+	border-radius:3px;
+	margin-right:40px;
+	position:relative;
+	cursor:pointer;
+	
+}
+.personRegistration .approval_select .things .current{
+	background:url(../img/check.png) no-repeat right bottom;
+	background-color:#126AD3;
+}
+.personRegistration .approval_select .things .current .shadow{
+	display:none;
+}
+.personRegistration .approval_select .things .things_box .shadow{
+	width:100%;
+	height:100%;
+	background:#000;
+	opacity:0.3;
+	position:absolute;
+	left:0;
+	top:0;
+}
+.personRegistration .approval_select .things .things_box img{
+	margin-right:10px;
+}
+.personRegistration .approval_select .things .things_box p{
+	font-size:32px;
+	color:#fff;
+	line-height:43px;
+	display: inline-block;
+    vertical-align: middle;
+}
+
+
+
+
+
+.personRegistration .bottom {
+    padding:20px 40px;
+    box-sizing:border-box;
+}
+.personRegistration .bottom>div{
+	text-align:center;
+	overflow:hidden;
+}
+
+.personRegistration .bottom .sure:hover {
+	opacity:0.8;
+	transition:all ease 0.5s;
+}
+.personRegistration .bottom .message{
+	display:inline-block;
+	color:#fff;
+	font-size:30px;
+	margin-top:25px;
+}
+.personRegistration .bottom .sure{
+	float:left;
+}
+
+.personRegistration .bottom .back {
+	float:right;
+}
+.personRegistration .bottom .back:hover{
+	opacity:0.8;
+	transition:all ease 0.5s;
+}
+.personRegistration .prompt{
+	padding:10px 40px;
+	box-sizing:border-box;
+	background:rgba(0,0,0,0.6);
+	display:none;
+}
+.personRegistration .prompt div{
+	display:inline-block;
+}
+.personRegistration .prompt p{
+	display:inline-block;
+}
+.personRegistration .prompt .prompt_in{
+	padding:10px;
+	box-sizing:border-box;
+	border:1px dashed #6CCDF8;
+	border-radius:10px;
+}
+.personRegistration .prompt img{
+	margin:0 20px
+}
+.personRegistration .prompt .prompt_in .number{
+	width:28px;
+	height:28px;
+	border-radius:50%;
+	background:#0AA1E5;
+	color:#fff;
+	font-size:20px;
+	text-align:center;
+	line-height:28px;
+}
+.personRegistration .prompt .prompt_in p{
+	color:#fff;
+	font-size:20px;
+	padding-left:5px;
+	box-sizing:border-box;
+}
+.personRegistration .main-content {
+    height: calc(100% - 357px);
+    overflow: auto;
+    padding: 0 40px;
+    box-sizing:border-box;
+    margin-top:20px;
+}
+.personRegistration .main-content .approval_empty{
+	width:864px;
+	height:192px;
+	background:url(../img/approval_empty.png) no-repeat;
+	font-size:52px;
+	color:#fff;
+	text-align:center;
+	line-height:192px;
+	margin:10% auto;
+	/* display:none; */
+}
+/*修改滚动条样式*/
+.personRegistration .main-content::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.personRegistration .main-content::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.personRegistration .main-content::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.personRegistration .main-content::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.personRegistration .main-content::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+
+.personRegistration .approval_pending {
+    background: #52A5F2;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+   /*  display:none;  */
+}
+
+.personRegistration .approval_pending .vehicleInfo {
+    float: left;
+    padding: 20px 10px;
+    margin-bottom: 20px;
+    margin-top: 28px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background: url(../img/car.png) no-repeat right bottom;
+    background-color: #1DC9E3;
+    border-radius: 6px;
+}
+
+.personRegistration .approval_pending .vehicleInfo li {
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    width: 190px;
+}
+
+.personRegistration .approval_pending .vehicleInfo li label {
+    font-size: 14px;
+    color: #fff;
+    margin-right: 5px;
+}
+
+.personRegistration .approval_pending .delete {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
+
+.personRegistration .approval_pending .approval_tit {
+	background:#005ACA;   
+	position: relative; 
+}
+
+
+/* 未审批 */
+
+.personRegistration .approval_pending .approval_tit .approval_status {
+    padding-left: 34px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 24px;
+    color:#fff;
+    line-height:52px;
+    display:inline-block;
+    
+}
+.personRegistration .approval_pending .scroll_approvalPending{
+	width:100%;
+	overflow:auto;
+	white-space:nowrap;
+}
+
+/*修改滚动条样式*/
+.personRegistration .approval_pending .scroll_approvalPending::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.personRegistration .approval_pending .scroll_approvalPending::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.personRegistration .approval_pending .scroll_approvalPending::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.personRegistration .approval_pending .scroll_approvalPending::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.personRegistration .approval_pending .scroll_approvalPending::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.personRegistration .approval_pending dl{
+	width:auto;
+	height:auto;
+	padding:20px 20px;
+	box-sizing:border-box;
+	float: none;
+    display: inline-block;
+}
+.personRegistration .approval_pending dl dt.infor_left{
+	width:116px;
+	height:146px;
+	margin:0;
+	line-height:142px;
+	float:left;
+}
+.personRegistration .approval_pending dl .infor_right{
+	float:right;
+	margin-left:20px;
+}
+.personRegistration .approval_pending dl .infor_right dd label{
+	width:58px;
+}
+.personRegistration .approval_pending dl .infor_right dd span{
+	width:110px;
+	display:inline-block;
+}
+.personRegistration .approval_pending dl .infor_right dd{
+	line-height:30px;
+}
+.personRegistration .copyright{
+	height:88px;
+	line-height:88px;
+	text-align:center;
+	font-size:42px;
+	font-weight:normal;
+	color:#fff;
+	letter-spacing:2px;
+	box-sizing:border-box;
+	background:rgba(0,0,0,0.6);
+}
+.personRegistration .bottom_copyright{
+	box-sizing:border-box;
+}
+.personRegistration .back_unaudited{
+	padding:20px 40px;
+	box-sizing:border-box;
+}
+.personRegistration .back_unaudited .back{
+	float:right;
+}
+.personRegistration .back_unaudited .back:hover{
+	opacity:0.8;
+	transition:all ease 0.5s;
+}
+
+
+/* 已审批 */
+
+.personRegistration .approval_pending .approval_tit .approval_audited {
+    padding-left: 34px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 24px;
+    color:#fff;
+    line-height:52px;
+    display:inline-block;
+}
+
+.personRegistration .approval_pending .approval_tit .apply_time {
+    display: inline-block;
+    margin-left: 20px;
+    font-size: 14px;
+    color:#fff;
+    position: absolute;
+    right: 20px;
+    top: 15px
+}
+
+.personRegistration .approval_pending .approval_tit .apply_time span {
+    display: inline-block;
+    margin-left: 10px;
+}
+.approval_process{
+	display:inline-block;
+	color:#fff;
+	position: absolute;
+    right: 263px;
+    top: 13px;
+}
+.approval_process span {
+    font-size: 18px;
+    color:#fff;
+    margin:0 10px;
+}
+
+.approval_process span.approval_person {
+    margin: 0 5px;
+    color:#fff;
+}
+
+.approval_process span img {
+    margin-right: 5px;
+}
+
+.approval_process span.line {
+    width: 100px;
+    height: 2px;
+    display: inline-block;
+    background: #ddd;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+}
+
+
+/* 人脸识别 */
+
+.shade {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: #000;
+    opacity: 0.4;
+   display: none;  
+}
+.shade2 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: #000;
+    opacity: 0.4;
+    display: none;  
+}
+
+.personFace {
+    position: absolute;
+    left: 22%;
+    top: 18%;
+    background: #0c5cbf;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+   display: none; 
+}
+
+.personFace .face_box {
+    background: url(../img/face.png) no-repeat -497px -255px;
+    width: 555px;
+    height: 455px;
+    text-align: center;
+    line-height: 455px;
+    float: left;
+    position: relative;
+}
+.personFace .face_box img{
+	position: absolute;
+    left: 10px;
+    top: 13px;
+    z-index: 1;
+    opacity:0.6;
+}
+
+.personFace .face_box #video {
+    width: 533px;
+    height: 432px;
+    position: absolute;
+    left: 10px;
+    top: 13px;
+}
+
+.personFace .face_box #canvas {
+    width: 533px;
+    height: 432px;
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 13px;
+}
+
+.personFace .face_r {
+    float: right;
+    overflow: hidden;
+    margin-left: 50px;
+    margin-top: 14px;
+}
+
+.personFace .face_r .passport_photo {
+    float: left;
+    margin-right: 30px;
+}
+
+.personFace .face_r .passport_photo p {
+    line-height: 57px;
+    color:#fff;
+}
+
+.personFace .face_r .scene_photo {
+    float: right;
+}
+
+.personFace .face_r .scene_photo p {
+    line-height: 57px;
+    color:#fff;
+}
+
+.personFace .face_r p {
+    text-align: center;
+    font-size: 20px;
+    line-height: 35px;
+    color:#fff;
+}
+
+.personFace .face_r .police_information {
+    display: inline-block;
+}
+.readICCard{
+	display:none;  
+}
+
+.personFace .face_r .police_information p {
+    color:#fff;
+    text-align:left;
+}
+.personFace .face_r .police_information p span{
+	margin-left:10px;
+}
+.personFace .face_r .police_information p label{
+	width:110px;
+	display:inline-block;
+	text-align:right;
+}
+
+.personFace .face_r .discriminate {
+    text-align: center;
+    margin-top: 28px;
+}
+
+.personFace .face_r .discriminate .pass {
+    padding: 10px 20px;
+    padding-left: 50px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 18px;
+    background: url(../img/pass.png) no-repeat 20px center;
+    background-color: #22AC38;
+    display:none;
+    width: 146px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.personFace .face_r .discriminate .failed {
+    padding: 10px 20px;
+    padding-left: 50px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 18px;
+    background: url(../img/failed.png) no-repeat 20px center;
+    background-color: #EA3D4A;
+    display:none;
+    width: 146px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.personFace .face_r .discriminate .success {
+    padding: 10px 20px;
+    text-align: center;
+    color: #666;
+    border-radius: 3px;
+    font-size: 18px;
+    /* background: url(../img/failed.png) no-repeat 20px center; */
+    background-color: yellow;
+    display:none;
+    width: 146px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.personFace .face_btn {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.personFace .face_btn a {
+    font-size: 24px;
+    background: #008EDE;
+    padding: 10px 25px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    color: #fff;
+}
+
+/* 选择区域 */
+.areaName{
+	position: absolute;
+    left: 27%;
+    top: 18%;
+    width:945px;
+    height:577px;
+    background: #0954B1;
+    padding: 20px 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    display:none;
+}
+.areaName ul{
+	height:100%; 
+	overflow:auto;
+}
+/*修改滚动条样式*/
+.areaName ul::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.areaName ul::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.areaName ul::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.areaName ul::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.areaName ul::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.areaName ul li{
+	font-size:36px;
+	color:#333;
+	font-weight:300;
+	text-align:center;
+	padding:10px 15px;
+	box-sizing:border-box;
+	float:left;
+	margin:20px;
+	background:#C6DAF1;
+	border-radius:3px;
+	border:1px solid #3DA3FF;
+	cursor:pointer;
+}
+.areaName ul li.cur{
+	background:#09B3FF;
+	color:#fff;
+}
+
+
+/* 右侧工作日审批和非工作日审批 */
+.tab{
+	float:left;
+	height:240px;
+}
+.tab li{
+	width:300px;
+	height:90px;
+	background:rgb(27,182,215);
+	text-align:center;
+	line-height:90px;
+	font-size:30px;
+	color:#fff;
+	border-radius:5px;
+	margin-top:20px;
+	margin-left:20px;
+	cursor:pointer;
+	box-shadow:1px 1px 2px #000;;
+}
+.tab li.current{
+	background:rgb(0,90,202);
+	
+}
+.tab li:hover{
+	opacity:0.8;
+	transition:all 0.5s ease;
+}
+.dept_right{
+	float:right;
+	margin-top: 20px;
+	width: calc(100% - 320px);
+    text-align: left;
+    padding-left:40px;
+    box-sizing:border-box;
+}
+.dept_right select{
+	width: 320px;
+    height: 56px;
+    line-height: 56px;
+    color: #fff;
+    font-size: 24px;
+    background: #166AB5;
+    margin-left: 20px;
+    border-radius: 3px;
+    border: none;
+    padding-left:10px;
+    box-sizing:border-box;
+}
+.visiterReason{
+	width: 267px;
+    height: 56px;
+    line-height: 56px;
+    color: #fff;
+    font-size: 24px;
+    background: #166AB5;
+    border-radius: 3px;
+    border: none;
+    padding-left:10px;
+    box-sizing:border-box;
+    margin-top:20px;
+}
+/* 关闭按钮 */
+.closeYeMian{
+	position: absolute;
+    top: -100px;
+    right: 50px;
+    z-index:999;
+    cursor:pointer;
+}
+

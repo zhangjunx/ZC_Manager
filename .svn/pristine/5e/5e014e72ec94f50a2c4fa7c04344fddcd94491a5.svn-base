@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>实时巡更</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+        <audio autoplay="autoplay" id="auto" src=""></audio>
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">实时巡更</a></div>
+            </div>
+
+            <div class="main-table">
+                <!--标注开始-->
+                <div class="main-tag">
+                    <div class="tag fl">
+                        <span class="sub-tag white"></span> 计划巡更点
+                    </div>
+                    <div class="tag fl">
+                        <span class="sub-tag green"></span> 实际巡更点
+                    </div>
+                    <div class="tag fl">
+                        <span class="sub-tag orange"></span> 漏检点
+                    </div>
+                    <div class="tag fl">
+                        <span class="sub-tag red"></span> 报警点
+                    </div>
+                </div>
+                <!--标注结束-->
+                <!--巡更点开始-->
+  			 <div class="main-process">
+                    <div> </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="js/time_patrol.js"></script>
+
+</body>
+
+</html>

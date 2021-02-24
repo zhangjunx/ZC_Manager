@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>路线设置-新增</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    
+    <style>
+    	
+    </style>
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">路线编辑</a></div>
+				<div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="route_save">确定</a></div>
+                    <div class="subbtn fl"><a href="route_setting.html" class="layui-bg-orange">取消</a></div>
+                </div>
+            </div>
+            <div class="main-form">
+                <!--input开始-->
+                <div class="form-term clearfix">
+                    <div class="lable"><span></span>路线名称：</div>
+                    <div class="control">
+                        <div class="input-unedit">
+                            <span class="info-text"></span>
+                        </div>
+                        <!-- <input type="text" id="file" name="routeName">
+                        <button id="sub">确定</button> -->
+                    </div>
+                </div>
+                <!--input结束-->
+                <!--巡更点操作开始-->
+             <!--    <div class="patrol">
+                    <div class="form-term clearfix ">
+                        <div class="xgm"><span>巡更点名称：</span><input type="text" class="xgm-n"></div>
+                        <div class="lable"><span>*</span>选择门区：</div>
+                        <div class="control clearfix">
+                             <select class="sel">
+									<option>巡更点1</option>
+									<option>巡更点2</option>
+									<option>巡更点3</option>
+									<option>巡更点4</option>
+									<option>巡更点5</option>
+							</select> 
+							
+							
+                        </div>
+                    </div>
+                    <i class="triangle"><img src="images/icons/triangle_tips.png"></i>
+                    <div class="tip">
+
+                        radio开始
+                        <div class="write clearfix" id="radio">
+                            <span>进出方向：</span>
+                            <span class="radio ra">进</span>
+                            <span class="radio curr">出</span>
+                        </div>
+                        <div class="write">
+                            距离下一个巡更点时间间隔：
+                            <input type="text" placeholder="" class="input write-n"> 分钟
+                        </div>
+                        radio结束
+                    </div>
+                    <div class="operation" id="opera">
+                        <a href="javascript:;" class="add operation-btn fl" title="新增"><img src="images/icons/add.png"></a>
+                        <a href="javascript:;" class="delete operation-btn fl" title="删除"><img src="images/icons/remove.png"></a>
+                    </div>
+                </div>
+ -->
+                <!--巡更点操作结束-->
+
+            </div>
+           
+
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="js/route_setting_bianji.js"></script>
+</body>
+
+</html>

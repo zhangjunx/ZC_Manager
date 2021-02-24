@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>出库明细表</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" /> 
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../zjx/purchase_list.css" />
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+    
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">出库明细表</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl">
+						<a href="javascript:;" class="blue addMain" id="export">导出</a>
+					</div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="printSpareParts_SDData">打印</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                      <div class="search-box main-form fl">
+                        <!-- <div class="form-term fl clearfix" style="margin-left:-45px">
+                            <div class="lable"><span></span>录入人员：</div>
+                            <div class="control clearfix">
+                               <input type="text" class="input" name="operator" id="operator">
+                            </div>
+                        </div>  -->
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库单号：</div>
+                            <div class="control clearfix">
+                                <!-- <select id="sdbill">
+                                	<option value=""></option>
+                                </select> -->
+                                <input type="text" name="sdbill" id="sdbill" class="input">
+                            </div>
+                        </div>
+                      <!--   <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出入库日期：</div>
+                            <div class="control clearfix">
+								<input type="text" name="startdate" id="startdate" class="test-item input">
+                            </div>
+                        </div>-->
+                 
+                       <div class="form-term fl clearfix">
+                            <div class="lable"><span></span> 备品件条码：</div>
+                            <div class="control clearfix">
+                               <input type="text" name="itemcode" id="itemcode" class="input" />
+                            </div>
+                        </div>
+                       
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span> 备品件名称：</div>
+                            <div class="control clearfix">
+                               <input type="text" name="itemname" id="itemname" class="input" />
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="form-term fl clearfix">
+                            <div class="lable">所属部门：</div>
+                            <div class="control clearfix">
+                               <select id="sdpersondept" name="sdpersondept">
+                               		<option value="">请选择</option>
+                            	</select>
+                            </div>
+                        </div> -->
+                        
+                          <div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>所在部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+                        
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库人员：</div>
+                            <div class="control clearfix">
+                            	<select id="sdperson" name="sdperson">
+                            		<option value="">请选择</option>
+                            	</select>
+                          </div>
+                         </div>
+                          
+                         
+                        <div class="form-term fl clearfix">
+                            <div class="lable" ><span></span>所在仓库：</div>
+                            <div class="control clearfix">
+                            	<select id="warecode44" name="warecode" class="warecode44">
+                            		<option value="">请选择</option>
+                            	</select>
+                            </div>
+                          </div>
+                      <!--   <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>仓库分区：</div>
+                            <div class="control clearfix">
+                                <select id="areacode44" name="areacode">
+                                	<option value="">请选择</option>
+                            	</select>
+                            </div>
+                        </div> -->
+                        
+                          <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>领用项目：</div>
+                            <div class="control clearfix">
+                               <select id="projectid" >
+                                   <option value="">--请选择--</option>
+                               </select>
+                            </div>
+                        </div>
+                        
+                          <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>计量单位：</div>
+                            <div class="control clearfix">
+                                  <input type="text" name="unitname" id="unitname" class="input" />
+                            </div>
+                        </div>
+                         <!-- <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库状态：</div>
+                            <div class="control clearfix">
+                              <select name="sdstatus" id="sdstatus">
+                                	<option value="">请选择</option>
+                                	<option value="11">入库</option>
+                                	<option value="12">出库</option>
+                                </select>
+                            </div>
+                        </div>   -->
+                          <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>出库日期：</div>
+                        <div class="control clearfix">
+                          <input type="text" id="startdate" name="sddate" class="input date" placeholder="请选择日期" autocomplete="off">
+                            --
+                            <input type="text" id="enddate" name="sddate" class="input date" placeholder="请选择日期" autocomplete="off">
+                        </div>
+                    </div>
+                        <div class="btn fl">
+                            <a href="javascript:;"  id="queryBtn">搜索</a>
+                        </div>
+                    </div>
+                 <div class="table_scroll">
+                    <table class="grade" id="dayindaju1">
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">订单号</td>
+                                <td width="100">备品件条码</td>
+                                <td width="100">备品件名称</td>
+                                <td width="100">规格</td>
+                                <td width="100">型号</td>
+                                <td width="100">数量</td>
+                                <td width="100">单价</td>
+                                <td width="100">总金额</td>
+                                <td width="100">录入人员</td>
+                                <td width="100">出库人员</td>
+                                <td width="100">所属部门</td>
+                                <td width="100">所在仓库</td>
+                                <td width="100">供应商</td>
+                                <td width="100">计量单位</td>
+                                <td width="100">所属类别</td>
+                                <td width="100">出库日期</td>
+                                <td width="100">备注</td>
+                                <td width="100" class="no-print">操作</td>
+                            </tr>
+                            <tbody id="cont1">
+                            
+                        	</tbody>
+                        	<tfoot>
+							    <tr>
+							        <td width="40">合计</td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100" id="quantity">数量</td>
+	                                <td width="100" id="univalence">单价</td>
+	                                <td width="100" id="totalMoney">总金额</td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100"></td>
+	                                <td width="100" class="no-print"></td>
+							    </tr>
+						</tfoot>
+                    </table>
+                </div>
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="holder_add"></div>
+		<div class="holder_box holder_leave">
+			<div class="layer_top">
+    			<h2 class="title">红冲原因</h2>
+    			<img src="../img/cha.png" class="quxiao" >
+    		</div>
+			<div class="door_center">
+					<p>
+						<label>红冲原因</label>
+						<textarea id="leavereason" name="leavereason" class="textinput"></textarea>
+					</p>
+				
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">取消</a>
+				</div>
+			</div>
+		</div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/b_out_list.js"></script>
+    <script type="text/javascript" src="../chu/xlsx.full.min.js"></script> 
+     <script type="text/javascript" src="../chu/export.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    
+</body>
+
+</html>

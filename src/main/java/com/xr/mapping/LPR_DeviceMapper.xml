@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_DeviceMapper">
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_Device" >
+    <id column="DeviceID" property="deviceid" jdbcType="INTEGER" />
+    <result column="pStrIP" property="pstrip" jdbcType="NVARCHAR" />
+    <result column="wPort" property="wport" jdbcType="NVARCHAR" />
+    <result column="pStrUserName" property="pstrusername" jdbcType="NVARCHAR" />
+    <result column="pStrPassword" property="pstrpassword" jdbcType="NVARCHAR" />
+    <result column="UseStop" property="usestop" jdbcType="INTEGER" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+    <result column="ParkType" property="parktype" jdbcType="INTEGER" />
+    <result column="ConnectStatus" property="connectstatus" jdbcType="NVARCHAR" />
+    <result column="DeviceNo" property="deviceno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DeviceID, pStrIP, wPort, pStrUserName, pStrPassword, UseStop, Note, ParkType, ConnectStatus, 
+    DeviceNo
+  </sql>
+  
+  <!-- 查询摄像机的名称 -->
+  <select id="queryDevice" resultMap="BaseResultMap">
+    select  DeviceID,  pStrUserName
+    DeviceNo from LPR_Device 
+  </select>
+</mapper>

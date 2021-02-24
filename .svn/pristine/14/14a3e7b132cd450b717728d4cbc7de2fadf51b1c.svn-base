@@ -1,0 +1,197 @@
+var total;
+var curpage=1;//当前页
+var pagesize=20;//每页显示的条数
+$(function(){
+	initDate();
+	getDate();
+	getWareHouseList();
+	$("#operator2").val(window.top.holdername);
+	$("#operator").val(window.top.holdername);
+})
+//分页
+function getPage(total){
+	layui.use("laypage",function(){
+		var laypage=layui.laypage;
+		laypage.render({
+			elem:"test",
+			limit:pagesize,//每页显示条数
+			count:total,//总条数
+			layout:['count','prev','page','next','limit','refresh','skip'],
+			jump:function(obj,first){
+				curpage=obj.curr;
+				pagesize=obj.limit;
+				if(!first){
+					getCheckResult();
+				}
+			}
+		})
+	})
+}//end
+function getDate(){
+	var date=new Date();
+	var year = date.getFullYear();
+	var month = (date.getMonth()+1)<=9?("0"+(date.getMonth()+1)):(date.getMonth()+1);
+	var day =(date.getDate())<=9?("0"+(date.getDate())):(date.getDate());
+	var hour=(date.getHours())<=9?("0"+(date.getHours())):(date.getHours());//date.getHours();
+	var minute=(date.getMinutes())<=9?("0"+(date.getMinutes())):(date.getMinutes());//date.getMinutes();
+	var second=(date.getSeconds())<=9?("0"+(date.getSeconds())):(date.getSeconds());//date.getSeconds();
+	var html=year+"-"+month+"-"+day;
+	var html2=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+	$("#checkDate2").val(html)//给出入库日期 赋值
+}//end
+//初始化日期
+function initDate(){
+	layui.use("laydate", function() {
+	    var laydate = layui.laydate
+	    lay('.test-item').each(function() {
+			laydate.render({
+				elem: this,
+				trigger:"click",
+				value:new Date(),
+			});
+		});
+	})
+}
+//初始化仓库
+function getWareHouseList(){
+	$.ajax({
+		url:url+"/zcStore/getList",
+		type:"post",
+		success:function(data){
+			$("#wareHouse option").not("option:first").remove();
+			$("#wareHouse2 option").not("option:first").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var storeName=item.storeName==undefined?"":item.storeName;
+					var storeLocal=item.storeLocal==undefined?"":item.storeLocal;
+					var size=item.size==undefined?"":item.size;
+					var manager=item.manager==undefined?"":item.manager;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+storeName+"</option>");
+					$("#wareHouse2").append($opt);
+				}
+				for(var item of res){
+					var storeName=item.storeName==undefined?"":item.storeName;
+					var storeLocal=item.storeLocal==undefined?"":item.storeLocal;
+					var size=item.size==undefined?"":item.size;
+					var manager=item.manager==undefined?"":item.manager;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+storeName+"</option>");
+					$("#wareHouse").append($opt);
+				}
+			}
+		}
+	})
+}
+//点击导入RFID标签
+$("#import").click(function(){
+	layer.open({
+		type:1,
+		title:"导入RFID标签",
+		content:$("#importRFID"),
+		area:["500px","300px"],
+		btn:["确定","取消"],
+		yes:function(index){
+			var checkStore=$("#wareHouse2").val();
+			var checkDate=$("#checkDate2").val();
+			var obj={
+					"checkStore":checkStore,
+					"checker":window.top.holderno,
+					"checkDate":checkDate
+			}
+			var formData = new FormData();
+			formData.append("file", $("#upload")[0].files[0]);
+			formData.append("str",JSON.stringify(obj));
+			$.ajax({
+				url:url+"/zcCheck/insertCheckRecord",
+				type:"post",
+				cache: false,
+				data:formData,
+				processData: false,
+				contentType: false,
+				success:function(data){
+					if(data.flag){
+						layer.msg(data.reason,{time:1000},function(){
+							layer.close(index);
+						});
+					}else{
+						layer.msg(data.reason,{time:2000});
+					}
+				},
+			})
+		}
+	})
+})
+//点击搜索
+$("#checkSearch").click(function(){
+	getCheckResult();
+})
+//盘点记录
+function getCheckResult(){
+	var checkStore=$("#wareHouse").val();
+	var checkDate=$("#checkDate").val();
+	if(checkStore==""){
+		layer.msg("请选择盘点仓库!",{time:2000});
+		return;
+	}
+	var obj={"curpage":curpage,"pagesize":pagesize,"checkStore":checkStore,"checkDate":checkDate}
+	$.ajax({
+		url:url+"/zcCheck/getCheckResult",
+		type:"post",
+		data:obj,
+		async:false,
+		success:function(data){
+			console.log(data);
+			$("#cont").empty();
+			if(data.flag){
+				layer.msg("暂无异常!",{time:2000});
+			}else{
+				var res=data.result;
+				for(var i=0;i<res.length;i++){
+					var goodsType=res[i].goodsType==undefined?"":res[i].goodsType;
+					var goodsName=res[i].goodsName==undefined?"":res[i].goodsName;
+					var labelCode=res[i].labelCode==undefined?"":res[i].labelCode;
+					var storeName=res[i].storeName==undefined?"":res[i].storeName;
+					var shelf=res[i].shelf==undefined?"":res[i].shelf;
+					var checkerName=res[i].checkerName==undefined?"":res[i].checkerName;
+					var checkDate=res[i].checkDate==undefined?"":res[i].checkDate;
+					var model=res[i].model==undefined?"":res[i].model;
+					var brand=res[i].brand==undefined?"":res[i].brand;
+					var specs=res[i].specs==undefined?"":res[i].specs;
+					var size=res[i].size==undefined?"":res[i].size;
+					var checkResult=res[i].checkResult==undefined?"":res[i].checkResult;
+					var remark=res[i].remark==undefined?"":res[i].remark;
+					var text="";
+					if(checkResult=="库存缺失！"){
+						text="<td style='color:red'>"+checkResult+"</td>";
+					}else{
+						text="<td style='color:blue'>"+checkResult+"</td>";
+					}
+					var $tr=$("<tr><td>"+(i+1)+"</td><td>"+goodsType+"</td><td>"+goodsName+"</td><td>"+labelCode+"</td><td>"+storeName+"</td>" +
+							"<td>"+shelf+"</td><td>"+checkerName+"</td><td>"+checkDate+"</td><td>"+model+"</td><td>"+brand+"</td><td>"+specs+"</td>" +
+							"<td>"+size+"</td>"+text+"<td>"+remark+"</td></tr>");
+					$("#cont").append($tr);
+					
+				}
+			}
+		}
+	})
+}
+
+//选择文件
+$("#upload").change(function(){
+	var file=document.getElementById("upload").files[0];
+	var filename=file.name;
+	$("#filename").html(filename);
+})
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}

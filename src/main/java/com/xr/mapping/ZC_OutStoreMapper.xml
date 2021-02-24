@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_OutStoreMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--扫描标签获取物品信息  -->
+	<select id="getOneInfoWIthRFID" resultType="map">
+		select t.*,s.storeName,g.specs,g.brand,g.size from ZC_InStoreGoods t
+		left join ZC_Store s on t.storeID = s.fid
+		left join ZC_Goods g on t.goodsID = g.fid
+		where t.status = 1 and t.labelCode=#{labelCode}
+	</select>
+	
+	<!--出库信息  -->
+	<select id="saveOutStoreInfo" resultType="integer">
+		insert into ZC_OutStore(bill,outDate,receiveUnit,receiver,receiverPhone,
+			operator,approver,approvalResult,remark)
+		values(#{bill},convert(datetime,#{outDate}, 20),#{receiveUnit},#{receiver},#{receiverPhone},
+			#{operator},#{approver},0,#{remark})
+		select @@IDENTITY
+	</select>
+	
+	<!--出库物品信息  -->
+	<update id="saveOutStoreGoodsInfo">
+		insert into ZC_OutStoreGoods(labelCode,goodsID,outStoreID,goodsName,goodsType,goodsCode,type,model,outStoreDate,
+			storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+			shopType,shopNo,shopDate,endDate,goodsSn,remark,
+			deviceHigh,rightUnit,rightDept,erpCode,erpDeviceCode,projectNo,projectName,status,filePath,parm)
+		select t.labelCode,t.goodsID,#{outStoreID},t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+			t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+			t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,
+			t.deviceHigh,t.rightUnit,t.rightDept,t.erpCode,t.erpDeviceCode,t.projectNo,t.projectName,t.status,t.filePath,t.parm
+		 from ZC_InStoreGoods t where 1=1 and t.labelCode in
+		 <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		 	#{l.labelCode}
+		 </foreach>
+	</update>
+	
+	<!--删除库存中的物品信息  -->
+	<update id="deleteGoosFromStore">
+		 delete from ZC_InStoreGoods where labelCode in
+		 <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		 	#{l.labelCode}
+		 </foreach>
+	</update>
+	
+	<!--打印出库单据  -->
+	<select id="printOutStoreList" resultType="map">
+		select distinct g.*,CONVERT(varchar(100),t.outDate, 23) outDate,t.receiver,h.holderName "receiverName" ,d.departmentName,t.receiverPhone,
+		ty.typeName,t.bill,count(1) over (partition by t.bill,g.fid) sumval from ZC_OutStore t
+		left join ZC_OutStoreGoods s on s.outStoreID = t.fid
+		left join ZC_Goods g on s.goodsID = g.fid
+		left join ZC_GoodsType ty on s.type=ty.fid
+		left join HolderData h on t.receiver = h.holderNo
+		left join DepartmentData d on t.receiveUnit = d.departmentNo
+		where t.bill=#{bill}
+	</select>
+	
+	<!--出库单据列表  -->
+	<select id="getOutStoreList" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName",
+		count(1) over (partition by t.fid) sumval from ZC_OutStore t
+		left join HolderData h1 on t.operator = h1.holderNo
+		left join HolderData h2 on t.approver = h2.holderNo
+		left join HolderData h3 on t.receiver = h3.holderNo
+		left join DepartmentData d on t.receiveUnit = d.departmentNo
+		left join ZC_OutStoreGoods gs on gs.outStoreID = t.fid
+		where 1=1
+		<!--查询条件：出库日期  -->
+		<if test="startDate != null and startDate != ''">
+			and CONVERT(varchar(100), t.outDate, 23) &gt;= #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and CONVERT(varchar(100), t.outDate, 23) &lt;= #{endDate}
+		</if>
+		<!--查询条件：入库单据  -->
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getOutStoreListCount" resultType="integer">
+		select count(1) from (
+			select distinct t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName",
+			count(1) over (partition by t.fid) sumval from ZC_OutStore t
+			left join HolderData h1 on t.operator = h1.holderNo
+			left join HolderData h2 on t.approver = h2.holderNo
+			left join HolderData h3 on t.receiver = h3.holderNo
+			left join DepartmentData d on t.receiveUnit = d.departmentNo
+			left join ZC_OutStoreGoods gs on gs.outStoreID = t.fid
+			where 1=1
+			<!--查询条件：出库日期  -->
+			<if test="startDate != null and startDate != ''">
+				and CONVERT(varchar(100), t.outDate, 23) &gt;= #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and CONVERT(varchar(100), t.outDate, 23) &lt;= #{endDate}
+			</if>
+			<!--查询条件：入库单据  -->
+			<if test="bill != null and bill != ''">
+				and t.bill like '%'+#{bill}+'%'
+			</if>
+		) aa
+	</select>
+	
+	<!--出库物品列表  -->
+	<select id="getOutStoreGoodsList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName" ,
+			g.specs,g.size,g.brand,ss.storeName,m.name "manufacturer",sp.name "supplierName",g.imagePath
+			from ZC_OutStoreGoods t
+			left join ZC_OutStore o on t.outStoreID = o.fid
+			left join HolderData h1 on o.operator = h1.holderNo
+			left join HolderData h2 on o.approver = h2.holderNo
+			left join HolderData h3 on o.receiver = h3.holderNo
+			left join DepartmentData d on o.receiveUnit = d.departmentNo
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+			left join ZC_Manufacture m on t.manufacturerID = m.fid
+			left join ZC_Supplier sp on t.supplierID = sp.fid 
+		 where t.outStoreID=#{outStoreID}
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getOutStoreGoodsListCount" resultType="integer">
+		select count(1)
+			from ZC_OutStoreGoods t
+			left join ZC_OutStore o on t.outStoreID = o.fid
+			left join HolderData h1 on o.operator = h1.holderNo
+			left join HolderData h2 on o.approver = h2.holderNo
+			left join HolderData h3 on o.receiver = h3.holderNo
+			left join DepartmentData d on o.receiveUnit = d.departmentNo
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+			left join ZC_Manufacture m on t.manufacturerID = m.fid
+			left join ZC_Supplier sp on t.supplierID = sp.fid 
+		 where t.outStoreID=#{outStoreID}
+	</select>
+</mapper>

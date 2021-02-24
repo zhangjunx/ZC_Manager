@@ -1,0 +1,196 @@
+.prisoner_add div.form-term{
+	margin-right:110px;
+}
+.prisoner_add .avator_digital{
+	top:10px;
+}
+/* 手持终端管理 */
+.appDeviceUser{
+	width: calc(100% - 670px);
+    float: right;
+    border-left: 1px solid #ddd;
+    margin-top:30px;
+}
+#appDeviceLayer .lable{
+	width:110px;
+}
+#appDeviceLayer .form-term{
+	margin-top:10px;
+}
+.appDeviceUser .lable{
+	font-size:14px;
+	width: 115px;
+	height: 28px;
+    line-height: 16px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    margin-top: 6px;
+    float:left;
+}
+.appDeviceUser .downpanel .control {
+    text-align: left;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+    float:left;
+    width: calc(100% - 125px);
+    position:relative;
+}
+.appDeviceUser .downpanel .control .layui-edge {
+    border-width: 4px;
+    border-top-color: #666;
+}
+.appDeviceUser .form-term dl dd{
+	overflow:visible;
+}
+#holder {
+    height: 780px;
+    overflow: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    width:100%;
+}
+.approval_person li {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 260px;
+    height: 110px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 10px;
+    line-height: 110px;
+    cursor: pointer;
+}
+.approval_person li.cur {
+    background: url(../../img/check.png) no-repeat right bottom;
+    border-color: rgb(9,179,255);
+}
+.approval_person li .personPhoto {
+    width: 75px;
+    height: 87px;
+    float: left;
+}
+.approval_person li .personPhoto img {
+    width: 75px;
+    height: 87px;
+    vertical-align: middle;
+}
+.approval_person li .holderInfo {
+    float: left;
+    width: 160px;
+    padding-top: 40px;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+.approval_person li .holderInfo p {
+    line-height: 28px;
+}
+/* 新增区域 */
+.unit{
+	display: inline-block;
+    border: 1px solid #ddd;
+    border-left:none;
+    width: 47px;
+    height: 30px;
+    vertical-align: top;
+    margin: 0;
+    font-size:14px;
+    text-align:center;
+    line-height:30px;
+    color:#666;
+    background: #eee;
+}
+/* 区域人员分布 */
+.areaPeople{
+	clear: both;
+    width: 700px;
+    text-align: center;
+    margin-top:40px;
+    float:left;
+}
+#areaPeopleSpread{
+	height:500px;
+}
+.areaPeople_right{
+	float:left;
+	width:calc(100% - 700px);
+	margin-top:40px;
+}
+.areaPeople_right #pieChart{
+	height:500px;
+}
+.prisonPeople{
+	clear: both;
+    width: 700px;
+    text-align: center;
+    margin-top:40px;
+    float:left;
+}
+.prisonPeople #prisonChart{
+	width:700px;
+	height:500px;
+}
+/* 轨迹查询 */
+.trackTitle{
+	width:150px;
+	height:80px !important;
+	position:relative;
+	border:1px solid #ddd;
+	overflow:hidden;
+	vertical-align:top;
+}
+ .trackTitle .line1{
+	height:213px;
+	width:1px;
+	display:inline-block;
+	background:#ddd;
+	position:absolute;
+	top:-81px;
+	left:23px;
+	transform:rotate(136deg);
+}
+.trackTitle .line2{
+	height:214px;
+	width:1px;
+	display:inline-block;
+	background:#ddd;
+	position:absolute;
+	top:-75px;
+	left:91px;
+	transform: rotate(109deg);
+}
+.trackTitle .prisonName{
+	position:absolute;
+	left:10px;
+	bottom:10px;
+	line-height:30px;
+}
+ .trackTitle .location{
+	position:absolute;
+	right:48px;
+	bottom:13px;
+	line-height:30px;
+}
+.trackTitle .callTime{
+	position:absolute;
+	right:20px;
+	top:2px;
+	line-height:30px;
+}
+
+/* 时间模板 */
+.weekTime{
+	padding-left:41px;
+}
+.operation{
+	display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px !important;
+}
+.operation a{
+	margin-left:10px;
+}

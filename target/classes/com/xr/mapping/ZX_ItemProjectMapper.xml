@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZX_ItemProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ZX_ItemProject" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ProjectName" property="projectname" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ProjectName, Remark, UpdateDate, UpdatePerson
+  </sql>
+  
+  <select id="getItemProjectList" resultType="Map">
+     select id,projectname,remark,updateperson,
+     convert(varchar(10),updatedate,23) updatedate from ZX_ItemProject
+     <where>
+       <if test="id != null and id!='' " >
+          ID=#{id}
+      </if>
+      <if test="name != null and name!='' " >
+         and ProjectName=#{name}
+      </if>
+      <if test="updatedate != null and updatedate!='' " >
+         and UpdateDate=#{updatedate}
+      </if>
+     </where>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZX_ItemProject
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ZX_ItemProject
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ZX_ItemProject" >
+    insert into ZX_ItemProject (ID, ProjectName, Remark, 
+      UpdateDate, UpdatePerson)
+    values (#{id,jdbcType=INTEGER}, #{projectname,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ZX_ItemProject" >
+    insert into ZX_ItemProject
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="projectname != null" >
+        ProjectName,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectname != null" >
+        #{projectname,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ZX_ItemProject" >
+    update ZX_ItemProject
+    <set >
+      <if test="projectname != null" >
+        ProjectName = #{projectname,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ZX_ItemProject" >
+    update ZX_ItemProject
+    set ProjectName = #{projectname,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

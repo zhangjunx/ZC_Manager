@@ -1,0 +1,442 @@
+/* 头部样式 */
+/* 顶部弹出层的关闭按钮隐藏 */
+.prison {
+    width: 99%;
+    height: 99%;
+    margin: 10px auto;
+    border: 2px solid #4C82BA;
+}
+.prison .top {
+    overflow: hidden;
+    height: 140px;
+    border-bottom: 2px solid #4C82BA;
+    width: 100%;
+}
+
+.prison .top .top_l {
+    float: left;
+    height: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.prison .top .top_l>div {
+    padding-left: 80px;
+    padding-top: 15px;
+    box-sizing: border-box;
+}
+
+.prison .top .top_l .bg_line {
+    position: absolute;
+    top: 120px;
+}
+
+.prison .top .top_l .image {
+    width: 87px;
+    height: 87px;
+    background: #fff;
+    border-radius: 50%;
+    text-align: center;
+    position: relative;
+    border: 2px solid #116EB1;
+    display: inline-block;
+}
+
+.prison .top .top_l .image .logo {
+    position: absolute;
+    left: 12px;
+    top: 5px;
+}
+
+.prison .top .top_l .title {
+    color: #A6E1FA;
+    font-size: 56px;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    float: right;
+    margin-top: 7px;
+    margin-left: 20px;
+}
+
+.prison .top .top_l .bg_line {
+    display: block;
+}
+
+.prison .top .top_c {
+    margin: 0 auto;
+    width: 880px;
+    /* height: 90px; */
+    float: left;
+    margin-left: 35px;
+}
+
+.prison .top .top_c .bg_center {
+    color: #A6E1FA;
+    font-size: 42px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    width: 100%;
+    height: 80px;
+    background: url(../img/bg_top.png) no-repeat left -3px;
+}
+
+.prison .top .top_c h4 {
+    color: #A6E1FA;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 300;
+    line-height: 53px;
+}
+
+.prison .top .top_r {
+    float: right;
+    height: 100%;
+}
+
+.prison .top .top_r .time {
+    padding-right: 80px;
+    box-sizing: border-box;
+    padding-top: 15px;
+}
+
+.prison .top .top_r .time .hours {
+    color: #01FFFF;
+    font-size: 52px;
+}
+
+.prison .top .top_r .time .date {
+    color: #71EFF9;
+    font-size: 24px;
+    font-weight: 300;
+    padding-left: 8px;
+}
+
+
+/* 左边样式 */
+
+.con {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 15px;
+    box-sizing: border-box;
+}
+
+.con .con_l {
+    width: 29%;
+    display: flex;
+    flex-direction: column;
+}
+
+.con .con_l .con_l_top {
+    border: 1px solid #4C82BA;
+    border-radius: 4px;
+}
+
+.con .con_l .con_l_top .marchine_title {
+    color: #FFFFFF;
+    font-size: 18px;
+    background: #132663;
+    width: 100%;
+    line-height: 50px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.con .con_l .con_l_top .marchine_con {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-bottom: 10px;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 {
+    width: 45%;
+    margin-top: 10px;
+    background: url(../img/bg_marchine.png) no-repeat;
+    background-size: 100% 100%;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .marchine1_title {
+    color: #fff;
+    font-size: 20px;
+    line-height: 43px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(79, 147, 206, 0.6);
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .inline {
+    width: 47%;
+    display: inline-block;
+    padding-bottom: 10px;
+    background: url(../img/bg_line.png) no-repeat right top;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .inline p {
+    font-size: 14px;
+    color: #A6E1FA;
+    text-align: center;
+    line-height: 31px;
+    background: url(../img/bg_l.png) no-repeat 23% 50%;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .inline .inline_num {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #01FFFF;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .outline {
+    width: 50%;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .outline p {
+    font-size: 14px;
+    color: #A6E1FA;
+    text-align: center;
+    line-height: 31px;
+    background: url(../img/bg_r.png) no-repeat 23% 50%;
+}
+
+.con .con_l .con_l_top .marchine_con .marchine1 .outline .outline_num {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #FF0101;
+}
+
+.con .con_l .con_l_bottom {
+    border: 1px solid #4C82BA;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.con .con_l .con_l_bottom .marchine_title {
+    color: #FFFFFF;
+    font-size: 18px;
+    background: #132663;
+    width: 100%;
+    line-height: 50px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+
+/* 中间样式 */
+
+.con .con_c {
+    width: 38%;
+    border: 1px solid #4C82BA;
+    border-radius: 4px;
+}
+
+.con .con_c .marchine_title {
+    color: #FFFFFF;
+    font-size: 18px;
+    background: #132663;
+    width: 100%;
+    line-height: 50px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.con .con_c .realTime {
+    padding: 20px 20px 0 20px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.con .con_c .realTime table tr th {
+    font-size: 14px;
+    color: #A6E1FA;
+    text-align: center;
+    line-height: 40px;
+    background: rgba(51, 159, 209, 0.2);
+}
+
+.con .con_c .realTime table tr td {
+    font-size: 14px;
+    color: #A6E1FA;
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 1px solid #4C82BA;
+}
+
+
+/* 右边样式 */
+
+.con .con_r {
+    width: 31%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.con .con_r .con_r_top {
+    border: 1px solid #4C82BA;
+    padding: 15px 15px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 4px;
+}
+
+.con .con_r .con_r_top .face_l .face_l_border {
+    display: inline-block;
+    border: 1px solid #4D85BD;
+}
+
+.con .con_r .con_r_top .face_l .process {
+    width: 150px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #4D85BD;
+    position: relative;
+    margin-top: 5px;
+}
+
+.con .con_r .con_r_top .face_l .process .process_bar {
+    width: 90%;
+    height: 100%;
+    background: #01FFFF;
+    border-radius: 10px;
+}
+
+.con .con_r .con_r_top .face_l .process span {
+    position: absolute;
+    left: 170px;
+    top: 2px;
+    color: #fff;
+}
+
+.con .con_r .con_r_top .face_l .face_l_border img {
+    width: 95px;
+    height: 110px;
+    display: block;
+}
+
+.con .con_r .con_r_top .face_l p {
+    color: #A6E1FA;
+    font-size: 16px;
+    line-height: 30px;
+    border-bottom: 1px solid #4B8DC7;
+    margin-top: 5px;
+}
+
+.con .con_r .con_r_top .face_l .holdername {
+    margin-left: 20px;
+}
+
+.con .con_r .con_r_top .face_l .status {
+    color: #01FF43;
+}
+
+.con .con_r .con_r_top .face_r .face_r_border {
+    display: inline-block;
+    border: 1px solid #4D85BD;
+}
+
+.con .con_r .con_r_top .face_r .face_r_border img {
+    width: 95px;
+    height: 110px;
+    display: block;
+}
+
+.con .con_r .con_r_top .face_r .process {
+    width: 150px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid #4D85BD;
+    position: relative;
+    margin-top: 5px;
+}
+
+.con .con_r .con_r_top .bg {
+    width: 4px;
+    background: url(../img/face.png) no-repeat;
+}
+
+.con .con_r .con_r_top .face_r .process .process_bar {
+    width: 90%;
+    height: 100%;
+    background: #01FFFF;
+    border-radius: 10px;
+}
+
+.con .con_r .con_r_top .face_r .process span {
+    position: absolute;
+    left: 170px;
+    top: 2px;
+    color: #fff;
+}
+
+.con .con_r .con_r_top .face_r .face_l_border img {
+    width: 95px;
+    height: 110px;
+    display: block;
+}
+
+.con .con_r .con_r_top .face_r p {
+    color: #A6E1FA;
+    font-size: 16px;
+    line-height: 30px;
+    border-bottom: 1px solid #4B8DC7;
+    margin-top: 5px;
+}
+
+.con .con_r .con_r_top .face_r .holdername {
+    margin-left: 20px;
+}
+
+.con .con_r .con_r_top .face_r .status {
+    color: #FF0000;
+}
+
+.con .con_r_cen {
+    border: 1px solid #4C82BA;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.con .con_r_cen .marchine_title {
+    color: #FFFFFF;
+    font-size: 18px;
+    background: #132663;
+    width: 100%;
+    line-height: 50px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.con .con_r_bottom {
+    border: 1px solid #4C82BA;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.con .con_r_bottom .marchine_title {
+    color: #FFFFFF;
+    font-size: 18px;
+    background: #132663;
+    width: 100%;
+    line-height: 50px;
+    padding-left: 18px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+/* 关闭按钮 */
+.closeYeMian{
+	position: absolute;
+    top: -100px;
+    right: 50px;
+    z-index:999;
+    cursor:pointer;
+}

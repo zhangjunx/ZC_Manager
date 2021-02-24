@@ -1,0 +1,86 @@
+$(function(){
+	initTable();
+});
+//初始化表格
+function initTable(){
+	layui.use('table', function(){
+		  var table = layui.table;
+		  table.render({
+		    elem: '#test',
+		    url:url+'/zcOutStore/getOutStoreGoodsList',
+		    where: {
+		    	outStoreID: getUrlParam("fid") 
+		      },
+		    parseData: function(res){ //res 即为原始返回的数据
+		    	console.log(res)
+		        return {
+		          "code": res.flag==true?"0":"", //解析接口状态
+		          "msg": res.reason, //解析提示文本
+		          "count": res.count, //解析数据长度
+		          "data": res.result //解析数据列表
+		        };
+		      },
+		    cols: [[//标题栏
+		    	  {field:'goodsType', width:200 ,title: '物品类别', },
+			      {field:'goodsName', width:200 , title: '物品名称'},
+			      {field:'labelCode', width:200 ,title: '物品RFID标签'},
+			      {field:'outStoreDate', width:100 , title: '出库日期',templet: function(d){
+			          return timestampToTime(d.outStoreDate);
+			      }},
+			      {field:'model',width:80,  title: '型号'},
+			      {field:'brand', width:80, title: '品牌'},
+			      {field:'specs', width:80, title: '规格'},
+			      {field:'size', width:80, title: '尺寸'},
+			      {field:'storeName', width:200 ,title: '所在仓库'},
+			      {field:'shelf', width:200,title: '存放货架'},
+			      {field:'remark', title: '备注'},
+			 ]],
+		    page:true
+		  });
+    });
+}
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]); return null;
+}
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}
+
+//点击打印
+$("#printInStorage").click(function(){
+	printInStorage();
+})
+//打印
+function printInStorage(bill){
+	$.ajax({
+		url:url+"/zcOutStore/printOutStoreList",
+		type:"post",
+		data:{"bill":getUrlParam("bill")},
+		success:function(data){
+			console.log(data);
+			if(data.flag){
+				createPrintTable(data.result);
+			}
+		}
+		
+	})
+}
+function createPrintTable(res){
+	$("#printDanJu tr:gt(0)").empty();
+	for(var item of res){
+		var $tr=$("<tr><td>"+item.bill+"</td><td>"+item.typeName+"</td><td>"+item.goodsName+"</td><td>"+item.model+"</td>" +
+				"<td>"+item.brand+"</td><td>"+item.specs+"</td><td>"+item.size+"</td><td>"+item.sumval+"</td><td>"+item.outDate+"</td>" +
+			    "<td>"+item.departmentName+"</td><td>"+item.receiverName+"</td></tr>");
+		$("#printDanJu").append($tr);
+	}
+	printTable('printDanJu');
+}

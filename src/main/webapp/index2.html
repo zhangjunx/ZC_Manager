@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>中兴铸业</title>
+	<link rel="icon" href="img/logoo1.png" sizes="32x32">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/public1.css" />
+</head>
+
+<body>
+	<div id="main-frame">
+		<div id="frame-top">
+			<div class="top-logo-l top-logo">
+				<!-- <div class="logo fl"><img src="img/logo.png"></div> -->
+				<div class="logo fl"><img src="img/logoo1.png"></div>
+				<div class="title fl">中兴铸业</div>
+			</div>
+			<div class="bg"></div>
+			<div class="actionbar">
+				<div class="rt fl">
+					<div class="personnel fl">
+						<a href="personal_data.html" target="mainFrame"><img src="img/person.png" id="photo"></a>
+						<span class="name" id="holderno"></span>
+						<!-- <span class="time"></span> -->
+					</div>
+					<div class="new fl">
+						<a href="javascript:;">
+							<img src="images/icons/newss.png">
+							<span class="tips"></span>
+						</a>
+						<div class="new-box">
+							<div class="sanjiao">
+								<img src="images/icons/triangle_tips.png" alt="">
+							</div>
+							<div class="layui-tab layui-tab-brief">
+								<!-- <ul class="layui-tab-title">
+									<li>全部</li>
+								</ul> -->
+								<div class="layui-tab-content news">
+									<div class="layui-tab-item layui-show">
+										<a href="javascript:;" class="personMsg" target="mainFrame">
+											个人消息
+										</a>
+										<a href="javascript:;" class="retireMsg" target="mainFrame">
+											退休预警消息
+										</a>
+										<a href="javascript:;" class="approveMsg" target="mainFrame">
+											审批消息
+										</a>
+									</div>
+									<!-- <div class="layui-tab-item">内容2</div>
+									<div class="layui-tab-item">内容3</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="qp fl">
+						<img src="img/qp.png" alt="">
+					</div>
+					<div class="lock Signout fl">
+						<img src="img/Signout.png" alt="">
+					</div>
+					<!-- <div class="set-up fl">
+						<img src="images/icons/set_up.png">
+					</div> -->
+				</div>
+
+				<!-- <div class="personnel fl">
+						<img src="images/head_portrait.png">
+						<span class="name">你好，超级管理员</span>
+						<span class="time"></span>
+					</div>
+					<div class="tid act-list fl">
+						<a href="javascript:;">
+							<div class="new">
+								<img src="images/icons/news.png">消息
+								<span class="tips">99</span>
+							</div>
+						</a>
+						<div class="new-box">
+							<a href="route_setting.html" class="" target="mainFrame">
+								审批1
+							</a>
+							<a href="time_setting.html" class="" target="mainFrame">
+								消息1
+							</a>
+							<a href="javascript:;" class="" target="mainFrame">
+								待审批
+							</a>
+							<a href="javascript:;" class="" target="mainFrame">
+								文本
+							</a>
+						</div>
+					</div>
+					<div class="set-up act-list fl">
+						<a href="javascript:;">
+							<img src="images/icons/set_up.png">设置
+						</a>
+					</div>
+					<div class="sign-out act-list fl">
+						<a href="javascript:;">
+							<img src="images/icons/login_out.png">退出
+						</a>
+					</div> -->
+			</div>
+		</div>
+		<div id="frame-left">
+			<!-- <div class="touxiang">
+				<div class="tx">
+					<img src="images/head_portrait.png" alt="">
+				</div>
+				<div class="text">
+					<span class="name">胡兵</span>
+					<span class="lei">特警</span>
+				</div>
+			</div> -->
+			<div class="menubar">
+                <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						 <img src="img/my.png"> 
+						<span>个人中心</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="update_password.html" class="submenu" target="mainFrame">修改密码</a>
+						<a href="businessTrip.html" class="submenu" target="mainFrame">出差申请</a>
+						<a href="leaveApplication.html" class="submenu" target="mainFrame">请假申请</a>
+						<a href="ReplenishmentCard.html" class="submenu" target="mainFrame">补打卡申请</a>
+						<a href="OvertimeIntermission.html" class="submenu" target="mainFrame">加班调休申请</a>
+						<a href="MyAttendanceChart.html" class="submenu" target="mainFrame">我的考勤表</a>
+						<a href="ApprovalInformation.html" class="submenu" target="mainFrame">审批信息</a>  
+				</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/rs1.png">
+						<span>人事管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="dept_list.html" class="submenu" target="mainFrame">部门管理</a>
+					    <a href="holderdata_list.html" class="submenu" target="mainFrame">人事资料</a>
+					    <a href="departure_list.html" class="submenu " target="mainFrame">离职资料</a>
+					    <a href="retireWarning.html" class="submenu " target="mainFrame">退休预警</a>
+						<a href="title_list.html" class="submenu " target="mainFrame">职务与薪资</a>
+					</div>
+				</div>
+				 
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						 <img src="img/mj.png"> 
+						<span>门禁管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="IO_curr_record.html" class="submenu " target="mainFrame">进出实时监控</a>
+						<a href="IO_record.html" class="submenu " target="mainFrame">进出记录查询</a>
+						<a href="last_record.html" class="submenu " target="mainFrame">人员实时定位</a>
+						<a href="door_perm_set.html" class="submenu " target="mainFrame">门禁权限设置</a>
+						<a href="door_perm_see.html" class="submenu " target="mainFrame">门禁权限查看</a> 
+					</div>
+				</div>
+				
+				 <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/visitor.png">
+						<span>访客管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="visitor_registration.html" class="submenu" target="mainFrame">访客登记</a>
+					    <a href="visitor_registrationRecord.html" class="submenu" target="mainFrame">访客登记记录</a>
+					    <a href="visitor_entryExitRecord.html" class="submenu " target="mainFrame">访客进出记录</a>
+					</div>
+				</div>    
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/kq1.png">
+						<span>考勤管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="attendance_shift_management.html" class="submenu" target="mainFrame">班次管理</a>
+						<a href="attendance_scheduling_center1.html" class="submenu" target="mainFrame">排班中心</a>
+						<a href="personShiftManage.html" class="submenu" target="mainFrame">班表修查</a>
+						<a href="attendance_monthly.html" class="submenu" target="mainFrame">考勤月报</a>
+					</div>
+				</div>
+				
+			 	<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/car.png">
+						<span>车辆管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="vehicle_info.html" class="submenu" target="mainFrame">车辆信息</a>
+					    <a href="vehicle_accessRecord.html" class="submenu" target="mainFrame">实时进出记录</a>
+					    <a href="vehicle_queryRecord.html" class="submenu " target="mainFrame">进出记录查询</a>
+					</div>
+				</div>    
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/bp1.png">
+						<span>备品件管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="b_SparePartsData_list.html" class="submenu" target="mainFrame">备品件资料</a>
+						<a href="b_in_of_stock.html" class="submenu " target="mainFrame">备品件入库</a>
+						<a href="b_out_of_stock.html" class="submenu " target="mainFrame">备品件出库</a>
+						<a href="b_stock.html" class="submenu " target="mainFrame">备品件库存</a>
+						<a href="b_in_out_of_list.html" class="submenu" target="mainFrame">备品件统计</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/ycl1.png">
+						<span>原材料管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="material_list.html" class="submenu" target="mainFrame">原材料资料</a>
+						<a href="m_in_of_stock.html" class="submenu " target="mainFrame">原材料入库</a>
+						<a href="m_out_of_stock.html" class="submenu " target="mainFrame">原材料出库</a>
+						<a href="m_stock.html" class="submenu " target="mainFrame">原材料库存</a>
+				       <a href="m_in_out_of_list.html" class="submenu" target="mainFrame">原材料统计</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/cp1.png">
+						<span>成品管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="product_list.html" class="submenu" target="mainFrame">成品资料</a>
+						<a href="p_sd_in_of_stock.html" class="submenu " target="mainFrame">成品入库</a>
+						<a href="p_sd_out_of_stock.html" class="submenu " target="mainFrame">成品出库</a>
+						<a href="p_sd_stock.html" class="submenu " target="mainFrame">成品库存</a>
+						<a href="p_sd_list.html" class="submenu" target="mainFrame">成品统计</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/ck1.png">
+						<span>仓库管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="wareHouse_list.html" class="submenu " target="mainFrame">仓库</a>
+						<a href="wareHouseArea_list.html" class="submenu " target="mainFrame">仓库分区</a>
+					</div>
+				</div> 
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/qx1.png">
+						<span>用户角色</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <!--  <a href="dict_list.html" class="submenu" target="mainFrame">字典管理</a> 
+					    <a href="perm_list.html" class="submenu" target="mainFrame">权限管理</a>  
+					     -->
+						 <a href="role_list.html" class="submenu" target="mainFrame">角色管理</a>
+						<a href="ACL_Role_Holderno.html" class="submenu" target="mainFrame">人员角色分配</a>
+						<a href="ACL_Role_Perm.html" class="submenu" target="mainFrame">角色权限分配</a>
+						<a href="ACL_Role_Dept.html" class="submenu" target="mainFrame">角色部门分配</a> 
+					</div>
+				</div>
+			</div> 
+		</div>
+		<div id="frame-container">
+			<iframe frameborder="no" border="no" name="mainFrame" id="mainFrame" scrolling="auto" src="personal_data.html" width="100%"
+				height="100%">
+				您的浏览器不支持嵌入式框架，或者当前配置为不显示嵌入式框架。
+			</iframe>
+		</div>
+	</div>
+    <script type="text/javascript" src="hyf/path_js.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/layer/layer.js"></script>
+	<script type="text/javascript" src="layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="hyf/index_js.js"></script>
+	
+<!-- 	
+		layui.use('element', function () {
+			var $ = layui.jquery,
+				element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+		$(function () {
+			//左侧切换一级导航
+			$(document).on("click", ".menubar .menu-item>a", function () {
+				if (!$(this).parents(".menu-item").hasClass("open")) {
+					$(".level-box").hide()
+					$('.menubar .menu-item .menu').removeClass("curr")
+					$(this).addClass("curr").parents(".menu-item").addClass("open").siblings().removeClass(
+						"open");
+				}else {
+                    $(this).parent().removeClass("open")
+                }
+			});
+			//			二级导航
+			$(document).on("click", ".level-item .submenu", function () {
+				$(".level-box").hide() //所有的三级列表隐藏
+				$(".level-item .submenu").removeClass("curr") //所有二级列表的取消选中
+				$(this).addClass("curr") //当前添加选中
+				//判断下一个元素是否是列表
+				if ($(this).next().hasClass("level-box")) {
+					//判断下一个元素是否显示隐藏
+					$(this).next().is(":hidden") ? $(this).next().show() : ''
+				}
+
+			});
+			//三级选中
+			$(document).on("click", ".level-item  .submenu-level", function () {
+				$(".submenu-level").removeClass("curr")
+				$(this).addClass("curr")
+			});
+
+			setInterval(function () {
+				let date = new Date();
+				let newdate = date.toLocaleString('chinese', {
+					hour12: false
+				});
+				$(".time").text(newdate);
+			}, 1000);
+
+			$(document).on("click", ".qp", function (e) {
+				fullScreen();
+				exitFullScreen();
+				// console.log(e)
+
+			})
+
+			function fullScreen(el) {
+				console.log(el)
+				var el = document.documentElement;
+				var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el
+					.msRequestFullScreen,
+					wscript;
+
+				if (typeof rfs != "undefined" && rfs) {
+					rfs.call(el);
+					return;
+				}
+
+				if (typeof window.ActiveXObject != "undefined") {
+					wscript = new ActiveXObject("WScript.Shell");
+					if (wscript) {
+						wscript.SendKeys("{F11}");
+					}
+				}
+			}
+
+			function exitFullScreen() {
+				var el = document;
+				var cfs = el.cancelFullScreen ||
+					el.webkitCancelFullScreen ||
+					el.mozCancelFullScreen ||
+					el.exitFullScreen;
+				if (cfs) {
+					//typeof cfs != "undefined" && cfs 
+					cfs.call(el);
+				} else if (typeof window.ActiveXObject != "undefined") {
+					//for IE，这里和fullScreen相同，模拟按下F11键退出全屏 
+					var wscript = new ActiveXObject("WScript.Shell");
+					if (wscript != null) {
+						wscript.SendKeys("{F11}");
+					}
+				}
+			}
+		});  -->
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>考勤管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+     <link rel="stylesheet" href="../zjx/accessControl.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">修改申请</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;"   class="layui-bg-blue" id="updateReplenishmentCard">确定</a></div>
+					<div class="subbtn fl"><a href="OvertimeIntermission.html?applyType=bk" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+
+            <div class="main-table">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>姓名：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="holdername"  readonly class="input">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>部门：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="dept" readonly class="input">
+                        </div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>门区位置：</div>
+                        <div class="control clearfix">
+                           <select class="doorLocation">
+                           		<option value="">请选择</option>
+                           		<option value="事假">事假</option>
+                           </select>
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>类型：</div>
+                        <div class="control clearfix">
+                           <select class="vehicleType">
+                           		<option value="">请选择</option>
+                           		<option value="18">进入</option>
+                           		<option value="19">外出</option>
+                           </select>
+                        </div>
+                    </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>补打卡时间：</div>
+                        <div class="control clearfix">
+                        	<input type="text" id="startTime" class="input dateYx">
+                        </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>审批人：</div>
+                        <div class="control clearfix">
+                        	<a href="javascript:;" class="layui-bg-blue choose">选择</a>
+                        </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>备注：</div>
+                        <div class="control clearfix">
+                        	<textarea class="remark" maxlength="100" placeholder="最多可输入100字"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+   <div class="vehicleInfo_shadow"></div>
+		<div class="vehicleInfo approve">
+			<div class="layer_top">
+    			<h2 class="title">选择审批人</h2>
+    			<img src="../img/cha.png" class="quxiao" >
+    		</div>
+			<div class="vehicle_top">
+				<div class="form-term fl clearfix">
+						<div class="layui-unselect layui-form-select downpanel" style="width: 280px;">
+                    		<div class="lable" style="width:45px;"><span></span>部门：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" style="width: calc(100% - 50px);">
+			                	<span id="deptName"></span>
+			                    <input type="hidden" id="dept">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 45px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>姓名：
+						</div>
+						<div class="control clearfix">
+							<select class="holdername">
+								<option value="">请选择</option>
+							</select>
+						</div>
+					</div>
+				<a href="javascript:;" id="queryHolderInfo">搜索</a>
+			</div>
+			<div class="door_center">
+				<ul>
+					<!-- <li>
+						<div class="personPhoto">
+							<img src="img/person.png">
+						</div>
+						<div class="holderInfo">
+							<p>姓名:<span>胡八一</span></p>
+							<p>工号:<span>1234568</span></p>
+							<p>部门:<span>软件部</span></p>
+						</div>
+					</li> -->
+				</ul>
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">取消</a>
+				</div>
+				
+			</div>
+		</div> 
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+     <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/updateReplenishmentCard.js"></script>
+</body>
+
+</html>

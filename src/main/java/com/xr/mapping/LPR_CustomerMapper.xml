@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_Customer" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="uCustomerID" property="ucustomerid" jdbcType="INTEGER" />
+    <result column="strName" property="strname" jdbcType="NVARCHAR" />
+    <result column="strCode" property="strcode" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, uCustomerID, strName, strCode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_Customer
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_Customer
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_Customer" >
+    insert into LPR_Customer (ID, uCustomerID, strName, 
+      strCode)
+    values (#{id,jdbcType=INTEGER}, #{ucustomerid,jdbcType=INTEGER}, #{strname,jdbcType=NVARCHAR}, 
+      #{strcode,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_Customer" >
+    insert into LPR_Customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ucustomerid != null" >
+        uCustomerID,
+      </if>
+      <if test="strname != null" >
+        strName,
+      </if>
+      <if test="strcode != null" >
+        strCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ucustomerid != null" >
+        #{ucustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="strname != null" >
+        #{strname,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcode != null" >
+        #{strcode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_Customer" >
+    update LPR_Customer
+    <set >
+      <if test="ucustomerid != null" >
+        uCustomerID = #{ucustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="strname != null" >
+        strName = #{strname,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcode != null" >
+        strCode = #{strcode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_Customer" >
+    update LPR_Customer
+    set uCustomerID = #{ucustomerid,jdbcType=INTEGER},
+      strName = #{strname,jdbcType=NVARCHAR},
+      strCode = #{strcode,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

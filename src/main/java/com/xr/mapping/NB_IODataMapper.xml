@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.NB_IODataDao">
+
+   <!-- * 新增健康打卡 -->
+   <insert id="insertNBIOData" parameterType="com.xr.entity.NB_IOData">
+    INSERT INTO dbo.NB_IOData
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+           <if test="holderno != null">
+              holderno,
+           </if>
+           <if test="nbdate != null">
+              NBDate,
+           </if>
+           <if test="temperature != null">
+              Temperature,
+           </if>
+            <if test="idcardno != null">
+              IDCardNo,
+           </if>
+           <if test="nbaddress != null">
+              NBAddress,
+           </if>
+           <if test="nbstatus != null">
+              NBStatus,
+           </if>
+            <if test="longitudes != null">
+              Longitudes,
+           </if>
+           <if test="latitudes != null">
+              Latitudes,
+           </if>
+           <if test="remark != null">
+              Remark,
+           </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+           <if test="holderno != null">
+              #{holderno},
+           </if>
+           <if test="nbdate != null">
+              #{nbdate},
+           </if>
+           <if test="temperature != null">
+              #{temperature},
+           </if>
+            <if test="idcardno != null">
+              #{idcardno},
+           </if>
+           <if test="nbaddress != null">
+              #{nbaddress},
+           </if>
+           <if test="nbstatus != null">
+              #{nbstatus},
+           </if>
+            <if test="longitudes != null">
+              #{longitudes},
+           </if>
+           <if test="latitudes != null">
+              #{latitudes},
+           </if>
+           <if test="remark != null">
+              #{remark},
+           </if>
+        </trim>
+   </insert>
+   
+   <!-- * 通过工号查询当天,最后一次(也就是时间最大的健康记录打卡的温度) -->
+   <select id="queryMaxHealthRecord" resultType="com.xr.entity.NB_IOData">
+            SELECT    HolderNo ,
+                    Temperature ,
+                    CONVERT(VARCHAR(20), NBDate, 20) AS NBDate
+          FROM      dbo.NB_IOData
+          WHERE     CONVERT(VARCHAR(20), NBDate, 20) = ( SELECT
+                                                              CONVERT(VARCHAR(20), MAX(NBDate), 20) AS NBDate
+                                                         FROM dbo.NB_IOData
+                                                         WHERE
+                                                              HolderNo = #{holderno}
+                                                       )
+                    AND DATEDIFF(dd, NBDate, GETDATE()) = 0
+          GROUP BY  HolderNo ,
+                    Temperature ,
+                    NBDate
+   </select>
+   
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_StoreMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid asc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	<!--获取仓库列表  -->  
+	<select id="getList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h.holderName "operatorName" from ZC_Store t
+		left join HolderData h on t.operator = h.holderNo
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getListCount" resultType="integer">
+		select count(1) from ZC_Store t
+		left join HolderData h on t.operator = h.holderNo
+	</select>
+	
+	<!--新增  -->
+	<update id="saveInfo">
+		insert into ZC_Store(storeName,storeLocal,size,manager,operator,operateDate,remark)
+		values(#{storeName},#{storeLocal},#{size},#{manager},#{operator},GETDATE(),#{remark})
+	</update>
+	
+	<!--编辑  -->
+	<update id="editInfo">
+		update ZC_Store
+		   set storeName=#{storeName},
+		   	   storeLocal=#{storeLocal},
+		   	   size=#{size},
+		   	   manager=#{manager},
+		   	   operator=#{operator},
+		   	   operateDate=GETDATE(),
+		   	   remark=#{remark}
+		 where fid=#{fid}
+	</update>
+	
+	<!--名称重复验证  -->
+	<select id="getSumWithName" resultType="map">
+		select t.* from ZC_Store t where t.storeName=#{storeName}
+	</select>
+	
+	<!--获取一条信息  -->
+	<select id="getOne" resultType="map">
+		select t.*,h.holderName "operatorName" from ZC_Store t
+		left join HolderData h on t.operator = h.holderNo
+		where t.fid=#{fid}
+	</select>
+	
+	<!--删除  -->
+	<update id="delOne">
+		delete from ZC_Store where fid=#{fid}
+	</update>
+</mapper>

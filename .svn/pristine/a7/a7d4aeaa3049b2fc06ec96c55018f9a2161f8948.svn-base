@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleIODataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleIOData" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="uVehicleID" property="uvehicleid" jdbcType="INTEGER" />
+    <result column="license" property="license" jdbcType="NVARCHAR" />
+    <result column="uCustomerID" property="ucustomerid" jdbcType="INTEGER" />
+    <result column="uCustomerName" property="ucustomername" jdbcType="NVARCHAR" />
+    <result column="Color" property="color" jdbcType="NVARCHAR" />
+    <result column="nColor" property="ncolor" jdbcType="INTEGER" />
+    <result column="nType" property="ntype" jdbcType="INTEGER" />
+    <result column="nConfidence" property="nconfidence" jdbcType="INTEGER" />
+    <result column="nBright" property="nbright" jdbcType="INTEGER" />
+    <result column="nDirection" property="ndirection" jdbcType="INTEGER" />
+    <result column="rcLocation" property="rclocation" jdbcType="NVARCHAR" />
+    <result column="nTime" property="ntime" jdbcType="INTEGER" />
+    <result column="tvPTS" property="tvpts" jdbcType="TIMESTAMP" />
+    <result column="uBitsTrigType" property="ubitstrigtype" jdbcType="INTEGER" />
+    <result column="nCarBright" property="ncarbright" jdbcType="NVARCHAR" />
+    <result column="nCarColor" property="ncarcolor" jdbcType="NVARCHAR" />
+    <result column="uId" property="uid" jdbcType="INTEGER" />
+    <result column="PicUrl" property="picurl" jdbcType="NVARCHAR" />
+    <result column="DeviceID" property="deviceid" jdbcType="INTEGER" />
+    <result column="DeviceName" property="devicename" jdbcType="NVARCHAR" />
+    <result column="ResultInfo" property="resultinfo" jdbcType="NVARCHAR" />
+    <result column="VehicleIOData" property="vehicleiodata" jdbcType="INTEGER" />
+    <result column="IODataStatus" property="iodatastatus" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, uVehicleID, license, uCustomerID, uCustomerName, Color, nColor, nType, nConfidence, 
+    nBright, nDirection, rcLocation, nTime, tvPTS, uBitsTrigType, nCarBright, nCarColor, 
+    uId, PicUrl, DeviceID, DeviceName, ResultInfo, VehicleIOData, IODataStatus
+  </sql>
+  
+  
+   <!-- 查询车辆进出记录的最大id   maxid -->
+   <select id="queryVehicleIOMaxID" resultType="java.lang.Integer">
+       select Max(ID) id from LPR_VehicleIOData
+   </select>
+   
+   <!-- 车辆实时进出记录查询 -->
+  <select id="queryVehicleCurrIORecordList" resultType="Map" parameterType="java.lang.Integer">
+	select 
+	 io.ID id,
+	 v.VehicleUse vehicleuse,
+	 v.UserUnit userunit,
+	iop.Photograph photograph,
+	v.VehicleType vehicletype,
+	io.license,
+	v.LprType lprtype,
+	v.VehicleColor vehiclecolor,
+	io.rcLocation rclocation,
+	convert(varchar(10),io.tvPTS,23) iodate,
+	convert(varchar(10),io.tvPTS,24) iotime,
+	io.IODataStatus iodatastatus from LPR_Vehicle v
+	RIGHT join (select ID,License,rcLocation,tvPTS,IODataStatus
+	from LPR_VehicleIOData where ID>#{id,jdbcType=INTEGER}) io on
+	v.strPlateID=io.License
+	left join LPR_VehicleIOPhotoData iop on iop.IODataID=io.ID
+	order by io.ID desc
+  </select>
+ 
+  
+  <!-- 查询上一条记录 -->
+  <select id="queryVehicleLastIORecord" resultType="Map" parameterType="com.xr.entity.LPR_VehicleIOData">
+      <!-- select i.ID id,i.License license,v.UserUnit userunit,
+      v.VehicleUse vehicleuse, v.VehiclePhoto vehiclephoto,
+	convert(varchar(10),i.tvPTS,23) iodate,
+	convert(varchar(10),i.tvPTS,24) iodate,
+	i.IODataStatus iodatastatus
+	from LPR_VehicleIOData i inner join LPR_Vehicle v 
+	on i.License=v.strPlateID
+	where  i.ID = (select Max(ID) from LPR_VehicleIOData 
+	where License=#{license,jdbcType=NVARCHAR} 
+	and ID &lt;#{id,jdbcType=INTEGER}) -->
+	select iop.Photograph photograph,a.ID id,a.IODataStatus iodatastatus,
+	a.rcLocation rclocation,a.license license,
+ convert(varchar(10),a.tvPTS,23) iodate,
+convert(varchar(10),a.tvPTS,24) iotime
+ from (select ID,License,rcLocation,tvPTS,IODataStatus  
+ from LPR_VehicleIOData 
+ where license=#{license,jdbcType=NVARCHAR} 
+ and ID &lt;#{id,jdbcType=INTEGER})a 
+ left join LPR_VehicleIOPhotoData iop on iop.IODataID=a.ID
+  </select>
+  
+  <!-- 车辆  进出记录查询    -->
+  <select id="queryVehicleIORecordList" resultType="Map" parameterType="Map">
+	select io.ID id,v.VehicleUse vehicleuse,v.UserUnit userunit,
+	iop.Photograph photograph,v.VehicleType vehicletype,
+	io.license,v.LprType lprtype,v.VehicleColor vehiclecolor,
+	io.rcLocation rclocation,
+	convert(varchar(10),io.tvPTS,23) iodate,
+	convert(varchar(10),io.tvPTS,24) iotime,
+	io.IODataStatus iodatastatus from LPR_Vehicle v
+	inner join LPR_VehicleIOData io on v.strPlateID=io.License
+	left join LPR_VehicleIOPhotoData iop on iop.IODataID=io.ID
+    <where>
+      <if test="license != null and license!=''" >
+         io.License like '%'+#{license}+'%'
+      </if>
+      <if test="vehicleuse != null and vehicleuse!=''" >
+        and v.VehicleUse like '%'+#{vehicleuse}+'%'
+      </if>
+       <if test="iodate != null and iodate!=''">
+        and convert(varchar(10),io.tvPTS,23)=#{iodate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="starttime !=null and starttime!=''">
+      	and convert(varchar(10),io.tvPTS,24)>=#{starttime,jdbcType=NVARCHAR}
+      </if>
+      <if test="endtime !=null and endtime!=''">
+      	and convert(varchar(10),io.tvPTS,24) &lt;=#{endtime,jdbcType=NVARCHAR}
+      </if>
+      <if test="rclocation !=null and rclocation!=''">
+      	and io.rcLocation like '%'+#{rclocation}+'%'
+      </if>
+      <if test="vehicletype !=null and vehicletype!=''">
+      	and v.VehicleType=#{vehicletype,jdbcType=NVARCHAR}
+      </if>
+    </where>
+    order by io.ID desc   
+  </select>
+ 
+ 
+</mapper>

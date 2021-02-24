@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.BigDataMapper" >
+
+     <!-- 统计设备总数      设备1在线数，离线数-1  0其它 -->
+     <select id="getDeviceCount" resultType="Map">
+        select connectstatus,count(connectstatus) count from DeviceUnit group by ConnectStatus
+     </select>
+
+     <!-- 统计门区总数   开门 关门状态 -->
+     <select id="getDoorCount" resultType="Map">
+        select a.IOStatus,count(a.IOStatus) count from (select d.DoorNo,d.DoorName,d.DeviceNo,dio.IOStatus
+  from (select DeviceNo,DoorNo,IOStatus,max(DataNo) datano 
+  from DIDOData group by DeviceNo,DoorNo,IOStatus) dio inner join DoorUnit d 
+  on d.DeviceNo=dio.DeviceNo and d.DoorNo=dio.DoorNo)a group by a.IOStatus
+     </select>
+     
+      <!-- 统计干警人数  外协人数   会见人数 -->
+     <select id="getHolderCount" resultType="Map">
+        select count(HolderNo) count,(select count(HolderNo) count from
+        HolderData where DepartmentNo='001009')count1  from HolderData
+     </select>
+     
+      <!-- 统计车辆总数    内部车辆 和外来车辆  -->
+     <select id="getVehicleCount" resultType="Map">
+        select a.IOStatus,count(a.IOStatus) count from (select d.DoorNo,d.DoorName,d.DeviceNo,dio.IOStatus
+  from (select DeviceNo,DoorNo,IOStatus,max(DataNo) datano 
+  from DIDOData group by DeviceNo,DoorNo,IOStatus) dio inner join DoorUnit d 
+  on d.DeviceNo=dio.DeviceNo and d.DoorNo=dio.DoorNo)a group by a.IOStatus
+     </select>
+   
+</mapper>

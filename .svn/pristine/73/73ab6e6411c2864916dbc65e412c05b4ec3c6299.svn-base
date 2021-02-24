@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>人脸消费</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">消费记录查询</a></div>
+            </div>
+            <div class="main-table">
+            	<!--查询条件-->
+                    <div class="search-box main-form fl" >
+                         <div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						
+                        <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>姓名：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="holdername" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>消费时间：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="consumptionTime" autocomplete="off">
+                            </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>餐厅：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="resturant" autocomplete="off">
+                            </div>
+                        </div>
+                        
+                        <div class="btn fl">
+                            <a href="javascript:;" id="waresearch">搜索</a>
+                        </div>
+                    </div>
+           <div class="table_scroll">
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">工号</td>
+						<td width="80">姓名</td>
+						<td width="80">部门</td>
+						<td width="100">消费日期</td>
+						<td width="100">消费时间</td>
+						<td width="80">消费金额</td>
+						<td width="80">餐厅</td>
+					</tr>
+					<tbody id="cont">
+						  
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>小计</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						
+					</tfoot>
+				</table>
+		 </div>
+				<div class="pages" id="test"></div>
+
+            </div>
+        </div>
+    </div>
+    
+   <script type="text/javascript" src="../hyf/path_js.js"></script>
+   <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+     <script type="text/javascript" src="js/consumptionRecords_query.js"></script>
+</body>
+
+</html>

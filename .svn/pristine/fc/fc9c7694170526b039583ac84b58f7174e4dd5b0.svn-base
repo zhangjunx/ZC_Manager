@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleTypeDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LPR_VehicleTypeDevice" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="VehicleType" property="vehicletype" jdbcType="NVARCHAR" />
+    <result column="DeviceID" property="deviceid" jdbcType="INTEGER" />
+    <result column="UseStop" property="usestop" jdbcType="INTEGER" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VehicleType, DeviceID, UseStop, Note
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from LPR_VehicleTypeDevice
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LPR_VehicleTypeDevice
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LPR_VehicleTypeDevice" >
+    insert into LPR_VehicleTypeDevice (ID, VehicleType, DeviceID, 
+      UseStop, Note)
+    values (#{id,jdbcType=INTEGER}, #{vehicletype,jdbcType=NVARCHAR}, #{deviceid,jdbcType=INTEGER}, 
+      #{usestop,jdbcType=INTEGER}, #{note,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_VehicleTypeDevice" >
+    insert into LPR_VehicleTypeDevice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="vehicletype != null" >
+        VehicleType,
+      </if>
+      <if test="deviceid != null" >
+        DeviceID,
+      </if>
+      <if test="usestop != null" >
+        UseStop,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vehicletype != null" >
+        #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="usestop != null" >
+        #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LPR_VehicleTypeDevice" >
+    update LPR_VehicleTypeDevice
+    <set >
+      <if test="vehicletype != null" >
+        VehicleType = #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="deviceid != null" >
+        DeviceID = #{deviceid,jdbcType=INTEGER},
+      </if>
+      <if test="usestop != null" >
+        UseStop = #{usestop,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LPR_VehicleTypeDevice" >
+    update LPR_VehicleTypeDevice
+    set VehicleType = #{vehicletype,jdbcType=NVARCHAR},
+      DeviceID = #{deviceid,jdbcType=INTEGER},
+      UseStop = #{usestop,jdbcType=INTEGER},
+      Note = #{note,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

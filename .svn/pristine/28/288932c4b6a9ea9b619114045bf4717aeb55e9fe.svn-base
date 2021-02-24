@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>批量导入</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">批量导入</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="chu/SpareParts.xls" download="导入摸板.xls" class="blue add">模板下载</a></div>
+                    <div class="subbtn fl ty" style="position: relative;"><input type="file" id="excelimport"  style="    position: absolute;opacity: 0;width: 80px;"/><a href="javascript:;" class="blue file"  >选择文件</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue add" id="determine" >确定导入</a></div>
+                </div>
+            </div>
+            
+            <div class="main-table">
+            	<div class="Tips loading"></div>
+                <table class="grade personnel" id="dayindaju1" style="margin-top: 20px; position: relative;">
+                <tr>
+                        <td width="20">物品编码</td>
+                        <td width="80">物品名称</td>
+                        <td width="20">规格(尺寸)</td>
+                        <td width="80">型号</td>
+                        <td width="80">单位</td>
+                        <td width="80">物品类别</td>
+                        <td width="80">备注</td>
+                    </tr>
+            </table>
+            <div class="pages" id="test"></div>
+        </div>
+     </div>
+   </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+      <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../chu/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/p_importFiles.js"></script>
+</body>
+</html>

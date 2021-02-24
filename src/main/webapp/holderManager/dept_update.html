@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>更新部门</title>
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/public1.css" />
+	<link rel="stylesheet" href="../css/style_.css" />
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<!-- <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">更新部门</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="updateDeptBtn">确定</a></div>
+					<div class="subbtn fl"><a href="dept_tree_list.html" class="layui-bg-orange">取消</a></div>
+                </div>
+            </div> -->
+			<div id="divSelectLi" class="tenant-model-body">
+				<div class="main-table" style="top:0">
+					<div class="main-form fl">
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>部门编号：</div>
+							<div class="control clearfix">
+								<input type="text" name="departmentno" id="departmentno2" placeholder="" class="input" readonly="readonly" />
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix" style="clear:both">
+								<div class="lable"><span></span>部门名称：</div>
+								<div class="control clearfix">
+								<input type="text" name="departmentname" id="departmentname2" placeholder="" class="input" />
+								</div>
+						</div>
+						
+						<div class="form-term fl clearfix" style="clear:both">
+								<div class="lable"><span></span>上级部门：</div>
+								<div class="control clearfix">
+									<!-- <select name="underno" id="underno2" >
+										 <option value="">--请选择上级部门-- </option>  
+									</select> -->
+									<input type="text" name="underno" id="underno2" placeholder="" class="input" readonly="readonly" />
+								</div>
+						</div>
+						
+						
+						<div class="form-term fl clearfix" style="clear:both">
+								<div class="lable"><span></span>部门介绍：</div>
+								<div class="control clearfix">
+								<textarea id="description2"
+								name="description" class="textinput"
+								style="width: 300px; height: 180px; resize:none; border:1px solid #ddd" ></textarea>
+								</div>
+						</div>
+						</div>
+					</div>
+					<div class="form-btn assignPerson">
+						<a href="javascript:;" id="updateDeptBtn" class="layui-bg-blue">确定</a>
+						<a href="javascript:;" class="layui-bg-orange" id="abolish">取消</a>
+           			</div>
+				</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/dept_update.js"></script>
+	
+</body>
+
+</html>

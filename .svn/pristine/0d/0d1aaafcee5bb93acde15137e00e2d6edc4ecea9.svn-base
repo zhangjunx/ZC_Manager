@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_PrisonCallRecordMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+
+	<!--保存点名记录  -->
+	<update id="saveAppCallRecord">
+		declare
+			@holderName varchar(200);
+		begin
+			set @holderName = (select t.holderName from HolderData t where t.holderNo=#{caller});
+			
+			insert into RC_ProsonerRecord(prisonerID,prisonerName,prisonID,prisonName,
+				areaID,areaName,callNameTime,caller,callerName,callResult,labelID,labelCode,
+				photoID,photoPath,imagePath,callType)
+			 values(#{prisonerID},#{prisonerName},#{prisonID},#{prisonName},
+				#{areaID},#{areaName},GETDATE(),#{caller},@holderName,#{callResult},#{labelID},#{labelCode},
+				#{photoID},#{photoPath},#{imagePath},#{callType})
+		end;
+	</update>
+	
+	<!--获取一条信息  -->
+	<select id="getOnePrisoner" resultType="map">
+		select t.*,p.prisonName from RC_Prisoner t
+			left join RC_Prison p on t.prisonID = p.fid
+			where t.status = '在押' and t.fid=#{prisonerID}
+	</select>
+	
+	<!--获取一条记录  -->
+	<select id="getAppCallRecord" resultType="map">
+		select * from RC_ProsonerRecord t where t.fid=#{recordID}
+	</select>
+	
+	<!--获取区域人员分布情况  -->
+	<select id="getAreaList" resultType="map">
+		select t.areaID,t.areaName,count(1) "sum" from RC_ProsonerRecord t
+		where 1=1
+		<if test="startTime != null and startTime != ''">
+			and CONVERT(varchar(100), t.callNameTime, 20) &gt;= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and CONVERT(varchar(100), t.callNameTime, 20) &lt;= #{endTime}
+		</if>
+		group by t.areaID,t.areaName
+	</select>
+	
+	<!--获取监区点名时分布情况  -->
+	<select id="getPrisonList" resultType="map">
+		select t.prisonID,p.prisonName,count(1) "totalSum",0 "callSum",count(1) "disCallSum" from RC_Prisoner t
+		left join RC_Prison p on t.prisonID = p.fid
+		group by t.prisonID,p.prisonName
+	</select>
+	
+	<select id="getPrisonRecordList" resultType="map">
+		select aa.prisonID,aa.prisonName,count(1) "sum" from (
+			select distinct t.prisonID,t.prisonName,t.prisonerID,t.prisonerName,t.callResult,t.areaID,t.areaName from RC_ProsonerRecord t
+			where t.callType=1 and t.callResult = 1
+			<if test="startTime != null and startTime != ''">
+				and CONVERT(varchar(100), t.callNameTime, 20) &gt;= #{startTime}
+			</if>
+			<if test="endTime != null and endTime != ''">
+				and CONVERT(varchar(100), t.callNameTime, 20) &lt;= #{endTime}
+			</if>
+		) aa
+		group by aa.prisonID,aa.prisonName
+	</select>
+	
+	<!--轨迹查询  -->
+	<select id="getTrajectory" resultType="map">
+		select t.*,CONVERT(varchar(5), t.callNameTime, 108) callNameTime2 from RC_ProsonerRecord t where 1=1
+		<if test="callNameTime != null and callNameTime != ''">
+			and CONVERT(varchar(100), t.callNameTime, 23) = #{callNameTime}
+		</if>
+		<if test="prisonerName != null and prisonerName != ''">
+			and t.prisonerName like '%'+#{prisonerName}+'%' 
+		</if>
+		<if test="labelCode != null and labelCode != ''">
+			and t.labelCode = #{labelCode} 
+		</if>
+	</select>
+	
+	<!--根据时间模板ID获取时间列表  -->
+	<select id="getTimeList" resultType="map">
+		select * from RC_CallTimeModelMember t where t.timeModelID=#{timeModelID}
+	</select>
+  
+</mapper>

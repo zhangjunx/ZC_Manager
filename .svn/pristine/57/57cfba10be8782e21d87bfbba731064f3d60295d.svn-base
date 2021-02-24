@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>访客统计</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">访客统计</a></div>
+                <div class="btn-box fr">
+                    <!-- <div class="subbtn fl"><a href="wx_approver_add.html" class="blue addMain" id="insertBtn">新增</a></div> -->
+                  <!--   <div class="subbtn fl"><a href="javascritp:;" class="blue addMain">删除</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+                </div> -->
+            </div>
+
+            <div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>来访日期：
+						</div>
+						<div class="control clearfix">
+							<input type="text" id="date1" class="input ipt" placeholder="请选择日期" autocomplete="off">
+							--
+							<input type="text" id="date2" class="input ipt" placeholder="请选择日期" autocomplete="off">
+							
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryBtn">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="10">序号</td>
+						<td width="80">来访日期</td>
+						<td width="40">司机</td>
+						<td width="40">固定外协</td>
+						<td width="40">临时外协</td>
+						<td width="40">统计</td>
+					</tr>
+					<tbody id="cont">
+					</tbody>
+					<tfoot>
+						    <tr>
+						        <td width="40">合计</td>
+						        <td width="40"></td>
+								<td width="40" id="driver"></td>
+								<td width="40" id="fixed"></td>
+								<td width="40" id="temporary"></td>
+								<td width="40" id="sum"></td>
+						    </tr>
+						</tfoot> 
+				</table>
+				<div class="pages" id="test"></div>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/visitorsStatic.js"></script>
+</body>
+
+</html>

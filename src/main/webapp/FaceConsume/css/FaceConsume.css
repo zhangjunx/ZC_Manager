@@ -1,0 +1,223 @@
+/* 璁惧閫氶亾绠＄悊椤甸潰 */
+#cme-main .main-content .main-tab .main-table .deviceTree{
+	display: inline-block;
+    vertical-align: top;
+    border-right: 1px solid #ddd;
+    padding-right: 65px;
+    box-sizing: border-box;
+    width: 249px;
+    overflow: auto;
+    height: 100%;
+}
+#cme-main .main-content .main-tab .main-table .tablelist{
+	margin-left: 26px;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 280px);
+}
+/*  娣诲姞璁惧椤甸潰   */
+#cme-main .main-content .main-table .downpanel .control{
+	text-align: left;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+#cme-main .main-content .main-table .downpanel .control .layui-edge{
+	border-width:4px;
+	border-top-color:#666;
+}
+.downpanel .layui-select-title span {
+    line-height: 31px;
+}
+.downpanel dl dd:hover {
+    background-color: inherit;
+}
+
+/* 璁惧绠＄悊鏌ョ湅椤甸潰 */
+#cme-main #a .main-table .form-term .control span{
+	line-height:29px;
+}
+
+.lable_align{
+	width: 93px;
+}
+
+/* 鍒疯劯缁堢寮�濮� */
+#cme-main .main-content .main-form .label{
+	position:relative;
+}
+#cme-main .main-content .main-form .label .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../img/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 6px;
+    right: 0px;
+    cursor:pointer;
+}
+#cme-main .main-content .main-form .label .checkbox.cur{
+	background: url(../img/form_check_on.png) no-repeat left 6px;
+}
+#cme-main .main-content .main-form .face_resturant{
+	width:100%;
+	height:calc(100% - 45px);
+	overflow:auto;
+}
+#cme-main .main-content .main-form .face_resturant li{
+	width:90%;
+	font-size:14px;
+	color:#666;
+	cursor:pointer;
+	border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+#cme-main .main-content .main-form .face_resturant li.current{
+	color:#008EDE;
+	border-color:#008EDE;
+}
+#cme-main .main-content .main-form .face_terminal{
+	width:100%;
+	height:calc(100% - 45px);
+	overflow:auto;
+}
+#cme-main .main-content .main-form .face_terminal li{
+	width:200px;
+	font-size:14px;
+	color:#666;
+	float:left;
+	padding:10px 10px 10px 20px;
+	box-sizing:border-box;
+	margin:10px;
+	background: url(../img/form_check.png) no-repeat left 10px;
+	cursor:pointer;
+	height:30px;
+}
+#cme-main .main-content .main-form .face_terminal li.current{
+	background: url(../img/form_check_on.png) no-repeat left 10px;
+}
+/* 鍒疯劯缁堢缁撴潫 */
+
+/* 椁愭璁剧疆寮�濮� */
+#cme-main .main-content .main-table table .consumptionPattern{
+	display:block;
+	border-bottom:1px solid #ddd;
+	width:100%;
+	height:60px;
+	line-height:60px;
+}
+#cme-main .main-content .main-table table .consumptionPattern .amount{
+	width:80px;
+	border-left:1px solid #ddd;
+	border-right:1px solid #ddd;
+}
+#cme-main .main-content .main-table table .consumptionPattern:last-child{
+	border-bottom:none;
+}
+#cme-main .main-content .main-table table .consumptionPattern div{
+	display:inline-block;
+	text-align:center;
+}
+#cme-main .main-content .main-table table .consumptionPattern div:first-child{
+	width:60%;
+}
+#cme-main .main-content .main-table table .consumptionPattern div:last-child{
+	width:calc(100% - 60%);
+}
+#cme-main .main-content .main-table table.mealSetting tr td{
+	padding:0;
+}
+#cme-main .main-content .main-table table.mealSetting span.field{
+	margin:10px 0;
+}
+/* 椁愭璁剧疆缁撴潫 */
+
+
+/* 椁愬巺绠＄悊寮�濮� */
+.box1_ipt .personQuantity{
+	width: 232px;
+    height: 60px;
+    resize: none;
+    border: 1px solid #ddd;
+}
+/* 椁愬巺绠＄悊缁撴潫 */
+/* 鏂板娑堣垂妯″紡寮�濮� */
+.addMeal{
+	text-align:right;
+	margin-bottom:10px;
+}
+
+/* 鏂板娑堣垂妯″紡缁撴潫 */
+
+/* 鏂板璐︽埛寮�濮� */
+.Shuttle #shuttle_box{
+	width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.Shuttle ul li.shuttle_box_person{
+	width: calc(100% - 300px);
+}
+
+#holder li{
+	display: inline-block;
+    margin-left: 68px;
+    width: 220px;
+    background: url(../img/form_check.png) no-repeat right 50px center;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+#holder li.current {
+    background: url(../img/form_check_on.png) no-repeat right 50px center;
+}
+#holder li img{
+	width: 46px;
+}
+#holder li h5{
+	display:inline-block;
+	vertical-align:middle;
+}
+#holder li h5 p{
+	display:block;
+}
+
+/* 鏂板璐︽埛缁撴潫 */
+
+/* 账户管理 */
+.accountBalance:first-child{
+	margin-top:40px;
+	margin-bottom:10px;
+}
+.accountBalance label{
+	width:100px;
+	text-align:right;
+	font-size:14px;
+	margin-right:10px;
+	display:inline-block;
+}
+.accountBalance input{
+	width: 150px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.accountBalance input[type="number"]{
+	padding-left:10px;
+	box-sizing:border-box;
+	width:172px;
+}

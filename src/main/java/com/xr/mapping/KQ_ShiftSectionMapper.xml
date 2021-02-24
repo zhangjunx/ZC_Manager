@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_ShiftSectionMapper" >
+
+  <!-- * 批量添加* 用于添加班次中的班段信息 -->
+  <insert id="insertShiftSection" parameterType="java.util.List">
+	INSERT INTO dbo.KQ_ShiftSection
+	(ShiftNo,ClassNo,SectionStatus,WhichEarliest,WorkEarliest,
+	WhichWork,WorkTime,WhichLatest,WorkLatest,NodeOrder)
+          <foreach collection="list" index="index" item="item" separator="union">
+           select #{item.shiftno}, #{item.classno},#{item.sectionstatus},
+             #{item.whichearliest},#{item.workearliest},
+             #{item.whichwork},#{item.worktime},
+             #{item.whichlatest},#{item.worklatest},#{item.nodeorder}
+		  </foreach>
+  </insert>
+  
+  <!-- * 通过班次编号查询* 所属班次中班段表的sectionno -->
+  <select id="queryShiftno" resultType="java.lang.Integer">
+        SELECT sectionno FROM dbo.KQ_ShiftSection WHERE ShiftNo=#{shiftno}
+  </select>
+  
+  <!--      * 批量删除班段* 通过班次编号查询到的班段* 序号来进行批量删除 -->
+  <delete id="deleteShiftSection" parameterType="java.util.List">
+     DELETE FROM dbo.KQ_ShiftSection WHERE SectionNo IN
+     (<foreach collection="list" index="index" item="item" separator=",">
+          ${item}
+	 </foreach>)
+  </delete>
+  
+ 
+</mapper>

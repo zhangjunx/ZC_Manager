@@ -1,0 +1,62 @@
+var total;
+var curpage=1;//当前页
+var pagesize=20;//每页显示的条数
+$(function(){
+	//初始化仓库列表
+	getList();
+})
+//分页
+function getPage(){
+	layui.use("laypage",function(){
+		var laypage=layui.laypage;
+		laypage.render({
+			elem:"test",
+			limit:pagesize,//每页显示条数
+			count:total,//总条数
+			curr:curpage,
+			layout:['count','prev','page','next','limit','refresh','skip'],
+			jump:function(obj,first){
+				curpage=obj.curr;
+				pagesize=obj.limit;
+				if(!first){
+					getList();
+				}
+			}
+		})
+	})
+}//end
+//点击搜索
+$("#createInStorage").click(function(){
+	getList();
+})
+//初始化设备技术规范库
+function getList(){
+	var fileName=$("#fileName").val();
+	var obj={"fileName":fileName,"curpage":curpage,"pagesize":pagesize};
+	console.log(obj);
+	$.ajax({
+		url:url+"/zcFileManager/getFileList",
+		type:"post",
+		data:obj,
+		//contentType: 'application/json',
+		success:function(data){
+			console.log(data);
+			total=data.count;
+			$("#cont").empty();
+			if(data.flag){
+				var res=data.result;
+				var index=1;
+				for(var item of res){
+					var fileName=item.fileName==undefined?"":item.fileName;
+					var path=item.path==undefined?"":item.path;
+					var updateTime=item.updateTime==undefined?"":item.updateTime;
+					var $tr=$("<tr><td><span class='checkbox' style='float:none'></span></td><td>"+index+"</td><td>"+fileName+"</td><td>"+path+"</td><td>"+updateTime+"</td><td>" +
+						    "<a href='javascript:;' data-fid="+item.fid+" class='shan layui-btn layui-btn-xs layui-btn-danger'>删除</a></td></tr>");
+					index++;
+					$("#cont").append($tr);
+				}
+				getPage();
+			}
+		}
+	})
+}

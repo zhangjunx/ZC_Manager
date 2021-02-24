@@ -1,0 +1,675 @@
+/*隐藏layui时间控件的秒选项  */
+.layui-laydate-content>.layui-laydate-list {
+     padding-bottom: 0px;
+     overflow: hidden;
+}
+.layui-laydate-content>.layui-laydate-list>li{
+     width:50%
+}
+ 
+.merge-box .scrollbox .merge-list {
+     padding-bottom: 5px;
+}
+
+
+/* 路线设置新增弹窗 */
+.main-content .assignPerson{
+	text-align:center;
+	margin-top:40px;
+	margin-left:0;
+}
+/* 路线设置   点击选择控制器弹出层 */
+.vehicleInfo_shadow{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display: none; 
+}
+.vehicleInfo{
+	width: 500px;
+    /* height: 180px; */
+    background: #fff;
+    position: absolute;
+    left: 33%;
+    top: 30%;
+    display: none; 
+    padding-bottom: 10px;
+}
+.vehicleInfo .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.vehicleInfo .layer_top .title{
+	display: inline-block;
+    color: #fff;
+}
+.vehicleInfo .layer_top .quxiao{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.vehicleInfo .vehicle_top{
+	padding-left:20px;
+	padding-bottom:10px;
+	padding-top:10px;
+	box-sizing:border-box;
+}
+.approve{
+	width:705px;
+}
+.vehicleInfo .dept,.holdername{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.vehicleInfo .lable{
+	float: left;
+   /*  width: 116px;  */
+    height: 28px;
+    line-height: 16px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    /* margin-right: 10px; */
+    margin-top: 6px;
+}
+.vehicleInfo .control{
+	float:left;
+	width: calc(100% - 126px);
+}
+
+.vehicleInfo .vehicle_top #queryHolderInfo{
+	color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+}
+.vehicleInfo .vehicle_top #queryVisitorsedHolderInfo{
+	color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.vehicleInfo .door_center{
+	height:190px;
+	overflow:auto;
+	padding-left:20px;
+	
+}
+/*修改滚动条样式*/
+.vehicleInfo .door_center::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.vehicleInfo .door_center::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.vehicleInfo .door_center ul li{
+	display:inline-block;
+	border:1px solid #ccc;
+	border-radius:5px;
+	width:210px;
+	height:85px;
+	padding-left:10px;
+	box-sizing:border-box;
+	overflow:hidden;
+	margin-right:10px;
+	margin-bottom:10px;
+	line-height:85px;
+	cursor:pointer;
+}
+.vehicleInfo .door_center ul li.current{
+	background: url(../images/selection_effect.png) no-repeat right bottom;
+    border: 1px solid #00A8EC;
+}
+.vehicleInfo .door_center ul li .personPhoto{
+	width:52px;
+	height:52px;
+	border-radius:50%;
+	float:left;
+}
+.vehicleInfo .door_center ul li .personPhoto img{
+	width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.vehicleInfo .door_center ul li .holderInfo{
+	float:left;
+	padding-top: 5px;
+	padding-left:10px;
+	box-sizing:border-box;
+}
+.vehicleInfo .door_center ul li .holderInfo p{
+	line-height:25px;
+	
+}
+.vehicleInfo .holder_bottom{
+	margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.vehicleInfo .holder_bottom div a{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+    margin-right: 20px;
+}
+/* 弹出层结束 */
+
+/* 排班设置   新增班次 */
+.main-form .form-term #bc{
+	width:100px;
+	padding:5px 0px 6px 5px;
+}
+
+
+.main-form .form-term .lable{
+	width:115px;
+}
+.patrol .form-term .choose{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    border-radius: 3px;
+}
+/* csc添加的样式 */
+.cscfield{
+	 display: inline-block;
+	 height: 47px;
+    line-height: 26px;
+    padding: 0 16px;
+    border-radius: 3px;
+    background: #fffbe6;
+    border: 1px solid #ffe58f;
+    margin: 0 10px;
+    cursor:pointer;
+}
+/*-----  */
+.field {
+    display: inline-block;
+    height: 25px;
+    line-height: 26px;
+    padding: 0 16px;
+    border-radius: 3px;
+    background: #fffbe6;
+    border: 1px solid #ffe58f;
+    margin: 0 10px;
+    cursor:pointer;
+}
+
+.patrol {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.patrol .operation {
+    position: absolute;
+    top: 59px;
+    left: 376px;
+}
+
+.patrol .operation .operation-btn {
+    margin-right: 10px;
+}
+
+.patrol .operation .operation-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.patrol .triangle {
+    margin-left: 136px;
+    display: block;
+    height: 13px;
+    margin-top: -8px;
+}
+
+.patrol .tip {
+    margin-left: 126px;
+    margin-top: -2px;
+    width: 460px;
+    padding: 10px 0;
+    background: #f5f5f5;
+}
+
+.patrol .tip .write {
+    height: 26px;
+    line-height: 26px;
+    color: #666;
+    padding-left: 16px;
+}
+
+.patrol .tip .write .input {
+    width: 36px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.patrol .main-form .form-term {
+    height: 26px;
+    margin-bottom: 0;
+}
+
+.patrol .tip .form-term .lable {
+    width: 100px;
+    height: 26px;
+}
+
+.patrol .tip .form-term .control {
+    width: calc(100% - 110px);
+    width: -webkit-calc(100% - 110px);
+    width: -moz-calc(100% - 110px);
+}
+
+.form-term .control input {
+    box-sizing: border-box;
+    padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.form-term .control button {
+    font-size: 12px;
+    display: inline-block;
+    background: #3aace9;
+    color: #fff;
+    min-width: 80px;
+    padding: 0 10px;
+    height: 32px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 32px;
+    margin: 0 10px 5px 0;
+}
+
+.patrol .form-term .xgm {
+    margin-left: 42px;
+    margin-bottom: 10px;
+}
+
+.patrol .form-term .xgm input {
+    margin-left: 12px;
+    box-sizing: border-box;
+    padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.patrol .tip .write .radio {
+    width: 40px;
+    display: inline-block;
+    background: url(../images/icons/form_radio.png) no-repeat left center;
+    padding-left: 20px;
+}
+
+.patrol .tip .write .radio.curr {
+    background: url(../images/icons/form_radio_on.png) no-repeat left center
+}
+
+.patrol .sub-add {
+    height: 34px;
+    margin: 10px 0 10px 126px;
+}
+
+.patrol .sub-add .on {
+    height: 32px;
+    border: 1px solid #ddd;
+}
+
+.generate a {
+    display: block;
+    text-align: center;
+    width: 150px;
+    height: 42px;
+    line-height: 42px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 3px;
+    box-shadow: rgba(57, 185, 57, 0.5) 1px 1px 3px;
+    background: url(../images/icons/generate.png) no-repeat 28px 12px #39b939;
+    margin: 32px 0 20px 126px;
+}
+
+.add-table {
+    margin-top: 40px;
+    background: #f8f8f8;
+    padding: 20px;
+    height:573px;
+    overflow-y:auto;
+}
+
+.add-table .grade {
+    background: #fff;
+}
+
+.add-table .form-btn {
+    margin-top: 20px;
+}
+
+
+.main-tag {
+    height: 30px;
+    line-height: 30px;
+    margin: 5px 0;
+}
+
+.main-tag .tag {
+    padding-right: 40px;
+}
+
+.main-tag .tag .sub-tag {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    display: inline-block;
+    border-radius: 50%;
+    margin-top: -3px;
+    margin: 0 5px;
+}
+
+.main-tag .tag .sub-tag.white {
+    border: 1px solid #ddd
+}
+
+.main-tag .tag .sub-tag.green {
+    background: #30c430;
+}
+
+.main-tag .tag .sub-tag.orange {
+    background: #edc024;
+}
+
+.main-tag .tag .sub-tag.red {
+    background: #ed3535;
+}
+
+.main-process>div {
+	display: flex;
+    justify-content: space-around;
+    margin-top:30px;
+}
+
+.main-process .sub-process {
+    height: 150px;
+    margin-bottom: 16px;
+    width: 813px;
+}
+
+.main-process .sub-process .main-process-left {
+    width: 138px; 
+    padding: 40px 26px 0 0;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+}
+
+.main-process .sub-process .main-process-left span {
+    display: block;
+    line-height: 26px;
+}
+
+.main-process .sub-process .main-process-right {
+    position: relative;
+    width: calc(100% - 130px);
+    width: -moz-calc(100% 130px);
+    width: -webkit-calc(100% - 244px);
+    height:100%;
+}
+
+
+/*.main-process .sub-process .main-process-right .main-line{ margin-top: 46px; height: 4px; background: #eee; border-radius:2px; position: relative;}
+.main-process .sub-process .main-process-right .main-line .time-line{ position: absolute; top: 0; left: 0; height: 4px; background: #6496e1; display: inline-block; border-radius:2px;}*/
+
+.timeline-box {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.timeline-box .patrolStart{
+	display: inline-block;
+    position: absolute;
+    top: 0px;
+    width:70px;
+}
+.timeline-box .patrolStart span{
+	display: block;
+}
+
+
+.timeline-box .patrolEnd{
+	display: inline-block;
+    position: absolute;
+    right: 1px;
+    top: 0px;
+     width:70px;
+}
+.timeline-box .patrolEnd span{
+	display: block;
+}
+
+/*.timeline-box .timeline-left{position: absolute;top:50%;left:5px;margin-top: -25px;background: url(../images/icons/timeline_left.png) no-repeat;width: 30px;height: 30px;z-index: 5;}
+.timeline-box .timeline-right{position: absolute;top:50%;margin-top: -25px;right:0;background: url(../images/icons/timeline_right.png) no-repeat;width: 30px;height: 30px;z-index: 5;}*/
+
+.timeline-box .timeline-content {
+    overflow: hidden;
+    width: calc(100% - 60px);
+    width: -moz-calc(100% - 60px);
+    width: -webkit-calc(100% - 10px);
+    height: 100%;
+    position: relative;
+}
+
+.timeline-box .timeline-content .main-line {
+    height: 4px;
+    background: #eee;
+    margin-top: 54px;
+    border-radius: 2px;
+    position: relative;
+}
+
+.main-process .sub-process .main-process-right .main-line .time-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: #6496e1;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.timeline-box .timeline-content .timeline-list {
+    position: absolute;
+    top: 0;
+    left:70px;
+    width: 73%;
+    overflow-x: auto;
+	white-space: nowrap;
+    /* min-width: 1100px; */
+}
+/*修改滚动条样式*/
+.timeline-box .timeline-content .timeline-list::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+  /**/
+}
+.timeline-box .timeline-content .timeline-list::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.timeline-box .timeline-content .timeline-list::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.timeline-box .timeline-content .timeline-list::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.timeline-box .timeline-content .timeline-list::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+
+.timeline-box .timeline-content .timeline-list .list {
+    width: 125px;
+    height: 130px;
+    position: relative;
+    float: none;
+    overflow:hidden;
+    display:inline-block;
+    margin: 0 1%;
+}
+
+.timeline-box .timeline-content .timeline-list .list .time {
+    text-align: center;
+   /*  line-height: 30px; */
+    padding-top: 25px;
+    color: #333;
+}
+
+.timeline-box .timeline-content .timeline-list .list .node {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -19px 0 0 -9px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.timeline-box .timeline-content .timeline-list .list .node.green {
+    border: 4px solid #30c430;
+    width: 10px;
+    height: 10px;
+}
+
+.timeline-box .timeline-content .timeline-list .list .node.orange {
+    border: 4px solid #edc024;
+    width: 10px;
+    height: 10px;
+}
+
+.timeline-box .timeline-content .timeline-list .list .node.red {
+    border: 4px solid #ed3535;
+    width: 10px;
+    height: 10px;
+}
+
+.timeline-box .timeline-content .timeline-list .list .info {
+    width: 110px;
+    position: absolute;
+    top: 49%;
+    left: 51%;
+    margin: 10px 0 0 -56px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    white-space:normal;
+}
+
+.timeline-box .timeline-content .timeline-list .list .info:hover {
+    box-shadow: 0 1px 4px rgba(34, 25, 25, 0.4);
+}
+
+.timeline-box .timeline-content .timeline-list .list .arrow {
+    background: url(../images/icons/time_arrow.png) no-repeat;
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    margin-left: -8px;
+    width: 16px;
+    height: 11px;
+}
+
+.timeline-box .timeline-content .timeline-list .list .info .name {
+    margin-left: 4px;
+    /* line-height: 22px; */
+    padding: 5px;
+    text-align: center;
+    color: #666;
+}
+
+.timeline-box .timeline-content .timeline-list .list.up .arrow {
+    background: url(images/icons/layer_arrow_up.png) no-repeat;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    width: 16px;
+    height: 11px;
+}
+
+.timeline-box .timeline-content .timeline-list .list.up .info {
+    margin: -65px 0 0 -80px;
+    box-sizing: border-box;
+}
+
+.timeline-box .timeline-content .timeline-list .list.up .info:hover {
+    box-shadow: 0 1px 4px rgba(34, 25, 25, 0.4);
+}
+
+

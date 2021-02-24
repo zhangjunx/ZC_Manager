@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LH_MySignMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LH_MySign" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="Content" property="content" jdbcType="NVARCHAR" />
+    <result column="Position" property="position" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.LH_MySign" extends="BaseResultMap" >
+    <result column="Photo1" property="photo1" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, Content, Position, Remark, CreateDate, Deleted
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photo1
+  </sql>
+  
+  <select id="getSignList" resultType="Map">
+      select id,holderno,holdername,content,position,remark,deleted, 
+      convert(varchar(20),createdate,20) createdate,photo1 
+       from LH_MySign 
+   <where>
+      <if test="id != null and id!='' " >
+        ID=#{id}
+      </if>
+      <if test="holderno != null and holderno!='' " >
+        and HolderNo=#{holderno}
+      </if>
+      <if test="holdername != null and holdername!='' " >
+        and HolderName=#{holdername}
+      </if>
+  </where>
+   order by ID desc
+   </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LH_MySign
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LH_MySign
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LH_MySign" >
+    insert into LH_MySign (ID, HolderNo, HolderName, 
+      Content, Position, Remark, 
+      CreateDate, Deleted, Photo1
+      )
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=NVARCHAR}, #{holdername,jdbcType=NVARCHAR}, 
+      #{content,jdbcType=NVARCHAR}, #{position,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}, #{photo1,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LH_MySign" >
+    insert into LH_MySign
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="position != null" >
+        Position,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="photo1 != null" >
+        Photo1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=NVARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        #{photo1,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LH_MySign" >
+    update LH_MySign
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=NVARCHAR},
+      </if>
+      <if test="position != null" >
+        Position = #{position,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        Photo1 = #{photo1,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.LH_MySign" >
+    update LH_MySign
+    set HolderNo = #{holderno,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      Content = #{content,jdbcType=NVARCHAR},
+      Position = #{position,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      Photo1 = #{photo1,jdbcType=LONGVARBINARY}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LH_MySign" >
+    update LH_MySign
+    set HolderNo = #{holderno,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      Content = #{content,jdbcType=NVARCHAR},
+      Position = #{position,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

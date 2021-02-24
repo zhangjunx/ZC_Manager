@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>物品借用</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" /> 
+    <link rel="stylesheet" href="../zjx/purchase_list.css" />
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/fixedGoodsManagement.css" /> 
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">物品借用记录</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl"><a href="javascript:;" class="orange" id="printInStorage">打印</a></div>
+                	<div class="subbtn fl"><a href="javascript:history.go(-1)" class="orange" id="">返回</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <!--查询条件-->
+                    <table class="layui-hide" id="test" lay-filter="demo"></table>
+                    <div style="display: none">
+						<table id="printDanJu" class="goodsBorrowPrint">
+							<tr>
+								<td>借用单号</td>
+								<td>借用日期</td>
+								<td>操作人员</td>
+								<td>借用数量</td>
+								<td>借用单位</td>
+								<td>借用人</td>
+								<td>联系电话</td>
+								<td>备注</td>
+							</tr>
+						</table>
+					</div>
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/goodsBorrowDetails.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+  	<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+   
+</body>
+
+</html>

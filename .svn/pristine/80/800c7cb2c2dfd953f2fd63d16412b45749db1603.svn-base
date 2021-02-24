@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.IODataPhotoMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.IODataPhoto" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="PicName" property="picname" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="IODataID" property="iodataid" jdbcType="INTEGER" />
+    <result column="CapDateTime" property="capdatetime" jdbcType="TIMESTAMP" />
+    <result column="IDStatus" property="idstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.IODataPhoto" extends="BaseResultMap" >
+    <result column="Photo" property="photo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PicName, Description, IODataID, CapDateTime, IDStatus
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photo
+  </sql>
+  
+  <!-- 获取照片 -->
+  <select id="queryIOPhoto" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+      select Photo from IODataPhoto where IODataID=#{iodataid,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from IODataPhoto
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from IODataPhoto
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.IODataPhoto" >
+    insert into IODataPhoto (ID, PicName, Description, 
+      IODataID, CapDateTime, IDStatus, 
+      Photo)
+    values (#{id,jdbcType=INTEGER}, #{picname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{iodataid,jdbcType=INTEGER}, #{capdatetime,jdbcType=TIMESTAMP}, #{idstatus,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.IODataPhoto" >
+    insert into IODataPhoto
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="picname != null" >
+        PicName,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="iodataid != null" >
+        IODataID,
+      </if>
+      <if test="capdatetime != null" >
+        CapDateTime,
+      </if>
+      <if test="idstatus != null" >
+        IDStatus,
+      </if>
+      <if test="photo != null" >
+        Photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="picname != null" >
+        #{picname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="iodataid != null" >
+        #{iodataid,jdbcType=INTEGER},
+      </if>
+      <if test="capdatetime != null" >
+        #{capdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idstatus != null" >
+        #{idstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.IODataPhoto" >
+    update IODataPhoto
+    <set >
+      <if test="picname != null" >
+        PicName = #{picname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="iodataid != null" >
+        IODataID = #{iodataid,jdbcType=INTEGER},
+      </if>
+      <if test="capdatetime != null" >
+        CapDateTime = #{capdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idstatus != null" >
+        IDStatus = #{idstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        Photo = #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.IODataPhoto" >
+    update IODataPhoto
+    set PicName = #{picname,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      IODataID = #{iodataid,jdbcType=INTEGER},
+      CapDateTime = #{capdatetime,jdbcType=TIMESTAMP},
+      IDStatus = #{idstatus,jdbcType=VARCHAR},
+      Photo = #{photo,jdbcType=LONGVARBINARY}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.IODataPhoto" >
+    update IODataPhoto
+    set PicName = #{picname,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      IODataID = #{iodataid,jdbcType=INTEGER},
+      CapDateTime = #{capdatetime,jdbcType=TIMESTAMP},
+      IDStatus = #{idstatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 小程序人脸识别开门后要放入现场照片 -->
+  <insert id="insertAppletOpenPhoto" parameterType="com.xr.entity.IODataPhoto">
+      INSERT INTO dbo.IODataPhoto (iodataid,capdatetime,photo)
+        values(#{iodataid},GETDATE(),#{photo})
+  </insert>
+  
+</mapper>

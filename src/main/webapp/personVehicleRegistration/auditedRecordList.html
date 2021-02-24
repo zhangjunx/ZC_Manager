@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>已审批记录</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">实时监控</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl"><span class="checkbox curr">实时刷新</span></div>
+                   <!--  <div class="subbtn fl"><a href="javascript:;" class="blue refreshScreen">刷新清屛</a></div>
+                 -->
+                </div>
+            </div>
+
+            <div class="main-table">
+				<!-- <div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>访客名称：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="visitorsname" id="visitorsname" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>来访日期：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="visitorsdate" id="visitorsdate" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>访客类别：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="underno" id="underno1" placeholder="" class="input">
+							<select name="visitorstype" id="visitorstype">
+							     <option value="">请选择</option>
+							      <option value="P">人员</option>
+							       <option value="C">车辆</option>
+							</select>
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryBtn">搜索</a>
+					</div>
+				</div> -->
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<!--  <td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td>  -->
+						<td width="40">序号</td>
+						<td width="40">带班干警</td>
+						<td width="40">干警部门</td>
+						<td width="40">申请日期</td>
+						<td width="40">访客类别</td>
+						<td width="40">审批类型</td>
+						<td width="40">第一次审批部门</td>
+						<td width="40">第二次审批部门</td>
+						<td width="40">第一次审批人员</td>
+						<td width="40">第二次审批人员</td>
+						<td width="40">审核状态</td> 
+						<td width="40">来访原因</td>
+						<td width="40" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+						
+
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <!-- <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script> -->
+    <script type="text/javascript" src="js/auditedRecord.js"></script>
+</body>
+
+</html>

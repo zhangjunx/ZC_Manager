@@ -1,0 +1,5 @@
+driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#url=jdbc:sqlserver://localhost:1433;DatabaseName=GKErpPlat
+url=jdbc:sqlserver://localhost:1433;DatabaseName=IOTPlatForm
+username=csc
+password=chu02100730

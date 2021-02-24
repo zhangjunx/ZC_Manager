@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>巡更记录</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">巡更记录</a></div>
+                <div class="btn-box fr">
+		                    <!-- <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="daochu">导出</a></div>  -->
+		                    <div class="subbtn fl"><a href="javascript:;" id="print" class="orange" onclick="printTable('dayindaju1')">打印</a></div>
+		                </div>
+		        </div>
+            </div>
+
+            <div class="main-table">
+                 <!--查询条件-->
+                <div class="search-box main-form fl">
+                <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择时间：</div>
+                        <div class="control clearfix">
+                           <input class="year" readonly style="width:80px;">
+                           			
+                                                        --
+                            <select class="month" style="width:80px;">
+                            	<option value="">请选择</option>
+                            	<option value="01">1月</option>
+                            	<option value="02">2月</option>
+                            	<option value="03">3月</option>
+                            	<option value="04">4月</option>
+                            	<option value="05">5月</option>
+                            	<option value="06">6月</option>
+                            	<option value="07">7月</option>
+                            	<option value="08">8月</option>
+                            	<option value="09">9月</option>
+                            	<option value="10">10月</option>
+                            	<option value="11">11月</option>
+                            	<option value="12">12月</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>路线：</div>
+                         <div class="control clearfix">
+	                         <select id="selectRoute">
+	                         	<option value="">请选择</option>
+	                        </select>
+	                      </div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>状态：</div>
+                         <div class="control clearfix">
+	                        <select id="selectZT">
+	                        	<option value="">全部</option>
+	                        	<option value="zc">正常</option>
+	                        	<option value="lx">漏巡</option>
+	                        	<option value="bj">报警</option>
+	                        </select>
+	                     </div>
+                    </div>
+                   
+                    <div class="btn fl">
+                        <a href="javascript:;" id="search">搜索</a>
+                    </div>
+                </div>
+                <!--查询条件-->
+                <table class="grade" id="dayindaju1">
+                		<tr>
+                            <td width="40">编号</td>
+                            <td width="100">路线名称</td>
+                            <td width="100">班次名称</td>
+                            <td width="100">门区名称</td>
+                            <td width="100">巡更开始时间</td>
+                            <td width="100">巡更结束时间</td>
+                            <td width="100">刷卡时间</td>
+                            <td width="100">巡更状态</td>
+                        </tr>
+                        <tbody id="cont"></tbody>
+          
+                </table>
+                <div class="pages" id="test">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="js/patrol_record.js"></script>
+    
+</body>
+
+</html>

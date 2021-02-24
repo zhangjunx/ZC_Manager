@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>统计查询</title>
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/public1.css" />
+	<link rel="stylesheet" href="../css/style_.css" />
+	<link rel="stylesheet" href="../css/list_style.css" />
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">变更</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="updateSparePartsSDDataBtn">确定</a></div>
+					<div class="subbtn fl"><a href="b_in_out_of_list.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+			<div id="divSelectLi" class="tenant-model-body">
+				<div class="main-table">
+					<div class="main-form fl">
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>订&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</div>
+							<div class="control clearfix">
+								<input type="text" name="sdbill" id="sdbill" class="input" readonly>
+							</div>
+						</div>
+					
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>备品备件条码：</div>
+							<div class="control clearfix">
+								<input type="text" name="itemcode" id="itemcode" class="input" readonly>
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>备品备件名称：</div>
+							<div class="control clearfix">
+								<input type="text" name="itemname" id="itemname" placeholder="" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</div>
+								<div class="control clearfix">
+									<input type="text" name="spec" id="spec" placeholder="" class="input" readonly>
+								</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</div>
+							<div class="control clearfix">
+								<input type="text" name="type" id="type" placeholder="" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span>*</span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</div>
+							<div class="control clearfix">
+								<input type="text" name="price" id="price" placeholder="" class="input">
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span>*</span>数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量：</div>
+							<div class="control clearfix">
+								<input type="text" name="quantity" id="quantity" placeholder="" class="input">
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+								<div class="lable"><span>*</span>总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</div>
+								<div class="control clearfix">
+									<input type="text" name="sumamount" id="sumamount" placeholder="" class="input" readonly>
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>录&nbsp;&nbsp;入&nbsp;&nbsp;人&nbsp;&nbsp;员：</div>
+							<div class="control clearfix">
+								<input type="text" name="operator" id="operator" placeholder="" class="input" readonly>
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>出入&nbsp;库人&nbsp;员：</div>
+							<div class="control clearfix">
+								<input type="text" name="sdpersonname" id="sdpersonname" placeholder="" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>所&nbsp;&nbsp;属&nbsp;&nbsp;部&nbsp;&nbsp;门：</div>
+							<div class="control clearfix">
+								<input type="text" name="sdpersondeptname" id="sdpersondeptname" placeholder="" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>所&nbsp;&nbsp;&nbsp;在&nbsp;&nbsp;仓&nbsp;&nbsp;库：</div>
+							<div class="control clearfix">
+								<input type="text" name="warename" id="warename" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>所在仓库区域：</div>
+							<div class="control clearfix">
+								
+								<input type="text" name="areaname" id="areaname" class="input" readonly>
+								
+							</div>
+						</div>
+	
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>供&nbsp;&nbsp;&nbsp;&nbsp;应&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商：</div>
+							<div class="control clearfix">
+								<input type="text" name="suppliername" id="suppliername" placeholder="" class="input" readonly>
+							</div>
+						</div>
+					
+						
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>计&nbsp;&nbsp;量&nbsp;&nbsp;单&nbsp;&nbsp;位：</div>
+								<div class="control clearfix">
+									<input type="text" name="unitname" id="unitname" placeholder="" class="input" readonly>
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>备品备件类别：</div>
+								<div class="control clearfix">
+									<input type="text" name="itemtype" id="itemtype" placeholder="" class="input" readonly>
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>出&nbsp;入&nbsp;库&nbsp;状态：</div>
+								<div class="control clearfix">
+									<input type="text" name="statusname" id="statusname" placeholder="" class="input" readonly> 
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>出&nbsp;入&nbsp;库时间：</div>
+								<div class="control clearfix">
+									<input type="text" name="sddate" id="sddate" placeholder="" class="input" readonly>
+								</div>
+						</div>
+							
+						<div class="form-term fl clearfix" style="clear:both">
+							<div class="lable"><span>*</span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+							<div class="control clearfix">
+								<textarea id="remark"
+								name="remark" class="textinput"
+								style="width: 595px; height: 120px; resize:none; border:1px solid #ddd" ></textarea>
+							</div>
+						</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	
+
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	 <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/b_update.js"></script>
+</body>
+
+</html>

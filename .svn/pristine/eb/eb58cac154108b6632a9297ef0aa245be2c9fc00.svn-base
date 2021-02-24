@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>更新功能</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">更新功能</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;"   class="layui-bg-blue" id="updateBtn">确定</a></div>
+					<div class="subbtn fl"><a href="javascript:history.go(-1)" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+
+            <div class="main-table">
+                <div class="search-box main-form ">
+
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>职务编码：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="code" id="code2" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>职务名称：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="name" id="name2" placeholder="" class="input">
+                        </div>
+                    </div>
+                   <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>上级模块：</div>
+                        <div class="control clearfix">
+                            <!-- <input type="text" name="modelname" id="modelname" placeholder="" class="input" /> -->
+                            <select name="modelno" id="modelno2">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                   <!--  <div class="form-term  clearfix">
+                        <div class="lable"><span></span>薪&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;资：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="sal" id="sal2" placeholder="" class="input">
+                            <span style="color:red;display:none" class="sal_reg">请输入数字</span>
+                        </div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span></span>奖&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="comm" id="comm2" placeholder="" class="input">
+                            <span style="color:red;display:none" class="comm_reg">请输入数字</span>
+                        </div>
+                    </div> -->
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                        <div class="control clearfix">
+                            <textarea id="remark2"
+								name="remark" class="textinput"
+								style="width: 395px; height: 180px; resize:none; border:1px solid #ddd;padding:8px;" ></textarea>
+								</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+ 	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/perm_add_update.js"></script>
+    
+</body>
+
+</html>

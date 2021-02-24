@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>权限设置-权限分配</title>
+<link rel="stylesheet" href="../css/common.css" />
+<link rel="stylesheet" href="../css/public1.css" />
+<link rel="stylesheet" href="../css/shifts.css" />
+<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../css/Shuttle.css">
+<link rel="stylesheet" href="../zjx/PolePermission.css">
+
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+				<div class="label fl curr">
+					<a href="javascript:;">权限分配</a>
+				</div>
+				<div class="btn-box fr">
+					<div class="subbtn fl">
+						<a href="javascript:;" class="layui-bg-blue toolbar_save">保存</a>
+					</div>
+				</div>
+			</div>
+			<div class="main-form">
+				<div class="layui-col-md2">
+					<div class="label">角色</div>
+					<table class="grade">
+						<tr>
+							<th width="80"></th>
+							<th>序号</th>
+							<th class="rolepermission">角色名</th>
+						</tr>
+						<tbody id="Role">
+
+						</tbody>
+
+					</table>
+				</div>
+				<!-- <div class="layui-col-md3"> 
+            		<div class="label">模块</div>
+            		<table class="grade">
+            			<tr>
+	            			<th>序号</th>
+	            			<th>模块名称</th>
+            			</tr>
+            			<tbody id="module">
+            				<tr>
+            					<td>1</td>
+            					<td>人事管理</td>
+            				</tr>
+            				<tr>
+            					<td>2</td>
+            					<td>考勤管理</td>
+            				</tr>
+            				<tr>
+            					<td>3</td>
+            					<td>门禁管理</td>
+            				</tr>
+            				<tr>
+            					<td>4</td>
+            					<td>备品/备件管理</td>
+            				</tr>
+            				<tr>
+            					<td>5</td>
+            					<td>原材料管理</td>
+            				</tr>
+            				<tr>
+            					<td>6</td>
+            					<td>成品管理</td>
+            				</tr>
+            				<tr>
+            					<td>7</td>
+            					<td>仓库管理</td>
+            				</tr>
+            				<tr>
+            					<td>8</td>
+            					<td>权限设置</td>
+            				</tr>
+            			
+            			</tbody>
+            			
+            		</table>
+            	</div> -->
+				<div class="layui-col-md10">
+					<div class="label">功能权限
+						<a href="javascript:;" class="toolbar_all">全选</a>
+						<a href="javascript:;" class="toolbar_empty">清空</a>
+					</div>
+						 
+					<div id="content">
+						<div id="test1"></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/layer/layer.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/ACL_Role_Perm.js"></script>
+
+
+</body>
+</html>

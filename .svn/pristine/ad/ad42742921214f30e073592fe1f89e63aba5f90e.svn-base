@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>小程序管理</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">账户管理</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="applet_Account_add.html" class="blue addMain" id="insertAccount">新增</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain" id="export">导出</a></div>
+            </div>
+            <div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable" style="width:115px;"><span></span>作用部门：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" style="width: calc(100% - 125px);">
+			                	<span id="deptName"></span>
+			                    <input type="hidden" id="deptID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+					</div>
+		<!-- 			<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>选择人员：
+						</div>
+						<div class="control clearfix">
+							<select id="holderno">
+								<option value="">请选择</option>
+							</select>
+						</div>
+					</div> -->
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>状态：
+						</div>
+						<div class="control clearfix">
+							<select id="validitystatus">
+								<option value="">请选择</option>
+								<option value="0">已通过</option>
+								<option value="1">已申请</option>
+							</select>
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryBtn">搜索</a>
+					</div>
+				</div> 
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">编号</td> 
+						<td width="40">申请人工号</td>
+						<td width="80">申请人姓名</td>
+						<td width="40">作用部门</td>
+						<td width="40">最多使用人数</td>
+						<td width="40">刷脸次数</td>
+						<td width="40">账户名称</td>
+						<td width="40">公司logo</td>
+						<td width="40">项目名称</td>
+						<td width="40">服务器IP地址</td>
+						<td width="40">服务器账号</td>
+						<td width="40">服务器密码</td>
+						<td width="80">有效期开始时间</td>
+						<td width="80">有效期截止时间</td>
+						<td width="40">状态</td>
+						<td width="80">备注</td>
+						<td width="40" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+						
+
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/applet_Account2.js"></script>
+    <script type="text/javascript" src="../chu/xlsx.full.min.js"></script> 
+     <script type="text/javascript" src="../chu/export.js"></script>
+</body>
+
+</html>

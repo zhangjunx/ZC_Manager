@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_Roles_PermissionsMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_Roles_Permissions" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Permission_ID" property="permissionId" jdbcType="INTEGER" />
+    <result column="Role_ID" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, Permission_ID, Role_ID
+  </sql>
+  
+   <!-- 根据登录人查询其拥有的权限 -->
+<select id="getHolderMenuPermTree"  resultType="Map">
+select a.holderno,a.holdername,a.roleid,a.permission_id permid,
+r.Code rolecode,r.Name rolename,p.Code,p.name,
+model.id modelno,model.ModelCode,model.modelname,
+menu.id menuno,menu.menucode,menu.menuname,menu.publicLimit from (select h.HolderNo,h.HolderName,h.RoleID,rp.Permission_ID
+from HolderData h inner join ACL_Roles_Permissions rp on rp.Role_ID=h.RoleID
+where h.HolderNo=#{holderno,jdbcType=VARCHAR})a 
+inner join ACL_Roles r on r.ID=a.RoleID
+inner join ACL_Permissions p on p.ID=a.Permission_ID
+inner join ACL_ModelData model on p.Modelcode=model.modelcode
+inner join ACL_MenuData menu on menu.Menucode=model.Menucode
+where menu.publicLimit=1
+<!-- select a.holderno,a.holdername,a.roleid,a.permission_id permid,
+r.Code rolecode,r.Name rolename,p.code,p.name,
+model.id modelno,model.modelcode,model.modelname,
+menu.id menuno,menu.menucode,menu.menuname from (select h.HolderNo,h.HolderName,h.RoleID,rp.Permission_ID
+from HolderData h inner join ACL_Roles_Permissions rp on rp.Role_ID=h.RoleID
+where h.HolderNo=#{holderno,jdbcType=VARCHAR})a 
+inner join ACL_Roles r on r.ID=a.RoleID
+inner join ACL_Permissions p on p.ID=a.Permission_ID
+inner join ACL_ModelData model on p.Modelcode=model.modelcode
+inner join ACL_MenuData menu on menu.Menucode=model.Menucode -->
+
+<!-- select a.HolderNo,a.HolderName,a.RoleID,a.Permission_ID,
+r.Code roleCode,r.Name rolename,p.Code,p.Name,
+p.ModelNo,model.ModelCode,model.ModelName,
+model.MenuNo,menu.MenuCode,menu.MenuName from (select h.HolderNo,h.HolderName,h.RoleID,rp.Permission_ID
+from HolderData h inner join ACL_Roles_Permissions rp on rp.Role_ID=h.RoleID
+where h.HolderNo=#{holderno,jdbcType=VARCHAR})a 
+inner join ACL_Roles r on r.ID=a.RoleID
+inner join ACL_Permissions p on p.ID=a.Permission_ID
+inner join ACL_ModelData model on p.ModelNo=model.ID
+inner join ACL_MenuData menu on menu.ID=model.MenuNo -->
+  </select>
+  
+  <!-- 根据roleid 查看是否数据已存在 -->
+  <select id="queryACLRolePermListByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+      select ID, Permission_ID, Role_ID from ACL_Roles_Permissions
+       where Role_ID = #{roleId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据roleid和permid 查看是否数据已存在 -->
+  <select id="queryACLRolePermListByRoleIdAndPermId" resultMap="BaseResultMap" parameterType="com.xr.entity.ACL_Roles_Permissions">
+      select ID, Permission_ID, Role_ID from ACL_Roles_Permissions
+      where Permission_ID=#{permissionId,jdbcType=INTEGER} 
+      and Role_ID=#{roleId,jdbcType=INTEGER}   
+  </select>
+  
+  <!-- 批量查询 -->
+  <select id="queryRolePermBatch" parameterType="java.util.List">
+     select ID, Permission_ID, Role_ID from ACL_Roles_Permissions
+     where ID in
+     <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+       #{item}
+     </foreach>
+  </select>
+  
+  
+  <!-- 批量删除 -->
+  <insert id="deleteRolePermBatch" parameterType="java.util.List">
+     delete from  ACL_Roles_Permissions  where ID in
+      <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        #{item}  
+      </foreach>
+  </insert>
+  <!-- 批量添加 -->
+  <insert id="insertRolePermBatch" parameterType="java.util.List">
+     insert into ACL_Roles_Permissions (Permission_ID, Role_ID)
+      <foreach collection="list" item="item" index="index" separator="union all">
+      (select
+      #{item.permissionId,jdbcType=INTEGER}, 
+      #{item.roleId,jdbcType=INTEGER}
+      ) 
+      </foreach>
+  </insert>
+  
+  <!-- 根据角色查询权限列表 -->
+  <select id="queryPermTreeListByRoleId" resultType="Map" parameterType="java.lang.Integer">
+select r.ID roleId,r.Name rolename,rp.Permission_ID id
+ from ACL_Roles r inner join ACL_Roles_Permissions rp 
+ on r.ID=rp.Role_ID and r.ID=#{roleId,jdbcType=INTEGER}
+  </select>
+ 
+</mapper>

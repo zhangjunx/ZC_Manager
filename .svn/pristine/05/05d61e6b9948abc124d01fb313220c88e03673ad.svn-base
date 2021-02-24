@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>离职记录</title>
+		<link rel="stylesheet" href="../css/common.css" />
+		<link rel="stylesheet" href="../css/public1.css" />
+		<link rel="stylesheet" href="../css/list_style.css" />
+		<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="../zjx/purchase_list.css">
+		 <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+	</head>
+	<body>
+		<div id="cme-main">
+			<div class="main-content">
+				<div class="main-tab">
+						<div class="main-tab">
+                			<div class="label fl curr"><a href="javascript:;">离职记录</a></div>
+                <div class="btn-box fr">
+                    <!-- <div class="subbtn fl"><a href="departure_add.html" class="blue addMain" id="insertDepartureData">添加</a></div> -->
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="printDepartureData">打印</a></div>
+                </div>
+            </div>
+				<div class="main-table">
+					<!--查询条件-->
+					<div class="search-box main-form fl" >
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>工号：</div>
+							<div class="control clearfix">
+								<input type="text" name="holderno" id="holderno" autocomplete="off" class="input ipt">
+								
+							</div>								
+						</div>
+						<div class="form-term fl clearfix" >
+							<div class="lable"><span></span>姓名：</div>
+							<div class="control clearfix">
+							<input type="text" name="holdername" id="holdername" autocomplete="off" class="input ipt">
+							
+							</div>								
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> <input type="hidden" id="departmentno" >
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"
+									style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						
+						<!-- <div class="form-term fl clearfix">
+							<div class="lable"><span></span>离职类别：</div>
+							<div class="control clearfix">
+                             <select id="leavetype" name="leavetype">
+                             	<option value=""></option>
+                             	<option value="停薪留职">停薪留职</option>
+                             	<option value="人事离职">人事离职</option>
+                             	<option value="被开除">被开除</option>
+                             </select>
+							</div>								
+						</div> -->
+						
+						<div class="btn fl">
+							<a href="javascript:;" id="sear">搜索</a>
+						</div>
+					</div>
+					<!--查询结果如下-->
+					<table class="grade" id="dayindaju1">
+                            <tr>
+								<td width="40">序号</td> 
+								<td width="20">工号</td>
+								<td width="20">姓名</td>
+								<td width="80">所属公司</td>
+								<td width="40">部门</td>
+								<td width="80">身份证号</td>
+								<td width="40">入职日期</td>
+								<td width="20">离职日期</td>
+								<td width="80">离职类别</td>
+								<td width="40">离职原因</td>
+								<td width="40">当前状态</td>
+								<!-- <td width="40" class="no-print">操作</td> -->
+							</tr>
+							<tbody id="cont">
+                            
+                            </tbody>
+                        </table>
+                   		<div id="demo7" style="text-align: center;margin-top:30px;"></div>
+                    	</div>
+				
+			</div>
+		</div>
+		</div>
+		
+		<div class="holder_add"></div>
+		<div class="holder_box holder_leave">
+			<div class="layer_top">
+    			<h2 class="title">再次入职提示</h2>
+    			<img src="../img/cha.png" class="quxiao" >
+    		</div>
+			<div class="holder_top door_center">
+					<p>
+						<label>离职日期</label>
+						<input type="text" id="top_date" class="input test-item" autocomplete="off" readonly>
+					</p>
+					<p>
+						<label>离职类型</label>
+						<input type="text" id="top_type" class="input test-item" autocomplete="off" readonly>
+					</p>
+					<p>
+						<label>离职原因</label>
+						<textarea id="leavereason" name="leavereason" class="textinput top_reason" readonly></textarea>
+					</p>
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">拒绝</a>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript"  src="js/departure_record_list.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+	</body>
+</html>

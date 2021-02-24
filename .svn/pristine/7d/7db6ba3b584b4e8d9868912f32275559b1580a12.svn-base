@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DictionaryDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DictionaryData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="EntryName" property="entryname" jdbcType="NVARCHAR" />
+    <result column="TypeName" property="typename" jdbcType="NVARCHAR" />
+    <result column="name" property="name" jdbcType="NVARCHAR" />
+    <result column="value" property="value" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, EntryName, TypeName, name, value, CreatePerson, CreateDate, UpdatePerson, 
+    UpdateDate, DelPerson, DelDate, Deleted
+  </sql>
+  
+  <!-- 批量删除字典数据 -->
+  <delete id="deleteDictionaryDataBatch" parameterType="java.lang.Integer">
+      delete from DictionaryData where DataNo in 
+     <foreach collection="array" item="item" open="(" close=")" separator="," index="">
+       #{item}
+     </foreach> 
+  </delete>
+  
+  <!-- 查询字典信息列表 -->
+  <select id="queryDictListByPage" resultMap="BaseResultMap" >
+     select DataNo, EntryName, TypeName, name, value from DictionaryData
+     <where>
+      <if test="typename != null and typename!=''" >
+        TypeName like '%'+#{typename}+'%'
+      </if>
+       <if test="value != null and value!=''" >
+        and Value like '%'+#{value}+'%'
+      </if>
+     </where>
+     <!-- order by DataNo desc -->
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DictionaryData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DictionaryData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DictionaryData" >
+    insert into DictionaryData (DataNo, EntryName, TypeName, 
+      name, value, CreatePerson, 
+      CreateDate, UpdatePerson, UpdateDate, 
+      DelPerson, DelDate, Deleted
+      )
+    values (#{datano,jdbcType=INTEGER}, #{entryname,jdbcType=NVARCHAR}, #{typename,jdbcType=NVARCHAR}, 
+      #{name,jdbcType=NVARCHAR}, #{value,jdbcType=NVARCHAR}, #{createperson,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DictionaryData" >
+    insert into DictionaryData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="entryname != null" >
+        EntryName,
+      </if>
+      <if test="typename != null" >
+        TypeName,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="entryname != null" >
+        #{entryname,jdbcType=NVARCHAR},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=NVARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DictionaryData" >
+    update DictionaryData
+    <set >
+      <if test="entryname != null" >
+        EntryName = #{entryname,jdbcType=NVARCHAR},
+      </if>
+      <if test="typename != null" >
+        TypeName = #{typename,jdbcType=NVARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=NVARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DictionaryData" >
+    update DictionaryData
+    set EntryName = #{entryname,jdbcType=NVARCHAR},
+      TypeName = #{typename,jdbcType=NVARCHAR},
+      name = #{name,jdbcType=NVARCHAR},
+      value = #{value,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  
+  <!--数据大屏获取标题接口  -->
+  <select id="getScreenFullTitle" resultType="map">
+  	select t.name,t.value from DictionaryData t where 1=1
+  	<if test="typeName != null and typeName != ''">
+  		and t.typeName = #{typeName}
+  	</if>
+  </select>
+  
+  <!--数据大屏修改标题接口  -->
+  <update id="updateScreenFullTitle">
+  	update DictionaryData
+  	   set value=#{value}
+  	 where typeName=#{typeName}
+  </update>
+</mapper>

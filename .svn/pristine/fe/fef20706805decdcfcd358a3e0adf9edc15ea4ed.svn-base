@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZX_ItemTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ZX_ItemType" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TypeName" property="typename" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TypeName, Remark, UpdatePerson, UpdateDate
+  </sql>
+  
+   <select id="getItemTypeList" resultType="Map">
+     select id,typename,remark,updateperson,
+     convert(varchar(10),updatedate,23) updatedate from ZX_ItemType
+     <where>
+       <if test="id != null and id!='' " >
+          ID=#{id}
+      </if>
+      <if test="name != null and name!='' " >
+         and TypeName=#{name}
+      </if>
+      <if test="updatedate != null and updatedate!='' " >
+         and UpdateDate=#{updatedate}
+      </if>
+     </where>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZX_ItemType
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ZX_ItemType
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ZX_ItemType" >
+    insert into ZX_ItemType (ID, TypeName, Remark, 
+      UpdatePerson, UpdateDate)
+    values (#{id,jdbcType=INTEGER}, #{typename,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ZX_ItemType" >
+    insert into ZX_ItemType
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="typename != null" >
+        TypeName,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ZX_ItemType" >
+    update ZX_ItemType
+    <set >
+      <if test="typename != null" >
+        TypeName = #{typename,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ZX_ItemType" >
+    update ZX_ItemType
+    set TypeName = #{typename,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

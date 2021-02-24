@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>车辆管理</title>
+ 	<link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../zjx/accessControl.css" />
+</head>
+<body>
+		<div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">进出记录查询</a></div>
+                <div class="btn-box fr">
+                   <!--  <div class="subbtn fl"><a href="javascript:;" class="blue" id="daochu">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div> -->
+                </div> 
+            </div>
+
+            <div class="main-table">
+                <div class="search-box main-form fl">
+                	<div class="form-term fl clearfix">
+                        <div class="lable"><span></span>车牌号码：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="carNumber" class="input">
+                        </div>
+                    </div>
+                	<div class="form-term fl clearfix">
+                        <div class="lable"><span></span>车主姓名：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="carName" class="input">
+                        </div>
+                    </div>
+                	<div class="form-term fl clearfix">
+                        <div class="lable"><span></span>进出日期：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="entryDate" class="input">
+                        </div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>进出时间：</div>
+                        <div class="control clearfix">
+                          <input type="text" id="inTime"  class="input date" placeholder="">-
+                          <input type="text" id="outTime"  class="input date" placeholder="">
+                        </div>
+                    </div>
+                     <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>进出位置：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="entryLocation" class="input">
+                        </div>
+                    </div>
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>车辆类型：</div>
+                        <div class="control clearfix">
+                           <select id="carType">
+                           		<option value="">请选择</option>
+                           		<option value="私家车">私家车</option>
+                           		<option value="单位车">单位车</option>
+                           </select>
+                        </div>
+                    </div>
+                    
+                    <div class="btn fl">
+                        <a href="javascript:;" id="queryIORecordListBtn">搜索</a>
+                    </div>
+                </div>
+                <table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">序号</td>
+						<td width="80">车主姓名</td>
+						<td width="100">部门</td>
+						<td width="100">现场照片</td>
+						<td width="100">车辆类型</td>
+						<td width="80">车牌号码</td>
+						<td width="80">车牌类型</td>
+						<td width="80">车身颜色</td>
+						<td width="80">进出位置</td>
+						<td width="80">进出日期</td>
+						<td width="80">进出时间</td>
+						<td width="80">进出状态</td>
+					</tr>
+					<tbody id="cont">
+						 
+					</tbody>
+				</table>
+                
+                <div class="pages" id="test">
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/vehicle_IORecord.js"></script>
+   <!--  <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script> -->
+   <!--  <script type="text/javascript" src="chu/xlsx.full.min.js"></script>
+     <script type="text/javascript" src="chu/xlsx.core.min.js"></script>
+     <script type="text/javascript" src="chu/export.js"></script>  -->
+     
+</body>
+</html>

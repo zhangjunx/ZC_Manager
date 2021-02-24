@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>新增</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/accessControl.css">
+</head>
+
+<body>
+	<!-- 门区弹出层开始 -->
+		<div class="shuttle_box_near selectDoor layer_Door" id="DoorList" style="display:none">
+				<h4 class="title">选择通行门区
+		             <span class="checkbox" id="selectAll" style="float: none;">全选</span>
+		        </h4>
+		        <ul class="doorUnit" id="shuttle_box_right">
+		        	
+		        </ul>		
+			</div>
+	<!-- 门区弹出层结束 -->
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;"   class="layui-bg-blue" id="addBtn">确定</a></div>
+					<div class="subbtn fl"><a href="javascript:history.go(-1)" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+
+            <div class="main-table">
+                <div class="search-box main-form ">
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>模板名称：</div>
+                        <div class="control clearfix">
+                            <input type="text" name="name" id="name" placeholder="" class="input" />
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>模板类型：</div>
+                        <div class="control clearfix">
+                            <select name="type" id="type">
+                                  <option value="">--请选择--</option>
+                                  <option value="V">访客</option>
+                                  <option value="H">员工</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>通行门区：</div>
+                        <div class="control clearfix door_span">
+                             <!-- <input type="text" name="doorarr" id="doorarr" placeholder="" class="input" />  -->
+                           <!--   <span class="doorName">公司大门</span> -->
+                             <a href="javascript:;" id="openDoorList" class="layui-bg-blue choose" style="margin-left:0;vertical-align: top;line-height:31px">选择</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+ 	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/door_module_add_update.js"></script>
+    
+</body>
+
+</html>

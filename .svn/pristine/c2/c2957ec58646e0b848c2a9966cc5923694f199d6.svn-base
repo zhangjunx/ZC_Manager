@@ -1,0 +1,103 @@
+$(function(){
+	initTable();
+});
+//初始化表格
+function initTable(){
+	layui.use('table', function(){
+		  var table = layui.table;
+		  table.render({
+		    elem: '#test',
+		    url:url+'/zcInStore/getInStoreGoodsRecord',
+		    where: {
+		    	inStoreID: getUrlParam("fid") 
+		      },
+		    parseData: function(res){ //res 即为原始返回的数据
+		    	console.log(res)
+		        return {
+		          "code": res.flag==true?"0":"", //解析接口状态
+		          "msg": res.reason, //解析提示文本
+		          "count": res.count, //解析数据长度
+		          "data": res.result //解析数据列表
+		        };
+		      },
+		    cols: [[//标题栏
+		      {field:'bill', width:300 ,title: '入库单号', },
+		      {field:'goodsType', width:100 ,title: '物品类别', },
+		      {field:'goodsName', width:100 , title: '物品名称'},
+		      {field:'labelCode', width:150 ,title: '物品RFID标签'},
+		      {field:'model',width:80,  title: '型号'},
+		      {field:'brand', width:80, title: '品牌'},
+		      {field:'specs', width:80, title: '规格'},
+		      {field:'size', width:80, title: '尺寸'},
+		      {field:'inStoreDate',width:200 , title: '入库日期',templet: function(d){
+		          return timestampToTime(d.inStoreDate);
+		      }
+		      },
+		      {field:'storeName', width:100 ,title: '入库仓库'},
+		      {field:'shelf', width:120,title: '存放货架'},
+		      {field:'manufacturerName', width:100 ,title: '制造商'},
+		      {field:'supplierName', width:100 ,title: '供应商'},
+		      {field:'useDate', width:100 ,title: '投运时间',templet: function(d){
+		          return timestampToTime(d.useDate);
+		      }},
+		      {field:'retireDate',width:100 , title: '退役时间',templet: function(d){
+		          return timestampToTime(d.retireDate);
+		      }},
+		      {field:'shopType',width:100 , title: '采购方式'},
+		      {field:'shopNo',width:150 , title: '采购合同编号'},
+		      {field:'shopDate', width:150 ,title: '采购日期',templet: function(d){
+		          return timestampToTime(d.shopDate);
+		      }},
+		      {field:'endDate',width:150 , title: '售后到期日期',templet: function(d){
+		          return timestampToTime(d.endDate);
+		      }},
+		      {field:'goodsSn', width:150 ,title: '出厂序列号'},
+		      {field:'parm', width:150 ,title: '参数及配置'},
+		      {field:'remark', width:150 ,title: '备注'},	
+		    ]],
+		    page:true
+		  });
+    });
+}
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]); return null;
+}
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}
+
+$("#printInStorage").click(function(){
+	printInStorage();
+})
+function printInStorage(){
+	$.ajax({
+		url:url+"/zcInStore/printIntBill",
+		type:"post",
+		data:{"bill":getUrlParam("bill")},
+		success:function(data){
+			console.log(data);
+			if(data.flag){
+				createPrintTable(data.result);
+			}
+		}
+	})
+}
+
+function createPrintTable(res){
+	$("#printDanJu tr:gt(0)").empty();
+	for(var item of res){
+		var $tr=$("<tr><td>"+item.bill+"</td><td>"+item.typeName+"</td><td>"+item.goodsName+"</td><td>"+item.model+"</td>" +
+				"<td>"+item.brand+"</td><td>"+item.specs+"</td><td>"+item.size+"</td><td>"+item.sumval+"</td><td>"+item.inDate+"</td></tr>");
+		$("#printDanJu").append($tr);
+	}
+	printTable('printDanJu');
+}

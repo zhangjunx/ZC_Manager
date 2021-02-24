@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.Applet_StructureDao" >
+
+  <!-- 获取所有小程序菜单树形结构 -->
+  <select id="getAppletMenu" resultType="Map">
+       select n.AppletNo as "id",n.AppletName "title",
+     case when n.underno is null then '' else n.UnderNo end "parent", '' "children" 
+   from dbo.Applet_StructureData  n
+  </select>
+
+</mapper>

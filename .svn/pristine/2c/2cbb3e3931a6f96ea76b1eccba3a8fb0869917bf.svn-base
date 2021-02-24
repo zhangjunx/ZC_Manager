@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>统计报表</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+     <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+     <link rel="stylesheet" href="css/fixedGoodsManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">入库统计</a></div>
+                <div class="label fl"><a href="javascript:;">出库统计</a></div>
+                <div class="label fl"><a href="javascript:;">借用统计</a></div>
+                <!-- 入库 -->
+                <div class="main-table">
+                    <!--查询条件-->
+                   <div class="box">
+                   		  <div class="search-box main-form fl" >
+                    	<!-- <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库物品：</div>
+                            <div class="control clearfix">
+                               <input type="text" class="input" id="inBill">
+                            </div>
+                        </div> -->
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="startDate">--
+                                <input type="text" class="input test-item" id="endDate">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="inStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">物品名称</td>
+                                <td width="100">物品类别</td>
+                                <td width="100">型号</td>
+                                <td width="100">品牌</td>
+                                <td width="100">规格</td>
+                                <td width="100">尺寸</td>
+                                <td width="100">数量</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                   </div>
+                   <div class="box" style="display:none">
+                   		 <!-- 出库 -->
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                    	<!-- <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库物品：</div>
+                            <div class="control clearfix">
+                                 <input type="text" class="input" id="outBill">
+                            </div>
+                        </div> -->
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="startDate2">--
+                                <input type="text" class="input test-item" id="endDate2">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="outStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">物品名称</td>
+                                <td width="100">物品类别</td>
+                                <td width="100">型号</td>
+                                <td width="100">品牌</td>
+                                <td width="100">规格</td>
+                                <td width="100">尺寸</td>
+                                <td width="100">数量</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont2">
+                            
+                        </tbody>
+                    </table>
+                   </div>
+                  <div class="box" style="display:none">
+                  		  <!-- 借用 -->
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+                    	<!-- <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>借用物品：</div>
+                            <div class="control clearfix">
+                               <input type="text" class="input" id="borrowBill">
+                            </div>
+                        </div> -->
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>借用日期：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input test-item" id="startDate3">--
+                                <input type="text" class="input test-item" id="endDate3">
+                            </div>
+                     </div>
+						<div class="btn fl">
+                            <a href="javascript:;" id="borrowStorageSearch">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade">
+                        <thead>
+                            <tr>
+                                <td width="40">序号</td>
+                                <td width="100">物品名称</td>
+                                <td width="100">物品类别</td>
+                                <td width="100">型号</td>
+                                <td width="100">品牌</td>
+                                <td width="100">规格</td>
+                                <td width="100">尺寸</td>
+                                <td width="100">数量</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont3">
+                            
+                        </tbody>
+                    </table>
+                  </div>
+                    <div class="pages" id="test"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/statisticalReport.js"></script>
+</body>
+
+</html>

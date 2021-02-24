@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_MonthDataMapper" >
+       
+       <!-- 根据实体类来添加月报 -->
+        <insert id="insertMonthData" parameterType="java.util.List">
+            INSERT INTO dbo.KQ_MonthData
+               (shiftno,holderno,analydate,status,iodate)
+                 <foreach collection="list" index="index" item="item" separator="union">
+		     select  #{item.shiftno},#{item.holderno},#{item.analyDate},#{item.status},#{item.iodate}
+		    </foreach>
+        </insert>  
+        
+        <!-- * 通过年,月,工号,姓名封装的实体类* 来查询统计这个每个人的考勤状况 -->   
+        <select id="querySummary" resultType="com.xr.entity.KQ_Summary" parameterType="com.xr.entity.KQ_ShiftSeek">
+            select 
+			    m.HolderNo AS holderno,
+			    h.HolderName AS holdername,
+			    m.status as status,
+				d.DepartmentNo as departmentno,
+				d.DepartmentName as departmentname,
+			   COUNT (Status) AS  frequency
+			FROM dbo.KQ_MonthData  AS m 
+			INNER JOIN dbo.HolderData  AS h ON h.HolderNo = m.HolderNo 
+			INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = h.DepartmentNo
+			    <where>
+			         <if test="departmentno !=null and departmentno !='' ">
+			              h.DepartmentNo=#{departmentno}
+			         </if>
+			         <if test="yearno != null and yearno !=''">
+			            and YEAR(m.AnalyDate)=#{yearno}
+			         </if>
+			         <if test="monthno !=null and monthno!='' ">
+			            and MONTH(m.AnalyDate)=#{monthno}
+			         </if>
+			          <if test="holdername !=null and holdername!='' ">
+			            and h.HolderName=#{holdername}
+			          </if>
+			            <if test="holderno !=null and holderno!='' ">
+			            and m.HolderNo=#{holderno}
+			          </if>
+			    </where>
+			GROUP BY holdername, m.holderno,d.departmentno,d.departmentname, m.Status
+        </select>
+        
+        <!-- 根据年,月,工号封装的实体类  * 查询考勤总结果(查询考勤结果表) -->
+        <select id="queryMonthData" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+               SELECT 
+               CONVERT(VARCHAR(10),m.AnalyDate,20) as analydate,
+			   s.ShiftName as shiftname,
+               m.Status as status
+                FROM dbo.KQ_MonthData m left JOIN dbo.KQ_ShiftData s ON  s.ShiftNo = m.ShiftNo
+                <where>
+                    <if test="holderno != null and holderno  != ''">
+                       m.HolderNo=#{holderno}
+                    </if>
+                    <if test="yearno != null and yearno !=''">
+                      AND YEAR(m.AnalyDate)=#{yearno}
+                    </if>
+                    <if test="monthno != null and monthno !=''">
+                      AND MONTH(m.AnalyDate)=#{monthno}
+                    </if>
+                    <if test="status != null and status!=''">
+                     and status=#{status}
+                    </if>
+                </where>
+                  
+        </select>
+        
+        <!--  * 用于分析考勤前,把原来的考勤分析首先删除 -->
+        <delete id="deleteMonthData" parameterType="com.xr.entity.KQ_ShiftSeek">
+             DELETE FROM dbo.KQ_MonthData WHERE
+             YEAR(analydate)=#{yearno} AND MONTH(Analydate)=#{monthno} AND HolderNo=#{holderno}
+        </delete>
+        
+           
+</mapper>

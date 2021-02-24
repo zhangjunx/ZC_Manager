@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>监狱点名</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+    <link rel="stylesheet" href="css/prisonRollCall.css">
+</head>
+
+<body>
+	<div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">时间模板</a></div>
+                <div class="btn-box fr">
+                     <div class="subbtn fl">
+						<a href="timeTemplate_add.html" class="blue addMain" id="addBtn">新增</a>
+					</div> 
+                </div>
+            </div>
+
+            <div class="main-table">
+                <table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="80">编号</td>
+						<td width="80">模板名称</td>
+						<td width="80">时段</td>
+						<td width="80" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+						 
+					</tbody>
+				</table>
+                <div class="pages" id="test">
+                </div>
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+     <script type="text/javascript" src="js/timeTemplate.js"></script>
+</body>
+</html>

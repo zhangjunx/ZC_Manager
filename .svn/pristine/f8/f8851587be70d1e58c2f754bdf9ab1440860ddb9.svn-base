@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>修改人员</title>
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/public1.css" />
+	<link rel="stylesheet" href="../css/list_style.css" />
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+	<link rel="stylesheet" href="../zjx/accessControl.css" />
+</head>
+
+<body>
+	<div style='margin-top:25px;display:none' id="teminal">
+		<label class='layui-inline' style='width:67px;text-align:center;font-size:14px;margin-left:5px'>设备SN:</label>
+		<select type='text' id='deviceSn' style='width: 211px;height: 30px;line-height: 30px;border: 1px solid #ddd;color: #333;background: #fff;'></select>
+	</div>
+	<div class="personFace2" id="personFace" style="display:none">
+        <div class="face_box">
+        	<img src="../images/person2.png" alt="">
+            <video id="video" autoplay></video>
+            <canvas id="canvas" width="533" height="432"></canvas>
+      	</div>
+     </div> 
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">修改人事资料</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="UpdateSave">保存</a></div>
+					<div class="subbtn fl"><a href="holderdata_list.html" class="layui-bg-orange">取消</a></div>
+                </div>
+            </div>
+				<div class="main-table">
+					<div class="main-form fl">
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</div>
+							<div class="control clearfix">
+								<input type="text" name="holderno" id="holderno"   placeholder="" class="input" readonly="readonly"/>
+							</div>
+						</div>
+			
+						<!-- <div class="form-term fl clearfix">
+							<div class="lable"><span></span>所在部门：</div>
+							<div class="control clearfix">
+								<select name="departmentno" id="departmentno" autocomplete="off">
+									<option value=""></option>
+								</select>
+							</div>
+						</div> -->
+						
+						<div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>所在部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					
+						
+						<!-- <div class="form-term fl clearfix">
+							<div class="lable"><span></span>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务：</div>
+							<div class="control clearfix">
+								<select  name="titleno" id="titleno" autocomplete="off">
+										 <option value="">--请选择--</option>
+								</select>
+							</div>
+						</div> -->
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</div>
+							<div class="control clearfix">
+								<input type="text" name="holdername" id="holdername" placeholder="" class="input" />
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</div>
+							<div class="control clearfix">
+							<!-- <input type="text"  placeholder="" class="input" /> -->
+							    <select name="sexname" id="sexname" autocomplete="off">
+							        <option value=""></option>
+									<option value="男">男</option>
+									<option value="女">女</option> 
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix" style="display:none">
+								<div class="lable"><span></span>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族：</div>
+								<div class="control clearfix">
+								    <select name="nationname" id="nationname">
+								    </select>
+								</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>身份证号：</div>
+							<div class="control clearfix">
+								<input type="text" name="idcode" id="idcode" placeholder="" class="input"/>
+							</div>
+						</div> 
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>出生日期：</div>
+							<div class="control clearfix">
+							   <input type="text" name="birthday" id="birthday" class="input test-item">
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>籍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;贯：</div>
+							<div class="control clearfix">
+								 <input type="text" name="nativeplace" id="nativeplace" placeholder="" class="input"/>
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>家庭地址：</div>
+							<div class="control clearfix">
+								<input type="text" name="superiorno2" id="superiorno2" class="input" style="width: 574px;" />
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>入职日期：</div>
+							<div class="control clearfix">
+							   <input type="text" name="startdate" id="startdate" class="input test-item" />
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>职位：</div>
+								<div class="control clearfix">
+									<select name="emptype" id="emptype" autocomplete="off">
+										<!-- <option value="">--请选择--</option> -->
+									</select>
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>联系电话：</div>
+							<div class="control clearfix">
+								<input type="text" name="mobilephone" id="mobilephone" placeholder="" class="input"/>
+							</div>
+						</div>
+						
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>电子邮箱：</div>
+							<div class="control clearfix">
+								<input type="text" name="email" id="email" autocomplete="off" class="input" 
+								readonly onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly',true);"/>
+							</div>
+						</div>
+						<!-- <div class="form-term fl clearfix">
+								<div class="lable"><span></span>政治面貌：</div>
+								<div class="control clearfix">
+									<select name="politicface" id="politicface" autocomplete="off">
+										 <option value="">--请选择--</option> 
+									</select>
+								</div>
+						</div> -->
+						<div class="form-term fl clearfix" style="display:none">
+								<div class="lable"><span></span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</div>
+								<div class="control clearfix">
+									<select name="maxeducation" id="maxeducation" autocomplete="off">
+										 <!-- <option value="">--请选择学历--</option> --> 
+									</select>
+								</div>
+						</div>
+							
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>毕业院校：</div>
+							<div class="control clearfix">
+								<input type="text" name="graduateschool" id="graduateschool" placeholder="" class="input">
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>所学专业：</div>
+							<div class="control clearfix">
+								<input type="text" name="majorsubject" id="majorsubject" autocomplete="new-password" placeholder="" class="input">
+							</div>
+						</div>
+						
+						<!-- <div class="form-term fl clearfix">
+								<div class="lable"><span></span>婚姻状况：</div>
+								<div class="control clearfix">
+									<select name="marrystatus" id="marrystatus" autocomplete="off">
+									 	 <option value=""></option>
+										 <option value="未婚">未婚</option>
+										 <option value="已婚">已婚</option>
+									</select>
+								</div>
+						</div> -->
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>用户名：</div>
+							<div class="control clearfix">
+								<input type="text" name="userName" id="userName" placeholder="" class="input">
+							</div>
+						</div> 
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>登录密码：</div>
+							<div class="control clearfix">
+								<input type="password" name="loginpassword" id="loginpassword" value="" autocomplete="off" class="input" 
+								readonly onfocus="this.removeAttribute('readonly');" onblur="this.setAttribute('readonly',true);"/>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>登录权限：</div>
+								<div class="control clearfix">
+									<select name="holderstatus" id="holderstatus">
+										<option value=""></option>
+										<option value="12">不授予</option>
+										<option value="11">授予</option>
+									</select>
+								</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>角色名称：</div>
+								<div class="control clearfix">
+									<select name="roleid" id="roleid">
+										<option value=""></option>
+									</select>
+								</div>
+						</div>
+						</div>
+					</div>	
+					</div>
+				</div>
+			</div>
+
+	 <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/holderdata_update.js"></script>
+	 
+</body>
+
+</html>

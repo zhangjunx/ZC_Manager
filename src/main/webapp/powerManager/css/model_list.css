@@ -1,0 +1,67 @@
+
+ul.model{
+	display:flex;
+	height:100%;
+	flex-wrap: wrap;
+}
+ul.model li{
+	font-size:18px;
+	border:1px solid #ddd;
+	text-align: center;
+    color: #333;
+    line-height: 60px;
+    width: 261PX;
+    cursor: pointer;
+    height: 60px;
+    border-radius:3px;
+    margin-left: 130px;
+}
+ul.model li.current{
+	border-color:#008EDE;
+	color:#008EDE;
+}
+.file {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    line-height: 20px;
+}
+.file #upload {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    width: 74px;
+    height: 29px;
+    cursor: pointer;
+}
+.control #filename {
+    vertical-align: top;
+    color: #333;
+    line-height: 30px;
+    margin-left: 10px;
+}
+
+/* 角色权限分配页面 */
+.iconSelect{
+	position: absolute;
+    z-index: 9;
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+#upload{
+	position: absolute;
+    float: left;
+    opacity: 0;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+}

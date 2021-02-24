@@ -1,0 +1,377 @@
+table tr td{
+	border-left:none;
+}
+.ew-tree-table{
+	margin-top:0 !important;
+}
+
+/* 班次管理 */
+#banCi tr.current td{
+	background:#79b7e7;
+	color:#e17009;
+}
+
+/* 权限分配 */
+#cme-main .main-content{
+	width:100%;
+	height:100%;
+	/* overflow:auto; */
+}
+#cme-main .main-content .main-tab{
+	width:98%;
+}
+
+.rolepermission{
+	width:100%;
+}
+
+.main-form{
+	/* margin: 20px auto; */
+    width: 98%;
+    height: 90%;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.main-form .label{
+	 border-top-left-radius: 10px;
+	padding:10px 10px;
+	border-bottom:1px solid #ddd;
+	font-size:18px;
+	color:#666;
+	background:#F5F7FA;
+	
+}
+.layui-col-md10 .label{
+	 border-top-left-radius: 0;
+	 border-top-right-radius: 10px;
+}
+.main-form .layui-col-md3{
+	border-right:1px solid #ddd;
+	height:100%;
+	border-top-left-radius: 8px;
+    border-bottom-left-radius: 5px;
+}
+.main-form .layui-col-md4{
+	border-right:1px solid #ddd;
+	height:100%;
+}
+.main-form .layui-col-md8{
+	height:100%;
+}
+
+
+.main-form .grade tr th{
+	padding:5px 0;
+	/* border:1px solid #c5dbec; */	
+	background: #E7F4F5;
+}
+.main-form .grade #Role tr td{
+	background:#fff;
+	height:28px;
+	line-height:28px;
+	border-right:none;
+	font-weight:normal;
+
+}
+.main-form .grade #Role tr td span.checkbox{
+	float:none;
+}
+.main-form .grade #Role tr:hover td{
+	background:rgb(223, 239, 252);
+	color:#e17009;
+	/* border-right:1px solid rgb(223, 239, 252); */
+	transition:all 0.3s ease;
+}
+.toolbar{
+	width: 100%;
+    border-bottom: 1px solid #c5dbec;
+    line-height: 40px;
+}
+.toolbar a{
+	text-align:center;
+	display:inline-block;
+	width:60px;
+	line-height:30px;
+	/* background:rgb(223, 239, 252); */
+	border:1px solid #ddd;
+	border-radius:10px;
+	margin-left:10px;
+	
+}
+.toolbar .toolbar_save{
+	color:#fff;
+	border:none;
+	background:#00BBF3;
+}
+.toolbar a:hover{
+	color:#e17009;
+}
+.toolbar .search{
+	display:inline-block;
+	margin-left:20px;
+	
+}
+.toolbar .search span{
+	color:#666;
+	font-size:14px;
+}
+.toolbar .search .username{
+	width: 211px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.toolbar .search .toolbar_search{
+	margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+    color:#fff;
+    
+}
+#module tr td{
+	background:#fff;
+	height:28px;
+	line-height:28px;
+	font-weight:normal;
+	border-right:1px solid #fff;
+}
+#module tr:hover td{
+	background:rgb(223, 239, 252);
+	color:#e17009;
+	/* border-right:1px solid rgb(223, 239, 252); */
+	transition:all 0.3s ease;
+}
+#module tr.current td{
+	background:#79b7e7;
+	color:#e17009;
+	/* border-right:1px solid #79b7e7; */
+}
+.main-form .layui-col-md10
+{
+	height:100%;
+	
+}
+.main-form .layui-col-md9
+{
+	height:100%;
+	
+}
+#content{
+	height:calc(100% - 45px);
+	overflow-y:auto; 
+	margin-left:0px;
+}
+#content>div{
+	/* display:none; */
+	/* margin-left:-36px; */
+}
+#content div.current{
+	display:block;
+}
+.main-form .grade #Role tr.current td{
+	background:#f2f2f2;
+	color:#e17009;
+	/* border-right:1px solid #79b7e7; */
+}
+
+
+/* 角色部门分配 */
+.roledeptname{
+	width:100%;
+}
+.deptname{
+	width:100%;
+}
+.main-form .grade #dept tr td{
+	background:#fff;
+	height:28px;
+	line-height:28px;
+	/* border-right:1px solid #fff; */
+	font-weight:normal;
+	border-right:none;
+
+}
+.main-form .grade #dept tr td span.checkbox{
+	float:none;
+}
+.dept{
+	height: calc(100% - 86px);
+    overflow: auto;
+}
+.dept tr th:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+}
+.dept tr td:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+}
+.main-form .grade #dept tr.current td{
+	background:#f2f2f2;
+	color:#e17009;
+	/* border-right:1px solid #79b7e7; */
+}
+.main-form .grade #dept tr:hover td{
+	background:rgb(223, 239, 252);
+	color:#e17009;
+	/* border-right:1px solid rgb(223, 239, 252); */
+	transition:all 0.3s ease;
+}
+/*角色分配  */
+.grade{
+	display: block;
+    height: 89%;
+    overflow: auto;
+}
+.grade .holdername{
+	width:100%;
+}
+.role .rolename{
+	width:100%;
+}
+.role tr th:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+}
+.role tr td:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+}
+.role #Role tr td a.update{
+	float:right;
+	text-align: center;
+    display: inline-block;
+    width: 60px;
+    line-height: 26px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor:pointer;
+}
+.grade tr th:nth-child(2){
+	text-align:left;
+}
+.grade tr td:nth-child(2){
+	text-align:left;
+	padding-left:10px;
+}
+.layui-col-md1 .label{
+	border-top-left-radius: 0;
+}
+.holder .label{
+	border-top-left-radius: 9px;
+}
+.layui-col-md7 .label{
+	border-top-left-radius: 0;
+}
+.holder{
+	/* border-left:1px solid #ddd; */
+	height:95%;
+	border-right: 1px solid #ddd;
+}
+#shuttle_box_Left:hover{
+	cursor:pointer;
+}
+#holder{
+	height:calc(100% - 45px);
+	overflow:auto;
+	padding:10px;
+	box-sizing:border-box;
+}
+
+.toolbar .rolename_update{
+	width: 120px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    margin-left:5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.toolbar_all{
+	font-size: 14px;
+    padding: 2px 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    float: right;
+}
+.toolbar_empty{
+	font-size: 14px;
+    padding: 2px 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    float: right;
+    margin-right:20px;
+}
+
+.approval_person li{
+	display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 260px;
+    height: 110px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin:10px;
+    line-height: 110px;
+    cursor: pointer;
+}
+.approval_person li.cur{
+	background: url(../img/check.png) no-repeat right bottom;
+	border-color:rgb(9,179,255);
+}
+.approval_person li .personPhoto{
+	width: 75px;
+    height: 87px;
+    float: left;
+}
+.approval_person li .personPhoto img{
+	width:75px;
+	height:87px;
+    vertical-align: middle;
+}
+.approval_person li .holderInfo{
+	float: left;
+	width:160px;
+    padding-top: 18px;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+.approval_person li .holderInfo p{
+	line-height: 28px;
+}
+.holderRole_dept{
+	width: 300px;
+    height: calc(100% - 60px);
+    padding: 20px 0;
+    box-sizing: border-box;
+    float: left;
+}
+.holderRole_dept .dept_title{
+	font-size: 18px;
+    color: #008EDE;
+    padding-left: 60px;
+    background: url(../powerManager/img/wx_approver3.png) no-repeat 20px center;
+    border-right: 1px solid #ddd;
+}
+.holderRole_dept .deptTree{
+	height: calc(100% - 13px);
+    overflow: auto;
+    margin-left: 11px;
+    border-right: 1px solid #ddd;
+}
+
+

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.WareHouse_AreaDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.WareHouse_AreaData" >
+    <id column="AreaCode" property="areacode" jdbcType="INTEGER" />
+    <result column="AreaName" property="areaname" jdbcType="NVARCHAR" />
+    <result column="WareCode" property="warecode" jdbcType="INTEGER" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AreaCode, AreaName, WareCode, Remark, CreatePerson, CreateDate, UpdatePerson, UpdateDate, 
+    DelPerson, DelDate, Deleted
+  </sql>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteAreaHouseBatch" parameterType="java.util.List">
+     delete from WareHouse_AreaData where AreaCode in
+     <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+        #{item}
+     </foreach>
+  </delete>
+  
+  
+  <!-- 通过仓库id查询区域 -->
+  <select id="queryAreaCodeListByWareCode" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+   select AreaCode, AreaName, WareCode, Remark from WareHouse_AreaData
+   where WareCode=#{warecode,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 查询仓库所有区域列表 -->
+  <select id="queryWareHouseAreaList" resultType="Map">
+     select wr.AreaCode areacode,wr.AreaName areaname,
+     w.WareCode warecode,w.WareName warename,wr.Remark remark
+    from WareHouseData w inner join WareHouse_AreaData wr on
+    w.WareCode=wr.WareCode and w.WareCode in
+    <foreach collection="list" item="item" open="(" close=")" separator="," index="index">
+       #{item}
+    </foreach>
+      <if test="areaname != null and areaname!=''" >
+        and wr.AreaName like '%'+#{areaname}+'%'
+      </if>
+      <if test="warename != null and warename!=''" >
+        and w.WareName like '%'+#{warename}+'%'
+      </if>
+    order by wr.WareCode asc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WareHouse_AreaData
+    where AreaCode = #{areacode,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WareHouse_AreaData
+    where AreaCode = #{areacode,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.WareHouse_AreaData" >
+    insert into WareHouse_AreaData (AreaCode, AreaName, WareCode, 
+      Remark, CreatePerson, CreateDate, 
+      UpdatePerson, UpdateDate, DelPerson, 
+      DelDate, Deleted)
+    values (#{areacode,jdbcType=INTEGER}, #{areaname,jdbcType=NVARCHAR}, #{warecode,jdbcType=INTEGER}, 
+      #{remark,jdbcType=NVARCHAR}, #{createperson,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{delperson,jdbcType=NVARCHAR}, 
+      #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.WareHouse_AreaData" >
+    insert into WareHouse_AreaData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+      <if test="warecode != null" >
+        WareCode,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="areacode != null" >
+        #{areacode,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=NVARCHAR},
+      </if>
+      <if test="warecode != null" >
+        #{warecode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.WareHouse_AreaData" >
+    update WareHouse_AreaData
+    <set >
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=NVARCHAR},
+      </if>
+      <if test="warecode != null" >
+        WareCode = #{warecode,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where AreaCode = #{areacode,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.WareHouse_AreaData" >
+    update WareHouse_AreaData
+    set AreaName = #{areaname,jdbcType=NVARCHAR},
+      WareCode = #{warecode,jdbcType=INTEGER},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where AreaCode = #{areacode,jdbcType=INTEGER}
+  </update>
+</mapper>

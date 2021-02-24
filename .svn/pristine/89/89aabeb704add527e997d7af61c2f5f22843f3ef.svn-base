@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.XGRecordDao">
+<!-- 根据用户id查询所能管理线路的实时巡更刷卡记录 -->
+ <select id="queryXGRecordID" resultType="Map">
+	SELECT 
+             A.RecordID as recordid, 
+              A.RouteId as routeid,
+	         B.DoorNo as doorno, 
+	         A.RouteName as routename, 
+              A.CardNo as cardno,
+			  CONVERT(VARCHAR(24), A.CardSwipeTime, 120) AS cardswipetime, 
+             A.CardSwipeDesc as cardswipedesc,
+			 A.DataType as datatype, 
+			 CONVERT(VARCHAR(20),A.PatrolStartingTime,20) as patrolStartingtime,
+			 CONVERT(VARCHAR(20),A.PatrolEndingTime,20) as patrolendingtime, 
+             CONVERT(VARCHAR(24), A.RecordGenerationTime, 120) AS recorgenerationtime,
+			 A.RecordDescription as recorddescription,	
+			 C.ClassName as classname
+	 from   XG_Record as A inner join  XG_RouteNode as B ON  a.DoorNo=b.DoorNo	
+	                      inner join   XG_Class as C   ON  A.ClassId=C.ClassId
+	 where  datediff(day,A.RecordGenerationTime,GetDate())=0  
+	 and  CONVERT(VARCHAR(20), GetDate(), 8)>=CONVERT(VARCHAR(20),A.PatrolStartingTime, 8)  
+	 and  CONVERT(VARCHAR(20),A.PatrolEndingTime, 8)>=CONVERT(VARCHAR(20), GetDate(), 8)
+	 and  A.RouteId in ( select RouteID from dbo.XG_Rights  where HolderNo=#{holderno}) 
+	  AND A.DataType IN ('lx','zc')
+ </select>
+ <!--  * 根据不同用户得id* 查询所能管理线路的实时刷卡记录 -->
+  <select id="queryXGRecord" resultType="Map">
+	SELECT   X.RecordID, X.SwipeCardRecNum, N.NodeId, X.RouteNum, X.NodeCode, X.NodeNum, X.RecordRouteName, 
+                X.RecordPointName, X.CardInformation, CONVERT(VARCHAR(24), X.CardSwipeTime, 120) AS CardSwipeTime, 
+                X.InAndOutType, X.CardSwipeDesc, X.DataType, CONVERT(VARCHAR(24), X.PatrolStartingTime, 120) 
+                AS PatrolStartingTime, CONVERT(VARCHAR(24), X.PatrolEndingTime, 120) AS PatrolEndingTime, 
+                CONVERT(VARCHAR(24), X.RecordGenerationTime, 120) AS RecordGenerationTime, X.RecordDescription
+    FROM      XG_RouteNode AS N INNER JOIN
+                XG_Rights AS R ON N.RouteId = R.RouteID INNER JOIN
+                    (SELECT   XGRecord.RecordID, XGRecord.SwipeCardRecNum, XGRecord.RouteNum, XGRecord.NodeCode, 
+                                     XGRecord.NodeNum, XGRecord.RecordRouteName, XGRecord.RecordPointName, 
+                                     XGRecord.CardInformation, XGRecord.CardSwipeTime, XGRecord.InAndOutType, 
+                                     XGRecord.CardSwipeDesc, XGRecord.DataType, XGRecord.PatrolStartingTime, 
+                                     XGRecord.PatrolEndingTime, XGRecord.RecordGenerationTime, XGRecord.RecordDescription, 
+                                     B.RecordIDB
+                     FROM      XG_Record INNER JOIN
+                                         (SELECT   MAX(RecordID) AS RecordIDB
+                                          FROM      XG_Record
+                                          GROUP BY RecordRouteName, RecordPointName) AS B ON XGRecord.RecordID = B.RecordIDB) AS X ON
+                 N.DoorNum = X.RecordRouteName AND N.NodeCode = X.RecordPointName
+	WHERE   (R.holderno = #{holderno})
+	ORDER BY X.RecordID DESC
+  </select>
+  
+    <!--*根据不同用户和参数查询巡更历史信息-->
+   <select id="queryPastRecordInfo" resultType="com.xr.entity.XGRecord" parameterType="com.xr.entity.XGRecord">  
+		SELECT 
+		   r.recordid as recordid,
+		   r.routeid as routeid,
+		   r.doorno as doorno,
+		   d.DoorName as doorname,
+		   r.routename as routename,
+		   r.classname as classname,
+		   CONVERT(VARCHAR(20),r.CardSwipeTime,20) AS cardswipetime,<!-- 打卡时间 -->
+		   r.CardSwipedesc as cardswipedesc,<!-- 状态 -->
+		   r.datatype,<!-- 数据类型 -->
+		   r.CardNo AS cardno,<!-- 卡号 -->
+		    h.HolderName AS holdername,<!-- 名称 -->
+		   CONVERT(VARCHAR(20),r.PatrolStartingTime,20) AS patrolstartingtime,<!-- 班次开始时间 -->
+		   CONVERT(VARCHAR(20),r.patrolendingtime,20) AS patrolendingtime,<!-- 班次结束时间 -->
+		   CONVERT(VARCHAR(20),r.recordgenerationtime,20) AS recordgenerationtime,<!-- 记录生成时间 -->
+		   recorddescription<!-- 刷卡描述 -->
+       FROM dbo.XG_Record r 
+         LEFT JOIN dbo.HolderData h ON h.CardNo = r.CardNo
+         LEFT JOIN dbo.DoorUnit d ON d.DoorNo = r.DoorNo  
+         <include refid="where_all"/>  	 			 
+   </select>
+  
+   <sql id="where_all">
+  	  <where>
+            <if test="routename != null and routename !=''">
+               routename=#{routename}
+            </if>
+            <if test="classname != null and classname != ''">
+              and classname=#{classname}
+            </if>
+            <if test="datatype != null and datatype !=''">
+              and datatype=#{datatype}
+            </if>
+             <if test="yearno != null and yearno !=''">
+              and YEAR(r.recordgenerationtime)=#{yearno}
+            </if>
+            <if test="monthno != null and monthno !=''">
+              and MONTH(r.recordgenerationtime)=#{monthno}
+            </if>
+      </where>
+   </sql>
+  
+   
+   <!-- 查询所有报警的记录 -->
+   <select id="queryCaution" resultType="Map">
+	  SELECT
+			RecordID as recordid,
+			x.RouteId AS routeid,
+			x.DoorNo AS doorno,
+			x.RouteName AS routename,
+			CONVERT(VARCHAR(24),CardSwipeTime,120) as cardwipetime,
+			CardSwipeDesc AS cardswipedesc,
+			DataType AS datatype,
+			PatrolStartingTime AS patrolstartingtime,
+			PatrolEndingTime AS patrolendingtime,
+			CONVERT(VARCHAR(24),RecordGenerationTime,120) as recoedgennerationtime,
+			x.RecordDescription
+	 FROM dbo.XG_Record AS x INNER JOIN
+	 dbo.XG_Route AS r ON x.RouteId=r.RouteId
+	 INNER JOIN dbo.XG_Rights AS s ON  s.RouteID = r.RouteId
+	 WHERE   x.CardSwipeDesc='bj'   and s.holderno=#{holderno}
+   </select>
+   
+   <!--  * 通过报警记录ID* 修改报警记录 -->
+   <update id="updateCaution">
+        UPDATE dbo.XG_Record SET CardSwipeDesc='qx' WHERE RecordID=#{RecordID} 
+   </update>
+   
+</mapper>

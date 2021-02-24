@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_DailyMapper" >
+
+        
+        <!-- 批量添加 考勤结果表(KQ_Daily)-->
+        <insert id="insertBatchDaily" parameterType="java.util.List">
+              INSERT INTO dbo.KQ_Daily
+			(shiftno,holderno,classno,sectionstatus,status,analyDate,iodate)
+			 <foreach collection="list" index="index" item="item" separator="union all">
+			  select #{item.shiftno},#{item.holderno},#{item.classno},
+			      #{item.sectionstatus},#{item.status},#{item.analyDate},#{item.iodate}
+			 </foreach>
+        </insert>
+        
+        <!-- 	  * 考勤(日报表也可以叫结果表)* (修改方法！-用于考勤分析完毕后将结果修改一下)-->
+        <update id="updateDaily" parameterType="com.xr.entity.KQ_Daily">
+            UPDATE dbo.KQ_Daily SET 
+                Status=#{status},
+                IODate=#{iodate} 
+            WHERE DailyNo=#{dailyno}
+        </update>
+        
+        <!--   * 统计查询*统计每个人每月的考勤状况 -->
+        <select id="queryStatistics" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+       SELECT   
+            ISNULL(s.ShiftName, '休息') as shiftname,
+            ISNULL(s.NickName, '休') as nickname,
+            d.HolderNo as holderno,
+            b.HolderName as holdername,
+            b.DepartmentNo as departmentno,
+            b.DepartmentName as departmentname,
+            CONVERT(varchar(10),d.AnalyDate,20) as analydate,
+            STUFF(( SELECT 
+                            ',' + ClassNo + ',' + SectionStatus + ','
+                             + Status + ',' + IODate + ','
+                            + CONVERT(VARCHAR(10), DailyNo)
+                    FROM    dbo.KQ_Daily
+                    WHERE   AnalyDate = d.AnalyDate  AND HolderNo=#{holderno}
+                    ORDER BY  CONVERT(VARCHAR(10), DailyNo)
+                  FOR
+                    XML PATH('')
+                  ), 1, 1, '') AS eunite
+  FROM      dbo.KQ_Daily d
+            LEFT JOIN dbo.KQ_ShiftData s ON s.ShiftNo = d.ShiftNo
+            INNER JOIN ( SELECT h.HolderNo ,
+                                h.HolderName ,
+                                m.DepartmentNo ,
+                                m.DepartmentName
+                         FROM   dbo.HolderData h
+                                INNER JOIN dbo.DepartmentData m ON m.DepartmentNo = h.DepartmentNo
+                       ) b ON b.HolderNo = d.HolderNo
+  WHERE     YEAR(d.AnalyDate) = #{yearno}
+            AND MONTH(d.AnalyDate) = #{monthno}
+            AND d.HolderNo = #{holderno}
+  GROUP BY  d.AnalyDate ,
+            s.ShiftName ,
+            s.NickName ,
+            d.HolderNo ,
+            b.HolderName ,
+            b.DepartmentNo ,
+            b.DepartmentName
+        </select>
+        
+        <!-- 根据该工号查询某人某日的考勤结果  用于对考勤结果的二次分析-->
+        <select id="queryresult" resultType="Map">
+          SELECT  
+                DailyNo as dailyno,
+                ShiftNo as shiftno,
+                HolderNo as holderno,
+                ClassNo as classno,
+                SectionStatus as sectionstatus,
+                Status as status,
+                AnalyDate as analydate,
+                IODate as iodate
+              FROM dbo.KQ_Daily WHERE holderno=#{holderno} AND convert(varchar(10),AnalyDate,120)=#{analyDate}
+        </select>
+  
+
+         <!-- * 用于实时分析* 用于查询某个人某天的考勤记录 -->
+        <select id="queryOneDaily" resultType="Map" parameterType="com.xr.entity.KQ_Daily">
+              SELECT 
+                    DailyNo as dailyno,
+                    ShiftNo as shiftno,
+                    HolderNo as holderno,
+                    ClassNo as classno,
+                    SectionStatus as sectionstatus,
+                    Status as status,
+                    Analydate as analydate,
+                    IODate as iodate
+              FROM dbo.KQ_Daily
+           WHERE Analydate = #{analydate}
+            AND ClassNo=#{classno}
+            AND SectionStatus=#{sectionstatus}
+            AND HolderNo =#{holderno}
+        </select>
+  
+         <!-- 用于分析考勤前,把原来的考勤结果首先删除 -->
+        <delete id="deleteDaily" parameterType="com.xr.entity.KQ_ShiftSeek">
+             DELETE FROM dbo.KQ_Daily WHERE YEAR(analydate)=#{yearno} AND MONTH(Analydate)=#{monthno} AND HolderNo=#{holderno}
+        </delete>
+  
+  
+  
+  
+  
+  
+  
+</mapper>

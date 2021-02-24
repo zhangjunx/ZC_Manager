@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LPR_VehicleMapper" >
+   <resultMap id="BaseResultMap" type="com.xr.entity.LPR_Vehicle" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="uVehicleID" property="uvehicleid" jdbcType="INTEGER" />
+    <result column="strPlateID" property="strplateid" jdbcType="NVARCHAR" />
+    <result column="CustomerID" property="customerid" jdbcType="INTEGER" />
+    <result column="uCustomerID" property="ucustomerid" jdbcType="INTEGER" />
+    <result column="bEnable" property="benable" jdbcType="INTEGER" />
+    <result column="pStruTMOverdule" property="pstrutmoverdule" jdbcType="TIMESTAMP" />
+    <result column="bUsingTimeSeg" property="busingtimeseg" jdbcType="INTEGER" />
+    <result column="struTimeSegOrRange" property="strutimesegorrange" jdbcType="NVARCHAR" />
+    <result column="PlateColor" property="platecolor" jdbcType="NVARCHAR" />
+    <result column="VehicleColor" property="vehiclecolor" jdbcType="NVARCHAR" />
+    <result column="LprType" property="lprtype" jdbcType="NVARCHAR" />
+    <result column="VehicleBrand" property="vehiclebrand" jdbcType="NVARCHAR" />
+    <result column="VehicleSize" property="vehiclesize" jdbcType="NVARCHAR" />
+    <result column="bAlarm" property="balarm" jdbcType="INTEGER" />
+    <result column="iColor" property="icolor" jdbcType="INTEGER" />
+    <result column="iPlateType" property="iplatetype" jdbcType="NVARCHAR" />
+    <result column="strCode" property="strcode" jdbcType="NVARCHAR" />
+    <result column="strComment" property="strcomment" jdbcType="NVARCHAR" />
+    <result column="status" property="status" jdbcType="NVARCHAR" />
+    <result column="SendStatus" property="sendstatus" jdbcType="NVARCHAR" />
+    <result column="ChangeStatus" property="changestatus" jdbcType="NVARCHAR" />
+    <result column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="VehicleUse" property="vehicleuse" jdbcType="NVARCHAR" />
+    <result column="RegistLocation" property="registlocation" jdbcType="NVARCHAR" />
+    <result column="VehicleType" property="vehicletype" jdbcType="NVARCHAR" />
+    <result column="IOStatus" property="iostatus" jdbcType="NVARCHAR" />
+    <result column="startDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="endDate" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="UserUnit" property="userunit" jdbcType="NVARCHAR" />
+    <result column="DrivingKilometres" property="drivingkilometres" jdbcType="NVARCHAR" />
+    <result column="MaintenanceLog" property="maintenancelog" jdbcType="NVARCHAR" />
+    <result column="UseUnitNo" property="useunitno" jdbcType="NVARCHAR" />
+  </resultMap> 
+
+   <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.LPR_Vehicle" extends="BaseResultMap" >
+    <result column="VehiclePhoto" property="vehiclephoto" jdbcType="LONGVARBINARY" />
+  </resultMap> 
+  <sql id="Base_Column_List" >
+    ID, uVehicleID, strPlateID, CustomerID, uCustomerID, bEnable, pStruTMOverdule, bUsingTimeSeg, 
+    struTimeSegOrRange, PlateColor, VehicleColor, LprType, VehicleBrand, VehicleSize, 
+    bAlarm, iColor, iPlateType, strCode, strComment, status, SendStatus, ChangeStatus, 
+    HolderNo, VehicleUse, RegistLocation, VehicleType, IOStatus, startDate, endDate, 
+    UserUnit, DrivingKilometres, MaintenanceLog, UseUnitNo
+  </sql>
+  <sql id="Blob_Column_List" >
+    VehiclePhoto
+  </sql>
+  
+  <!-- 查询车辆照片 -->
+   <select id="queryVehiclePhoto" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+       select VehiclePhoto from LPR_Vehicle where ID=#{id,jdbcType=INTEGER}
+   </select>
+   
+  <!-- * 根据条件查询车辆信息 -->
+  <select id="queryVehicleByWheres" resultMap="BaseResultMap" parameterType="com.xr.entity.LPR_Vehicle">
+  	  select ID,uVehicleID, strPlateID, CustomerID, uCustomerID, bEnable, 
+  	  pStruTMOverdule, bUsingTimeSeg, 
+    struTimeSegOrRange, PlateColor, VehicleColor, LprType, VehicleBrand, VehicleSize, 
+    bAlarm, iColor, iPlateType, strCode, strComment, status, SendStatus, ChangeStatus, 
+    HolderNo, VehicleUse, RegistLocation, VehicleType,IOStatus, startDate, endDate, 
+    UserUnit, DrivingKilometres, MaintenanceLog, UseUnitNo
+    from LPR_Vehicle 
+    <where>
+       <if test="holderno != null and holderno!=''" >
+         HolderNo=#{holderno,jdbcType=NVARCHAR}
+      </if>
+      <if test="useunitno != null and useunitno !=''" >
+        <!--  and UseUnitNo like '%'+#{userunitno}+'%'-->
+        and UseUnitNo=#{useunitno}
+      </if>
+       <if test="strplateid != null and strplateid !=''" >
+       <!--  and strPlateID like '%'+#{strplateid}+'%' -->
+        and strPlateID =#{strplateid}
+      </if>
+    </where>
+  </select>
+  
+  <!-- 根据id单条数据用于修改-->
+  <select id="queryByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+  	select ID,uVehicleID, strPlateID, CustomerID, uCustomerID, bEnable, pStruTMOverdule, bUsingTimeSeg, 
+    struTimeSegOrRange, PlateColor, VehicleColor, LprType, VehicleBrand, VehicleSize, 
+    bAlarm, iColor, iPlateType, strCode, strComment, status, SendStatus, ChangeStatus, 
+    HolderNo, VehicleUse, RegistLocation, VehicleType,IOStatus, startDate, endDate, 
+    UserUnit, DrivingKilometres, MaintenanceLog, UseUnitNo,<include refid="Blob_Column_List"/>
+  	  from LPR_Vehicle where ID=#{id}
+  </select>
+  
+  <!--  * 模糊查询
+	 * 根据条件查询相关员工的信息
+	 * 查询(姓名,工号,部门编号,部门名称) -->
+  <select id="queryVehicleByWhere" resultType="Map" parameterType="java.lang.String">
+	   select HolderName,HolderNo, 
+	   DepartmentName=(select DepartmentName from DepartmentData where DepartmentNo=h.DepartmentNo),
+	   h.DepartmentNo  
+	   from HolderData h where HolderName like '%'+#{can}+'%' or HolderNo=#{can} or HolderCard=#{can} 
+  </select> 
+  
+  
+  <!-- 批量删除,车辆信息 -->
+  <delete id="deleteByPrimaryKeys" parameterType="java.lang.Integer" >
+    delete from dbo.LPR_Vehicle where ID in
+		<foreach collection="array" item="id" index="no" open="("  separator="," close=")">
+			#{id}  
+		</foreach>
+  </delete>
+  
+ <!-- 根据主键删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="Integer">
+  	delete from dbo.LPR_Vehicle where ID=#{ID}
+  </delete>
+  
+  <!-- 插入车辆信息 -->
+  <insert id="insertSelective" parameterType="com.xr.entity.LPR_Vehicle" >
+     <!-- set IDENTITY_INSERT LPR_Vehicle ON   -->
+    insert into LPR_Vehicle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uvehicleid != null" >
+        uVehicleID,
+      </if>
+      <if test="strplateid != null" >
+      
+        strPlateID,
+      </if>
+      <if test="customerid != null" >
+        CustomerID,
+      </if>
+      <if test="ucustomerid != null" >
+        uCustomerID,
+      </if>
+      <if test="benable != null" >
+        bEnable,
+      </if>
+      <if test="pstrutmoverdule != null" >
+        pStruTMOverdule,
+      </if>
+      <if test="busingtimeseg != null" >
+        bUsingTimeSeg,
+      </if>
+      <if test="strutimesegorrange != null" >
+        struTimeSegOrRange,
+      </if>
+      <if test="platecolor != null" >
+        PlateColor,
+      </if>
+      <if test="vehiclecolor != null" >
+        VehicleColor,
+      </if>
+      <if test="lprtype != null" >
+        LprType,
+      </if>
+      <if test="vehiclebrand != null" >
+        VehicleBrand,
+      </if>
+      <if test="vehiclesize != null" >
+        VehicleSize,
+      </if>
+      <if test="balarm != null" >
+        bAlarm,
+      </if>
+      <if test="icolor != null" >
+        iColor,
+      </if>
+      <if test="iplatetype != null" >
+        iPlateType,
+      </if>
+      <if test="strcode != null" >
+        strCode,
+      </if>
+      <if test="strcomment != null" >
+        strComment,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendstatus != null" >
+        SendStatus,
+      </if>
+      <if test="changestatus != null" >
+        ChangeStatus,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="vehicleuse != null" >
+        VehicleUse,
+      </if>
+      <if test="registlocation != null" >
+        RegistLocation,
+      </if>
+      <if test="vehicletype != null" >
+        VehicleType,
+      </if>
+      <if test="iostatus != null" >
+        IOStatus,
+      </if>
+      <if test="startdate != null" >
+        startDate,
+      </if>
+      <if test="enddate != null" >
+        endDate,
+      </if>
+      <if test="userunit != null" >
+        UserUnit,
+      </if>
+      <if test="drivingkilometres != null" >
+        DrivingKilometres,
+      </if>
+      <if test="maintenancelog != null" >
+        MaintenanceLog,
+      </if>
+      <if test="useunitno != null" >
+        UseUnitNo,
+      </if>
+      <if test="vehiclephoto != null" >
+        VehiclePhoto,
+      </if>
+    </trim>
+    
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       <!-- <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if> -->  
+      <if test="uvehicleid != null" >
+        #{uvehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="strplateid != null" >
+        #{strplateid,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerid != null" >
+        #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="ucustomerid != null" >
+        #{ucustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="benable != null" >
+        #{benable,jdbcType=INTEGER},
+      </if>
+      <if test="pstrutmoverdule != null" >
+        #{pstrutmoverdule,jdbcType=TIMESTAMP},
+      </if>
+      <if test="busingtimeseg != null" >
+        #{busingtimeseg,jdbcType=INTEGER},
+      </if>
+      <if test="strutimesegorrange != null" >
+        #{strutimesegorrange,jdbcType=NVARCHAR},
+      </if>
+      <if test="platecolor != null" >
+        #{platecolor,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclecolor != null" >
+        #{vehiclecolor,jdbcType=NVARCHAR},
+      </if>
+      <if test="lprtype != null" >
+        #{lprtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclebrand != null" >
+        #{vehiclebrand,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclesize != null" >
+        #{vehiclesize,jdbcType=NVARCHAR},
+      </if>
+      <if test="balarm != null" >
+        #{balarm,jdbcType=INTEGER},
+      </if>
+      <if test="icolor != null" >
+        #{icolor,jdbcType=INTEGER},
+      </if>
+      <if test="iplatetype != null" >
+        #{iplatetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcode != null" >
+        #{strcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcomment != null" >
+        #{strcomment,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendstatus != null" >
+        #{sendstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="changestatus != null" >
+        #{changestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleuse != null" >
+        #{vehicleuse,jdbcType=NVARCHAR},
+      </if>
+      <if test="registlocation != null" >
+        #{registlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="iostatus != null" >
+        #{iostatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userunit != null" >
+        #{userunit,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivingkilometres != null" >
+        #{drivingkilometres,jdbcType=NVARCHAR},
+      </if>
+      <if test="maintenancelog != null" >
+        #{maintenancelog,jdbcType=NVARCHAR},
+      </if>
+      <if test="useunitno != null" >
+        #{useunitno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclephoto != null" >
+        #{vehiclephoto,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!-- 动态修改车辆信息 -->
+  <update id="updateByPrimaryKeySelective"  parameterType="com.xr.entity.LPR_Vehicle" >
+    update LPR_Vehicle
+    <set >
+      <if test="uvehicleid != null" >
+        uVehicleID = #{uvehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="strplateid != null" >
+        strPlateID = #{strplateid,jdbcType=NVARCHAR},
+      </if>
+      <if test="customerid != null" >
+        CustomerID = #{customerid,jdbcType=INTEGER},
+      </if>
+      <if test="ucustomerid != null" >
+        uCustomerID = #{ucustomerid,jdbcType=INTEGER},
+      </if>
+      <if test="benable != null" >
+        bEnable = #{benable,jdbcType=INTEGER},
+      </if>
+      <if test="pstrutmoverdule != null" >
+        pStruTMOverdule = #{pstrutmoverdule,jdbcType=TIMESTAMP},
+      </if>
+      <if test="busingtimeseg != null" >
+        bUsingTimeSeg = #{busingtimeseg,jdbcType=INTEGER},
+      </if>
+      <if test="strutimesegorrange != null" >
+        struTimeSegOrRange = #{strutimesegorrange,jdbcType=NVARCHAR},
+      </if>
+      <if test="platecolor != null" >
+        PlateColor = #{platecolor,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclecolor != null" >
+        VehicleColor = #{vehiclecolor,jdbcType=NVARCHAR},
+      </if>
+      <if test="lprtype != null" >
+        LprType = #{lprtype,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclebrand != null" >
+        VehicleBrand = #{vehiclebrand,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclesize != null" >
+        VehicleSize = #{vehiclesize,jdbcType=NVARCHAR},
+      </if>
+      <if test="balarm != null" >
+        bAlarm = #{balarm,jdbcType=INTEGER},
+      </if>
+      <if test="icolor != null" >
+        iColor = #{icolor,jdbcType=INTEGER},
+      </if>
+      <if test="iplatetype != null" >
+        iPlateType = #{iplatetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcode != null" >
+        strCode = #{strcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="strcomment != null" >
+        strComment = #{strcomment,jdbcType=NVARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=NVARCHAR},
+      </if>
+      <if test="sendstatus != null" >
+        SendStatus = #{sendstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="changestatus != null" >
+        ChangeStatus = #{changestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicleuse != null" >
+        VehicleUse = #{vehicleuse,jdbcType=NVARCHAR},
+      </if>
+      <if test="registlocation != null" >
+        RegistLocation = #{registlocation,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehicletype != null" >
+        VehicleType = #{vehicletype,jdbcType=NVARCHAR},
+      </if>
+      <if test="iostatus != null" >
+        IOStatus = #{iostatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        startDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        endDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userunit != null" >
+        UserUnit = #{userunit,jdbcType=NVARCHAR},
+      </if>
+      <if test="drivingkilometres != null" >
+        DrivingKilometres = #{drivingkilometres,jdbcType=NVARCHAR},
+      </if>
+      <if test="maintenancelog != null" >
+        MaintenanceLog = #{maintenancelog,jdbcType=NVARCHAR},
+      </if>
+      <if test="useunitno != null" >
+        UseUnitNo = #{useunitno,jdbcType=NVARCHAR},
+      </if>
+      <if test="vehiclephoto != null" >
+        VehiclePhoto = #{vehiclephoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+      where ID = #{id,jdbcType=INTEGER} 
+  </update>
+ 
+ 	<!-- 修改车辆进出状态 -->
+ 	<update id="updateVehicleStatus" parameterType="com.xr.entity.LPR_Vehicle">
+ 		update LPR_Vehicle set status=#{status,jdbcType=NVARCHAR} 
+ 		where ID=#{id,jdbcType=INTEGER}
+ 	</update>
+ 	
+ 	<!-- 根据车牌号和车卡内码查询是否重复,用于新增车辆信息 -->
+ 	<select id="queryVehicleCheck" resultType="java.lang.String">
+ 	     SELECT strPlateID FROM LPR_Vehicle 
+ 	     <where>
+ 	         <if test="strPlateID != null and strPlateID != ''">
+ 	            strPlateID=#{strPlateID}
+ 	         </if>
+ 	         <if test="strCode != null and strCode !=''">
+ 	           and strCode =#{strCode}
+ 	         </if>
+ 	     </where>
+ 	</select>
+ 	
+ 	<!-- * 通过工号查询部门编号,用户车辆管理的excel的批量导入 -->
+ 	<select id="querydeptno" resultType="java.lang.String" parameterType="java.lang.String">
+ 	   SELECT DepartmentNo AS departmentno FROM dbo.HolderData 
+ 	   WHERE HolderNo=#{holderno}
+ 	</select>
+ 	
+ 	<!--  批量添加车辆信息,暂时只用于Excel批量导入 -->
+ 	<insert id="insertBatchVehicle" parameterType="java.util.List">
+ 	    INSERT INTO dbo.LPR_Vehicle
+         (strPlateID,strCode,HolderNo,VehicleUse,VehicleType,startDate,endDate,UseUnitNo,status,userunit)
+        <foreach collection="list" index="index" item="item" separator="union">
+          select #{item.strplateid},#{item.strCode},#{item.holderno},#{item.vehicleuser},#{item.vehicletype},
+                 #{item.startdate},#{item.enddate},#{item.useunitno},#{item.status},#{item.userunit}
+        </foreach>
+ 	</insert>
+ 
+</mapper>

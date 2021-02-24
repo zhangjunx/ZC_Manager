@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.TitleDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.TitleData" >
+    <id column="TitleNo" property="titleno" jdbcType="VARCHAR" />
+    <result column="TitleName" property="titlename" jdbcType="NVARCHAR" />
+    <result column="Sal" property="sal" jdbcType="DECIMAL" />
+    <result column="Comm" property="comm" jdbcType="DECIMAL" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TitleNo, TitleName, Sal, Comm, Remark, CreatePerson, CreateDate, UpdatePerson, UpdateDate, 
+    DelPerson, DelDate, Deleted
+  </sql>
+  
+  <!-- 批量修改 -->
+  <delete id="updateTitleDataBatch" parameterType="java.util.List">
+     update TitleData set Deleted='0' where TitleNo in 
+     <foreach collection="list" item="item"  open="(" close=")" separator=",">
+         #{item}
+     </foreach>
+  </delete>
+  
+   <!-- 批量修改 -->
+  <delete id="updateTitleDataBatchs" parameterType="java.util.List">
+     <foreach collection="list" item="item"  index="index" separator=";">
+         update TitleData set Deleted='0',
+         updatePerson=#{item.updateperson},
+         updateDate=#{item.updatedate} 
+         where TitleNo=#{item.titleno}
+     </foreach>
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteTitleDataBatch" parameterType="java.util.List">
+     delete from TitleData where TitleNo in 
+     <foreach collection="list" item="item"  open="(" close=")" separator=",">
+         #{item}
+     </foreach>
+  </delete>
+    
+  
+  <!-- 查询职务列表 -->
+  <select id="queryTitleDataListByPage" resultMap="BaseResultMap">
+   select TitleNo, TitleName, Sal, Comm, Remark from TitleData
+    <where>
+      <if test="titleno != null and titleno!=''" >
+         and TitleNo like '%'+#{titleno}+'%'
+      </if>
+      <if test="titlename != null and titlename!=''" >
+        and TitleName like '%'+#{titlename}+'%'
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TitleData
+    where TitleNo = #{titleno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TitleData
+    where TitleNo = #{titleno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.TitleData" >
+    insert into TitleData (TitleNo, TitleName, Sal, 
+      Comm, Remark, CreatePerson, 
+      CreateDate, UpdatePerson, UpdateDate, 
+      DelPerson, DelDate, Deleted
+      )
+    values (#{titleno,jdbcType=VARCHAR}, #{titlename,jdbcType=NVARCHAR}, #{sal,jdbcType=DECIMAL}, 
+      #{comm,jdbcType=DECIMAL}, #{remark,jdbcType=NVARCHAR}, #{createperson,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.TitleData" >
+    insert into TitleData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="titleno != null" >
+        TitleNo,
+      </if>
+      <if test="titlename != null" >
+        TitleName,
+      </if>
+      <if test="sal != null" >
+        Sal,
+      </if>
+      <if test="comm != null" >
+        Comm,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="titleno != null" >
+        #{titleno,jdbcType=VARCHAR},
+      </if>
+      <if test="titlename != null" >
+        #{titlename,jdbcType=NVARCHAR},
+      </if>
+      <if test="sal != null" >
+        #{sal,jdbcType=DECIMAL},
+      </if>
+      <if test="comm != null" >
+        #{comm,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.TitleData" >
+    update TitleData
+    <set >
+      <if test="titlename != null" >
+        TitleName = #{titlename,jdbcType=NVARCHAR},
+      </if>
+      <if test="sal != null" >
+        Sal = #{sal,jdbcType=DECIMAL},
+      </if>
+      <if test="comm != null" >
+        Comm = #{comm,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where TitleNo = #{titleno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.TitleData" >
+    update TitleData
+    set TitleName = #{titlename,jdbcType=NVARCHAR},
+      Sal = #{sal,jdbcType=DECIMAL},
+      Comm = #{comm,jdbcType=DECIMAL},
+      Remark = #{remark,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where TitleNo = #{titleno,jdbcType=VARCHAR}
+  </update>
+</mapper>

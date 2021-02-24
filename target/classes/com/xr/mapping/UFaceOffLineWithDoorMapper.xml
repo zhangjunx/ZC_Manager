@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.UFaceOffLineWithDoorMapper" >
+	<!--获取人员列表  -->
+	<select id="getPerListWithIDs" resultType="map">
+		select t.holderNo "id",t.holderName "name" ,c.cardId "idcardNum",t.idCode "iDNumber",p.id faceId,p.DataPhoto "imgBase64",t.holderNo "personId"
+			from HolderData t
+			left join HolderPhoto p on t.HolderNo = p.holderNo
+			left join (select aa.* from (
+									select dd.CardNo,dd.cardID,dd.HolderNo,
+									ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+										from CardData dd) aa where aa. sindex=1) c on t.HolderNo=c.HolderNo
+		 where t.holderNo in (${personArr})
+	</select>
+	
+	<!--根据门区获取设备列表  -->
+	<select id="getDeviceListWithDoor" resultType="map">
+		select d.deviceNo,d.deviceName,d.ip,d.controlSN from DeviceUnit d
+			inner join (
+			select m.DeviceTypeCode,m.manufacturer from IoTDeviceModel t 
+			inner join IoTDeviceRelation m on t.ManufacturerCode = m.DataNo
+			where t.name = 'SY-FA605MN') aa on d.deviceTypeCode=aa.deviceTypeCode and d.manufacturerCode=aa.manufacturer
+		where 1=1
+		  and d.deviceNo in(
+				select d.deviceNo from DoorUnit d where d.doorNo in (${doorArr})
+			)
+	</select>
+	
+	<!--获取所有设备型号为： SY-FA605MN并且有相关门区的设备 -->
+	<select id="getDeviceListAll" resultType="map">
+		select d.ip,d.controlSn,d.deviceNo,d.deviceName,d.passWord from DeviceUnit d
+			inner join (
+				select m.DeviceTypeCode,m.manufacturer from IoTDeviceModel t 
+				inner join IoTDeviceRelation m on t.ManufacturerCode = m.DataNo
+				where t.name = 'SY-FA605MN') aa on d.deviceTypeCode=aa.deviceTypeCode and d.manufacturerCode=aa.manufacturer
+	</select>
+	
+	<!--根据设备获取对应的人员  -->
+	<select id="getPerListWithDevice" resultType="map">
+		select * from DoorPermHolder t where t.DoorNo > 0 and t.cardID is null and t.DeviceNo in(#{deviceNo})
+		union all
+		select * from DoorPermHolder t where t.DoorNo > 0 and t.cardID is not null and t.DeviceNo in(#{deviceNo})
+		and t.cardID in(
+			select aa.cardID from (
+				select dd.CardNo,dd.cardID,dd.HolderNo,
+				ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+					from CardData dd) aa where aa. sindex=1
+		)
+	</select>
+	
+	<!--获取当天操作权限列表  -->
+	<select id="getAllPerList" resultType="map">
+		select aa.*,d.controlSN,d.ip from (
+			select * from DoorPermHolderRecord t where t.DoorNo > 0 and t.cardID is null
+			union all
+			select * from DoorPermHolderRecord t where t.DoorNo > 0 and t.cardID is not null
+			and t.cardID in(
+				select aa.cardID from (
+					select dd.CardNo,dd.cardID,dd.HolderNo,
+					ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+						from CardData dd) aa where aa. sindex=1
+			)
+		) aa 
+		inner join DeviceUnit d on aa.deviceNo = d.deviceNo
+		where CONVERT(varchar(100), GETDATE(), 23) = CONVERT(varchar(100), aa.updateDate, 23)
+		  and aa.status = 0
+		  and aa.deviceNo in
+		 <foreach collection="list" item="l" open="(" close=")" separator=",">
+		 	#{l.DeviceNo}
+		 </foreach>
+	</select>
+	
+	<!--更新记录状态  -->
+	<update id="updateStatusByHand">
+		update DoorPermHolderRecord 
+		   set status = 1
+		 where id=#{id}
+	</update>
+	
+	<update id="updateStatus">
+		update DoorPermHolderRecord 
+		   set status = 1
+		 where doorNo in (${doorArr})
+		   and holderNo in (${personArr})
+		   and CONVERT(varchar(100), updatedate, 23) = CONVERT(varchar(100), GETDATE(), 23)
+		   and deviceNo not in (${disConnectDevice})
+	</update>
+</mapper>

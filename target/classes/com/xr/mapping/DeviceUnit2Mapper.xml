@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DeviceUnit2Mapper" >
+  <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by IP asc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+  <select id="getDeviceList" resultType="map">
+  	<include refid="c_start"></include>
+	  	SELECT t.DeviceNo,t.DeviceName,t.NetStatus,t.DeviceCode,t.DeviceTypeCode,t.ManufacturerCode,t.AreaID,t.ControlType,
+			   t.InstallLocation,t.IP,t.Port,t.DeviceID,t.DeviceEnabled,t.UserName,t.PassWord,t.ControlSN,t.ConnectStatus,
+			   p.TypeName DeviceTypeCodeName,f.Name ManufacturerCodeName,a.AreaName AreaIDName,b.Name ControlTypeName
+		FROM dbo.DeviceUnit t
+		LEFT JOIN dbo.IoTDeviceType p ON t.DeviceTypeCode = p.Code
+		LEFT JOIN dbo.IoTManufacturer f ON t.ManufacturerCode = f.Code
+		LEFT JOIN dbo.AreaList a ON t.AreaID = a.AreaID 
+		LEFT JOIN dbo.IoTDeviceModel b ON t.ControlType = b.Code
+		where 1=1 
+		<!--根据设备厂家查询设备列表  -->
+		<if test="ManufacturerCode != null and ManufacturerCode != ''">
+			AND t.ManufacturerCode = #{ManufacturerCode}
+		</if>
+		<!--根据编号或者名称查询设备列表  -->
+		<if test="DeviceName != null and DeviceName != ''">
+			AND (t.DeviceName like '%'+#{DeviceName}+'%' or t.DeviceCode like '%'+#{DeviceName}+'%')
+		</if>
+		<!--根据区域查询设备列表  -->
+		<if test="AreaID != null and AreaID != '' ">
+			and CHARINDEX(#{AreaID},a.AreaID) = 1
+		</if>
+	<include refid="c_end"></include>
+  </select>
+  
+  <select id="getDeviceListCount" resultType="integer">
+  	SELECT count(1)
+		FROM dbo.DeviceUnit t
+		LEFT JOIN dbo.IoTDeviceType p ON t.DeviceTypeCode = p.Code
+		LEFT JOIN dbo.IoTManufacturer f ON t.ManufacturerCode = f.Code
+		LEFT JOIN dbo.AreaList a ON t.AreaID = a.AreaID 
+		LEFT JOIN dbo.IoTDeviceModel b ON t.ControlType = b.Code
+		where 1=1 
+	<!--根据设备厂家查询设备列表  -->
+	<if test="ManufacturerCode != null and ManufacturerCode != ''">
+		AND t.ManufacturerCode = #{ManufacturerCode}
+	</if>
+	<!--根据编号或者名称查询设备列表  -->
+	<if test="DeviceName != null and DeviceName != ''">
+		AND (t.DeviceName like '%'+#{DeviceName}+'%' or t.DeviceCode like '%'+#{DeviceName}+'%')
+	</if>
+	<!--根据区域查询设备列表  -->
+	<if test="AreaID != null and AreaID != '' ">
+		and CHARINDEX(#{AreaID},a.AreaID) = 1
+	</if>
+  </select>
+  
+  <select id="getMaxIndex" resultType="integer">
+  	select max(DeviceNo) from DeviceUnit
+  </select>
+  
+  <update id="saveDeviceInfo">
+  	insert into DeviceUnit
+		(DeviceNo,DeviceName,NetStatus,DeviceCode,DeviceTypeCode,ManufacturerCode,AreaID,
+		 InstallLocation,IP,Port,DeviceID,DeviceEnabled,UserName,PassWord,ControlSN,ControlType)
+	VALUES
+	(#{DeviceNo},#{DeviceName},#{NetStatus},#{DeviceCode},#{DeviceTypeCode},#{ManufacturerCode},#{AreaID},
+	 #{InstallLocation},#{IP},#{Port},#{DeviceID},#{DeviceEnabled},#{UserName},#{PassWord},#{ControlSN},#{ControlType})
+  </update>
+  
+  <update id="saveDeviceParm">
+  	insert into DeviceUnitParm( 
+		deviceNo,livenessSwitch,standyInterval,openDoor,
+		relayAddr,weigand,openInterval,autoReboot,
+		rebootInterval,rebootTime,upAvatar,upBgFlag,
+		updateTime,inOut,requestInterval,adminPassWord,
+		readCarInterval,AES_PASS,oneOne,oneN) 
+	values
+		(#{DeviceNo},#{livenessSwitch},#{standyInterval},#{openDoor},
+		#{relayAddr},#{weigand},#{openInterval},#{autoReboot},
+		#{rebootInterval},#{rebootTime},#{upAvatar},#{upBgFlag},
+		GETDATE(),#{inOut},#{requestInterval},#{adminPassWord},
+		#{readCarInterval},#{AES_PASS},#{oneOne},#{oneN})
+  </update>
+  
+  <update id="editDeviceParm">
+  	declare
+  	 @sum int;
+  	begin
+  		set @sum = 
+  		   (select count(1) from DeviceUnitParm 
+  		     where deviceNo = #{DeviceNO});
+  		if(@sum=1)
+  		begin
+	  		update DeviceUnitParm 
+		  	   set livenessSwitch=#{livenessSwitch},
+		  	   	   flashMode=#{flashMode},
+		  	   	   standyInterval=#{standyInterval},
+		  	   	   openDoor=#{openDoor},
+				   relayAddr=#{relayAddr},
+				   weigand=#{weigand},
+				   openInterval=#{openInterval},
+				   autoReboot=#{autoReboot},
+				   rebootInterval=#{rebootInterval},
+				   rebootTime=#{rebootTime},
+				   upAvatar=#{upAvatar},
+				   upBgFlag=#{upBgFlag},
+				   updateTime=GETDATE(),
+				   inOut=#{inOut},
+				   requestInterval=#{requestInterval},
+				   adminPassWord=#{adminPassWord},
+				   readCarInterval=#{readCarInterval},
+				   AES_PASS=#{AES_PASS},
+				   oneOne=#{oneOne},
+				   oneN=#{oneN}
+		  	where deviceNo = #{DeviceNO};
+  		end
+  		
+  		else if(@sum=0)
+  		begin
+  			insert into DeviceUnitParm( 
+				deviceNo,livenessSwitch,standyInterval,openDoor,
+				relayAddr,weigand,openInterval,autoReboot,
+				rebootInterval,rebootTime,upAvatar,upBgFlag,
+				updateTime,inOut,requestInterval,adminPassWord,
+				readCarInterval,AES_PASS,oneOne,oneN,flashMode) 
+			values
+				(#{DeviceNO},#{livenessSwitch},#{standyInterval},#{openDoor},
+				#{relayAddr},#{weigand},#{openInterval},#{autoReboot},
+				#{rebootInterval},#{rebootTime},#{upAvatar},#{upBgFlag},
+				GETDATE(),#{inOut},#{requestInterval},#{adminPassWord},
+				#{readCarInterval},#{AES_PASS},#{oneOne},#{oneN},#{flashMode});
+  		end;
+  	end;
+  </update>
+  
+  <update id="editDeviceInfo">
+  	update DeviceUnit 
+	   set DeviceName=#{DeviceName},
+	   	   NetStatus=#{NetStatus},
+	   	   DeviceCode=#{DeviceCode},
+	   	   DeviceTypeCode=#{DeviceTypeCode},
+	   	   ManufacturerCode=#{ManufacturerCode},
+	   	   AreaID=#{AreaID},
+		   InstallLocation=#{InstallLocation},
+		   IP=#{IP},
+		   Port=#{Port},
+		   DeviceID=#{DeviceID},
+		   DeviceEnabled=#{DeviceEnabled},
+		   UserName=#{UserName},
+		   PassWord=#{PassWord},
+		   ControlSN=#{ControlSN},
+		   ControlType=#{ControlType}
+	 where DeviceNo=#{DeviceNO}
+  </update>
+  
+  <select id="getOneDeviceInfo" resultType="map">
+  	SELECT t.DeviceNo,t.DeviceName,t.NetStatus,t.DeviceCode,t.DeviceTypeCode,f.code ManufacturerCode,t.AreaID,m.DataNo,
+			   t.InstallLocation,t.IP,t.Port,t.DeviceID,t.DeviceEnabled,t.UserName,t.PassWord,t.ControlSN,t.ControlType,
+			   p.TypeName DeviceTypeCodeName,f.Name ManufacturerCodeName,a.AreaName AreaIDName,d.Name ControlTypeName,dp.*
+		FROM dbo.DeviceUnit t
+		LEFT JOIN dbo.IoTDeviceType p ON t.DeviceTypeCode = p.Code
+		LEFT JOIN dbo.IoTManufacturer f ON t.ManufacturerCode = f.Code
+		LEFT JOIN dbo.IoTDeviceRelation m ON p.Code=m.DeviceTypeCode AND f.Code=m.Manufacturer
+		LEFT JOIN dbo.IoTDeviceModel d ON t.ControlType = d.Code
+		LEFT JOIN dbo.AreaList a ON t.AreaID = a.AreaID 
+		left join DeviceUnitParm dp on dp.DeviceNo = t.DeviceNo
+  	where t.DeviceNo=#{DeviceNo}
+  </select>
+  
+  <update id="delOneDeviceInfo">
+  	begin
+  		delete from DoorUnit where DeviceNo = #{DeviceNO};
+  		delete from DeviceUnit where DeviceNo = #{DeviceNO};
+  		delete from DeviceUnitParm where DeviceNo = #{DeviceNO};
+  	end;
+  </update>
+  
+  <select id="getDeviceTypeList" resultType="map">
+  	SELECT * FROM dbo.IoTDeviceType t
+  </select>
+  
+  <select id="getDeviceFactoryList" resultType="map">
+  	SELECT t.Code,m.DataNo,t.Name,m.DeviceTypeCode,m.DataNo FROM dbo.IoTManufacturer t
+	 INNER JOIN dbo.IoTDeviceRelation m ON t.Code=m.Manufacturer
+	 INNER JOIN dbo.IoTDeviceType s ON m.DeviceTypeCode=s.Code
+	 WHERE t.Flag='y'
+	 <!--根据设备类型查询厂家列表  -->
+	 <if test="DeviceTypeCode != null and DeviceTypeCode != ''">
+	 	and m.DeviceTypeCode = #{DeviceTypeCode}
+	 	<!-- AND CHARINDEX(#{DeviceTypeCode},m.DataNo)=1 -->
+	 </if>
+  </select>
+  
+  <select id="getDeviceFactoryList2" resultType="map">
+  	select * from IoTManufacturer
+  </select>
+  
+  <select id="getDeviceModelList" resultType="map">
+  	SELECT t.* FROM dbo.IoTDeviceModel t 
+ 	 WHERE t.Flag='y' 
+ 	 <if test="DataNo != null and DataNo != ''">
+ 	 	AND t.ManufacturerCode=#{DataNo}
+ 	 </if>
+  </select>
+  
+  <select id="getareaTree" resultType="map">
+  	SELECT t.AreaID "id",t.AreaName "title",case when t.PreAreaID is null then '' else t.PreAreaID end "parent",'' "children"
+  	FROM dbo.AreaList t 
+  	ORDER BY LEN(t.AreaID) asc
+  </select>
+  
+  <select id="getFactureRealID" resultType="string">
+  	select t.Manufacturer from IoTDeviceRelation t where t.DataNo=#{ManufacturerCode}
+  </select>
+  
+  <select id="getDataValue" resultType="string">
+  	SELECT t.DataNo FROM dbo.IoTDeviceRelation t WHERE t.DeviceTypeCode=#{DeviceTypeCode} AND t.Manufacturer=#{ManufacturerCode}
+  </select>
+  
+  <!-- * Excel批量导入设备的方法 -->
+  <insert id="addExcelBatchDevice" parameterType="java.util.List">
+	DECLARE
+	@fid VARCHAR(20),
+	@nid VARCHAR(20);
+	BEGIN
+
+	<foreach collection="list" index="index" item="item" separator="">
+		SET @fid = (SELECT ISNull(MAX(DeviceNo),0)+1 FROM dbo.DeviceUnit);
+
+        <!-- 插入设备表 -->
+		INSERT INTO
+		dbo.DeviceUnit(DeviceNo,DeviceName,IP,Port,ControlSN,AreaID,InstallLocation,DeviceTypeCode,ManufacturerCode,ControlType,deviceID, DeviceCode)
+		VALUES(@fid,#{item.DeviceName},#{item.IP},#{item.Port},#{item.ControlSN},#{item.AreaID},
+		#{item.InstallLocation},#{item.DeviceTypeCode},#{item.ManufacturerCode},#{item.ControlType},#{item.deviceID},#{item.DeviceCode});
+
+         <!-- 插入门区表 -->
+		<foreach collection="item.data" item="item2" index="index" separator="">
+			SET @nid = (SELECT ISNull(MAX(DoorNo),0)+1 FROM dbo.DoorUnit);
+
+			INSERT INTO
+			dbo.DoorUnit(DoorNo,DoorName,DoorChannel,DeviceNo)
+			values(
+			@nid,#{item2.DoorName},#{item2.DoorChannel},@fid)
+		</foreach>
+	</foreach>
+	END;
+</insert>
+  
+  <!-- * 读取Excel中的数据 -->
+  <select id="selectBatchDevice"  resultType="Map" parameterType="java.util.List">
+	SELECT
+		IP,
+		ControlSN,
+		DeviceCode
+	FROM dbo.DeviceUnit WHERE 
+	ip in (
+	<foreach collection="list" index="index" item="item" separator=",">
+	            #{item.IP}
+	 </foreach>)
+	  and ControlSN in (
+	  <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.ControlSN}
+	 </foreach>)
+	  and DeviceCode in (
+	  <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.DeviceCode}
+	 </foreach>)
+  </select>
+  
+  
+	<select id="getAllList" resultType="map">
+		select * from DeviceUnit
+	</select>  
+	
+	<update id="updateDeviceOnline">
+		update DeviceUnit
+		   set ConnectStatus = #{status}
+		 where deviceNo=#{deviceNo}
+	</update>
+  
+</mapper>

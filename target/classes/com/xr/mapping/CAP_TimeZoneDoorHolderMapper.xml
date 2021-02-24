@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.CAP_TimeZoneDoorHolderMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.CAP_TimeZoneDoorHolder" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="DepartmentName" property="departmentname" jdbcType="VARCHAR" />
+    <result column="ControlID" property="controlid" jdbcType="INTEGER" />
+    <result column="ControlName" property="controlname" jdbcType="NVARCHAR" />
+    <result column="DoorExit" property="doorexit" jdbcType="NVARCHAR" />
+    <result column="Door1Status" property="door1status" jdbcType="INTEGER" />
+    <result column="Door2Status" property="door2status" jdbcType="INTEGER" />
+    <result column="Door3Status" property="door3status" jdbcType="INTEGER" />
+    <result column="Door4Status" property="door4status" jdbcType="INTEGER" />
+    <result column="Door1ID" property="door1id" jdbcType="INTEGER" />
+    <result column="Door2ID" property="door2id" jdbcType="INTEGER" />
+    <result column="Door3ID" property="door3id" jdbcType="INTEGER" />
+    <result column="Door4ID" property="door4id" jdbcType="INTEGER" />
+    <result column="WeekTimeZone1" property="weektimezone1" jdbcType="NVARCHAR" />
+    <result column="WeekTimeZone2" property="weektimezone2" jdbcType="NVARCHAR" />
+    <result column="WeekTimeZone3" property="weektimezone3" jdbcType="NVARCHAR" />
+    <result column="WeekTimeZone4" property="weektimezone4" jdbcType="NVARCHAR" />
+    <result column="AppSetNo1" property="appsetno1" jdbcType="INTEGER" />
+    <result column="AppSetNo2" property="appsetno2" jdbcType="INTEGER" />
+    <result column="AppSetNo3" property="appsetno3" jdbcType="INTEGER" />
+    <result column="AppSetNo4" property="appsetno4" jdbcType="INTEGER" />
+    <result column="AppSetStatus" property="appsetstatus" jdbcType="NVARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="ResultInfo" property="resultinfo" jdbcType="NVARCHAR" />
+    <result column="ResultStatus" property="resultstatus" jdbcType="NVARCHAR" />
+    <result column="Note" property="note" jdbcType="NVARCHAR" />
+    <result column="Commond1" property="commond1" jdbcType="NVARCHAR" />
+    <result column="Commond2" property="commond2" jdbcType="NVARCHAR" />
+    <result column="Commond3" property="commond3" jdbcType="NVARCHAR" />
+    <result column="Commond4" property="commond4" jdbcType="NVARCHAR" />
+    <result column="CommondDelete" property="commonddelete" jdbcType="NVARCHAR" />
+    <result column="CommondStatus" property="commondstatus" jdbcType="NVARCHAR" />
+    <result column="CommondDeleteStatus" property="commonddeletestatus" jdbcType="NVARCHAR" />
+    <result column="CommondReason" property="commondreason" jdbcType="NVARCHAR" />
+    <result column="CardNo" property="cardno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, DepartmentName, ControlID, ControlName, DoorExit, Door1Status, 
+    Door2Status, Door3Status, Door4Status, Door1ID, Door2ID, Door3ID, Door4ID, WeekTimeZone1, 
+    WeekTimeZone2, WeekTimeZone3, WeekTimeZone4, AppSetNo1, AppSetNo2, AppSetNo3, AppSetNo4, 
+    AppSetStatus, StartDate, EndDate, ResultInfo, ResultStatus, Note, Commond1, Commond2, 
+    Commond3, Commond4, CommondDelete, CommondStatus, CommondDeleteStatus, CommondReason, 
+    CardNo
+  </sql>
+  
+   <!-- 通过工号查部门    门区权限查看时   权限设置时 用到-->
+  <select id="queryDeptByHolder" resultType="java.lang.String" parameterType="java.lang.String">
+     select DepartmentNo from HolderData where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+   <!--通过部门查人员   -->
+  <select id="getHolderByDept" resultType="Map">
+     select holderno,holdername,departmentno 
+     from HolderData where departmentno=#{deptno}
+  </select>
+  
+   <!-- 门区列表 -->
+  <select id="queryDoorListByHolder" resultType="com.xr.entity.DoorUnit" parameterType="java.util.List">
+	select doorno,doorname,deviceno,doorchannel,
+	maccode,macname,bluetoothpassword from DoorUnit 
+	 where DoorNo in
+	 <foreach collection="list" item="item" open="(" close=")" separator=",">
+	    #{item}
+	 </foreach> 
+  </select>
+  
+  <!-- 门禁查看 权限设置时 根据传的装置ID查人员 -->
+  <select id="queryDoorHolderByControlAndDoor" resultMap="BaseResultMap" parameterType="com.xr.entity.CAP_TimeZoneDoorHolder">
+     select ID, HolderNo, HolderName, DepartmentName, ControlID, ControlName, DoorExit, Door1Status, 
+    Door2Status, Door3Status, Door4Status, Door1ID, Door2ID, Door3ID, Door4ID,AppSetNo1 from CAP_TimeZoneDoorHolder
+     <!-- where ControlID=#{controlid,jdbcType=INTEGER} -->
+     <where>
+       <if test="doorexit != null and doorexit!=''" >
+        and DoorExit=#{doorexit,jdbcType=NVARCHAR}
+      </if>
+      <if test="door1status != null and door1status!=''" >
+        and Door1Status=#{door1status,jdbcType=INTEGER}
+      </if>
+      <if test="door2status != null and door2status!=''" >
+        and Door2Status=#{door2status,jdbcType=INTEGER}
+      </if>
+      <if test="door3status != null and door3status!=''" >
+        and Door3Status=#{door3status,jdbcType=INTEGER}
+      </if>
+      <if test="door4status != null and door4status!=''" >
+        and Door4Status=#{door4status,jdbcType=INTEGER}
+      </if>
+      <if test="door1id != null and door1id!=''" >
+        and Door1ID=#{door1id,jdbcType=INTEGER}
+      </if>
+      <if test="door2id != null and door2id!=''" >
+        and Door2ID=#{door2id,jdbcType=INTEGER}
+      </if>
+      <if test="door3id != null and door3id!=''" >
+        and Door3ID=#{door3id,jdbcType=INTEGER}
+      </if>
+      <if test="door4id != null and door4id!=''" >
+        and Door4ID=#{door4id,jdbcType=INTEGER}
+      </if>
+     </where>
+  </select>
+  
+
+<!-- 门禁查看 权限设置时 根据传的装置ID查人员 -->
+  <select id="queryDoorHolderByControl" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+     select ID, HolderNo, HolderName, DepartmentName, ControlID, ControlName, DoorExit, Door1Status, 
+    Door2Status, Door3Status, Door4Status, Door1ID, Door2ID, Door3ID, Door4ID,AppSetNo1 from CAP_TimeZoneDoorHolder
+     where ControlID=#{controlid,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 门禁查看时 点击权限设置  -->
+  <select id="queryHolderListByDoorBatch" resultType="Map" parameterType="java.util.List">
+select b.HolderNo,b.HolderName,
+b.DepartmentName,b.DepartmentNo
+ from (select a.HolderNo,a.HolderName,d.DepartmentName,
+d.DepartmentNo,substring(d.DepartmentNo,1,3) compno
+ from (select h.HolderNo,h.HolderName,h.DepartmentNo
+from HolderData h where h.HolderNo in 
+<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+#{item}
+</foreach>
+)a right join DepartmentData d 
+on d.DepartmentNo=a.DepartmentNo)b 
+where b.DepartmentNo like #{compno}+'%'
+order by b.DepartmentNo asc,b.HolderNo asc
+  </select> 
+  
+  
+  <!-- 批量删除 -->
+  <delete id="deleteDoorHolderBatch" parameterType="java.util.List">
+    delete from CAP_TimeZoneDoorHolder where ID in
+    <foreach collection="list" item="item" open="(" close=")" separator="," index="index">
+    #{item}
+    </foreach>
+  </delete>
+  
+  <!-- 批量修改 -->
+  <update id="updateDoorHolderBatch" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator=";">
+       update CAP_TimeZoneDoorHolder set 
+      HolderName = #{item.holdername},
+      DepartmentName = #{item.departmentname},
+      ControlName = #{item.controlname},
+      DoorExit = #{item.doorexit},
+      Door1Status = #{item.door1status},
+      Door2Status = #{item.door2status},
+      Door3Status = #{item.door3status},
+      Door4Status = #{item.door4status},
+      Door1ID = #{item.door1id},
+      Door2ID = #{item.door2id},
+      Door3ID = #{item.door3id},
+      Door4ID = #{item.door4id},
+      AppSetNo1 = #{item.appsetno1}
+      where ID=#{item.id}
+    </foreach>
+    
+  </update>
+  
+  <!-- 门区权限设置时 通过工号 查此人权限  -->
+  <select id="queryDoorHolderByHolder" resultMap="BaseResultMap">
+      select  ID, HolderNo, HolderName, DepartmentName, 
+      ControlID, ControlName, DoorExit, 
+      Door1Status, Door2Status, Door3Status, Door4Status, 
+    Door1ID, Door2ID, Door3ID, Door4ID, AppSetNo1 from CAP_TimeZoneDoorHolder
+    where  HolderNo=#{holderno}
+  </select>
+  
+  <!-- 门区权限设置时 先查看该员工是否有权限  -->
+  <select id="queryDoorHolderByHolderAndControl" resultMap="BaseResultMap"  parameterType="com.xr.entity.CAP_TimeZoneDoorHolder">
+      select  ID, HolderNo, HolderName, DepartmentName, 
+      ControlID, ControlName, DoorExit, 
+      Door1Status, Door2Status, Door3Status, Door4Status, 
+    Door1ID, Door2ID, Door3ID, Door4ID, AppSetNo1 from CAP_TimeZoneDoorHolder
+    where HolderNo=#{holderno,jdbcType=VARCHAR}
+    and ControlID= #{controlid,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 门区权限查看  以门区为主 查看有哪些人 -->
+  <select id="queryDoorPermSeeList" resultType="Map" parameterType="Map">
+select a.ID,a.HolderNo,a.HolderName,a.DepartmentName,a.ControlID,
+ a.ControlName,a.AppSetNo1,a.DoorExit,a.EntryReader,
+ d.DoorNo,d.DoorName,d.DoorChannel 
+ from (select  dh.ID,dh.HolderNo,dh.HolderName,dh.DepartmentName,dh.ControlID,
+ dh.ControlName,dh.AppSetNo1,dh.DoorExit,
+ sy.EntryReader,sy.DeviceNo  
+ from CAP_TimeZoneDoorHolder dh 
+ inner join SY210AppSet sy 
+ on sy.AppSetNo=dh.AppSetNo1 
+ and sy.DeviceNo=dh.ControlID
+ and sy.EntryReader>'0000')a 
+ inner join DoorUnit d on d.DeviceNo=a.ControlID 
+ <where>
+      <if test="doorno != null and doorno!=''" >
+          and d.DoorNo=#{doorno,jdbcType=SMALLINT}
+      </if>
+      <if test="departmentname != null and departmentname!=''" >
+          and a.DepartmentName=#{departmentname,jdbcType=VARCHAR}
+      </if>
+ </where> 
+</select>
+  
+  <!-- 门禁管理中 门禁权限设置  给人分配部门  parameterType="java.util.List"-->
+  <insert id="insertCAPTimeZoneDoorHolderBatch"  parameterType="java.util.List">
+   insert into CAP_TimeZoneDoorHolder(HolderNo,HolderName, 
+      DepartmentName, ControlID, ControlName,DoorExit, Door1Status, 
+    Door2Status, Door3Status, Door4Status, 
+    Door1ID,Door2ID,Door3ID,Door4ID,AppSetNo1)
+      <foreach collection="list" item="item" index="index" separator="union all">
+      (select #{item.holderno,jdbcType=VARCHAR}, #{item.holdername,jdbcType=VARCHAR}, 
+      #{item.departmentname,jdbcType=VARCHAR}, #{item.controlid,jdbcType=INTEGER}, #{item.controlname,jdbcType=NVARCHAR}, 
+      #{item.doorexit,jdbcType=NVARCHAR}, #{item.door1status,jdbcType=INTEGER}, #{item.door2status,jdbcType=INTEGER}, 
+      #{item.door3status,jdbcType=INTEGER}, #{item.door4status,jdbcType=INTEGER},  
+       #{item.door1id,jdbcType=INTEGER},#{item.door2id,jdbcType=INTEGER},
+        #{item.door3id,jdbcType=INTEGER},#{item.door4id,jdbcType=INTEGER},
+      #{item.appsetno1,jdbcType=INTEGER})
+      </foreach>
+  </insert> 
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from CAP_TimeZoneDoorHolder
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from CAP_TimeZoneDoorHolder
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.CAP_TimeZoneDoorHolder" >
+    insert into CAP_TimeZoneDoorHolder (ID, HolderNo, HolderName, 
+      DepartmentName, ControlID, ControlName, 
+      DoorExit, Door1Status, Door2Status, 
+      Door3Status, Door4Status, Door1ID, 
+      Door2ID, Door3ID, Door4ID, 
+      WeekTimeZone1, WeekTimeZone2, WeekTimeZone3, 
+      WeekTimeZone4, AppSetNo1, AppSetNo2, 
+      AppSetNo3, AppSetNo4, AppSetStatus, 
+      StartDate, EndDate, ResultInfo, 
+      ResultStatus, Note, Commond1, 
+      Commond2, Commond3, Commond4, 
+      CommondDelete, CommondStatus, CommondDeleteStatus, 
+      CommondReason, CardNo)
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, 
+      #{departmentname,jdbcType=VARCHAR}, #{controlid,jdbcType=INTEGER}, #{controlname,jdbcType=NVARCHAR}, 
+      #{doorexit,jdbcType=NVARCHAR}, #{door1status,jdbcType=INTEGER}, #{door2status,jdbcType=INTEGER}, 
+      #{door3status,jdbcType=INTEGER}, #{door4status,jdbcType=INTEGER}, #{door1id,jdbcType=INTEGER}, 
+      #{door2id,jdbcType=INTEGER}, #{door3id,jdbcType=INTEGER}, #{door4id,jdbcType=INTEGER}, 
+      #{weektimezone1,jdbcType=NVARCHAR}, #{weektimezone2,jdbcType=NVARCHAR}, #{weektimezone3,jdbcType=NVARCHAR}, 
+      #{weektimezone4,jdbcType=NVARCHAR}, #{appsetno1,jdbcType=INTEGER}, #{appsetno2,jdbcType=INTEGER}, 
+      #{appsetno3,jdbcType=INTEGER}, #{appsetno4,jdbcType=INTEGER}, #{appsetstatus,jdbcType=NVARCHAR}, 
+      #{startdate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP}, #{resultinfo,jdbcType=NVARCHAR}, 
+      #{resultstatus,jdbcType=NVARCHAR}, #{note,jdbcType=NVARCHAR}, #{commond1,jdbcType=NVARCHAR}, 
+      #{commond2,jdbcType=NVARCHAR}, #{commond3,jdbcType=NVARCHAR}, #{commond4,jdbcType=NVARCHAR}, 
+      #{commonddelete,jdbcType=NVARCHAR}, #{commondstatus,jdbcType=NVARCHAR}, #{commonddeletestatus,jdbcType=NVARCHAR}, 
+      #{commondreason,jdbcType=NVARCHAR}, #{cardno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.CAP_TimeZoneDoorHolder" >
+    insert into CAP_TimeZoneDoorHolder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="departmentname != null" >
+        DepartmentName,
+      </if>
+      <if test="controlid != null" >
+        ControlID,
+      </if>
+      <if test="controlname != null" >
+        ControlName,
+      </if>
+      <if test="doorexit != null" >
+        DoorExit,
+      </if>
+      <if test="door1status != null" >
+        Door1Status,
+      </if>
+      <if test="door2status != null" >
+        Door2Status,
+      </if>
+      <if test="door3status != null" >
+        Door3Status,
+      </if>
+      <if test="door4status != null" >
+        Door4Status,
+      </if>
+      <if test="door1id != null" >
+        Door1ID,
+      </if>
+      <if test="door2id != null" >
+        Door2ID,
+      </if>
+      <if test="door3id != null" >
+        Door3ID,
+      </if>
+      <if test="door4id != null" >
+        Door4ID,
+      </if>
+      <if test="weektimezone1 != null" >
+        WeekTimeZone1,
+      </if>
+      <if test="weektimezone2 != null" >
+        WeekTimeZone2,
+      </if>
+      <if test="weektimezone3 != null" >
+        WeekTimeZone3,
+      </if>
+      <if test="weektimezone4 != null" >
+        WeekTimeZone4,
+      </if>
+      <if test="appsetno1 != null" >
+        AppSetNo1,
+      </if>
+      <if test="appsetno2 != null" >
+        AppSetNo2,
+      </if>
+      <if test="appsetno3 != null" >
+        AppSetNo3,
+      </if>
+      <if test="appsetno4 != null" >
+        AppSetNo4,
+      </if>
+      <if test="appsetstatus != null" >
+        AppSetStatus,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+      <if test="resultinfo != null" >
+        ResultInfo,
+      </if>
+      <if test="resultstatus != null" >
+        ResultStatus,
+      </if>
+      <if test="note != null" >
+        Note,
+      </if>
+      <if test="commond1 != null" >
+        Commond1,
+      </if>
+      <if test="commond2 != null" >
+        Commond2,
+      </if>
+      <if test="commond3 != null" >
+        Commond3,
+      </if>
+      <if test="commond4 != null" >
+        Commond4,
+      </if>
+      <if test="commonddelete != null" >
+        CommondDelete,
+      </if>
+      <if test="commondstatus != null" >
+        CommondStatus,
+      </if>
+      <if test="commonddeletestatus != null" >
+        CommondDeleteStatus,
+      </if>
+      <if test="commondreason != null" >
+        CommondReason,
+      </if>
+      <if test="cardno != null" >
+        CardNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentname != null" >
+        #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="controlid != null" >
+        #{controlid,jdbcType=INTEGER},
+      </if>
+      <if test="controlname != null" >
+        #{controlname,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorexit != null" >
+        #{doorexit,jdbcType=NVARCHAR},
+      </if>
+      <if test="door1status != null" >
+        #{door1status,jdbcType=INTEGER},
+      </if>
+      <if test="door2status != null" >
+        #{door2status,jdbcType=INTEGER},
+      </if>
+      <if test="door3status != null" >
+        #{door3status,jdbcType=INTEGER},
+      </if>
+      <if test="door4status != null" >
+        #{door4status,jdbcType=INTEGER},
+      </if>
+      <if test="door1id != null" >
+        #{door1id,jdbcType=INTEGER},
+      </if>
+      <if test="door2id != null" >
+        #{door2id,jdbcType=INTEGER},
+      </if>
+      <if test="door3id != null" >
+        #{door3id,jdbcType=INTEGER},
+      </if>
+      <if test="door4id != null" >
+        #{door4id,jdbcType=INTEGER},
+      </if>
+      <if test="weektimezone1 != null" >
+        #{weektimezone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone2 != null" >
+        #{weektimezone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone3 != null" >
+        #{weektimezone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone4 != null" >
+        #{weektimezone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="appsetno1 != null" >
+        #{appsetno1,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno2 != null" >
+        #{appsetno2,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno3 != null" >
+        #{appsetno3,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno4 != null" >
+        #{appsetno4,jdbcType=INTEGER},
+      </if>
+      <if test="appsetstatus != null" >
+        #{appsetstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultinfo != null" >
+        #{resultinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="resultstatus != null" >
+        #{resultstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond1 != null" >
+        #{commond1,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond2 != null" >
+        #{commond2,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond3 != null" >
+        #{commond3,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond4 != null" >
+        #{commond4,jdbcType=NVARCHAR},
+      </if>
+      <if test="commonddelete != null" >
+        #{commonddelete,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondstatus != null" >
+        #{commondstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="commonddeletestatus != null" >
+        #{commonddeletestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondreason != null" >
+        #{commondreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.CAP_TimeZoneDoorHolder" >
+    update CAP_TimeZoneDoorHolder
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentname != null" >
+        DepartmentName = #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="controlid != null" >
+        ControlID = #{controlid,jdbcType=INTEGER},
+      </if>
+      <if test="controlname != null" >
+        ControlName = #{controlname,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorexit != null" >
+        DoorExit = #{doorexit,jdbcType=NVARCHAR},
+      </if>
+      <if test="door1status != null" >
+        Door1Status = #{door1status,jdbcType=INTEGER},
+      </if>
+      <if test="door2status != null" >
+        Door2Status = #{door2status,jdbcType=INTEGER},
+      </if>
+      <if test="door3status != null" >
+        Door3Status = #{door3status,jdbcType=INTEGER},
+      </if>
+      <if test="door4status != null" >
+        Door4Status = #{door4status,jdbcType=INTEGER},
+      </if>
+      <if test="door1id != null" >
+        Door1ID = #{door1id,jdbcType=INTEGER},
+      </if>
+      <if test="door2id != null" >
+        Door2ID = #{door2id,jdbcType=INTEGER},
+      </if>
+      <if test="door3id != null" >
+        Door3ID = #{door3id,jdbcType=INTEGER},
+      </if>
+      <if test="door4id != null" >
+        Door4ID = #{door4id,jdbcType=INTEGER},
+      </if>
+      <if test="weektimezone1 != null" >
+        WeekTimeZone1 = #{weektimezone1,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone2 != null" >
+        WeekTimeZone2 = #{weektimezone2,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone3 != null" >
+        WeekTimeZone3 = #{weektimezone3,jdbcType=NVARCHAR},
+      </if>
+      <if test="weektimezone4 != null" >
+        WeekTimeZone4 = #{weektimezone4,jdbcType=NVARCHAR},
+      </if>
+      <if test="appsetno1 != null" >
+        AppSetNo1 = #{appsetno1,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno2 != null" >
+        AppSetNo2 = #{appsetno2,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno3 != null" >
+        AppSetNo3 = #{appsetno3,jdbcType=INTEGER},
+      </if>
+      <if test="appsetno4 != null" >
+        AppSetNo4 = #{appsetno4,jdbcType=INTEGER},
+      </if>
+      <if test="appsetstatus != null" >
+        AppSetStatus = #{appsetstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        EndDate = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultinfo != null" >
+        ResultInfo = #{resultinfo,jdbcType=NVARCHAR},
+      </if>
+      <if test="resultstatus != null" >
+        ResultStatus = #{resultstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="note != null" >
+        Note = #{note,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond1 != null" >
+        Commond1 = #{commond1,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond2 != null" >
+        Commond2 = #{commond2,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond3 != null" >
+        Commond3 = #{commond3,jdbcType=NVARCHAR},
+      </if>
+      <if test="commond4 != null" >
+        Commond4 = #{commond4,jdbcType=NVARCHAR},
+      </if>
+      <if test="commonddelete != null" >
+        CommondDelete = #{commonddelete,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondstatus != null" >
+        CommondStatus = #{commondstatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="commonddeletestatus != null" >
+        CommondDeleteStatus = #{commonddeletestatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="commondreason != null" >
+        CommondReason = #{commondreason,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardno != null" >
+        CardNo = #{cardno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.CAP_TimeZoneDoorHolder" >
+    update CAP_TimeZoneDoorHolder
+    set HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      DepartmentName = #{departmentname,jdbcType=VARCHAR},
+      ControlID = #{controlid,jdbcType=INTEGER},
+      ControlName = #{controlname,jdbcType=NVARCHAR},
+      DoorExit = #{doorexit,jdbcType=NVARCHAR},
+      Door1Status = #{door1status,jdbcType=INTEGER},
+      Door2Status = #{door2status,jdbcType=INTEGER},
+      Door3Status = #{door3status,jdbcType=INTEGER},
+      Door4Status = #{door4status,jdbcType=INTEGER},
+      Door1ID = #{door1id,jdbcType=INTEGER},
+      Door2ID = #{door2id,jdbcType=INTEGER},
+      Door3ID = #{door3id,jdbcType=INTEGER},
+      Door4ID = #{door4id,jdbcType=INTEGER},
+      WeekTimeZone1 = #{weektimezone1,jdbcType=NVARCHAR},
+      WeekTimeZone2 = #{weektimezone2,jdbcType=NVARCHAR},
+      WeekTimeZone3 = #{weektimezone3,jdbcType=NVARCHAR},
+      WeekTimeZone4 = #{weektimezone4,jdbcType=NVARCHAR},
+      AppSetNo1 = #{appsetno1,jdbcType=INTEGER},
+      AppSetNo2 = #{appsetno2,jdbcType=INTEGER},
+      AppSetNo3 = #{appsetno3,jdbcType=INTEGER},
+      AppSetNo4 = #{appsetno4,jdbcType=INTEGER},
+      AppSetStatus = #{appsetstatus,jdbcType=NVARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      EndDate = #{enddate,jdbcType=TIMESTAMP},
+      ResultInfo = #{resultinfo,jdbcType=NVARCHAR},
+      ResultStatus = #{resultstatus,jdbcType=NVARCHAR},
+      Note = #{note,jdbcType=NVARCHAR},
+      Commond1 = #{commond1,jdbcType=NVARCHAR},
+      Commond2 = #{commond2,jdbcType=NVARCHAR},
+      Commond3 = #{commond3,jdbcType=NVARCHAR},
+      Commond4 = #{commond4,jdbcType=NVARCHAR},
+      CommondDelete = #{commonddelete,jdbcType=NVARCHAR},
+      CommondStatus = #{commondstatus,jdbcType=NVARCHAR},
+      CommondDeleteStatus = #{commonddeletestatus,jdbcType=NVARCHAR},
+      CommondReason = #{commondreason,jdbcType=NVARCHAR},
+      CardNo = #{cardno,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

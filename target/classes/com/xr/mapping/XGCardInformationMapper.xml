@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.XGCardInformationDao">
+
+    <!-- * 查询登录人所能管理的路线信息* 用于新增卡号 -->
+    <select id="queryUserRoute" resultType="Map">
+           SELECT r.RouteId,r.RouteName FROM dbo.XG_Route r INNER JOIN dbo.XG_Rights s
+           ON s.RouteID = r.RouteId WHERE s.holderno=#{holderno}
+    </select>
+    
+        <!-- 查询卡表中的cardno和cardID，用于给路线绑卡.
+                    已经被别的线路绑定卡号,不在查询 -->
+     <select id="queryCardData" resultType="Map">
+		  SELECT 
+			   h.HolderNo as holderno,
+			   h.HolderName as holdername,
+			   c.CardNo as cardno,
+			   c.CardID as cardid
+		 FROM dbo.CardData c 
+		 INNER JOIN dbo.HolderData h
+		 ON h.HolderNo = c.HolderNo
+		 WHERE c.CardNo NOT IN (SELECT cardno FROM dbo.XG_CardInformation)
+     </select>
+ 
+    <!--* 根据卡片主键删除 -->
+     <delete id="deleteCardInfor">
+         DELETE FROM dbo.XG_CardInformation WHERE nid=#{nid}
+     </delete>
+     
+     <!-- * 批量添加卡片相关信息 -->
+     <insert id="insertCardInfor" parameterType="java.util.List">
+          	INSERT INTO XG_CardInformation
+            ( RouteID,HolderNo, CardNo, CardID)
+         <foreach collection="list" index="index" item="item" separator="union">   
+             select #{item.routeid},#{item.holderno},#{item.cardno},#{item.cardid}
+         </foreach>
+     </insert>
+     
+     <!--  * 通过holderno* 查询用户所能管理线路的卡信息 -->
+     <select id="queryCardInfor" resultType="Map" parameterType="java.lang.String">
+		SELECT
+			c.Nid as nid,
+			c.RouteID as routeid,
+			C.HolderNo as holderno,
+			c.CardNo as cardno,
+			h.HolderName AS holdername,
+			r.RouteName as routename,
+			r.PlaceSeveral as placeseveral
+			FROM dbo.XG_CardInformation C
+		INNER JOIN dbo.XG_Route R ON R.RouteId = C.RouteID
+		INNER JOIN dbo.XG_Rights S ON s.RouteID=r.RouteId
+		INNER JOIN dbo.HolderData h ON h.HolderNo = C.HolderNo
+		<where>
+		    <if test="holderno != null and holderno !=''">
+		      S.holderno=#{holderno}
+		    </if>
+		</where>
+     </select>
+     
+ 
+     
+</mapper>

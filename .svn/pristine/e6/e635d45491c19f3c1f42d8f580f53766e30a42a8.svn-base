@@ -1,0 +1,103 @@
+package com.xr.dao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.xr.entity.HolderData;
+
+@Repository
+public interface HolderDataMapper {
+	
+	
+    int deleteByPrimaryKey(String holderno);//删除用户 管理员或有权限之人
+    int insertSelective(HolderData record);//添加用户
+    HolderData selectByPrimaryKey(String holderno);//通过主键查询实体类
+    int updateByPrimaryKeySelective(HolderData record);//更新数据
+
+    List<Map<String,Object>> queryHolderDataList(Map m);//分页查询  用户列表信息 超级管理员  List<HolderData>
+    HolderData queryLoginCheck(HolderData holderdata);//登录验证
+    int updatePWD(HolderData record);//修改个人密码
+    int updateKMPWD(HolderData record);//修改开门密码
+    
+    Map<String,Object> queryHolderInfoByHolder(String holderno);//通过主键查询实体类信息 HolderData
+    
+    
+    Map<String,Object> queryByHolderCard(String holdercard);//通过卡号查询实体类信息 
+    int updateWarningName(HolderData record);//是否预警提示
+    int updateHolderStatus(HolderData record);//是否授予权限
+    
+    int updateHolderDataBatchs(List<HolderData> list);//批量删除  物理删除 即批量修改
+      
+    HolderData queryHolderByHolder(String holderno);//添加新员工时 通过工号查员工是否存在    用到
+    List<HolderData> queryHolderByIDCode(String idcode);// 添加时人员时  判断身份证号是否存在
+    List<HolderData> queryHolderByHolderCard(String holdercard);// 添加时人员时  判断卡号是否存在
+    List<HolderData> queryHolderByTitleNo(String titleno);//删除职务时 先判断该职务是否被占用
+    List<Map<String,Object>> queryRetireList(Map m);//查询退休人员 所有退休人员
+    
+    String getNextHolder();//获取下一个holderno
+    
+    /**
+     * 通过工号查询部门名称
+     * @param holderno
+     */
+    HashMap<String, Object> queryDepartmentNameByHolderno(String holderno);
+    /**
+     *  查询工号
+     * 查看读取Excel的工号中是否在数据库中已存在
+     */
+    String queryExcelHoderNo(String holderno);
+   /**
+    * 查询身份证号
+    * 查看读取Excel的身份证号是否在数据库中有重复的数据
+    */
+   String queryExcelIdCode(String idcode);
+  /**
+   * 查询卡号是否在数据库中已存在
+   * 读取Excel的卡号是否在数据库中已被使用
+   * @param Cardlist
+   */
+   String queryExcelCardNo(String holdercard);
+  
+  /**
+   * 查询部门所属的编号
+   * @param departmentno
+   * @return
+   */
+   String queryExcelDeptno(@Param("departmentname")String departmentname,@Param("holderno")String holderno);
+    
+  /**
+   * 批量添加
+   * 添加Excel中的数据
+   * @param 用户实体类
+   * @return
+   */
+    void insertBatchHolderData(List<Map<String, Object>> list);
+    /**
+     * 目前只有小程序使用该方法
+     * 通过工号和登录密码来查询,用户是否可以开门
+     */
+    String queryLoginDoorPwd(@Param("holderno")String holderno,@Param("holderpassword")String holderpassword);
+    /**
+     *  目前只有小程序使用该方法
+     *  通过微信号查询用户的相关信息.
+     *  查询用户是否可以快速登录小程序
+     * @param wechatno
+     */
+    HolderData queryWechatNoLogin(String wechatno);
+    /**
+     * 该方法用与小程序工号或者密码登录时
+     * 给该员工绑定微信的openid
+     * 修改方法
+     */
+    void updateHolderWechatNo(HolderData record);
+    
+    /**
+	 *  获取所有员工,用于与SenseLink平台对接员工.
+	 */
+	List<Map<String, Object>> getAllStaff();
+    
+}

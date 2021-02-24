@@ -1,0 +1,144 @@
+html,body{
+	height:100%
+}
+/* 门位状态监控页面 */
+.doorControl{
+	width:100%;
+	height:100%;
+	padding:0;
+}
+/* 顶部样式 */
+.doorControl .doorControl_top{
+	height:84px;
+	line-height:84px;
+	padding:0 20px;
+	box-sizing:border-box;
+	background:#0068B7;
+}
+.doorControl .doorControl_top .top_center{
+	font-size:36px;
+	color:#E5F4FF;
+	text-align:center;
+	background:url(../img/door_bg.png) no-repeat 42% center;
+}
+.doorControl .doorControl_top .top_right{
+	text-align:right;
+}
+.doorControl .doorControl_top .top_right div{
+	color:#fff;
+	cursor:pointer;
+	font-size:16px;
+}
+.doorControl .doorControl_top .top_right .top_closeDoor{
+	width:102px;
+	height:36px;
+	line-height:36px;
+	border-radius:18px;
+	padding-right:24px;
+	box-sizing:border-box;
+	background:url(../img/door_close.png) no-repeat 22px center;
+	background-color:#054C82;
+	margin-right:18px;
+}
+.doorControl .doorControl_top .top_right .top_openDoor{
+	width:102px;
+	height:36px;
+	line-height:36px;
+	border-radius:18px;
+	padding-right:24px;
+	box-sizing:border-box;
+	background:url(../img/door_open.png) no-repeat 22px 8px;
+	background-color:#054C82;
+}
+.doorControl .doorControl_top .top_right .current{
+	background-color:#138EEC;
+}
+.doorControl .doorControl_top .top_right .top_time{
+	font-size:18px;
+	margin-left:28px;
+}
+/* 底部样式 */
+.doorControl .doorControl_bottom{
+	height:58px;
+	line-height:58px;
+	background:#CCCCCC;
+	padding:0 20px;
+	box-sizing:border-box;
+	margin:0;
+	overflow:hidden;
+}
+.doorControl .doorControl_bottom .bottom_box{
+	line-height:normal;
+	padding:8px 14px;
+	font-size:16px;
+	box-sizing:border-box;
+	background:#fff;
+	border-top-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-right:15px;
+	cursor:pointer;
+}
+.doorControl .doorControl_bottom .current{
+	background:#2186D3;
+	color:#fff;
+}
+.doorControl .doorControl_bottom .bottom_swiper{
+	background:#fff;
+	font-size:16px;
+	line-height:normal;
+	padding:8px 14px;
+	box-sizing:border-box;
+	border-radius:3px;
+	margin-left:90px;
+	cursor:pointer;
+}
+.doorControl .doorControl_bottom .cur{
+	background:#D08F02;
+	color:#fff;
+}
+/* 中间内容样式 */
+.doorControl .doorControl_con{
+	padding:20px 20px;
+	box-sizing:border-box;
+	height:calc(100% - 144px);
+	overflow:auto;
+}
+/* 区域样式 */
+.doorControl .doorControl_con .grid .grid-item{
+	width:614px;
+	border-top:2px solid #4DA8EE;
+	margin-bottom: 10px; 
+	box-shadow: 0px 0px 8px -3px rgba(0,0,0,0.9);
+}
+.doorControl .doorControl_con .grid .grid-item .con_title{
+	float:left;
+}
+.doorControl .doorControl_con .grid .grid-item .con_doorClose{
+	float:right;
+	margin-right:20px;
+}
+.doorControl .doorControl_con .grid .grid-item .con_doorClose img{
+	margin-right:7px;
+}
+.doorControl .doorControl_con .grid .grid-item .con_doorOpen{
+	float:right;
+}
+.doorControl .doorControl_con .grid .grid-item .con_doorOpen img{
+	margin-right:7px;
+}
+.doorControl .doorControl_con .grid .grid-item ul li{
+	margin:10px;
+	text-align:center;
+}
+.doorControl .doorControl_con .grid .grid-item ul li p{
+	width:73px;
+}
+/* 关闭页面按钮 */
+.closeYeMian{
+	position: absolute;
+    top: -100px;
+    right: 50px;
+    z-index:999;
+    cursor:pointer;
+}
+

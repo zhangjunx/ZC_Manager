@@ -1,0 +1,120 @@
+/* CSS Document */
+html {
+	border: 0px; 
+}
+body{
+    background: #f0f2f5;
+}
+.layui-layer-btn{
+	text-align:center !important;
+}
+
+body, div,th,td,ul,li{
+	margin: 0px;
+	padding: 0px;
+	border: 0px; 
+	font-family: 微软雅黑,Microsoft yahei,Arial,Verdana,Tahoma,sans-serif;
+	font-size: 12px;
+	-moz-user-select: none; /*火狐*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+ }
+input, select, textarea {
+	margin: 0px;
+	padding: 0px;
+	font-family: 微软雅黑,Microsoft yahei,Arial,Verdana,Tahoma,sans-serif;
+	font-size: 12px; 
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+}
+form, img, dl, dt, dd, iframe {
+	margin: 0px;
+	padding: 0px; 
+	border: 0px; 
+}
+ul, li {
+	margin: 0px; 
+	padding: 0px; 
+	border: 0px; 
+	list-style-type: none; 
+	list-style-position: outside; 
+}
+a { 
+	color: #08f; 
+	text-decoration: none; 
+	cursor: pointer; 
+}
+a, input { 
+	outline: none; 
+}
+a{
+	text-decoration:none;
+	cursor:pointer;
+	outline:none;
+	color: #666;
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+}
+a:hover{
+	text-decoration:none;
+	cursor:pointer;
+	outline:none;
+	color: #1777C6;
+}
+.search-box{
+	margin-left:-71px;
+}
+.fl { 
+	float: left;
+}
+.fr { 
+	float: right;
+}
+.clear { 
+	clear: both; 
+}
+
+/*新加公用样式  开始*/
+ul,ol,dl,ul li,ol li,dl,dt,dd{
+	list-style:none;
+}
+input[type="text"],input[type="password"],input[type="button"]{
+	color:#ccc;
+	padding:0px 10px;
+	outline: none;
+	color: #333;
+}
+textarea{
+	color:#ccc;
+	padding:10px;
+	outline: none;
+}
+textarea:focus{
+	color:#000;
+}
+button{
+	cursor:pointer;
+	border:0;
+	font-family: "微软雅黑";
+}
+i,em,cite{
+	font-style: normal; 
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.clearfix:after{
+	content:"";
+	display:block;
+	clear: both;
+}
+/*新加公用样式  结束*/
+

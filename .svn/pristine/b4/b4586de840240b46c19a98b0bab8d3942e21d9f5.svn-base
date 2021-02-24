@@ -1,0 +1,1719 @@
+/* 进出实时监控 */
+.main-tab .btn-box .blue:hover{
+	opacity:0.6;
+	transition:all 0.5s ease;
+}
+.subbtn span.checkbox{
+	font-size:14px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 16px;
+    right: 130px;
+}
+.subbtn span.curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+.main-table .realTime_door{
+	width:100%;
+	padding:20px 20px;
+	box-sizing: border-box;
+	 border: 1px solid #99e4fa;
+	 margin-bottom:20px;
+	 background:#f6fafe;
+}
+.main-table .realTime_door .door_top{
+	margin-bottom:15px;
+}
+.main-table .realTime_door .door_top .doorName{
+	display:inline-block;
+	margin-right:20px;
+}
+.main-table .realTime_door .door_top .doorName span{
+	font-size: 14px;
+    color: #666;
+}
+.main-table .realTime_door .door_top .doorName select{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.main-table .realTime_door .door_top .doorName a{
+	display:inline-block;
+	width:90px;
+	line-height:30px;
+	text-align:center;
+	font-size:14px;
+	background:#eee;
+	border-radius: 5px;
+	margin-right:10px;
+}
+.main-table .realTime_door .door_top .doorName div{
+	display:inline-block;
+}
+.main-table .realTime_door .door_top .doorName div.delayed_reduce,div.delayed_add{
+	width:20px;
+	height:20px;
+	text-align:center;
+	background:#eee;
+}
+.main-table .realTime_door .door_top .doorName div.delayed_reduce,div.delayed_add:hover{
+	cursor:pointer;
+}
+.main-table .realTime_door .door_top .doorName .time_interval{
+	width: 70px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+    padding-left:10px;
+    box-sizing:border-box;
+}
+.main-table .realTime_door .door_top .doorName a.current{
+	background:#4d8ae4;
+	color:#fff;
+}
+.main-table .realTime_door .door_bottom .doorName{
+	display:inline-block;
+	margin-right:20px;
+}
+.main-table .realTime_door .door_bottom .doorName span{
+	font-size: 14px;
+    color: #666;
+}
+.main-table .realTime_door .door_bottom .doorName a.doorStatus{
+	display:inline-block;
+	width:90px;
+	line-height:30px;
+	text-align:center;
+	font-size:14px;
+	background:#eee;
+	border-radius: 5px;
+}
+.main-table .realTime_door .door_bottom .doorName a.cur{
+	background:#4d8ae4;
+	color:#fff;
+}
+.main-table .realTime_door .door_bottom .doorName a.closeDoor{
+	margin-left:10px;
+}
+.main-table .realTime_door .door_bottom .doorName a{
+	font-size:14px;
+	color: #666;
+}
+.main-table .realTime_door .door_bottom .doorName .group{
+	display:inline-block;
+	width:60px;
+	line-height:30px;
+	text-align:center;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	margin-right:10px;
+}
+.main-table .realTime_door .door_bottom .doorName a.curr{
+	background: url(../images/selection_effect.png) no-repeat right bottom;
+    border: 1px solid #00A8EC;
+    border-left: 3px solid #00A8EC;
+}
+
+
+
+/* 进出记录查询 */
+/*  .laydate-time-list{padding-bottom:0;overflow:hidden}
+ .laydate-time-list>li{width:50%!important;}
+ .laydate-time-list>li:last-child { display: none;} */
+
+.main-table .search-box .form-term #date3,#date4{
+	width:70px;
+}
+.main-table .search-box .form-term #inTime,#outTime{
+	width:84px;
+}
+
+.main-table .search-box .form-term .inOut{
+	width:100px;
+}
+.main-table .search-box .form-term{
+    font-size: 14px;
+    color: #666;
+    line-height:30px;
+}
+.main-table .search-box .form-term .record_checkbox{
+	width:20px;
+	height:20px;
+	vertical-align:middle;
+}
+.main-table .search-box .form-term .record_yx{
+	width:20px;
+	height:20px;
+	vertical-align:middle;
+}
+.main-table .search-box .record_select span{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: -1px;
+    left: -16px;
+}
+.main-table .search-box .record_select span.curr{
+	background: url(../images/icons/form_check_on.png) no-repeat right 0px top 9px;
+}
+.main-table .search-box .record_select{
+	margin-left:30px;
+	position:relative;
+	display:inline-block;
+}
+.main-form .form-term .control{
+	width: calc(100% - 125px);
+}
+
+
+
+/* 门禁权限设置 */
+
+#shuttle_box:after{
+   content: ".";
+   clear: both;
+   display: block;
+   height: 0;
+   overflow: hidden;
+   visibility: hidden;
+}
+.shuttle_box_li{
+    height: 640px;
+    float: left;
+    
+}
+.shuttle_box_near .title{
+    background: #F5F7FA;
+    padding-left: 10px;
+    height: 42px;
+    line-height: 42px;
+    position: relative;
+}
+.shuttle_box_near .search{
+    position: relative;
+    width: 100%;
+}
+.shuttle_box_near .search img{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 18px;
+    left: 16px;
+}
+.shuttle_box_near .search input{
+    width: 80%;
+    height: 30px;
+    margin: 0 auto;
+    line-height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left:30px;
+    margin-left: 7px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.shuttle_box_near{
+    width:282px;
+    background-color:#ffffff;
+    overflow-y: auto;
+    overflow-x:hidden;
+    border-radius: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    position: relative;
+}
+#shuttle_box .dept{
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-right:0px;
+}
+#shuttle_box .person{
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+#selectAll{
+    top: 5px;
+    right: 0px;
+} 
+#selectll{
+    top: 5px;
+    right: 0px;
+}
+.main-form .form-term .shuttle_box_near:last-child{
+	 width: -moz-calc(100% - 591px);
+  	 width: -webkit-calc(100% - 591px);
+     width: calc(100% - 591px);
+	 margin-left:20px;
+}
+.main-form .form-term #shuttle_box .holder{
+	 width: -moz-calc(100% - 591px);
+  	 width: -webkit-calc(100% - 591px);
+     width: calc(100% - 297px);
+     margin-left:0px;
+     border-top-left-radius: 0;
+     border-bottom-left-radius: 0;
+}
+.main-form .form-term .shuttle_box_near .checkbox {
+	font-size: 12px;
+	color: #555;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 8px;
+	padding-left: 16px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 16px;
+    right: 0px;
+}
+
+/* .main-form .form-term .shuttle_box_near .checkbox.curr {
+	background: url(../images/icons/form_check_on.png) no-repeat left 8px;
+} */
+.shuttle_box_li_act{
+    background: url(../images/icons/form_check_on.png) no-repeat right 9px top 24px;
+}
+.main-form .form-term .shuttle_box_near .checkbox.curr{
+	background: url(../images/icons/form_check_on.png) no-repeat right 25px top 9px;
+}
+/* .shuttle_box_li_act{color:#ffffff !important;background-color: #1890ff !important;border-bottom: 1px solid #ffffff;transition: all .01s;} */
+.shuttle_box_near::-webkit-scrollbar {/*滚动条整体样式*/
+       width: 6px;     /*高宽分别对应横竖滚动条的尺寸*/
+       height: 1px;
+   }
+.shuttle_box_near::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+       border-radius: 20px;
+       background-color:#999;
+   }
+.shuttle_box_near::-webkit-scrollbar-track {/*滚动条里面轨道*/
+       background-color: rgba(0,0,0,0.2);
+       border-radius: 20px;
+   }
+.shuttle_box_near li{
+   padding:8px;
+   /* border-bottom: 1px solid #ffffff;
+   background-color: #f4f4f4; */
+   cursor: pointer;
+   transition: all .5s;
+   position: relative;
+}
+.shuttle_box_near #shuttle_box_right{
+	display:flex;
+    flex-wrap: wrap;
+    
+}
+.shuttle_box_near #shuttle_box_right li{
+	display:inline-block;
+	position:relative;
+	height:50px;
+	box-sizing:border-box;
+	
+}
+.shuttle_box_near .doorUnit li{
+	margin-left:20px;
+}
+.shuttle_box_near .doorUnit{
+	padding-left:50px;
+    box-sizing:border-box;
+}
+.shuttle_box_near #shuttle_box_right li.layui-form{
+	width:190px;
+	margin:0 5px;
+}
+.shuttle_box_near #shuttle_box_right li div.doorname{
+	display:inline-block;
+	width:100px;
+	overflow:hidden;
+}
+.shuttle_box_near .doorUnit li div{
+	width:200px;
+	overflow:hidden;
+	
+}
+.shuttle_box_near #shuttle_box_right li .checkbox.cur{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+.shuttle_box_near #shuttle_box_right li span.checkbox{
+	position:absolute;
+	top:1px;
+	left:-8px;
+}
+.shuttle_box_near li h5{
+    width: 30%;
+    position: absolute;
+    top: 18px;
+    left: 65px;
+    color: #666;
+}
+.shuttle_box_near li img{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+/* .shuttle_box_li_act:hover{opacity: 0.7;transition: all .01s;} */
+#shuttle_box_mid{width:80px;text-align: center;}
+#shuttle_box_mid button{
+    width: 60px;
+    height:30px;
+    display: block;
+    margin:20px auto;
+    line-height: 30px;
+    color:white;
+    cursor: pointer;
+    background-color: #288BE4;
+    border-radius: 5px;
+    transition: all .5s;
+    border:none;
+    padding: 0 5px;
+}
+#shuttle_box_mid button:hover{opacity: 0.7;transition: all .5s;}
+#shuttle_box_toRight{margin-top:225px !important;}
+#shuttle_box_Righ{
+    margin-top:225px !important;
+}
+#shuttle_box_Left{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: 238px !important;
+}
+.shuttle_box_near .box_left{
+	display:flex;
+	flex-wrap: wrap;
+}
+.shuttle_box_near .box_left li{
+	display:inline-block;
+	position:relative;
+	margin-left:50px;
+	height:50px;
+	box-sizing:border-box;
+}
+.shuttle_box_near .box_left li div{
+	display:inline-block;
+	width:100px;
+}
+.shuttle_box_near .box_left li .checkbox.cur{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+.shuttle_box_near .box_left li span.checkbox{
+	position:absolute !important;
+	top:1px !important;
+	left:-8px !important;
+}
+#shuttle_box_toLeft{
+    background: #EEF2F8 !important;
+    color: #333!important;
+}
+.shuttle_box_near #selectInverse{
+	left: 63%;
+    top: 12%;
+}
+.shuttle_box_near #selectInvert{
+	left:90%;
+	top:12%;
+}
+.main-form .form-term .shuttle_box_near span.curren{
+	background: url(../images/icons/form_check_on.png) no-repeat right 82px top 7px;
+}
+.main-form .form-term .shuttle_box_near span.current{
+	background: url(../images/icons/form_check_on.png) no-repeat right 79px top 7px;
+}
+
+
+
+/* 人员实时定位 */
+#cme-main .main-content .main-tab .btn-box a.realTime_refresh{
+	color:#666;
+	border:1px solid #eee;
+}
+.main-table .search-box{
+	width:100%;
+	
+}
+.main-table .search-box .form-term .lable .realTime_img{
+	padding-right:6px;
+}
+.main-table .search-box .form-term .lable p{
+	display:inline-block;
+	vertical-align:middle;
+}
+.main-table .search-box .form-term .lable .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position:absolute;
+    top:-7px;
+    left:42px;
+}
+.main-table .search-box .form-term .lable .checkbox.curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+#cont tr td div{
+	display:inline-block;
+	/* width:70px; */
+	border:1px solid #eee;
+	height:27px;
+	text-align:center;
+	line-height:27px;
+	margin-left:5px;
+	border-radius:5px;
+	margin-bottom:5px;
+	padding: 2px 2px;
+}
+.main-table .realTime_tab #cont tr td.text_location{
+	text-align:left;
+}
+#cont tr td div:hover{
+	cursor:pointer;
+}
+.realTime_tab #cont tr td{
+	white-space: pre-wrap;
+}
+.realTime_cover{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display:none;  
+}
+.realTime_layer{
+	width:390px;
+	height:239px;
+	background:#fff;
+	position:absolute;
+	left:40%;
+	top:30%;
+	display:none; 
+}
+.realTime_layer .layer_top{
+	background:#5498E5;
+	padding:10px 10px;
+	box-sizing:border-box;
+}
+.realTime_layer .layer_top h2{
+	display:inline-block;
+	color:#fff;
+	
+}
+.realTime_layer .layer_top img{
+	float:right;
+	margin-top:-3px;
+	cursor:pointer;
+	
+}
+.realTime_layer .layer_bottom{
+	padding:10px 10px;
+	box-sizing:border-box;
+	overflow:hidden;
+}
+.realTime_layer .layer_bottom .bottom_l{
+	width:100px;
+	margin-left:30px;
+	float:left;
+	height:130px;
+	
+}
+.realTime_layer .layer_bottom .bottom_r{
+	float:left;
+	/* margin-right:100px; */
+	margin-left:18px;
+}
+.realTime_layer .layer_bottom p{
+	line-height:30px;
+}
+.realTime_layer .layer_bottom p span{
+	padding-left:10px;
+}
+
+/* 门禁权限查看 */
+.main-table .door_perm_see #cont tr td span{
+	display: inline-block;
+    padding: 0px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    margin:5px 0;
+    margin-left: 10px;
+    height:30px;
+    line-height:30px;
+    font-size:14px;
+}
+.main-table .door_perm_see #cont tr td{
+	white-space: normal;
+}
+.main-table .door_perm_see #cont tr td.text_location{
+	text-align:left;
+}
+
+/*门禁权限配置 */
+.dept_box li{
+	border:1px solid #ddd;
+	height: 28px;
+    padding-left: 10px;
+    padding: 4px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top:-1px;
+    margin-left:-1px;
+    margin-right:-1px;
+    position:relative;
+    box-sizing:border-box;
+}
+.dept_box li span.checkbox1{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: -2px;
+    left: 29px;
+}
+.dept_box li .checkbox1.current{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+.dept_box li h4{
+	text-align: center;
+	font-size: 12px;
+    color: #333;
+}
+
+table #door_perm_seeSet tr td span{
+	display: inline-block;
+    padding: 0px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    margin: 5px 0;
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    
+    font-size: 14px;
+    cursor:pointer;
+}
+table #door_perm_seeSet tr td.text_location{
+	text-align:left;
+}
+table #door_perm_seeSet tr td{
+	background:#fff;
+	height:20px;
+	line-height:20px;
+	color:#333;
+	font-weight:normal;
+	white-space:normal;
+}
+
+.holder_add{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display:none;
+}
+.holder_box{
+	width: 300px;
+   /*  height: 180px; */
+    background: #fff;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+    display: none; 
+    padding-bottom:10px;
+}
+.holder_box .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.holder_box .layer_top h2{
+	display: inline-block;
+    color: #fff;
+}
+.holder_box .layer_top img{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.holder_box .holder_top{
+	height:200px;
+	overflow:auto;
+}
+/*修改滚动条样式*/
+.holder_box .holder_top::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.holder_box .holder_top::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.holder_box .holder_top::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.holder_box .holder_top::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.holder_box .holder_top::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.holder_box .holder_top p{
+	height:30px;
+	line-height:30px;
+	padding-left:30px;
+	box-sizing:border-box;
+	position:relative;
+}
+.holder_box .holder_top p span{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+	
+}
+.holder_box .holder_top p span.curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 0px top 9px;
+}
+.holder_box .holder_bottom{
+	margin-top:10px;
+	display:flex;
+	justify-content: space-around;
+}
+.holder_box .holder_bottom a{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+    margin-right:20px;
+}
+
+
+/* 访客登记 */
+.main-table .visitor_title{
+	border-bottom:1px solid #F4F1F1;
+	padding:0 20px;
+	box-sizing:border-box;
+}
+.main-table .visitor_box1 .box1_ipt label span{
+	color:red;
+}
+.main-table .visitor_box2 .box1_ipt label span{
+	color:red;
+}
+
+.main-table .visitor_title h4{
+	font-size:18px;
+	font-weight:400px;
+	line-height:40px;
+}
+.main-table .visitor_box1{
+	overflow:auto;
+	padding: 20px 0;
+	width: 985px;
+}
+.main-table .visitor_box1 .box1_l{
+	width:460px;
+	float:left;
+}
+.main-table .box1_img{
+	float:left;
+	position: relative;
+	top:-27px;
+}
+.main-table .box1_img img{
+	width:104px;
+	height:123px;
+}
+.main-table .visitor_box1 .box1_l .box1_img input{
+	width:104px;
+	height:123px;
+	opacity:0;
+	position: absolute;
+    left: 0;
+    top: 0;
+}
+.main-table .box1_img h5{
+	text-align:center;
+	font-size:14px;
+	line-height:35px;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt{
+	margin-bottom:12px;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt label{
+	width: 116px; 
+    height: 28px;
+    line-height: 28px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    margin-top: 6px;
+    display:inline-block;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt .id_ipt{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 133px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt .ipt-leng{
+	width:315px;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt .readCard{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt .delay_time{
+	padding-left:130px;
+	padding-top:10px;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt .delay_time .delay_in{
+	display:inline-block;
+	margin-right:20px;
+	font-size:14px;
+	color:#666;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt .delay_time .delay_in input{
+	vertical-align: middle;
+	margin-right:5px;
+}
+.main-table .visitor_box1 .box1_r .personFace{
+	background:#f5f5f5;
+	overflow:hidden;
+	margin-bottom:29px;
+	padding:20px 20px;
+	box-sizing:border-box;
+	width:420px;
+	margin-top:7px;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_l{
+	border:1px solid #35AEEA;
+	position:relative;
+	float:left;
+} 
+.main-table .visitor_box1 .box1_r .personFace .face_l h5{
+	position: absolute;
+    left: 30%;
+    top: 104%;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_l .file_l{
+	width:128px;
+	height:160px;
+	opacity:0;
+	position: absolute;
+    left: 0;
+    top: 0;
+	
+}
+.main-table .visitor_box1 .box1_r .personFace .face_c{
+	float: left;
+    width: 100px;
+    border-radius: 50%;
+    background: skyblue;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    color:#fff;
+    font-size:21px;
+    margin-left: 10px;
+    margin-right: 10px;
+	margin-top:28px;
+}
+
+
+.main-table .visitor_box1 .box1_r .personFace .face_l .person_l{
+	width:128px;
+	height:160px;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_r{
+	border:1px solid #35AEEA;
+	position:relative;
+	float:left;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_r h5{
+	position: absolute;
+    left: 30%;
+    top: 104%;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_r .person_r{
+	width:128px;
+	height:160px;
+}
+.main-table .visitor_box1 .box1_r .personFace .face_r .file_r{
+	width:128px;
+	height:160px;
+	opacity:0;
+	position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.main-table .visitor_box1 .box1_r .personFace .process{
+	position:relative;
+	margin-left:116px;
+	display:inline-block;
+	text-align: center;
+	margin-top:20px;
+}
+.main-table .visitor_box1 .box1_r .personFace .process .pass{
+	padding: 10px 20px;
+    padding-left: 50px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 18px;
+    background-color: #22AC38;
+    display: none;
+    width: 146px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.main-table .visitor_box1 .box1_r .personFace .process .failed{
+	padding: 10px 20px;
+    padding-left: 50px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 18px;
+    background-color: #EA3D4A;
+    display: none;
+    width: 146px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.main-table .visitor_box1 .ipt{
+	width: 211px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt #remark{
+	width: 222px;
+    height: 70px;
+    resize: none;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    padding:5px 5px;
+}
+
+.main-table .visitor_box1 .box1_l .box1_ipt #visitorssextext{
+	width:68px;
+}
+.main-table .visitor_box1 .box1_l .box1_ipt #nationality{
+	width:68px;
+}
+.main-table .visitor_box1 #startdate{
+	width:120px;
+}
+.main-table .visitor_box1 .delay_time{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 83px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+
+
+.main-table .visitor_box1 .box1_r{
+	width:calc(100% - 463px);
+	float:left;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt {
+	margin-bottom:12px;
+}
+.main-table .visitor_box1 .box1_r .box1_ipt label{
+	width: 116px;
+    height: 28px;
+    line-height: 28px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    margin-top: 6px;
+    display: inline-block;
+}
+
+.main-table .visitor_box1 .box1_ipt .goods_name{
+	display:inline-block;
+	margin-right:60px;
+	position:relative;
+}
+.main-table .visitor_box1 .box1_ipt .goods_name .checkbox{
+	font-size: 14px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: -20px;
+    left: 3px;
+}
+.main-table .visitor_box1 .box1_ipt .goods_name .curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 0px top 7px;
+}
+.main-table .visitor_box2{
+	overflow:auto;
+	padding: 20px 0;
+	width: 1200px;
+}
+.main-table .visitor_box2 .box1_ipt{
+	float:left;
+	margin-right:128px;
+	margin-bottom:20px;
+	position:relative;
+}
+.main-table .visitor_box2 .box1_ipt .choose{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    border-radius: 3px;
+}
+.main-table .visitor_box2 .box1_ipt label{
+	width: 116px;
+    height: 28px;
+    line-height: 28px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+    margin-top: 6px;
+    display: inline-block;
+}
+.main-table .visitor_box2 .box1_ipt input{
+	width: 315px;
+	height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.main-table .visitor_box2 .box1_ipt textarea{
+	width: 937px;
+    height: 120px;
+    resize: none;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    padding:5px 5px;
+    box-sizing: border-box;
+}
+.main-table .main-form .form-term #remark{
+	width: 597px;
+    height: 120px;
+    resize: none;
+    border: 1px solid #ddd;
+    vertical-align: top;
+    padding:5px 5px;
+    box-sizing: border-box;
+} 
+.main-table .visitor_box2 .box1_ipt span.checkbox{
+	font-size: 14px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 127px;
+    left: 130px;
+}
+.main-table .visitor_box2 .box1_ipt span.cur{
+	background: url(../images/icons/form_check_on.png) no-repeat left 0px top 7px;
+}
+.visitor{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display: none;
+}
+.visitor_box{
+	width: 500px;
+    /* height: 180px; */
+    background: #fff;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+    display: none;
+    padding-bottom: 10px;
+}
+.visitor_box .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.visitor_box .layer_top h2{
+	display: inline-block;
+    color: #fff;
+}
+.visitor_box .layer_top img{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.visitor_box .door_top{
+	padding-left: 20px;
+    border-bottom: 1px solid #eee;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+.visitor_box .door_top .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 11px;
+    right:0px;
+}
+.visitor_box .door_top .ipt{
+	width: 211px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.visitor_box .door_top a{
+	width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+	display:inline-block;
+	color:#fff;
+}
+.visitor_box .door_top .cur{
+	background: url(../images/icons/form_check_on.png) no-repeat right 25px top 9px;
+}
+.visitor_box .door_vertical{
+	height: 150px;
+    padding-left: 20px;
+    padding-top: 10px;
+    overflow: auto;
+}
+.visitor_box .door_vertical ul li{
+	position: relative;
+    display: inline-block;
+    width: 216px;
+    height: 24px;
+    overflow: hidden;
+}
+.visitor_box .door_vertical ul li .checkbox{
+	font-size: 12px;
+    color: #555;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+    padding-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: url(../images/icons/form_check.png) no-repeat left 6px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.visitor_box .door_vertical ul li .curr{
+	background: url(../images/icons/form_check_on.png) no-repeat left 6px;
+}
+.visitor_box .holder_bottom{
+	margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.visitor_box .holder_bottom a{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+    margin-right: 20px;
+}
+
+.main-table .visitor_box1 .box1_r .province{
+	padding: 8px 10px;
+    background: #eee;
+    position: absolute;
+    left: 129px;
+    top:4px;
+    border-radius: 3px;
+}
+.main-table .visitor_box1 .box1_r #dringmodels{
+	padding-left:40px;
+	width:182px;
+}
+
+
+/* 登记记录详情 */
+/* .registrationDetail input{
+	border:none !important;
+	box-shadow:none !important;
+}
+.registrationDetail textarea{
+	border:none !important;
+	box-shadow:none !important;
+}  */
+/* 访客登记记录 */
+#intime,#outtime{
+	width:84px;
+}
+
+
+
+
+/*车辆管理  进出记录详情  */
+.main-table .main-form .form-term #inTime,#outTime{
+	width:84px;
+}
+
+/*车辆信息新增页面  */
+.main-table .main-form .choose,.readCard{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    border-radius: 3px;
+}
+.main-table .main-form .choose1,.choose2,.choose3{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    border-radius: 3px;
+}
+.main-table .main-form .control .personRecord{
+	width:135px;
+}
+.main-table .main-form .chooseBox{
+	width: 100px;
+    height: 100px;
+    border: 1px dashed #aaa;
+    font-size: 40px;
+    text-align: center;
+    line-height: 100px;
+    color: #aaa;
+}
+.main-table .main-form .chooseBox #carPhoto{
+	width:100%;
+	height:100%;
+	opacity:0;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:10;
+}
+.main-table .main-form .chooseBox .vehicleZP{
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    
+}
+img[src=""],img:not([src]){
+            opacity:0;
+}
+.main-table .main-form #vehicleNumber{
+	padding-left:35px;
+	width:186px;
+}
+.main-table .main-form .province{
+	padding:1px 10px;
+	background:#eee;
+	position:absolute;
+	left:0px;
+	border-radius:3px;
+	
+}
+
+.vehicleInfo_shadow{
+	position: absolute;
+    left: 4px;
+    top: 4px;
+    right: 8px;
+    bottom: 8px;
+    background: #000;
+    opacity: 0.5;
+    display: none; 
+}
+.vehicleInfo{
+	width: 500px;
+    /* height: 180px; */
+    background: #fff;
+    position: absolute;
+    left: 33%;
+    top: 30%;
+    display: none; 
+    padding-bottom: 10px;
+}
+.vehicleInfo .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.vehicleInfo .layer_top .title{
+	display: inline-block;
+    color: #fff;
+}
+.vehicleInfo .layer_top .quxiao{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.vehicleInfo .vehicle_top{
+	padding-left:20px;
+	padding-bottom:10px;
+	padding-top:10px;
+	box-sizing:border-box;
+}
+.vehicleInfo .vehicle_top input{
+	width: 211px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.vehicleInfo .vehicle_top #queryHolderInfo{
+	color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+}
+.vehicleInfo .vehicle_top #queryVisitorsedHolderInfo{
+	color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.vehicleInfo .door_center{
+	height:190px;
+	overflow:auto;
+	padding-left:20px;
+	
+}
+/*修改滚动条样式*/
+.vehicleInfo .door_center::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.vehicleInfo .door_center::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.vehicleInfo .door_center::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.vehicleInfo .door_center ul li{
+	display:inline-block;
+	border:1px solid #ccc;
+	border-radius:5px;
+	width:210px;
+	height:85px;
+	padding-left:10px;
+	box-sizing:border-box;
+	overflow:hidden;
+	margin-right:10px;
+	margin-bottom:10px;
+	line-height:85px;
+	cursor:pointer;
+}
+.vehicleInfo .door_center ul li.current{
+	background: url(../images/selection_effect.png) no-repeat right bottom;
+    border: 1px solid #00A8EC;
+}
+.vehicleInfo .door_center ul li .personPhoto{
+	width:52px;
+	height:52px;
+	border-radius:50%;
+	float:left;
+}
+.vehicleInfo .door_center ul li .personPhoto img{
+	width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.vehicleInfo .door_center ul li .holderInfo{
+	float:left;
+	padding-top: 5px;
+	padding-left:10px;
+	box-sizing:border-box;
+}
+.vehicleInfo .door_center ul li .holderInfo p{
+	line-height:25px;
+	
+}
+.vehicleInfo .holder_bottom{
+	margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.vehicleInfo .holder_bottom div a{
+	display: inline-block;
+    padding: 0 16px;
+    line-height: 28px;
+    color: #fff;
+    border-radius: 3px;
+    margin-right: 20px;
+}
+
+
+.provinceJc{
+	width: 500px;
+    background: #fff;
+    position: absolute;
+    left: 40%;
+    top: 30%;
+    display: none;
+    padding-bottom: 10px;
+}
+.provinceJc .layer_top{
+	background: #5498E5;
+    padding: 10px 10px;
+    box-sizing: border-box;
+}
+.provinceJc .layer_top .title{
+	display: inline-block;
+    color: #fff;
+}
+.provinceJc .layer_top .quxiao{
+	float: right;
+    margin-top: -3px;
+    cursor: pointer;
+}
+.provinceJc .province_center{
+	height:152px;
+	overflow:auto;
+	padding:10px;
+}
+.provinceJc .province_center ul li{
+	padding:5px 10px;
+	display:inline-block;
+	margin-right:10px;
+	border:1px solid #eee;
+	border-radius:3px;
+	margin-bottom:10px;
+}
+.provinceJc .province_center ul li:hover{
+	border:1px solid skyblue;
+	cursor:pointer;
+}
+
+/* 出差申请新增页面 */
+.main-table .main-form .address_detail{
+	width: 231px;
+    height: 60px;
+    resize: none;
+    border: 1px solid #ddd;
+    padding:5px 5px;
+    box-sizing:border-box;
+}
+.main-table .main-form .remark{
+	width: 480px;
+    height: 120px;
+    resize: none;
+    border: 1px solid #ddd;
+    padding:5px 5px;
+    box-sizing:border-box;
+}
+.main-table .main-form .thingsReason{
+	width: 480px;
+    height: 120px;
+    resize: none;
+    border: 1px solid #ddd;
+    padding:5px 5px;
+	box-sizing:border-box;
+}
+.approve{
+	width:705px;
+}
+.vehicleInfo .dept{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.vehicleInfo .lable{
+	float: left;
+   /*  width: 116px;  */
+    height: 28px;
+    line-height: 16px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+    /* margin-right: 10px; */
+    margin-top: 6px;
+}
+.vehicleInfo .control{
+	float:left;
+	width: calc(100% - 126px);
+}
+
+.main-table .main-form .control .prov{
+	width:105px;
+}
+.main-table .main-form .control .city{
+	width:105px;
+}
+.main-table .main-form .control .district{
+	width:105px;
+}
+
+.approve .vehicle_top .holdername{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.main-table .search-box .approval{
+	display: inline-block;
+    padding: 1px 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor:pointer;
+    margin-right:15px;
+}
+.main-table .search-box div.curr{
+	background: url(../images/selection_effect.png) no-repeat right bottom;
+    border: 1px solid #00A8EC;
+}
+ .main-table .overtime_con .grade tr td span{
+	display: inline-block;
+    padding: 0px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    margin: 5px;
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+   
+    font-size: 14px;
+} 
+	
+
+
+/* 加班调休申请 */
+.overtime_con #dayindaju2{
+	display:none;
+}
+
+/* 考勤点设置 */
+#shuttle_box .shuttle_box_near .inverse .curren{
+	background: url(../images/icons/form_check_on.png) no-repeat right 89px top 7px;
+}
+#cme-main .attendance_point .main-tab table span.checkbox{
+	cursor:pointer;
+	margin:5px 0;
+} 
+
+/* 访客登记 */
+.personFace2 {
+    position: absolute;
+    left: 50%;
+    top: 50%; 
+    transform: translateX(-50%) translateY(-50%);
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    display: none; 
+}
+
+.personFace2 .face_box {
+    background: url(../img/face.png) no-repeat -497px -255px;
+    width: 555px;
+    height: 455px;
+    text-align: center;
+    line-height: 455px;
+    float: left;
+    position: relative;
+}
+.personFace2 .face_box img{
+	position: absolute;
+    left: 9px;
+    top: 12px;
+    z-index: 1;
+    opacity:0.6;
+}
+
+.personFace2 .face_box #video {
+    width: 533px;
+    height: 432px;
+    position: absolute;
+    left: 10px;
+    top: 13px;
+}
+
+.personFace2 .face_box #canvas {
+    width: 533px;
+    height: 432px;
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 13px;
+}
+
+

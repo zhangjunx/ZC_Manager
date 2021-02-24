@@ -1,0 +1,23 @@
+package com.xr.service;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.xr.entity.DepartureRecord;
+import com.xr.entity.PageInfo;
+
+@Service
+public interface IDepartureRecordService {
+	  int insertSelectiveService(Map m) throws ParseException;//添加数据 点人事离职按钮 执行三个方法  员工表的删除  离职标的添加  离职记录表的添加
+	  
+	  DepartureRecord queryDepartureRecordByHolderNoService(String holderno);//根据工号查离职记录信息
+
+	List<Map<String, Object>> queryDepartureRecordListService(Map<String, Object> ma);
+
+	List<Map<String, Object>> queryDepartureRecordListByPageService(Map<String, Object> ma, PageInfo pageinfo);
+
+	Map<String, Object> delOneHolder(Map<String, Object> map);
+}

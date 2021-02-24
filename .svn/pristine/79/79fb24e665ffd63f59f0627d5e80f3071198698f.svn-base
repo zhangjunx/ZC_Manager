@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_CheckMapper" >
+	
+	<!--导入之前，删除当天相同仓库盘点记录  -->
+	<update id="deleteCheckRecord">
+		declare
+		 	@v_fid varchar(20);
+		begin
+			set @v_fid = (select fid from ZC_CheckRecord 
+				 where checkStore=#{checkStore} 
+				   and CONVERT(varchar(100), checkDate, 23) = #{checkDate});
+			
+			delete from ZC_CheckRecordGoods where checkID = @v_fid;
+			
+			delete from ZC_CheckRecordStoreGoods where checkID = @v_fid;
+			
+			delete from ZC_CheckRecord where fid = @v_fid;
+		end;
+	</update>
+	
+	<!--添加盘点记录  -->
+	<select id="insertCheckRecord" resultType="integer">
+		insert into ZC_CheckRecord(checkStore,checkDate,checker)
+		values(#{checkStore},convert(datetime,#{checkDate}, 20),#{checker})
+		SELECT @@IDENTITY
+	</select>
+	
+	<!--添加盘点物品记录  excel文件导入方式-->
+	<update id="insertCheckRecordGoods">
+		<foreach collection="RFIDList" open="" close="" item="l" separator="">
+			insert into ZC_CheckRecordGoods(checkID,labelCode)
+			values(#{checkID},#{l})
+		</foreach>
+	</update>
+  
+  	<!--添加当天库存物品记录信息  -->
+  	<update id="insertCheckRecordGoodsStore">
+  		insert into ZC_CheckRecordStoreGoods(fid,labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+			storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+			shopType,shopNo,shopDate,endDate,goodsSn,remark,status,checkID)
+		 select t.fid,t.labelCode,t.goodsID,t.inStoreID,t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+			t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+			t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,t.status,#{checkID} from ZC_InStoreGoods t 
+		where t.status = 1 and t.storeID = #{checkStore}
+  	</update>
+  	
+  	<!--获取盘点信息  -->
+  	<select id="getCheckInfo" resultType="map">
+  		select * from ZC_CheckRecord t 
+  		 where CONVERT(varchar(100), t.checkDate, 23) = #{checkDate}
+  		   and t.checkStore = #{checkStore}
+  	</select>
+  	
+  	<!--获取盘点库存物品列表  -->
+  	<select id="getCheckStoreGoodsList" resultType="map">
+  		select t.*,s.storeName,g.size,g.brand,g.specs,h.holderName "checkerName" ,g.imagePath,
+		CONVERT(varchar(100), cr.checkDate, 23) checkDate 
+		from ZC_CheckRecordStoreGoods t 
+		left join ZC_Store s on t.storeID = s.fid
+		left join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_CheckRecord cr on t.checkID = cr.fid
+		left join HolderData h on cr.checker = h.holderNo
+		where t.checkID = #{checkID}
+  	</select>
+  	
+  	<!--获取盘点物品列表  -->
+  	<select id="getCheckGoodsList" resultType="map">
+  		select * from ZC_CheckRecordGoods t where t.checkID = #{checkID}
+  	</select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DoorControlPrisonerMapper" >
+
+	<!--初始化门区状态  -->
+	<select id="getInitPrisonerDoor" resultType="map">
+		select t.doorNo,t.doorName,bb.IOStatus,convert(varchar(100),bb.IODate,23)+' '+bb.IOTime CPDateTime  from DoorUnit t
+		 inner join (select * from DoorUnitOperateLimit l where l.pageID=2 and l.holderNo=#{thisHolderNo}) p on t.doorNo = p.doorID
+		 left join (select * from(
+						  select d.*,ROW_NUMBER() over(partition by d.DeviceNo,d.DoorNo order by d.IODate,d.IOTime desc) rowindex 
+							from DIDODATA d) aa 
+						 where aa.rowindex=1) bb on t.DeviceNo = bb.DeviceNo and t.DoorNo = bb.DoorNo
+		 where t.ifPrisonerDoor = 1
+		   and p.HolderNo = #{thisHolderNo}
+	</select>
+	
+	<!--获取登录人员的管理的监区门区列表  -->
+	<select id="getPrisonerDoor" resultType="map">
+		select t.doorNo,t.doorName from DoorUnit t
+		 inner join  (select * from DoorUnitOperateLimit l where l.pageID=2 and l.holderNo=#{thisHolderNo}) p on t.doorNo = p.doorID
+		 where p.HolderNo = #{thisHolderNo}
+		   and t.ifPrisonerDoor = 1
+	</select>
+  
+</mapper>

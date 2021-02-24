@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_PrisonAreaMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	
+	<!--获取区域列表  -->
+	<select id="getPrisonAreaList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h.holderName "operatorName" from RC_PrisonArea t
+		  left join HolderData h on t.operator = h.holderNo
+		 where 1 = 1 and t.status != 0
+		<!--查询参数：区域名称  -->
+		<if test="areaName != null and areaName != ''">
+			and t.areaName like '%'+#{areaName}+'%'
+		</if>
+		
+		<!--查询参数：区域大小  -->
+		<if test="areaSize != null and areaSize != ''">
+			and t.areaSize &gt;= #{areaSize}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getPrisonAreaListCount" resultType="integer">
+		select count(1) from RC_PrisonArea t
+		  left join HolderData h on t.operator = h.holderNo
+		 where 1 = 1 and t.status != 0
+		<!--查询参数：区域名称  -->
+		<if test="areaName != null and areaName != ''">
+			and t.areaName like '%'+#{areaName}+'%'
+		</if>
+		
+		<!--查询参数：区域大小  -->
+		<if test="areaSize != null and areaSize != ''">
+			and t.areaSize &gt;= #{areaSize}
+		</if>
+	</select>
+	
+	<!--新增区域  -->
+	<update id="addPrisonArea">
+		insert into RC_PrisonArea(areaName,areaSize,personSize,operator,operateDate,status,creator,createDate)
+		values(#{areaName},#{areaSize},#{personSize},#{operator},GETDATE(),#{status},#{operator},GETDATE())
+	</update>
+	
+	<!--编辑区域数据  -->
+	<update id="editPrisonArea">
+		update RC_PrisonArea
+		   set areaName=#{areaName},
+		       areaSize=#{areaSize},
+		       personSize=#{personSize},
+		       operator=#{operator},
+		       operateDate=GETDATE(),
+		       status=#{status}
+		 where fid=#{fid}
+	</update>
+	
+	<!--获取一条区域数据信息  -->
+	<select id="getOnePrisonArea" resultType="map">
+		select t.*,h.holderName "operatorName" from RC_PrisonArea t
+		  left join HolderData h on t.operator = h.holderNo
+		 where t.fid=#{fid}
+	</select>
+	
+	<!--删除一条区域信息  -->
+	<update id="delOnePrisonArea">
+		update RC_PrisonArea 
+		   set status = 0
+		 where fid=#{fid}
+	</update>
+	
+	<!--区域绑卡  -->
+	<update id="updateAreaLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},3,1,GETDATE(),#{changer},#{prisonAreaID})
+			SELECT @fid = @@IDENTITY;
+			
+			update RC_PrisonArea
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonAreaID}
+		end;
+	</update>
+	
+	<!--区域换卡  -->
+	<update id="changeAreaLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			update RC_PrisonLabel
+			   set status = 0
+			 where objID = #{prisonAreaID}
+			   and labelType = 3
+			   and status = 1;
+			
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},3,1,GETDATE(),#{changer},#{prisonAreaID})
+			SELECT @fid = @@IDENTITY;
+			
+			update RC_PrisonArea
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonAreaID};
+		end;
+	</update>
+	
+	<!--根据区域名称查询数量  -->
+	<select id="getSumWithName" resultType="map">
+		select t.* from RC_PrisonArea t where t.areaName = #{areaName} and t.status != 0
+	</select>
+	
+	<!--根据标签号查询数量  -->
+	<select id="getSumWithLabelCode" resultType="integer">
+		select count(1) from RC_PrisonArea t where t.labelCode = #{labelCode} and t.status != 0
+	</select>
+  
+</mapper>

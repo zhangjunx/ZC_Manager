@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>审批记录</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">考勤审批记录</a></div>
+                <div class="label fl"><a href="javascript:;">会议审批记录</a></div>
+                <div class="btn-box fr">
+                  <!--   <div class="subbtn fl"><a href="javascritp:;" class="blue addMain">删除</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue addMain">导出</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')">打印</a></div>
+                </div> -->
+            </div>
+
+            <div class="main-table" id="content1">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>审批类型：
+						</div>
+						<div class="control clearfix">
+							<select class="type">
+								<option value="">请选择</option>
+								<option value="cc">出差</option>
+								<option value="qj">请假</option>
+								<option value="bk">补打卡</option>
+								<option value="jb">加班</option>
+								<option value="tx">调休</option>
+							</select>
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryDeptListByConditionBtn">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">工号</td>
+						<td width="80">姓名</td>
+						<td width="40">部门</td>
+						<td width="80">申请时间</td>
+						<td width="120">类型</td>
+						<td width="120">开始时间/打卡时间</td>
+						<td width="120">结束时间</td>
+						<td width="120">事由/请假类型/门区位置</td>
+						<td width="120">出差地点/请假事由</td>
+						<td width="120">申请人备注</td>
+						<td width="120">审批人备注</td>
+						<td width="40">记录状态</td>
+						<td width="40">审批操作</td>
+					</tr>
+					<tbody id="cont">
+						
+
+					</tbody>
+				</table>
+				<div class="pages" id="test"></div>
+
+			</div>
+			
+			<div class="main-table" id="content2" style="display: none">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>会议主题：
+						</div>
+						<div class="control clearfix">
+							<input type="text" class="input" id="mettingtitle">
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" onclick="queryParmMeeting()">搜索</a>
+					</div>
+				</div>
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40">编号</td>
+						<td width="40">会议类型</td>
+						<td width="40">会议主题</td>
+						<td width="80">召集人</td>
+						<td width="80">主持人</td>
+						<td width="80">会议室名称</td>
+						<td width="80">会议室位置</td>
+						<td width="80">会议状态</td>
+					</tr>
+					<tbody id="meetingcont">
+
+					</tbody>
+				</table>
+				<div class="pages" id="test_meeting"></div>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="js/approval_record.js"></script>
+</body>
+
+</html>

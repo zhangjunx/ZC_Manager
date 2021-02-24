@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FP_ConsumeRecordMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+
+	<!--获取消费记录表  -->
+	<select id="getConsumeList" resultType="map">
+		<include refid="c_start"></include>
+		select t.fid,
+			   t.HolderNo,
+			   t.consumeBill,
+			   CONVERT(varchar(100), t.consumeDate, 23) consumeDate,
+			   CONVERT(varchar(100), t.consumeTime, 108) consumeTime,
+			   t.RestauRantID,
+			   t.ConsumeTimeID,
+			   t.ConsumeTypeID,
+			   t.AccountID,
+			   t.payType,
+			   h.HolderName,
+			   d.DepartmentName,
+			   p.DataPhoto,
+			   r.RestaurantName,
+			   cp.photo,
+			   t.faceType,
+			   m.amount "consumeAccount",
+			   m.mealTimesName,
+			   ha.balance,
+			   ha.accountNo
+		   from FP_ConsumeRecord t
+		  inner join HolderData h on t.HolderNo = h.HolderNo
+		  inner join DepartmentData d on h.DepartmentNo=d.DepartmentNo
+		  inner join HolderPhoto p on t.HolderNo = p.HolderNo
+		   left join FP_Restaurant r on t.RestauRantID = r.fid
+		   left join FP_RestaurantRoleRelation m on t.ConsumeTimeID = m.fid
+		   left join FP_ConsumeRole ty on t.ConsumeTypeID = ty.fid
+		   left join FP_ConsumeRecordPhoto cp on t.fid=cp.consumeDataID
+		   left join FP_HolderAccount ha on t.holderNo = ha.holderNo
+		  where 1=1
+		<!--实时监控  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+		
+		<if test="faceTime != null and faceTime != ''">
+			and CONVERT(varchar(100), t.consumeDate, 20) = #{faceTime}
+		</if>
+		
+		<if test="fid != null and fid != ''">
+			and t.fid=#{fid}
+		</if>
+		
+		<!--查询参数：部门  -->
+		<if test="DepartmentNo != null and DepartmentNo != ''">
+			and d.departmentNo = #{departmentNo}
+		</if>
+		
+		<!--查询参数：员工姓名  -->
+		<if test="HolderName != null and HolderName != ''">
+			and h.HolderName like '%'+#{HolderName}+'%'
+		</if>
+		
+		<!--查询参数：消费日期  -->
+		<if test="consumeDate != null and consumeDate != ''">
+			and CONVERT(varchar(100), t.consumeDate, 23)=#{consumeDate}
+		</if>
+		
+		<!--查询参数：餐厅  -->
+		<if test="RestauRantID != null and RestauRantID != ''">
+			and t.RestauRantID=#{RestauRantID}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getConsumeListCount" resultType="integer">
+		select count(1)
+		  from FP_ConsumeRecord t
+		  inner join HolderData h on t.HolderNo = h.HolderNo
+		  inner join DepartmentData d on h.DepartmentNo=d.DepartmentNo
+		  inner join HolderPhoto p on t.HolderNo = p.HolderNo
+		   left join FP_Restaurant r on t.RestauRantID = r.fid
+		   left join FP_RestaurantRoleRelation m on t.ConsumeTimeID = m.fid
+		   left join FP_ConsumeRole ty on t.ConsumeTypeID = ty.fid
+		   left join FP_ConsumeRecordPhoto cp on t.fid=cp.consumeDataID
+		   left join FP_HolderAccount ha on t.holderNo = ha.holderNo
+		where 1=1
+		<!--实时监控  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+		
+		<if test="faceTime != null and faceTime != ''">
+			and CONVERT(varchar(100), t.consumeDate, 20) = #{faceTime}
+		</if>
+		
+		<if test="fid != null and fid != ''">
+			and t.fid=#{fid}
+		</if>
+		
+		<!--查询参数：部门  -->
+		<if test="DepartmentNo != null and DepartmentNo != ''">
+			and d.departmentNo = #{departmentNo}
+		</if>
+		
+		<!--查询参数：员工姓名  -->
+		<if test="HolderName != null and HolderName != ''">
+			and h.HolderName like '%'+#{HolderName}+'%'
+		</if>
+		
+		<!--查询参数：消费日期  -->
+		<if test="consumeDate != null and consumeDate != ''">
+			and CONVERT(varchar(100), t.consumeDate, 23)=#{consumeDate}
+		</if>
+		
+		<!--查询参数：餐厅  -->
+		<if test="RestauRantID != null and RestauRantID != ''">
+			and t.RestauRantID=#{RestauRantID}
+		</if>
+	</select>
+	
+	<select id="getConsumeAppList" resultType="map">
+		<include refid="c_start"></include>
+		select t.fid,
+			   t.HolderNo,
+			   t.consumeBill,
+			   CONVERT(varchar(100), t.consumeDate, 23) consumeDate,
+			   CONVERT(varchar(100), t.consumeTime, 108) consumeTime,
+			   t.RestauRantID,
+			   t.ConsumeTimeID,
+			   t.ConsumeTypeID,
+			   t.AccountID,
+			   t.payType,
+			   h.HolderName,
+			   d.DepartmentName,
+			   r.RestaurantName,
+			   t.faceType,
+			   m.amount "consumeAccount",
+			   m.mealTimesName,
+			   ha.balance,
+			   ha.accountNo
+		   from FP_ConsumeRecord t
+		  inner join HolderData h on t.HolderNo = h.HolderNo
+		  inner join DepartmentData d on h.DepartmentNo=d.DepartmentNo
+		  inner join HolderPhoto p on t.HolderNo = p.HolderNo
+		   left join FP_Restaurant r on t.RestauRantID = r.fid
+		   left join FP_RestaurantRoleRelation m on t.ConsumeTimeID = m.fid
+		   left join FP_ConsumeRole ty on t.ConsumeTypeID = ty.fid
+		   left join FP_ConsumeRecordPhoto cp on t.fid=cp.consumeDataID
+		   left join FP_HolderAccount ha on t.holderNo = ha.holderNo
+		  where 1=1
+		<!--实时监控  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getConsumeAppListCount" resultType="integer">
+		select count(1)
+		  from FP_ConsumeRecord t
+		  inner join HolderData h on t.HolderNo = h.HolderNo
+		  inner join DepartmentData d on h.DepartmentNo=d.DepartmentNo
+		  inner join HolderPhoto p on t.HolderNo = p.HolderNo
+		   left join FP_Restaurant r on t.RestauRantID = r.fid
+		   left join FP_RestaurantRoleRelation m on t.ConsumeTimeID = m.fid
+		   left join FP_ConsumeRole ty on t.ConsumeTypeID = ty.fid
+		   left join FP_ConsumeRecordPhoto cp on t.fid=cp.consumeDataID
+		   left join FP_HolderAccount ha on t.holderNo = ha.holderNo
+		where 1=1
+		<!--实时监控  -->
+		<if test="holderNo != null and holderNo != ''">
+			and t.holderNo = #{holderNo}
+		</if>
+	</select>
+	
+	<!--获取要同步的人员信息  -->
+	<select id="getHolderList" resultType="map"> 
+		select t.holderNo,t.holderName,t.departmentNo,d.departmentName,a.fid "accountID" from HolderData t
+		left join DepartmentData d on t.departmentNo = d.departmentNo
+		inner join FP_HolderAccount a on t.HolderNo = a.HolderNo
+		where t.departmentNo is not null and t.departmentNo != ''
+		and t.holderNo in(select p.HolderNo from HolderPhoto p  where p.DataPhoto is not null)
+	</select>
+	
+	<select id="getRelationList" resultType="map">
+		select t.restaurantID,t.consumeTypeID,t.mealTimesName,t.startTime,t.endTime,t.amount ,m1.holderAccountID,rs.deviceNo
+		from FP_RestaurantRoleRelation t
+		left join FP_ConsumeRole r on t.consumeTypeID = r.fid
+		left join FP_AccountRoleRelation m1  on r.fid=m1.consumeRoleID
+		left join FP_Restaurant rs on t.restaurantID = rs.fid
+		where t.fstatus=1
+	</select>
+</mapper>

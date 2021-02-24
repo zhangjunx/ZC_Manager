@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.WX_ApproverMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.WX_Approver" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="RoleNo" property="roleno" jdbcType="INTEGER" />
+    <result column="RoleCode" property="rolecode" jdbcType="NVARCHAR" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="Deleted" property="deleted" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, RoleNo, RoleCode, HolderNo, HolderName, Deleted, CreateDate
+  </sql>
+  
+  <select id="queryDeptList" resultType="com.xr.entity.DepartmentData">
+     select departmentno,departmentname from DepartmentData where underno='001'
+  </select>
+  
+  
+  <!-- 查询来访原因列表 -->
+  <select id="queryVisitorsReasonList" resultType="Map">
+       select id,name,note from WX_VisitorsReasonType
+  </select>
+  
+ <!-- 非工作日审批时  监狱领导列表 -->
+ <select id="queryApproverSuperList" resultType="Map">
+<!-- select d.departmentname,a.rolecode,a.holderno,a.holdername from WX_Approver a 
+inner join DepartmentData d on d.DepartmentNo=a.RoleCode
+where d.DepartmentName like '%监狱领导%' -->
+select d.departmentname,a.rolecode,a.holderno,a.holdername from WX_Approver a 
+inner join DepartmentData d on d.DepartmentNo=a.RoleCode
+where d.DepartmentName like '%公司领导%'
+ </select>
+  
+  <!-- 根据角色查角色下人员 -->
+  <select id="queryHolderListByRoleCode" parameterType="Map" resultType="Map">
+  select a.id,a.holderno,a.rolecode,h.holdername,h.departmentno,d.departmentname from HolderData h 
+inner join WX_Approver a on a.HolderNo=h.HolderNo
+inner join DepartmentData d on d.DepartmentNo=h.departmentno
+where a.RoleCode=#{rolecode,jdbcType=VARCHAR} 
+order by a.ID desc
+  </select>
+  
+    <!-- 通过工号   查该人是否已有权限 -->
+  <select id="queryApproverListByRoleCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select ID,RoleNo,RoleCode,HolderNo,HolderName from WX_Approver
+      where RoleCode=#{rolecode,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 通过工号   查该人是否已有权限 -->
+  <select id="queryApproverByRoleCodeAndHolderNo" resultMap="BaseResultMap" parameterType="com.xr.entity.WX_Approver">
+      select ID,RoleNo,RoleCode,HolderNo,HolderName from WX_Approver
+      where RoleCode=#{rolecode,jdbcType=VARCHAR} 
+      and  HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 通过工号   查该人是否已有权限 -->
+  <select id="queryApproverByHolderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select ID,RoleNo,RoleCode,HolderNo,HolderName from WX_Approver
+      where HolderNo=#{holderno,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 批量添加审批人员 -->
+  <insert id="insertApproverBatch" parameterType="java.util.List">
+       insert into WX_Approver(RoleCode,HolderNo,HolderName)
+       <foreach collection="list" item="item" index="index" separator="union all">
+             (select #{item.rolecode},
+             #{item.holderno},#{item.holdername})
+       </foreach>
+  </insert>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from WX_Approver
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from WX_Approver
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.WX_Approver" >
+    insert into WX_Approver (ID, RoleNo, RoleCode, 
+      HolderNo, HolderName, Deleted, 
+      CreateDate)
+    values (#{id,jdbcType=INTEGER}, #{roleno,jdbcType=INTEGER}, #{rolecode,jdbcType=NVARCHAR}, 
+      #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.WX_Approver" >
+    insert into WX_Approver
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="roleno != null" >
+        RoleNo,
+      </if>
+      <if test="rolecode != null" >
+        RoleCode,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleno != null" >
+        #{roleno,jdbcType=INTEGER},
+      </if>
+      <if test="rolecode != null" >
+        #{rolecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.WX_Approver" >
+    update WX_Approver
+    <set >
+      <if test="roleno != null" >
+        RoleNo = #{roleno,jdbcType=INTEGER},
+      </if>
+      <if test="rolecode != null" >
+        RoleCode = #{rolecode,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.WX_Approver" >
+    update WX_Approver
+    set RoleNo = #{roleno,jdbcType=INTEGER},
+      RoleCode = #{rolecode,jdbcType=NVARCHAR},
+      HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      Deleted = #{deleted,jdbcType=VARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据工号判断是否有审批权限 -->
+  <select id="queryJurisdiction" parameterType="java.lang.String" resultType="Map">
+  <!-- select a.RoleCode,ar.Name from dbo.WX_Approver a,dbo.WX_ApproverRole ar 
+  where a.RoleCode = ar.Code and a.HolderNo = #{holderNo} -->
+   select a.id,ar.name,a.holderno,a.rolecode,a.roleno from WX_Approver a 
+   inner join WX_ApproverRole ar on ar.ID=a.RoleNo
+      where a.holderno=#{holderno}
+  </select>
+  
+</mapper>

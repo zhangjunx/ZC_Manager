@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_InStoreMapper" >
+
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	
+	<!--验证库中的labelCode是否存在  -->
+	<select id="checkLabelRepeat" resultType="map">
+		select * from ZC_InStoreGoods t where 1=1 and t.labelCode in
+		<foreach collection="list" item="l" open="(" close=")" separator=",">
+			#{l.labelCode}
+		</foreach>
+	</select>
+	
+	<!--保存入库信息  -->
+	<select id="saveInStoreInfo" resultType="integer">
+		insert into ZC_InStore(bill,inDate,operator,approver,approvalResult,approvalDate,remark)
+		values(#{bill},convert(datetime,#{inDate}, 20),#{operator},#{approver},0,convert(datetime,#{approvalDate}, 20),#{remark})
+		select @@IDENTITY
+	</select>
+	
+	<!--保存入库物品信息  -->
+	<update id="saveInStoreGoodsInfo">
+		<foreach collection="goodsList" item="l" open="" close="" separator="">
+			insert into ZC_InStoreGoods(labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+				storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+				shopType,shopNo,shopDate,endDate,goodsSn,remark,status,parm,filePath)
+			values(#{l.labelCode},#{l.goodsID},#{inStoreID},#{l.goodsName},#{l.goodsType},#{l.goodsCode},#{l.type},#{l.model},convert(datetime,#{l.inStoreDate}, 20),
+			 	#{l.storeID},#{l.shelf},#{l.supplierID},#{l.manufacturerID},convert(datetime,#{l.useDate}, 20),convert(datetime,#{l.retireDate}, 20),
+			 	#{l.shopType},#{l.shopNo},convert(datetime,#{l.shopDate}, 20),convert(datetime,#{l.endDate}, 20),#{l.goodsSn},#{l.remark},1,#{l.parm},#{l.filePath})
+		</foreach>
+	</update>
+	
+	<!--保存物品入库记录信息  -->
+	<update id="saveInStoreGoodsRecordInfo">
+		insert into ZC_InStoreGoodsRecord(fid,labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+			storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+			shopType,shopNo,shopDate,endDate,goodsSn,remark,status,parm,filePath)
+		 select t.fid,t.labelCode,t.goodsID,t.inStoreID,t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+			t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+			t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,t.status,t.parm,t.filePath from ZC_InStoreGoods t 
+		 inner join ZC_InStore s on t.inStoreID = s.fid
+		 where s.bill=#{bill}
+	</update>
+	
+	<!--打印入库单据  -->
+	<select id="printIntBill" resultType="map">
+		select distinct g.*,CONVERT(varchar(100),t.inDate, 23) inDate,
+		ty.typeName,t.bill,count(1) over (partition by t.bill,g.fid) sumval from ZC_InStore t
+		left join ZC_InStoreGoodsRecord s on s.inStoreID = t.fid
+		left join ZC_Goods g on s.goodsID = g.fid
+		left join ZC_GoodsType ty on s.type=ty.fid
+		where t.bill=#{bill}
+	</select>
+	
+	<!--查询入库单据记录  -->
+	<select id="getInStoreRecord" resultType="map">
+		<include refid="c_start"></include>
+		select  t.*,h.holderName "approverName",h2.holderName "operatorName" from ZC_InStore t
+		left join HolderData h on t.approver = h.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		where 1=1
+		<!--查询条件：入库日期  -->
+		<if test="startDate != null and startDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) &gt;= #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) &lt;= #{endDate}
+		</if>
+		<!--查询条件：入库单据  -->
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getInStoreRecordCount" resultType="integer">
+		select count(1) from ZC_InStore t
+		left join HolderData h on t.approver = h.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		where 1=1
+		<!--查询条件：入库日期  -->
+		<if test="startDate != null and startDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) &gt;= #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and CONVERT(varchar(100), t.inDate, 23) &lt;= #{endDate}
+		</if>
+		<!--查询条件：入库单据  -->
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%'
+		</if>
+	</select>
+	
+	<!--查询入库物品记录  -->
+	<select id="getInStoreGoodsRecord" resultType="map">
+		<include refid="c_start"></include>
+		select  t.*,b.bill,ty.typeName,mf.name "manufacturerName",s.name "supplierName",
+				g.specs,g.size,g.brand,ss.storeName ,g.imagePath
+		    from ZC_InStoreGoodsRecord t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.inStoreID = #{inStoreID}
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getInStoreGoodsRecordCount" resultType="integer">
+		select  count(1) from ZC_InStoreGoodsRecord t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.inStoreID = #{inStoreID}
+	</select>
+	
+	<!--===============================================以下是库存管理====================================================  -->
+	
+	<!--查询库存统计  -->
+	<select id="getStoreCount" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,ty.typeName,count(1) over (partition by t.fid) sumval from ZC_Goods t
+		inner join ZC_InStoreGoods g on t.fid=g.goodsID
+		left join ZC_InStore s on g.inStoreID = s.fid
+		left join ZC_GoodsType ty on t.type=ty.fid
+		where 1=1
+		<if test="type != null and type != ''">
+			and t.type=#{type}
+		</if>
+		<if test="goodsName != null and goodsName != ''">
+			and t.goodsName=#{goodsName}
+		</if>
+		<if test="model != null and model != ''">
+			and t.model like '%'+#{model}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getStoreCountCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,ty.typeName,count(1) over (partition by t.fid) sumval from ZC_Goods t
+		left join ZC_InStoreGoods g on t.fid=g.goodsID
+		left join ZC_InStore s on g.inStoreID = s.fid
+		left join ZC_GoodsType ty on t.type=ty.fid
+		where 1=1
+		<if test="type != null and type != ''">
+			and t.type=#{type}
+		</if>
+		<if test="goodsName != null and goodsName != ''">
+			and t.goodsName=#{goodsName}
+		</if>
+		<if test="model != null and model != ''">
+			and t.model like '%'+#{model}+'%'
+		</if>
+		) aa
+	</select>
+	
+	<!--查询库存详细  -->
+	<select id="getStoreGoods" resultType="map">
+		<include refid="c_start"></include>
+		select t.*, 
+			   i.bill,h1.holderName "inGoodsPer",h2.holderName "approverName",
+			   s.storeName,m.name "manufacturerName",ss.name "supplierName" ,
+			   g.specs,g.size,g.brand,g.imagePath
+		  from ZC_InStoreGoods t
+		  left join ZC_InStore i on t.inStoreID = i.fid 
+		  left join HolderData h1 on i.operator = h1.holderNo
+		  left join HolderData h2 on i.approver = h2.holderNo
+		  left join ZC_Store s on t.storeID = s.fid
+		  left join ZC_Manufacture m on t.manufacturerID = m.fid
+		  left join ZC_Supplier ss on t.supplierID = ss.fid
+		  left join ZC_Goods g on t.goodsID = g.fid
+		 where t.goodsID = #{goodsID}
+		<if test="bill != null and bill != ''">
+			and i.bill like '%'+#{bill}+'%'
+		</if>
+		<if test="supplierID != null and supplierID != ''">
+			and t.supplierID = #{supplierID}
+		</if>
+		<if test="storeID != null and storeID != ''">
+			and t.storeID = #{storeID}
+		</if>
+		<if test="shelf != null and shelf != ''">
+			and t.shelf like '%'+#{shelf}+'%'
+		</if>
+		<include refid="c_end"></include>
+ 	</select>
+ 	
+ 	<select id="getStoreGoodsCount" resultType="integer">
+		select count(1)
+		  from ZC_InStoreGoods t
+		  left join ZC_InStore i on t.inStoreID = i.fid 
+		  left join HolderData h1 on i.operator = h1.holderNo
+		  left join HolderData h2 on i.approver = h2.holderNo
+		  left join ZC_Store s on t.storeID = s.fid
+		  left join ZC_Manufacture m on t.manufacturerID = m.fid
+		  left join ZC_Supplier ss on t.supplierID = ss.fid
+		  left join ZC_Goods g on t.goodsID = g.fid
+		 where t.goodsID = #{goodsID}
+		<if test="bill != null and bill != ''">
+			and i.bill like '%'+#{bill}+'%'
+		</if>
+		<if test="supplierID != null and supplierID != ''">
+			and t.supplierID = #{supplierID}
+		</if>
+		<if test="storeID != null and storeID != ''">
+			and t.storeID = #{storeID}
+		</if>
+		<if test="shelf != null and shelf != ''">
+			and t.shelf like '%'+#{shelf}+'%'
+		</if>
+ 	</select>
+	
+	<!--修改库存中物品信息  -->
+	<update id="updateGoodsParm">
+		begin
+		update ZC_InStoreGoods
+		   set storeID=#{storeID},
+			   shelf=#{shelf},
+			   supplierID=#{supplierID},
+			   manufacturerID=#{manufacturerID},
+			   useDate=#{useDate},
+			   retireDate=#{retireDate},
+			   shopType=#{shopType},
+			   shopNo=#{shopNo},
+			   shopDate=#{shopDate},
+			   endDate=#{endDate},
+			   goodsSn=#{goodsSn},
+			   remark=#{remark},
+			   deviceHigh=#{deviceHigh},
+			   rightUnit=#{rightUnit},
+			   rightDept=#{rightDept},
+			   erpCode=#{erpCode},
+			   erpDeviceCode=#{erpDeviceCode},
+			   projectNo=#{projectNo},
+			   projectName=#{projectName},
+			   parm=#{parm},
+			   filePath=#{filePath}
+		 where fid=#{fid};
+		update ZC_InStoreGoodsRecord
+		   set storeID=#{storeID},
+			   shelf=#{shelf},
+			   supplierID=#{supplierID},
+			   manufacturerID=#{manufacturerID},
+			   useDate=#{useDate},
+			   retireDate=#{retireDate},
+			   shopType=#{shopType},
+			   shopNo=#{shopNo},
+			   shopDate=#{shopDate},
+			   endDate=#{endDate},
+			   goodsSn=#{goodsSn},
+			   remark=#{remark},
+			   deviceHigh=#{deviceHigh},
+			   rightUnit=#{rightUnit},
+			   rightDept=#{rightDept},
+			   erpCode=#{erpCode},
+			   erpDeviceCode=#{erpDeviceCode},
+			   projectNo=#{projectNo},
+			   projectName=#{projectName},
+			   parm=#{parm},
+			   filePath=#{filePath}
+		 where fid=#{fid};
+		end;
+	</update>
+	
+</mapper>

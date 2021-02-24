@@ -1,0 +1,1379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HolderDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HolderData" >
+    <id column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="ShowText" property="showtext" jdbcType="VARCHAR" />
+    <result column="Birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="DepartmentNo" property="departmentno" jdbcType="VARCHAR" />
+    <result column="TitleNo" property="titleno" jdbcType="VARCHAR" />
+    <result column="TypeNo" property="typeno" jdbcType="VARCHAR" />
+    <result column="Enabled" property="enabled" jdbcType="SMALLINT" />
+    <result column="PIN" property="pin" jdbcType="VARCHAR" />
+    <result column="PunchCard" property="punchcard" jdbcType="SMALLINT" />
+    <result column="Definable1" property="definable1" jdbcType="VARCHAR" />
+    <result column="Definable2" property="definable2" jdbcType="VARCHAR" />
+    <result column="Site" property="site" jdbcType="VARCHAR" />
+    <result column="Area" property="area" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="ExpiredDate" property="expireddate" jdbcType="TIMESTAMP" />
+    <result column="SuperiorNo1" property="superiorno1" jdbcType="VARCHAR" />
+    <result column="SuperiorNo2" property="superiorno2" jdbcType="VARCHAR" />
+    <result column="SuperiorNo3" property="superiorno3" jdbcType="VARCHAR" />
+    <result column="HolderPassword" property="holderpassword" jdbcType="VARCHAR" />
+    <result column="AnnounceFlag" property="announceflag" jdbcType="SMALLINT" />
+    <result column="LoginFlag" property="loginflag" jdbcType="SMALLINT" />
+    <result column="CheckMark" property="checkmark" jdbcType="SMALLINT" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="SequenceNo" property="sequenceno" jdbcType="INTEGER" />
+    <result column="Deposit01" property="deposit01" jdbcType="TIMESTAMP" />
+    <result column="Deposit02" property="deposit02" jdbcType="TIMESTAMP" />
+    <result column="Deposit03" property="deposit03" jdbcType="TIMESTAMP" />
+    <result column="Deposit04" property="deposit04" jdbcType="VARCHAR" />
+    <result column="PowerStartDate" property="powerstartdate" jdbcType="TIMESTAMP" />
+    <result column="PowerEndDate" property="powerenddate" jdbcType="TIMESTAMP" />
+    <result column="PowerStatus" property="powerstatus" jdbcType="VARCHAR" />
+    <result column="PeriodValidity" property="periodvalidity" jdbcType="INTEGER" />
+    <result column="NationName" property="nationname" jdbcType="NVARCHAR" />
+    <result column="IdCode" property="idcode" jdbcType="VARCHAR" />
+    <result column="SexName" property="sexname" jdbcType="NVARCHAR" />
+    <result column="RegOrg" property="regorg" jdbcType="VARCHAR" />
+    <result column="IDStartDate" property="idstartdate" jdbcType="TIMESTAMP" />
+    <result column="IDEndDate" property="idenddate" jdbcType="TIMESTAMP" />
+    <result column="CardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="CardTypeName" property="cardtypename" jdbcType="VARCHAR" />
+    <result column="FloorRoom" property="floorroom" jdbcType="NVARCHAR" />
+    <result column="Telephone" property="telephone" jdbcType="NVARCHAR" />
+    <result column="FixedTelephone" property="fixedtelephone" jdbcType="NVARCHAR" />
+    <result column="MobilePhone" property="mobilephone" jdbcType="NVARCHAR" />
+    <result column="FloorName" property="floorname" jdbcType="NVARCHAR" />
+    <result column="RoomName" property="roomname" jdbcType="NVARCHAR" />
+    <result column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="CardNo" property="cardno" jdbcType="INTEGER" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+    <result column="HolderStatus" property="holderstatus" jdbcType="VARCHAR" />
+    <result column="IsSupperAdmin" property="issupperadmin" jdbcType="NVARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="NVARCHAR" />
+    <result column="Phone" property="phone" jdbcType="NVARCHAR" />
+    <result column="EmpType" property="emptype" jdbcType="NVARCHAR" />
+    <result column="MaxEducation" property="maxeducation" jdbcType="NVARCHAR" />
+    <result column="PoliticFace" property="politicface" jdbcType="NVARCHAR" />
+    <result column="HolderCard" property="holdercard" jdbcType="NVARCHAR" />
+    <result column="GraduateSchool" property="graduateschool" jdbcType="NVARCHAR" />
+    <result column="MajorSubject" property="majorsubject" jdbcType="NVARCHAR" />
+    <result column="MarryStatus" property="marrystatus" jdbcType="NVARCHAR" />
+    <result column="BankCard" property="bankcard" jdbcType="NVARCHAR" />
+    <result column="NativePlace" property="nativeplace" jdbcType="NVARCHAR" />
+    <result column="WarningName" property="warningname" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="HolderRole" property="holderrole" jdbcType="VARCHAR" />
+    <result column="LoginPassword" property="loginpassword" jdbcType="NVARCHAR" />
+    <result column="RoleID" property="roleid" jdbcType="INTEGER" />
+    <result column="ImgUrl" property="imgurl" jdbcType="NVARCHAR" />
+    <result column="PersonId" property="personid" jdbcType="NVARCHAR" />
+    <result column="WechatNo" property="wechatno" jdbcType="NVARCHAR" />
+    <result column="CWType" property="cwtype" jdbcType="VARCHAR" />
+    <result column="ArchivesNo" property="archivesno" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.xr.entity.HolderData" >
+    <id column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="DepartmentNo" property="departmentno" jdbcType="VARCHAR" />
+    <result column="HolderStatus" property="holderstatus" jdbcType="VARCHAR" />
+     <result column="LoginPassword" property="loginpassword" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.HolderData" extends="BaseResultMap" >
+    <result column="Photo" property="photo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HolderNo, HolderName, ShowText, Birthday, DepartmentNo, TitleNo, TypeNo, Enabled, 
+    PIN, PunchCard, Definable1, Definable2, Site, Area, Email, StartDate, ExpiredDate, 
+    SuperiorNo1, SuperiorNo2, SuperiorNo3, HolderPassword, AnnounceFlag, LoginFlag, CheckMark, 
+    Description, SequenceNo, Deposit01, Deposit02, Deposit03, Deposit04, PowerStartDate, 
+    PowerEndDate, PowerStatus, PeriodValidity, NationName, IdCode, SexName, RegOrg, IDStartDate, 
+    IDEndDate, CardID, CardTypeName, FloorRoom, Telephone, FixedTelephone, MobilePhone, 
+    FloorName, RoomName, DataNo, CardNo, NetNode, HolderStatus, IsSupperAdmin, CompanyName, 
+    Phone, EmpType, MaxEducation, PoliticFace, HolderCard, GraduateSchool, MajorSubject, 
+    MarryStatus, BankCard, NativePlace, WarningName, CreatePerson, CreateDate, UpdatePerson, 
+    UpdateDate, DelPerson, DelDate, Deleted, HolderRole, LoginPassword, RoleID, ImgUrl, 
+    PersonId, WechatNo, CWType, ArchivesNo
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photo
+  </sql>
+  
+  <select id="getNextHolder" resultType="java.lang.String">
+      select (ISNULL(max(holderno),1000)+1) holderno from HolderData 
+  </select>
+  
+  
+  <!-- 根据身份证号查看该人是否存在 添加时判断 -->
+  <select id="queryHolderByTitleNo" resultMap="BaseResultMap1" parameterType="java.lang.String">
+     select top 1 HolderNo,HolderName from HolderData 
+     where TitleNo=#{titleno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据身份证号查看该人是否存在 添加时判断 -->
+  <select id="queryHolderByIDCode" resultMap="BaseResultMap1" parameterType="java.lang.String">
+     select top 1 HolderNo,HolderName from HolderData 
+     where IDCode=#{idcode,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 根据卡号查看该人是否存在 添加时判断 -->
+  <select id="queryHolderByHolderCard" resultMap="BaseResultMap1" parameterType="java.lang.String">
+     select top 1 HolderNo,HolderName from HolderData 
+     where HolderCard=#{holdercard,jdbcType=VARCHAR}
+  </select>
+  
+ <!-- 查询退休人员 所有退休人员 -->
+  <select id="queryRetireList" resultType="Map" parameterType="Map">
+select holderno,holdername,sexname,(select departmentname from departmentdata 
+where departmentno=substring(HolderData.departmentno,1,3))companyname,
+(select departmentname from departmentdata 
+where departmentno=HolderData.departmentno)departmentname,
+ titleno,(select titlename from TitleData where TitleNo=HolderData.titleno)titlename,
+      idcode,emptype,convert(varchar(10),startdate,23) startdate,warningname,
+substring(cast((cast(convert(varchar(10),GETDATE(),112) as int)-cast(substring(IDCode,7,8) as int)) as varchar(10)),0,3) diff from HolderData 
+where cast(substring(cast((cast(convert(varchar(10),GETDATE(),112) 
+as int)-cast(substring(IDCode,7,8) as int)) as varchar(10)),0,3) as int)>50 
+and departmentno in
+<foreach collection="list" item="item" open="(" close=")" separator=",">
+  #{item}
+</foreach>
+<if test="idcode!=null and idcode!='' ">
+  and  IDCode like '%'+#{idcode}+'%'
+</if>
+<if test="holdername!=null and holdername!='' ">
+  and  HolderName like '%'+#{holdername}+'%'
+</if>
+<if test="diff!=null and diff!='' ">
+  and  substring(cast((cast(convert(varchar(10),GETDATE(),112) as int)-cast(substring(IDCode,7,8) as int)) as varchar(10)),0,3)=#{diff,jdbcType=VARCHAR}
+</if>
+  </select>
+  
+  <!-- 根据工号查详细信息 -->
+  <select id="queryHolderInfoByHolder" resultType="Map" parameterType="java.lang.String">
+select h.holderno,h.departmentno,h.mobilephone,
+d.departmentname,h.holdercard,
+t.titlename,h.titleno,
+h.holdername,h.idcode,h.sexname,h.nationname,
+convert(varchar(10),h.Birthday,23) birthday,h.superiorno2,h.nativeplace,
+convert(varchar(10),h.StartDate,23) startdate,
+h.emptype,h.bankcard,h.email,h.politicface,
+h.maxeducation,h.graduateschool,h.majorsubject,h.marrystatus,
+h.floorroom,h.fixedtelephone,
+h.loginpassword,h.holderstatus,h.warningname,h.roleid,r.Name rolename
+ from HolderData h 
+ left join DepartmentData d on d.DepartmentNo=h.DepartmentNo
+ left join TitleData t on t.TitleNo=h.TitleNo
+left join ACL_Roles r on r.ID=h.RoleID
+where h.HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <!-- 通过工号或姓名查人    人员角色分配里用到-->
+ <!--  <select id="queryHolderByNoOrName" resultMap="BaseResultMap" parameterType="Map" >
+     select HolderNo,HolderName from HolderData 
+     <where>
+          <if test="str!=null and str!=''">
+             HolderNo=#{str} or HolderName like '%'+#{str}+'%'
+          </if>
+     </where>
+  </select> -->
+  
+ 
+  
+   <!--  添加新员工时 通过工号查员工是否存在    登录时也用到 首先判断工号是否存在-->
+  <select id="queryHolderByHolder" resultMap="BaseResultMap1" parameterType="java.lang.String">
+     select HolderNo,HolderName,HolderStatus from HolderData where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+   
+   <!-- 批量修改    改变deleted状态 1存在 0删除   默认是1 -->
+  <update id="updateHolderDataBatchs" parameterType="java.util.List">
+     <foreach collection="list" item="item" index="index" separator=";">
+      update HolderData set Deleted='0',
+      updatePerson=#{item.updateperson},
+      updateDate=#{item.updatedate}
+      where HolderNo=#{item.holderno}
+     </foreach>  
+  </update>
+   
+   
+   <!--是否预警提示 -->
+  <update id="updateWarningName" parameterType="com.xr.entity.HolderData">
+   update HolderData 
+   set WarningName=#{warningname,jdbcType=NVARCHAR}
+    where HolderNo=#{holderno,jdbcType=VARCHAR} 
+  </update>
+  
+   <!-- 是否授权  登录授权  11有权限 12 没有权限-->
+  <update id="updateHolderStatus" parameterType="com.xr.entity.HolderData">
+   update HolderData 
+   set HolderStatus=#{holderstatus,jdbcType=VARCHAR}
+    where HolderNo=#{holderno,jdbcType=VARCHAR} 
+  </update>
+  
+ 
+  
+   <!-- 根据卡号查询个人信息 -->
+  <select id="queryByHolderCard"  resultType="Map" parameterType="java.lang.String">
+    select h.holderno,h.holdername,h.mobilephone,
+h.titleno,(select TitleName from TitleData where TitleNo=h.TitleNo) TitleName titlename,
+h.departmentno,(select DepartmentName from DepartmentData 
+where DepartmentNo=h.DepartmentNo) departmentname,
+  substring(h.DepartmentNo,1,3) companyname,h.warningname,
+  (select DepartmentName from DepartmentData where DepartmentNo=h.CompanyName) companyno ,
+   (select Name from ACL_Roles where ID=h.roleid) rolename,
+   h.holdercard,h.loginpassword,h.idcode,
+   convert(varchar(10),h.Birthday,23) birthday,
+   convert(varchar(10),h.StartDate,23) startdate,
+   h.nativeplace,h.maxeducation,h.bankcard,
+   h.emptype,h.superiorno2,h.phone,h.email,h.nationname,
+   h.politicface,h.graduateschool,h.majorsubject,
+   h.sexname,h.marrystatus,h.holderstatus,h.roleid
+   from HolderData h where  h.HolderCard=#{holdercard,jdbcType=NVARCHAR}
+  </select>
+  
+  <!-- 修改密码 -->
+  <update id="updatePWD" parameterType="com.xr.entity.HolderData">
+   update HolderData 
+   set LoginPassword=#{loginpassword,jdbcType=NVARCHAR}
+    where HolderNo=#{holderno,jdbcType=VARCHAR} 
+  </update>
+  
+  <!-- 修改密码 -->
+  <update id="updateKMPWD" parameterType="com.xr.entity.HolderData">
+   update HolderData 
+   set HolderPassword=#{holderpassword,jdbcType=VARCHAR}
+    where HolderNo=#{holderno,jdbcType=VARCHAR} 
+  </update>
+  
+  <!-- 用户登录 -->
+  <select id="queryLoginCheck" resultMap="BaseResultMap1" parameterType="com.xr.entity.HolderData">
+     select HolderNo, HolderName, DepartmentNo,LoginPassword,HolderStatus from HolderData
+      where HolderNo=#{holderno,jdbcType=VARCHAR} and 
+      LoginPassword=#{loginpassword,jdbcType=NVARCHAR}
+  </select>
+  
+  <!-- 查询用户列表信息 超级管理员  -->
+  <select id="queryHolderDataList" resultType="Map">
+   select h.holderno,h.holdername,h.sexname,
+h.titleno,(select TitleName from TitleData where TitleNo=h.TitleNo) titlename,
+h.departmentno,(select DepartmentName from DepartmentData 
+where DepartmentNo=h.DepartmentNo) departmentname,
+  substring(h.DepartmentNo,1,3) companyname,
+  (select DepartmentName from DepartmentData where DepartmentNo=substring(h.DepartmentNo,1,3)) companyno,
+   (select Name from ACL_Roles where ID=h.roleid) rolename,
+   h.holdercard,h.idcode,
+  convert(varchar(10),h.StartDate,23) startdate, h.emptype,
+   h.roleid,h.holderstatus
+   from HolderData h 
+    where  
+     h.Departmentno in
+      <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+         #{item}
+      </foreach> 
+      <if test="departmentno != null and departmentno!='' " >
+       and h.Departmentno like #{departmentno}+'%'
+      </if>
+      <if test="holderno != null and holderno!=''" >
+       and h.HolderNo=#{holderno,jdbcType=VARCHAR}
+      </if>
+      <if test="holdername != null and holdername!=''" >
+        and h.HolderName like '%'+#{holdername}+'%'
+      </if>
+      <if test="idcode != null and idcode !=''" >
+        and h.IDCode like '%'+#{idcode}+'%'
+      </if>
+      <if test="holdercard!=null and holdercard!=''">
+          and h.HolderCard=#{holdercard,jdbcType=NVARCHAR}
+       </if>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from HolderData
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HolderData
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.HolderData" >
+    insert into HolderData (HolderNo, HolderName, ShowText, 
+      Birthday, DepartmentNo, TitleNo, 
+      TypeNo, Enabled, PIN, 
+      PunchCard, Definable1, Definable2, 
+      Site, Area, Email, 
+      StartDate, ExpiredDate, SuperiorNo1, 
+      SuperiorNo2, SuperiorNo3, HolderPassword, 
+      AnnounceFlag, LoginFlag, CheckMark, 
+      Description, SequenceNo, Deposit01, 
+      Deposit02, Deposit03, Deposit04, 
+      PowerStartDate, PowerEndDate, PowerStatus, 
+      PeriodValidity, NationName, IdCode, 
+      SexName, RegOrg, IDStartDate, 
+      IDEndDate, CardID, CardTypeName, 
+      FloorRoom, Telephone, FixedTelephone, 
+      MobilePhone, FloorName, RoomName, 
+      DataNo, CardNo, NetNode, 
+      HolderStatus, IsSupperAdmin, CompanyName, 
+      Phone, EmpType, MaxEducation, 
+      PoliticFace, HolderCard, GraduateSchool, 
+      MajorSubject, MarryStatus, BankCard, 
+      NativePlace, WarningName, CreatePerson, 
+      CreateDate, UpdatePerson, UpdateDate, 
+      DelPerson, DelDate, Deleted, 
+      HolderRole, LoginPassword, RoleID, 
+      ImgUrl, PersonId, WechatNo, 
+      CWType, ArchivesNo, Photo
+      )
+    values (#{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, #{showtext,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{departmentno,jdbcType=VARCHAR}, #{titleno,jdbcType=VARCHAR}, 
+      #{typeno,jdbcType=VARCHAR}, #{enabled,jdbcType=SMALLINT}, #{pin,jdbcType=VARCHAR}, 
+      #{punchcard,jdbcType=SMALLINT}, #{definable1,jdbcType=VARCHAR}, #{definable2,jdbcType=VARCHAR}, 
+      #{site,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{startdate,jdbcType=TIMESTAMP}, #{expireddate,jdbcType=TIMESTAMP}, #{superiorno1,jdbcType=VARCHAR}, 
+      #{superiorno2,jdbcType=VARCHAR}, #{superiorno3,jdbcType=VARCHAR}, #{holderpassword,jdbcType=VARCHAR}, 
+      #{announceflag,jdbcType=SMALLINT}, #{loginflag,jdbcType=SMALLINT}, #{checkmark,jdbcType=SMALLINT}, 
+      #{description,jdbcType=VARCHAR}, #{sequenceno,jdbcType=INTEGER}, #{deposit01,jdbcType=TIMESTAMP}, 
+      #{deposit02,jdbcType=TIMESTAMP}, #{deposit03,jdbcType=TIMESTAMP}, #{deposit04,jdbcType=VARCHAR}, 
+      #{powerstartdate,jdbcType=TIMESTAMP}, #{powerenddate,jdbcType=TIMESTAMP}, #{powerstatus,jdbcType=VARCHAR}, 
+      #{periodvalidity,jdbcType=INTEGER}, #{nationname,jdbcType=NVARCHAR}, #{idcode,jdbcType=VARCHAR}, 
+      #{sexname,jdbcType=NVARCHAR}, #{regorg,jdbcType=VARCHAR}, #{idstartdate,jdbcType=TIMESTAMP}, 
+      #{idenddate,jdbcType=TIMESTAMP}, #{cardid,jdbcType=VARCHAR}, #{cardtypename,jdbcType=VARCHAR}, 
+      #{floorroom,jdbcType=NVARCHAR}, #{telephone,jdbcType=NVARCHAR}, #{fixedtelephone,jdbcType=NVARCHAR}, 
+      #{mobilephone,jdbcType=NVARCHAR}, #{floorname,jdbcType=NVARCHAR}, #{roomname,jdbcType=NVARCHAR}, 
+      #{datano,jdbcType=INTEGER}, #{cardno,jdbcType=INTEGER}, #{netnode,jdbcType=NVARCHAR}, 
+      #{holderstatus,jdbcType=VARCHAR}, #{issupperadmin,jdbcType=NVARCHAR}, #{companyname,jdbcType=NVARCHAR}, 
+      #{phone,jdbcType=NVARCHAR}, #{emptype,jdbcType=NVARCHAR}, #{maxeducation,jdbcType=NVARCHAR}, 
+      #{politicface,jdbcType=NVARCHAR}, #{holdercard,jdbcType=NVARCHAR}, #{graduateschool,jdbcType=NVARCHAR}, 
+      #{majorsubject,jdbcType=NVARCHAR}, #{marrystatus,jdbcType=NVARCHAR}, #{bankcard,jdbcType=NVARCHAR}, 
+      #{nativeplace,jdbcType=NVARCHAR}, #{warningname,jdbcType=NVARCHAR}, #{createperson,jdbcType=NVARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}, 
+      #{holderrole,jdbcType=VARCHAR}, #{loginpassword,jdbcType=NVARCHAR}, #{roleid,jdbcType=INTEGER}, 
+      #{imgurl,jdbcType=NVARCHAR}, #{personid,jdbcType=NVARCHAR}, #{wechatno,jdbcType=NVARCHAR}, 
+      #{cwtype,jdbcType=VARCHAR}, #{archivesno,jdbcType=NVARCHAR}, #{photo,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.HolderData" >
+    insert into HolderData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="showtext != null" >
+        ShowText,
+      </if>
+      <if test="birthday != null" >
+        Birthday,
+      </if>
+      <if test="departmentno != null" >
+        DepartmentNo,
+      </if>
+      <if test="titleno != null" >
+        TitleNo,
+      </if>
+      <if test="typeno != null" >
+        TypeNo,
+      </if>
+      <if test="enabled != null" >
+        Enabled,
+      </if>
+      <if test="pin != null" >
+        PIN,
+      </if>
+      <if test="punchcard != null" >
+        PunchCard,
+      </if>
+      <if test="definable1 != null" >
+        Definable1,
+      </if>
+      <if test="definable2 != null" >
+        Definable2,
+      </if>
+      <if test="site != null" >
+        Site,
+      </if>
+      <if test="area != null" >
+        Area,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="expireddate != null" >
+        ExpiredDate,
+      </if>
+      <if test="superiorno1 != null" >
+        SuperiorNo1,
+      </if>
+      <if test="superiorno2 != null" >
+        SuperiorNo2,
+      </if>
+      <if test="superiorno3 != null" >
+        SuperiorNo3,
+      </if>
+      <if test="holderpassword != null" >
+        HolderPassword,
+      </if>
+      <if test="announceflag != null" >
+        AnnounceFlag,
+      </if>
+      <if test="loginflag != null" >
+        LoginFlag,
+      </if>
+      <if test="checkmark != null" >
+        CheckMark,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="sequenceno != null" >
+        SequenceNo,
+      </if>
+      <if test="deposit01 != null" >
+        Deposit01,
+      </if>
+      <if test="deposit02 != null" >
+        Deposit02,
+      </if>
+      <if test="deposit03 != null" >
+        Deposit03,
+      </if>
+      <if test="deposit04 != null" >
+        Deposit04,
+      </if>
+      <if test="powerstartdate != null" >
+        PowerStartDate,
+      </if>
+      <if test="powerenddate != null" >
+        PowerEndDate,
+      </if>
+      <if test="powerstatus != null" >
+        PowerStatus,
+      </if>
+      <if test="periodvalidity != null" >
+        PeriodValidity,
+      </if>
+      <if test="nationname != null" >
+        NationName,
+      </if>
+      <if test="idcode != null" >
+        IdCode,
+      </if>
+      <if test="sexname != null" >
+        SexName,
+      </if>
+      <if test="regorg != null" >
+        RegOrg,
+      </if>
+      <if test="idstartdate != null" >
+        IDStartDate,
+      </if>
+      <if test="idenddate != null" >
+        IDEndDate,
+      </if>
+      <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="cardtypename != null" >
+        CardTypeName,
+      </if>
+      <if test="floorroom != null" >
+        FloorRoom,
+      </if>
+      <if test="telephone != null" >
+        Telephone,
+      </if>
+      <if test="fixedtelephone != null" >
+        FixedTelephone,
+      </if>
+      <if test="mobilephone != null" >
+        MobilePhone,
+      </if>
+      <if test="floorname != null" >
+        FloorName,
+      </if>
+      <if test="roomname != null" >
+        RoomName,
+      </if>
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="cardno != null" >
+        CardNo,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+      <if test="holderstatus != null" >
+        HolderStatus,
+      </if>
+      <if test="issupperadmin != null" >
+        IsSupperAdmin,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="emptype != null" >
+        EmpType,
+      </if>
+      <if test="maxeducation != null" >
+        MaxEducation,
+      </if>
+      <if test="politicface != null" >
+        PoliticFace,
+      </if>
+      <if test="holdercard != null" >
+        HolderCard,
+      </if>
+      <if test="graduateschool != null" >
+        GraduateSchool,
+      </if>
+      <if test="majorsubject != null" >
+        MajorSubject,
+      </if>
+      <if test="marrystatus != null" >
+        MarryStatus,
+      </if>
+      <if test="bankcard != null" >
+        BankCard,
+      </if>
+      <if test="nativeplace != null" >
+        NativePlace,
+      </if>
+      <if test="warningname != null" >
+        WarningName,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="holderrole != null" >
+        HolderRole,
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassword,
+      </if>
+      <if test="roleid != null" >
+        RoleID,
+      </if>
+      <if test="imgurl != null" >
+        ImgUrl,
+      </if>
+      <if test="personid != null" >
+        PersonId,
+      </if>
+      <if test="wechatno != null" >
+        WechatNo,
+      </if>
+      <if test="cwtype != null" >
+        CWType,
+      </if>
+      <if test="archivesno != null" >
+        ArchivesNo,
+      </if>
+      <if test="photo != null" >
+        Photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="showtext != null" >
+        #{showtext,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departmentno != null" >
+        #{departmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="titleno != null" >
+        #{titleno,jdbcType=VARCHAR},
+      </if>
+      <if test="typeno != null" >
+        #{typeno,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=SMALLINT},
+      </if>
+      <if test="pin != null" >
+        #{pin,jdbcType=VARCHAR},
+      </if>
+      <if test="punchcard != null" >
+        #{punchcard,jdbcType=SMALLINT},
+      </if>
+      <if test="definable1 != null" >
+        #{definable1,jdbcType=VARCHAR},
+      </if>
+      <if test="definable2 != null" >
+        #{definable2,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireddate != null" >
+        #{expireddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="superiorno1 != null" >
+        #{superiorno1,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorno2 != null" >
+        #{superiorno2,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorno3 != null" >
+        #{superiorno3,jdbcType=VARCHAR},
+      </if>
+      <if test="holderpassword != null" >
+        #{holderpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="announceflag != null" >
+        #{announceflag,jdbcType=SMALLINT},
+      </if>
+      <if test="loginflag != null" >
+        #{loginflag,jdbcType=SMALLINT},
+      </if>
+      <if test="checkmark != null" >
+        #{checkmark,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sequenceno != null" >
+        #{sequenceno,jdbcType=INTEGER},
+      </if>
+      <if test="deposit01 != null" >
+        #{deposit01,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit02 != null" >
+        #{deposit02,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit03 != null" >
+        #{deposit03,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit04 != null" >
+        #{deposit04,jdbcType=VARCHAR},
+      </if>
+      <if test="powerstartdate != null" >
+        #{powerstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerenddate != null" >
+        #{powerenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerstatus != null" >
+        #{powerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="periodvalidity != null" >
+        #{periodvalidity,jdbcType=INTEGER},
+      </if>
+      <if test="nationname != null" >
+        #{nationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sexname != null" >
+        #{sexname,jdbcType=NVARCHAR},
+      </if>
+      <if test="regorg != null" >
+        #{regorg,jdbcType=VARCHAR},
+      </if>
+      <if test="idstartdate != null" >
+        #{idstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idenddate != null" >
+        #{idenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypename != null" >
+        #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="floorroom != null" >
+        #{floorroom,jdbcType=NVARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="fixedtelephone != null" >
+        #{fixedtelephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="floorname != null" >
+        #{floorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="roomname != null" >
+        #{roomname,jdbcType=NVARCHAR},
+      </if>
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=INTEGER},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderstatus != null" >
+        #{holderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="issupperadmin != null" >
+        #{issupperadmin,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="emptype != null" >
+        #{emptype,jdbcType=NVARCHAR},
+      </if>
+      <if test="maxeducation != null" >
+        #{maxeducation,jdbcType=NVARCHAR},
+      </if>
+      <if test="politicface != null" >
+        #{politicface,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdercard != null" >
+        #{holdercard,jdbcType=NVARCHAR},
+      </if>
+      <if test="graduateschool != null" >
+        #{graduateschool,jdbcType=NVARCHAR},
+      </if>
+      <if test="majorsubject != null" >
+        #{majorsubject,jdbcType=NVARCHAR},
+      </if>
+      <if test="marrystatus != null" >
+        #{marrystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        #{bankcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        #{nativeplace,jdbcType=NVARCHAR},
+      </if>
+      <if test="warningname != null" >
+        #{warningname,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderrole != null" >
+        #{holderrole,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        #{loginpassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=NVARCHAR},
+      </if>
+      <if test="personid != null" >
+        #{personid,jdbcType=NVARCHAR},
+      </if>
+      <if test="wechatno != null" >
+        #{wechatno,jdbcType=NVARCHAR},
+      </if>
+      <if test="cwtype != null" >
+        #{cwtype,jdbcType=VARCHAR},
+      </if>
+      <if test="archivesno != null" >
+        #{archivesno,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.HolderData" >
+    update HolderData
+    <set >
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="showtext != null" >
+        ShowText = #{showtext,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        Birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="departmentno != null" >
+        DepartmentNo = #{departmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="titleno != null" >
+        TitleNo = #{titleno,jdbcType=VARCHAR},
+      </if>
+      <if test="typeno != null" >
+        TypeNo = #{typeno,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        Enabled = #{enabled,jdbcType=SMALLINT},
+      </if>
+      <if test="pin != null" >
+        PIN = #{pin,jdbcType=VARCHAR},
+      </if>
+      <if test="punchcard != null" >
+        PunchCard = #{punchcard,jdbcType=SMALLINT},
+      </if>
+      <if test="definable1 != null" >
+        Definable1 = #{definable1,jdbcType=VARCHAR},
+      </if>
+      <if test="definable2 != null" >
+        Definable2 = #{definable2,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        Site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        Area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireddate != null" >
+        ExpiredDate = #{expireddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="superiorno1 != null" >
+        SuperiorNo1 = #{superiorno1,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorno2 != null" >
+        SuperiorNo2 = #{superiorno2,jdbcType=VARCHAR},
+      </if>
+      <if test="superiorno3 != null" >
+        SuperiorNo3 = #{superiorno3,jdbcType=VARCHAR},
+      </if>
+      <if test="holderpassword != null" >
+        HolderPassword = #{holderpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="announceflag != null" >
+        AnnounceFlag = #{announceflag,jdbcType=SMALLINT},
+      </if>
+      <if test="loginflag != null" >
+        LoginFlag = #{loginflag,jdbcType=SMALLINT},
+      </if>
+      <if test="checkmark != null" >
+        CheckMark = #{checkmark,jdbcType=SMALLINT},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sequenceno != null" >
+        SequenceNo = #{sequenceno,jdbcType=INTEGER},
+      </if>
+      <if test="deposit01 != null" >
+        Deposit01 = #{deposit01,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit02 != null" >
+        Deposit02 = #{deposit02,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit03 != null" >
+        Deposit03 = #{deposit03,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deposit04 != null" >
+        Deposit04 = #{deposit04,jdbcType=VARCHAR},
+      </if>
+      <if test="powerstartdate != null" >
+        PowerStartDate = #{powerstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerenddate != null" >
+        PowerEndDate = #{powerenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerstatus != null" >
+        PowerStatus = #{powerstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="periodvalidity != null" >
+        PeriodValidity = #{periodvalidity,jdbcType=INTEGER},
+      </if>
+      <if test="nationname != null" >
+        NationName = #{nationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        IdCode = #{idcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sexname != null" >
+        SexName = #{sexname,jdbcType=NVARCHAR},
+      </if>
+      <if test="regorg != null" >
+        RegOrg = #{regorg,jdbcType=VARCHAR},
+      </if>
+      <if test="idstartdate != null" >
+        IDStartDate = #{idstartdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idenddate != null" >
+        IDEndDate = #{idenddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardtypename != null" >
+        CardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      </if>
+      <if test="floorroom != null" >
+        FloorRoom = #{floorroom,jdbcType=NVARCHAR},
+      </if>
+      <if test="telephone != null" >
+        Telephone = #{telephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="fixedtelephone != null" >
+        FixedTelephone = #{fixedtelephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        MobilePhone = #{mobilephone,jdbcType=NVARCHAR},
+      </if>
+      <if test="floorname != null" >
+        FloorName = #{floorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="roomname != null" >
+        RoomName = #{roomname,jdbcType=NVARCHAR},
+      </if>
+      <if test="datano != null" >
+        DataNo = #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="cardno != null" >
+        CardNo = #{cardno,jdbcType=INTEGER},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderstatus != null" >
+        HolderStatus = #{holderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="issupperadmin != null" >
+        IsSupperAdmin = #{issupperadmin,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        CompanyName = #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=NVARCHAR},
+      </if>
+      <if test="emptype != null" >
+        EmpType = #{emptype,jdbcType=NVARCHAR},
+      </if>
+      <if test="maxeducation != null" >
+        MaxEducation = #{maxeducation,jdbcType=NVARCHAR},
+      </if>
+      <if test="politicface != null" >
+        PoliticFace = #{politicface,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdercard != null" >
+        HolderCard = #{holdercard,jdbcType=NVARCHAR},
+      </if>
+      <if test="graduateschool != null" >
+        GraduateSchool = #{graduateschool,jdbcType=NVARCHAR},
+      </if>
+      <if test="majorsubject != null" >
+        MajorSubject = #{majorsubject,jdbcType=NVARCHAR},
+      </if>
+      <if test="marrystatus != null" >
+        MarryStatus = #{marrystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="bankcard != null" >
+        BankCard = #{bankcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="nativeplace != null" >
+        NativePlace = #{nativeplace,jdbcType=NVARCHAR},
+      </if>
+      <if test="warningname != null" >
+        WarningName = #{warningname,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="holderrole != null" >
+        HolderRole = #{holderrole,jdbcType=VARCHAR},
+      </if>
+      <if test="loginpassword != null" >
+        LoginPassword = #{loginpassword,jdbcType=NVARCHAR},
+      </if>
+      <if test="roleid != null" >
+        RoleID = #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        ImgUrl = #{imgurl,jdbcType=NVARCHAR},
+      </if>
+      <if test="personid != null" >
+        PersonId = #{personid,jdbcType=NVARCHAR},
+      </if>
+      <if test="wechatno != null" >
+        WechatNo = #{wechatno,jdbcType=NVARCHAR},
+      </if>
+      <if test="cwtype != null" >
+        CWType = #{cwtype,jdbcType=VARCHAR},
+      </if>
+      <if test="archivesno != null" >
+        ArchivesNo = #{archivesno,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo != null" >
+        Photo = #{photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.HolderData" >
+    update HolderData
+    set HolderName = #{holdername,jdbcType=VARCHAR},
+      ShowText = #{showtext,jdbcType=VARCHAR},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      DepartmentNo = #{departmentno,jdbcType=VARCHAR},
+      TitleNo = #{titleno,jdbcType=VARCHAR},
+      TypeNo = #{typeno,jdbcType=VARCHAR},
+      Enabled = #{enabled,jdbcType=SMALLINT},
+      PIN = #{pin,jdbcType=VARCHAR},
+      PunchCard = #{punchcard,jdbcType=SMALLINT},
+      Definable1 = #{definable1,jdbcType=VARCHAR},
+      Definable2 = #{definable2,jdbcType=VARCHAR},
+      Site = #{site,jdbcType=VARCHAR},
+      Area = #{area,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      ExpiredDate = #{expireddate,jdbcType=TIMESTAMP},
+      SuperiorNo1 = #{superiorno1,jdbcType=VARCHAR},
+      SuperiorNo2 = #{superiorno2,jdbcType=VARCHAR},
+      SuperiorNo3 = #{superiorno3,jdbcType=VARCHAR},
+      HolderPassword = #{holderpassword,jdbcType=VARCHAR},
+      AnnounceFlag = #{announceflag,jdbcType=SMALLINT},
+      LoginFlag = #{loginflag,jdbcType=SMALLINT},
+      CheckMark = #{checkmark,jdbcType=SMALLINT},
+      Description = #{description,jdbcType=VARCHAR},
+      SequenceNo = #{sequenceno,jdbcType=INTEGER},
+      Deposit01 = #{deposit01,jdbcType=TIMESTAMP},
+      Deposit02 = #{deposit02,jdbcType=TIMESTAMP},
+      Deposit03 = #{deposit03,jdbcType=TIMESTAMP},
+      Deposit04 = #{deposit04,jdbcType=VARCHAR},
+      PowerStartDate = #{powerstartdate,jdbcType=TIMESTAMP},
+      PowerEndDate = #{powerenddate,jdbcType=TIMESTAMP},
+      PowerStatus = #{powerstatus,jdbcType=VARCHAR},
+      PeriodValidity = #{periodvalidity,jdbcType=INTEGER},
+      NationName = #{nationname,jdbcType=NVARCHAR},
+      IdCode = #{idcode,jdbcType=VARCHAR},
+      SexName = #{sexname,jdbcType=NVARCHAR},
+      RegOrg = #{regorg,jdbcType=VARCHAR},
+      IDStartDate = #{idstartdate,jdbcType=TIMESTAMP},
+      IDEndDate = #{idenddate,jdbcType=TIMESTAMP},
+      CardID = #{cardid,jdbcType=VARCHAR},
+      CardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      FloorRoom = #{floorroom,jdbcType=NVARCHAR},
+      Telephone = #{telephone,jdbcType=NVARCHAR},
+      FixedTelephone = #{fixedtelephone,jdbcType=NVARCHAR},
+      MobilePhone = #{mobilephone,jdbcType=NVARCHAR},
+      FloorName = #{floorname,jdbcType=NVARCHAR},
+      RoomName = #{roomname,jdbcType=NVARCHAR},
+      DataNo = #{datano,jdbcType=INTEGER},
+      CardNo = #{cardno,jdbcType=INTEGER},
+      NetNode = #{netnode,jdbcType=NVARCHAR},
+      HolderStatus = #{holderstatus,jdbcType=VARCHAR},
+      IsSupperAdmin = #{issupperadmin,jdbcType=NVARCHAR},
+      CompanyName = #{companyname,jdbcType=NVARCHAR},
+      Phone = #{phone,jdbcType=NVARCHAR},
+      EmpType = #{emptype,jdbcType=NVARCHAR},
+      MaxEducation = #{maxeducation,jdbcType=NVARCHAR},
+      PoliticFace = #{politicface,jdbcType=NVARCHAR},
+      HolderCard = #{holdercard,jdbcType=NVARCHAR},
+      GraduateSchool = #{graduateschool,jdbcType=NVARCHAR},
+      MajorSubject = #{majorsubject,jdbcType=NVARCHAR},
+      MarryStatus = #{marrystatus,jdbcType=NVARCHAR},
+      BankCard = #{bankcard,jdbcType=NVARCHAR},
+      NativePlace = #{nativeplace,jdbcType=NVARCHAR},
+      WarningName = #{warningname,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      HolderRole = #{holderrole,jdbcType=VARCHAR},
+      LoginPassword = #{loginpassword,jdbcType=NVARCHAR},
+      RoleID = #{roleid,jdbcType=INTEGER},
+      ImgUrl = #{imgurl,jdbcType=NVARCHAR},
+      PersonId = #{personid,jdbcType=NVARCHAR},
+      WechatNo = #{wechatno,jdbcType=NVARCHAR},
+      CWType = #{cwtype,jdbcType=VARCHAR},
+      ArchivesNo = #{archivesno,jdbcType=NVARCHAR},
+      Photo = #{photo,jdbcType=LONGVARBINARY}
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.HolderData" >
+    update HolderData
+    set HolderName = #{holdername,jdbcType=VARCHAR},
+      ShowText = #{showtext,jdbcType=VARCHAR},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      DepartmentNo = #{departmentno,jdbcType=VARCHAR},
+      TitleNo = #{titleno,jdbcType=VARCHAR},
+      TypeNo = #{typeno,jdbcType=VARCHAR},
+      Enabled = #{enabled,jdbcType=SMALLINT},
+      PIN = #{pin,jdbcType=VARCHAR},
+      PunchCard = #{punchcard,jdbcType=SMALLINT},
+      Definable1 = #{definable1,jdbcType=VARCHAR},
+      Definable2 = #{definable2,jdbcType=VARCHAR},
+      Site = #{site,jdbcType=VARCHAR},
+      Area = #{area,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      ExpiredDate = #{expireddate,jdbcType=TIMESTAMP},
+      SuperiorNo1 = #{superiorno1,jdbcType=VARCHAR},
+      SuperiorNo2 = #{superiorno2,jdbcType=VARCHAR},
+      SuperiorNo3 = #{superiorno3,jdbcType=VARCHAR},
+      HolderPassword = #{holderpassword,jdbcType=VARCHAR},
+      AnnounceFlag = #{announceflag,jdbcType=SMALLINT},
+      LoginFlag = #{loginflag,jdbcType=SMALLINT},
+      CheckMark = #{checkmark,jdbcType=SMALLINT},
+      Description = #{description,jdbcType=VARCHAR},
+      SequenceNo = #{sequenceno,jdbcType=INTEGER},
+      Deposit01 = #{deposit01,jdbcType=TIMESTAMP},
+      Deposit02 = #{deposit02,jdbcType=TIMESTAMP},
+      Deposit03 = #{deposit03,jdbcType=TIMESTAMP},
+      Deposit04 = #{deposit04,jdbcType=VARCHAR},
+      PowerStartDate = #{powerstartdate,jdbcType=TIMESTAMP},
+      PowerEndDate = #{powerenddate,jdbcType=TIMESTAMP},
+      PowerStatus = #{powerstatus,jdbcType=VARCHAR},
+      PeriodValidity = #{periodvalidity,jdbcType=INTEGER},
+      NationName = #{nationname,jdbcType=NVARCHAR},
+      IdCode = #{idcode,jdbcType=VARCHAR},
+      SexName = #{sexname,jdbcType=NVARCHAR},
+      RegOrg = #{regorg,jdbcType=VARCHAR},
+      IDStartDate = #{idstartdate,jdbcType=TIMESTAMP},
+      IDEndDate = #{idenddate,jdbcType=TIMESTAMP},
+      CardID = #{cardid,jdbcType=VARCHAR},
+      CardTypeName = #{cardtypename,jdbcType=VARCHAR},
+      FloorRoom = #{floorroom,jdbcType=NVARCHAR},
+      Telephone = #{telephone,jdbcType=NVARCHAR},
+      FixedTelephone = #{fixedtelephone,jdbcType=NVARCHAR},
+      MobilePhone = #{mobilephone,jdbcType=NVARCHAR},
+      FloorName = #{floorname,jdbcType=NVARCHAR},
+      RoomName = #{roomname,jdbcType=NVARCHAR},
+      DataNo = #{datano,jdbcType=INTEGER},
+      CardNo = #{cardno,jdbcType=INTEGER},
+      NetNode = #{netnode,jdbcType=NVARCHAR},
+      HolderStatus = #{holderstatus,jdbcType=VARCHAR},
+      IsSupperAdmin = #{issupperadmin,jdbcType=NVARCHAR},
+      CompanyName = #{companyname,jdbcType=NVARCHAR},
+      Phone = #{phone,jdbcType=NVARCHAR},
+      EmpType = #{emptype,jdbcType=NVARCHAR},
+      MaxEducation = #{maxeducation,jdbcType=NVARCHAR},
+      PoliticFace = #{politicface,jdbcType=NVARCHAR},
+      HolderCard = #{holdercard,jdbcType=NVARCHAR},
+      GraduateSchool = #{graduateschool,jdbcType=NVARCHAR},
+      MajorSubject = #{majorsubject,jdbcType=NVARCHAR},
+      MarryStatus = #{marrystatus,jdbcType=NVARCHAR},
+      BankCard = #{bankcard,jdbcType=NVARCHAR},
+      NativePlace = #{nativeplace,jdbcType=NVARCHAR},
+      WarningName = #{warningname,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      HolderRole = #{holderrole,jdbcType=VARCHAR},
+      LoginPassword = #{loginpassword,jdbcType=NVARCHAR},
+      RoleID = #{roleid,jdbcType=INTEGER},
+      ImgUrl = #{imgurl,jdbcType=NVARCHAR},
+      PersonId = #{personid,jdbcType=NVARCHAR},
+      WechatNo = #{wechatno,jdbcType=NVARCHAR},
+      CWType = #{cwtype,jdbcType=VARCHAR},
+      ArchivesNo = #{archivesno,jdbcType=NVARCHAR}
+    where HolderNo = #{holderno,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <!-- csc; 查询工号 . 查看读取Excel的数据中是否在数据库中有重复的数据 -->
+  <select id="queryExcelHoderNo" resultType="java.lang.String">
+        select holderno from HolderData  where HolderNo=#{holderno}
+  </select>
+  
+  
+    <!-- csc;查询身份证号* 查看读取Excel的数据中是否在数据库中有重复的数据-->
+  <select id="queryExcelIdCode" resultType="java.lang.String">
+        select idcode from HolderData where IdCode=#{idcode}
+             
+  </select>
+  
+   <!--   * 查询卡号是否在数据库中已存在* 读取Excel的卡号是否在数据库中已被使用 -->
+   <select id="queryExcelCardNo" resultType="java.lang.String">
+       SELECT holdercard FROM dbo.HolderData where HolderCard=#{holdercard}
+   </select>
+  
+  <!-- csc;  * 查询部门所属的编号*查看读取Excel的数据中是否在数据库中有重复的数据-->
+  <select id="queryExcelDeptno" resultType="String">
+	select
+	  DepartmentNo
+	from 
+	   DepartmentData 
+	where  substring(DepartmentNo,1,3)=
+	    substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)
+	and departmentname=#{departmentname}
+  </select>
+  
+  <!--   *添加Excel中的数据 -->
+  <insert id="insertBatchHolderData" parameterType="java.util.Map">
+       INSERT INTO dbo.HolderData
+       (HolderNo,HolderName,SexName,DepartmentNo,EmpType,HolderCard,IdCode,startdate)
+        <foreach collection="list" index="index" item="item" separator="union all">
+             select #{item.holderno},#{item.holdername},#{item.sexname},#{item.departmentno},#{item.emptype},#{item.holdercard},#{item.idcode},#{item.startdate}
+         </foreach>
+  </insert>
+  
+  <!-- * 目前只有小程序使用该方法* 通过工号和登录密码来查询,用户是否可以开门 -->
+   <select id="queryLoginDoorPwd" resultType="String">
+      SELECT 
+         HolderPassword AS holderpassword 
+      from dbo.HolderData 
+         WHERE holderno=#{holderno} and holderpassword=#{holderpassword}
+   </select>
+   
+   <!--*  目前只有小程序使用该方法*通过微信号查询用户的相关信息.
+     *查询用户是否可以快速登录小程序* -->
+     <select id="queryWechatNoLogin" resultType="com.xr.entity.HolderData">
+		SELECT 
+				 HolderNo, 
+				 HolderName, 
+				 DepartmentNo,
+				 HolderStatus
+		 from HolderData
+			where WechatNo=#{wechatno}
+     </select>
+     
+     <!--  * 该方法用与小程序工号或者密码登录时* 给该员工绑定微信的openid* 修改方法 -->
+     <update id="updateHolderWechatNo" parameterType="com.xr.entity.HolderData">
+        update HolderData set WechatNo=#{wechatno} WHERE HolderNo=#{holderno}
+     </update>
+     
+     <!-- 查询所有人员,用于与SenseLink平台对接员工 -->
+     <select id="getAllStaff" resultType="Map">
+            SELECT 
+                h.HolderNo AS holderno ,
+                HolderName AS holdername,
+               CONVERT(VARCHAR(20),Birthday,120)  AS birthday,<!--生日-->
+                MobilePhone AS mobilephone ,<!--手机号码-->
+                CONVERT(VARCHAR(20),StartDate,120) AS startdate ,<!--入职时间-->
+                t.TitleName AS titlename ,<!--职位-->
+                EmpType AS emptype ,<!--工种-->
+                Email AS email ,<!--邮箱-->
+                IdCode AS idcode,<!--身份证号码-->
+                CASE h.SexName
+                  WHEN '男' THEN 2
+                  WHEN '女' THEN 1
+                END AS sexname,
+                 ISNULL(p.DataPhoto , null) as dataPhoto ,<!-- 注册照 -->
+                CONVERT(VARCHAR(120),h.UpdateDate,120)  AS updatedate
+         FROM   dbo.HolderData h
+                LEFT JOIN dbo.TitleData t ON t.TitleNo = h.TitleNo
+				INNER JOIN dbo.HolderPhoto p ON p.HolderNo = h.HolderNo
+     </select>
+     
+    <!-- 通过工号查询部门名称 -->
+     <select id="queryDepartmentNameByHolderno" resultType="Map">
+	SELECT
+		d.DepartmentNo AS departmentno,
+		d.DepartmentName AS departmentname
+		FROM dbo.DepartmentData d
+	INNER JOIN dbo.HolderData h ON h.DepartmentNo = d.DepartmentNo
+	WHERE h.HolderNo=#{holderno}
+     </select>
+     
+     
+     
+</mapper>

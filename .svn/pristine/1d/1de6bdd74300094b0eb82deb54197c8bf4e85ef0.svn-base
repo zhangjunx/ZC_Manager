@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_ReportMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--统计入库报表  -->
+	<select id="getInStoreListReport" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_InStoreGoodsRecord gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), gs.inStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), gs.inStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	<include refid="c_end"></include>
+	</select>
+	<select id="getInStoreListReportCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_InStoreGoodsRecord gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), gs.inStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), gs.inStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	) aa
+	</select>
+	
+	<!--入库统计详细  -->
+	<select id="getInStoreListReportMem" resultType="map">
+		<include refid="c_start"></include>
+		select  t.*,b.bill,ty.typeName,mf.name "manufacturerName",s.name "supplierName",g.specs,g.size,g.brand,ss.storeName from ZC_InStoreGoodsRecord t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.goodsID = #{goodsID}
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.inStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.inStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	<include refid="c_end"></include>
+	</select>
+	
+	<select id="getInStoreListReportMemCount" resultType="integer">
+		select count(1) from ZC_InStoreGoodsRecord t
+			left join ZC_InStore b on t.inStoreID = b.fid
+			left join ZC_GoodsType ty on t.type=ty.fid
+			left join ZC_Manufacture mf on t.manufacturerID = mf.fid
+			left join ZC_Supplier s on t.supplierID = s.fid
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+		where t.goodsID = #{goodsID}
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.inStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.inStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	</select>
+	
+	<!--出库统计  -->
+	<select id="getOutStoreListReport" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_OutStoreGoods gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	<include refid="c_end"></include>
+	</select>
+	<select id="getOutStoreListReportCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_OutStoreGoods gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	) aa
+	</select>
+	
+	<!--出库详情  -->
+	<select id="getOutStoreListReportMem" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h1.holderName "operatorName",h2.holderName "approverName",h3.holderName "receiverName",d.departmentName "receiveUnitName" ,
+			g.specs,g.size,g.brand,ss.storeName,m.name "manufacturer",sp.name "supplierName"
+			from ZC_OutStoreGoods t
+			left join ZC_OutStore o on t.outStoreID = o.fid
+			left join HolderData h1 on o.operator = h1.holderNo
+			left join HolderData h2 on o.approver = h2.holderNo
+			left join HolderData h3 on o.receiver = h3.holderNo
+			left join DepartmentData d on o.receiveUnit = d.departmentNo
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+			left join ZC_Manufacture m on t.manufacturerID = m.fid
+			left join ZC_Supplier sp on t.supplierID = sp.fid 
+		 where t.goodsID=#{goodsID}
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	<include refid="c_end"></include>
+	</select>
+	<select id="getOutStoreListReportMemCount" resultType="integer">
+		select count(1)
+			from ZC_OutStoreGoods t
+			left join ZC_OutStore o on t.outStoreID = o.fid
+			left join HolderData h1 on o.operator = h1.holderNo
+			left join HolderData h2 on o.approver = h2.holderNo
+			left join HolderData h3 on o.receiver = h3.holderNo
+			left join DepartmentData d on o.receiveUnit = d.departmentNo
+			left join ZC_Goods g on t.goodsID = g.fid
+			left join ZC_Store ss on t.storeID = ss.fid
+			left join ZC_Manufacture m on t.manufacturerID = m.fid
+			left join ZC_Supplier sp on t.supplierID = sp.fid 
+		 where t.goodsID=#{goodsID}
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.outStoreDate, 23) &lt;= #{endDate}
+	 	</if>
+	</select>
+	
+	<!--借用统计  -->
+	<select id="getBorrowedStoreListReport" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_BorrowRecordGoods gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), gs.operateDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), gs.operateDate, 23) &lt;= #{endDate}
+	 	</if>
+		<include refid="c_end"></include>
+	</select>
+	<select id="getBorrowedStoreListReportCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,h.holderName "operatorName",ty.typeName ,
+			count(1) over(partition by t.fid   ) sumVal
+		 from ZC_Goods t
+	     left join HolderData h on t.operator = h.holderNo
+	     left join ZC_GoodsType ty on t.type = ty.fid
+		inner join ZC_BorrowRecordGoods gs on t.fid=gs.goodsID
+	 	where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), gs.operateDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), gs.operateDate, 23) &lt;= #{endDate}
+	 	</if>
+	 	) aa
+	</select>
+	
+	<!--借用详情  -->
+	<select id="getBorrowedStoreListReportMem" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,r.bill,d.departmentName "borrowUnitName",h.holderName "borrowPerName",
+			r.phone,CONVERT(varchar(100),r.borrowDate, 23) borrowDate,
+			CONVERT(varchar(100),r.startDate, 23) "borrowStartDate",
+			CONVERT(varchar(100),r.endDate, 23) "borrowEndDate",
+			CONVERT(varchar(100),r.operateDate, 23) borrowOperateDate,
+			h2.holderName "borrowOperatorName",g.specs,g.brand,g.size,ss.storeName,r.remark "mremark"
+		from ZC_BorrowRecordGoods t
+		inner join ZC_BorrowRecord r on t.borrowID = r.fid
+		left join DepartmentData d on r.borrowUnit = d.departmentNo
+		left join HolderData h on r.borrowPer = h.holderNo
+		left join HolderData h2 on r.operator = h2.HolderNo
+		left join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_Store ss on t.storeID = ss.fid
+		where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.operateDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.operateDate, 23) &lt;= #{endDate}
+	 	</if>
+		<include refid="c_end"></include>
+	</select>
+	<select id="getBorrowedStoreListReportMemCount" resultType="integer">
+		select count(1)
+		from ZC_BorrowRecordGoods t
+		inner join ZC_BorrowRecord r on t.borrowID = r.fid
+		left join DepartmentData d on r.borrowUnit = d.departmentNo
+		left join HolderData h on r.borrowPer = h.holderNo
+		left join HolderData h2 on r.operator = h2.HolderNo
+		left join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_Store ss on t.storeID = ss.fid
+		where 1=1
+	 	<if test="startDate != null and startDate != ''">
+	 		and CONVERT(varchar(100), t.operateDate, 23) &gt;= #{startDate}
+	 	</if>
+	 	
+	 	<if test="endDate != null and endDate != ''">
+	 		and CONVERT(varchar(100), t.operateDate, 23) &lt;= #{endDate}
+	 	</if>
+	</select>
+</mapper>

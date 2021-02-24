@@ -1,0 +1,115 @@
+/* 仓库管理新增页面 */
+.fixedGoods .form-term .lable{
+	width:115px;
+}
+.fixedGoods .btn{
+	margin-left: 10px;
+    width: 75px;
+    height: 32px;
+    line-height: 32px;
+    background: #169bd5;
+    text-align: center;
+    border-radius: 3px;
+}
+.fixedGoods .btn a{
+	color: #fff;
+    display: block;
+    font-size: 12px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.unit{
+	display: inline-block;
+    border: 1px solid #ddd;
+    border-left: none;
+    width: 47px;
+    height: 30px;
+    vertical-align: top;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    color: #666;
+    background: #eee;
+}
+/* 物品管理页面 */
+.main-content .main-table .itemManage_l{
+	height:100%;
+}
+.main-content .main-table .itemManage_l h3{
+	line-height: 36px;
+    border-bottom: 1px solid #ddd;
+}
+.main-content .main-table .itemManage_l .dept_left{
+	width:400px;
+	height: calc(100% - 40px);
+}
+/* .main-content .main-table .itemManage_l .item_l_toolbar .addCategory{
+	margin-right:10px;
+} */
+.main-content .main-table .itemManage_r{
+	width: calc(100% - 430px);
+}
+.fixedGoods .downpanel .control{
+	text-align: left;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.fixedGoods .downpanel .control .layui-edge{
+	border-width: 4px;
+    border-top-color: #666;
+}
+/* 物品入库页面 */
+.layui-form{
+	clear:both !important;
+}
+.downpanel2 .control{
+	text-align: left;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.downpanel2 .control .layui-edge{
+	border-width: 4px;
+    border-top-color: #666;
+}
+.downpanel2 .layui-select-title span {
+    line-height: 31px;
+}
+table tr td input{
+	max-width:none !important;
+}
+table tr td select{
+	max-width:none !important;
+	    width: 100%;
+} 
+.file{
+	position: relative;
+    display: inline-block;
+    width: 50px;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    line-height: 20px;
+}
+.file #upload{
+	position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    width: 74px;
+    height: 29px;
+    cursor: pointer;
+}
+.control #filename{
+	vertical-align: top;
+    color: #333;
+    line-height: 30px;
+    margin-left: 10px;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>餐厅管理</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/Shuttle.css">
+    <link rel="stylesheet" href="css/FaceConsume.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">餐次设置</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl"><a href="javascript:;" class="blue">新增消费模式</a></div>
+	                <div class="subbtn fl"><a href="meal_add.html" class="blue">新增</a></div>
+	            </div>
+			</div>
+            <div class="main-table">
+				<table class="grade mealSetting" id="dayindaju1">
+					<tr>
+						<td width="40">序号</td>
+						<td width="40">名称</td>
+						<td width="80">开始时间</td>
+						<td width="80">结束时间</td>
+						<td width="40">消费模式</td>
+						<td width="40">备注</td>
+						<td width="40" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+						<tr>
+							<td width="40">1</td>
+							<td width="40">早餐</td>
+							<td width="80">07:00</td>
+							<td width="80">09:00</td>
+							<td width="40">
+								<div class="consumptionPattern">
+									<div>消费模式1</div>
+									<div>2元</div>
+								</div>
+								<div class="consumptionPattern">
+									<div>消费模式2</div>
+									<div>3元</div>
+								</div>
+								<div class="consumptionPattern">
+									<div>消费模式3</div>
+									<div>5元</div>
+								</div>
+							</td>
+							<td width="40">备注</td>
+							<td width="40" class="no-print">操作</td>
+						</tr>
+						<tr>
+							<td width="40">2</td>
+							<td width="40">中餐</td>
+							<td width="80">11:30</td>
+							<td width="80">14:00</td>
+							<td width="40">
+								<span class="field">选择消费模式</span>
+							</td>
+							<td width="40">备注</td>
+							<td width="40" class="no-print">操作</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="pages" id="test">
+				</div>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+</body>
+
+</html>

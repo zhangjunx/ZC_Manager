@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HY_RoomDateMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HY_RoomDate" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="roomdate" property="roomdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.HY_RoomDateWithBLOBs" extends="BaseResultMap" >
+    <result column="roomID" property="roomid" jdbcType="VARBINARY" />
+    <result column="timeid" property="timeid" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fno, roomdate
+  </sql>
+  <sql id="Blob_Column_List" >
+    roomID, timeid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from HY_RoomDate
+    where fno = #{fno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from HY_RoomDate
+    where fno = #{fno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.HY_RoomDateWithBLOBs" >
+    insert into HY_RoomDate (fno, roomdate, roomID, 
+      timeid)
+    values (#{fno,jdbcType=INTEGER}, #{roomdate,jdbcType=TIMESTAMP}, #{roomid,jdbcType=VARBINARY}, 
+      #{timeid,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.HY_RoomDateWithBLOBs" >
+    insert into HY_RoomDate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fno != null" >
+        fno,
+      </if>
+      <if test="roomdate != null" >
+        roomdate,
+      </if>
+      <if test="roomid != null" >
+        roomID,
+      </if>
+      <if test="timeid != null" >
+        timeid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fno != null" >
+        #{fno,jdbcType=INTEGER},
+      </if>
+      <if test="roomdate != null" >
+        #{roomdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null" >
+        #{roomid,jdbcType=VARBINARY},
+      </if>
+      <if test="timeid != null" >
+        #{timeid,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.HY_RoomDateWithBLOBs" >
+    update HY_RoomDate
+    <set >
+      <if test="roomdate != null" >
+        roomdate = #{roomdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roomid != null" >
+        roomID = #{roomid,jdbcType=VARBINARY},
+      </if>
+      <if test="timeid != null" >
+        timeid = #{timeid,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.HY_RoomDateWithBLOBs" >
+    update HY_RoomDate
+    set roomdate = #{roomdate,jdbcType=TIMESTAMP},
+      roomID = #{roomid,jdbcType=VARBINARY},
+      timeid = #{timeid,jdbcType=VARBINARY}
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.HY_RoomDate" >
+    update HY_RoomDate
+    set roomdate = #{roomdate,jdbcType=TIMESTAMP}
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+</mapper>

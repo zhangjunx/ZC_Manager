@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>备品件库存</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <!-- <link rel="stylesheet" href="../css/style_.css" /> -->
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">备品件库存</a></div>
+                <div class="btn-box fr">
+                	 <div class="btn-box fr">
+                         <div class="subbtn fl"><a href="javascript:;" class="orange addMain" id="outBP">确定</a></div>
+                </div>
+                </div>
+                <div class="main-table">
+                   <!--查询条件-->
+                    <div class="search-box main-form fl">
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>所在仓库：</div>
+                            <div class="control clearfix">
+                                <!-- <select name="itemcode" id="xiala">
+                                </select> -->
+                                <input type="text" id="warename" name="warename" placeholder="备品件名称" class="input">
+                            </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>备品件条码：</div>
+                            <div class="control clearfix">
+                                <input type="text" id="itemcode" name="itemcode" placeholder="备品件条码" class="input">
+                            </div>
+                        </div>
+                        <div class="btn fl">
+                            <a href="javascript:;" id="sousuo">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                            <tr>
+                            	<td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td>
+                                <td width="40">序号</td>
+                                <td width="100">所在仓库名称</td>
+                                <td width="100">备品件条码</td>
+                                <td width="100">备品件名称</td>
+                                <td width="100">规格</td>
+                                <td width="100">型号</td>
+                                <td width="100">计量单位</td>
+                                <!-- <td width="100">入库数量</td>
+                                <td width="100">出库数量</td> -->
+                                <td width="100">库存数量</td>
+                                <td width="100">物品单价</td>
+                                <td width="100">总金额</td>
+                                <td width="100">所属类别</td>
+                                <td width="100">备注</td>
+                                <td width="100">第一次录入人</td>
+                                <td width="100">第一次录入时间</td>
+                                <td width="100">最后一次修改人</td>
+                                <td width="100">最后一次修改时间</td>
+                            </tr>
+                         <tbody id="cont">
+                          
+                         </tbody>
+                        <tfoot>
+						    <tr>
+						        <td width="40">合计</td>
+						        <td width="40"></td>
+						        <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <!-- <td width="100" id="insertStorage"></td>
+                                <td width="100" id="outStorage"></td> -->
+                                <td width="100" id="storageNumber"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                 <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+                                <td width="100"></td>
+						    </tr>
+						</tfoot>
+                    </table>
+                    
+                    <div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/b_stock_layer.js"></script>
+</body>
+
+</html>

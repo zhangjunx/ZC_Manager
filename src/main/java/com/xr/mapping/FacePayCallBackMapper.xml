@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FacePayCallBackMapper">
+	<!--根据人员获取餐厅信息  -->
+	<select id="getRestaurantInfo" resultType="map">
+		select t.* from FP_RestaurantDevice t 
+		left join DeviceUnit d on t.deviceNo = d.deviceNo
+		where d.controlSN = #{deviceKey}
+	</select>
+	
+	<!--根据人员获取身份信息  -->
+	<select id="getRoleInfo" resultType="map">
+		select * from FP_AccountRoleRelation rr where rr.holderAccountID in(
+		select fid from FP_HolderAccount a where a.holderNo = #{personId})
+	</select>
+	
+	<!--根据时间获取餐次  -->
+	<select id="getTimeInfo" resultType="map">
+		select * from FP_RestaurantRoleRelation t 
+		 where t.restaurantID = #{restaurantID}
+		   and t.consumeTypeID=#{consumeRoleID}
+		   and #{faceTime} &gt;=  replace(t.startTime,':','')*100
+		   and #{faceTime} &lt;=  replace(t.endTime,':','')*100
+	</select>
+	
+	<!--上传消费记录  -->
+	<select id="saveRecord" resultType="integer">
+		insert into FP_ConsumeRecord(HolderNo,consumeBill,consumeDate,consumeTime,RestauRantID,ConsumeTimeID,
+				ConsumeTypeID,AccountID,payType,faceType)
+			values(#{holderNo},dbo.GETBILLNO(#{holderNo}),convert(datetime,#{consumeDate}, 20),convert(datetime,#{consumeTime}, 20),#{restauRantID},#{consumeTimeID},
+				#{consumeTypeID},#{accountID},#{payType},#{faceType})
+		SELECT @@IDENTITY AS fid
+	</select>
+	
+	<!--保存消费记录图片  -->
+	<update id="saveRecordPhoto">
+		insert into FP_ConsumeRecordPhoto(ConsumeDataID,path,photo,remark)
+		values(#{ConsumeDataID},#{path},#{photo},#{remark})
+	</update>
+	
+	<!--根据holderNo获取账户信息  -->
+	<select id="getAccountInfo" resultType="map">
+		select * from FP_HolderAccount t where t.holderNo=#{personId}
+	</select>
+	
+	<!--更新账户余额  -->
+	<update id="updateAccountBalance">
+		update FP_HolderAccount
+		   set Balance = Balance - cast(#{consumeAccount} as numeric(18,2)),
+		       updateDate = GETDATE()
+		 where holderNo=#{personId}
+	</update>
+	
+</mapper>

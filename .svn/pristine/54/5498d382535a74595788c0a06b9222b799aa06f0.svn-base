@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZX_HolderFileMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ZX_HolderFile" >
+    <id column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="IDCode" property="idcode" jdbcType="NVARCHAR" />
+    <result column="GraduationScan" property="graduationscan" jdbcType="NVARCHAR" />
+    <result column="IDScan" property="idscan" jdbcType="NVARCHAR" />
+    <result column="MedicalScan" property="medicalscan" jdbcType="NVARCHAR" />
+    <result column="LaborScan" property="laborscan" jdbcType="NVARCHAR" />
+    <result column="SecretScan" property="secretscan" jdbcType="NVARCHAR" />
+    <result column="ResumeScan" property="resumescan" jdbcType="NVARCHAR" />
+    <result column="Stay" property="stay" jdbcType="NVARCHAR" />
+    <result column="FloorRoom" property="floorroom" jdbcType="NVARCHAR" />
+    <result column="MedicalInsure" property="medicalinsure" jdbcType="NVARCHAR" />
+    <result column="EndInsure" property="endinsure" jdbcType="NVARCHAR" />
+    <result column="InjuryInsure" property="injuryinsure" jdbcType="NVARCHAR" />
+    <result column="BirthInsure" property="birthinsure" jdbcType="NVARCHAR" />
+    <result column="UnemployInsure" property="unemployinsure" jdbcType="NVARCHAR" />
+    <result column="HouseFund" property="housefund" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdatePersonName" property="updatepersonname" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    HolderNo, HolderName, IDCode, GraduationScan, IDScan, MedicalScan, LaborScan, SecretScan, 
+    ResumeScan, Stay, FloorRoom, MedicalInsure, EndInsure, InjuryInsure, BirthInsure, 
+    UnemployInsure, HouseFund, UpdateDate, UpdatePerson, UpdatePersonName
+  </sql>
+  
+  <select id="getHolderFileList" resultType="Map">
+      select holderno,holdername,idcode,graduationscan,idscan,medicalscan,
+      laborscan,secretscan,resumescan,stay,
+      floorroom,medicalInsure,endinsure,injuryinsure,birthinsure,unemployinsure,
+      housefund,updatedate,updateperson,updatepersonname from ZX_HolderFile
+      <where>
+	      <if test="holderno != null and holderno!='' " >
+	        and HolderNo=#{holderno}
+	      </if>
+	      <if test="holdername != null and holdername!='' " >
+	        and HolderName like '%'+#{holdername}+'%'
+	      </if>
+	      <if test="idcode != null and idcode!='' " >
+	        and IDCode like '%'+#{idcode}+'%'
+	      </if>
+      
+      </where>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZX_HolderFile
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ZX_HolderFile
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ZX_HolderFile" >
+    insert into ZX_HolderFile (HolderNo, HolderName, IDCode, 
+      GraduationScan, IDScan, MedicalScan, 
+      LaborScan, SecretScan, ResumeScan, 
+      Stay, FloorRoom, MedicalInsure, 
+      EndInsure, InjuryInsure, BirthInsure, 
+      UnemployInsure, HouseFund, UpdateDate, 
+      UpdatePerson, UpdatePersonName)
+    values (#{holderno,jdbcType=NVARCHAR}, #{holdername,jdbcType=NVARCHAR}, #{idcode,jdbcType=NVARCHAR}, 
+      #{graduationscan,jdbcType=NVARCHAR}, #{idscan,jdbcType=NVARCHAR}, #{medicalscan,jdbcType=NVARCHAR}, 
+      #{laborscan,jdbcType=NVARCHAR}, #{secretscan,jdbcType=NVARCHAR}, #{resumescan,jdbcType=NVARCHAR}, 
+      #{stay,jdbcType=NVARCHAR}, #{floorroom,jdbcType=NVARCHAR}, #{medicalinsure,jdbcType=NVARCHAR}, 
+      #{endinsure,jdbcType=NVARCHAR}, #{injuryinsure,jdbcType=NVARCHAR}, #{birthinsure,jdbcType=NVARCHAR}, 
+      #{unemployinsure,jdbcType=NVARCHAR}, #{housefund,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{updateperson,jdbcType=NVARCHAR}, #{updatepersonname,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ZX_HolderFile" >
+    insert into ZX_HolderFile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="idcode != null" >
+        IDCode,
+      </if>
+      <if test="graduationscan != null" >
+        GraduationScan,
+      </if>
+      <if test="idscan != null" >
+        IDScan,
+      </if>
+      <if test="medicalscan != null" >
+        MedicalScan,
+      </if>
+      <if test="laborscan != null" >
+        LaborScan,
+      </if>
+      <if test="secretscan != null" >
+        SecretScan,
+      </if>
+      <if test="resumescan != null" >
+        ResumeScan,
+      </if>
+      <if test="stay != null" >
+        Stay,
+      </if>
+      <if test="floorroom != null" >
+        FloorRoom,
+      </if>
+      <if test="medicalinsure != null" >
+        MedicalInsure,
+      </if>
+      <if test="endinsure != null" >
+        EndInsure,
+      </if>
+      <if test="injuryinsure != null" >
+        InjuryInsure,
+      </if>
+      <if test="birthinsure != null" >
+        BirthInsure,
+      </if>
+      <if test="unemployinsure != null" >
+        UnemployInsure,
+      </if>
+      <if test="housefund != null" >
+        HouseFund,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatepersonname != null" >
+        UpdatePersonName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="graduationscan != null" >
+        #{graduationscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="idscan != null" >
+        #{idscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="medicalscan != null" >
+        #{medicalscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="laborscan != null" >
+        #{laborscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="secretscan != null" >
+        #{secretscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="resumescan != null" >
+        #{resumescan,jdbcType=NVARCHAR},
+      </if>
+      <if test="stay != null" >
+        #{stay,jdbcType=NVARCHAR},
+      </if>
+      <if test="floorroom != null" >
+        #{floorroom,jdbcType=NVARCHAR},
+      </if>
+      <if test="medicalinsure != null" >
+        #{medicalinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="endinsure != null" >
+        #{endinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="injuryinsure != null" >
+        #{injuryinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="birthinsure != null" >
+        #{birthinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="unemployinsure != null" >
+        #{unemployinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="housefund != null" >
+        #{housefund,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatepersonname != null" >
+        #{updatepersonname,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ZX_HolderFile" >
+    update ZX_HolderFile
+    <set >
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        IDCode = #{idcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="graduationscan != null" >
+        GraduationScan = #{graduationscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="idscan != null" >
+        IDScan = #{idscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="medicalscan != null" >
+        MedicalScan = #{medicalscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="laborscan != null" >
+        LaborScan = #{laborscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="secretscan != null" >
+        SecretScan = #{secretscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="resumescan != null" >
+        ResumeScan = #{resumescan,jdbcType=NVARCHAR},
+      </if>
+      <if test="stay != null" >
+        Stay = #{stay,jdbcType=NVARCHAR},
+      </if>
+      <if test="floorroom != null" >
+        FloorRoom = #{floorroom,jdbcType=NVARCHAR},
+      </if>
+      <if test="medicalinsure != null" >
+        MedicalInsure = #{medicalinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="endinsure != null" >
+        EndInsure = #{endinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="injuryinsure != null" >
+        InjuryInsure = #{injuryinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="birthinsure != null" >
+        BirthInsure = #{birthinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="unemployinsure != null" >
+        UnemployInsure = #{unemployinsure,jdbcType=NVARCHAR},
+      </if>
+      <if test="housefund != null" >
+        HouseFund = #{housefund,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatepersonname != null" >
+        UpdatePersonName = #{updatepersonname,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ZX_HolderFile" >
+    update ZX_HolderFile
+    set HolderName = #{holdername,jdbcType=NVARCHAR},
+      IDCode = #{idcode,jdbcType=NVARCHAR},
+      GraduationScan = #{graduationscan,jdbcType=NVARCHAR},
+      IDScan = #{idscan,jdbcType=NVARCHAR},
+      MedicalScan = #{medicalscan,jdbcType=NVARCHAR},
+      LaborScan = #{laborscan,jdbcType=NVARCHAR},
+      SecretScan = #{secretscan,jdbcType=NVARCHAR},
+      ResumeScan = #{resumescan,jdbcType=NVARCHAR},
+      Stay = #{stay,jdbcType=NVARCHAR},
+      FloorRoom = #{floorroom,jdbcType=NVARCHAR},
+      MedicalInsure = #{medicalinsure,jdbcType=NVARCHAR},
+      EndInsure = #{endinsure,jdbcType=NVARCHAR},
+      InjuryInsure = #{injuryinsure,jdbcType=NVARCHAR},
+      BirthInsure = #{birthinsure,jdbcType=NVARCHAR},
+      UnemployInsure = #{unemployinsure,jdbcType=NVARCHAR},
+      HouseFund = #{housefund,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdatePersonName = #{updatepersonname,jdbcType=NVARCHAR}
+    where HolderNo = #{holderno,jdbcType=NVARCHAR}
+  </update>
+</mapper>

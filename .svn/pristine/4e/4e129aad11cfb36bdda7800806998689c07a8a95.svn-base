@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>考勤管理</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/public1.css" />
+    <link rel="stylesheet" href="css/list_style.css" />
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/deviceManger.css">
+    <link rel="stylesheet" href="css/Shuttle.css">
+</head>
+
+<body>
+	<dl class="hover">
+      <dt class="cellDt" data-codeno="09" data-shiftno="0" style="background:#ccc;">缺</dt>
+   	</dl>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">人员班次管理</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl ty" style="position: relative;"><input type="file" id="excelimport"  style="position: absolute;opacity: 0;width: 80px;"/><a href="javascript:;" class="blue file">选择文件</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="blue add" id="determine" >确定导入</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+                <div class="search-box main-form fl" style="height:42px;">
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择月份：</div>
+                        <div class="control clearfix">
+                           <select class="year" style="width:80px;">
+                            </select>
+                            --
+                            <select class="month" style="width:80px;">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div id="dayindaju1">
+                <div id="special" >
+	                            <h4 class="special_title"><span class="dayue"></span>月</h4>
+	                            <table class="grade">
+	                            <thead id="cont"> 
+	                                <tr class="da_date">
+	                                </tr>
+	                                <tr class="da_week">
+	                                </tr>
+	                            </thead>
+	                            <tbody class="specified " id="cont1">
+	                            </tbody>
+	                            </table>
+	                    </div>
+	                    </div>
+                <div class="pages" id="test">
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/xlsx.full.min.js"></script>
+     <script type="text/javascript" src="js/export.js"></script>
+    <script type="text/javascript" src="js/jquery.jqprint-0.3.js"></script>
+    <script type="text/javascript" src="js/personShiftManage_import.js"></script>
+</body>
+</html>

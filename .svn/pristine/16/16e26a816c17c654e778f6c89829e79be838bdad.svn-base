@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.FP_RestaurantMapper" >
+  
+  <!--新增  -->
+  <update id="addRestaurant">
+  	insert into FP_Restaurant(
+		RestaurantNo,RestaurantName,RestaurantLocl,RestaurantType,
+		fstatus,manager,createDate,updateDate,remark)
+	values 
+		(#{RestaurantNo},#{RestaurantName},#{RestaurantLocl},#{RestaurantType},
+		#{fstatus},#{manager},GETDATE(),GETDATE(),#{remark})
+  </update>
+  
+  <!--更新  -->
+  <update id="editRestaurant">
+  	update FP_Restaurant
+  	   set RestaurantNo=#{RestaurantNo},
+  	   	   RestaurantName=#{RestaurantName},
+  	   	   RestaurantLocl=#{RestaurantLocl},
+  	   	   RestaurantType=#{RestaurantType},
+		   fstatus=#{fstatus},
+		   manager=#{manager},
+		   updateDate=GETDATE(),
+		   remark=#{remark}
+	 where fid=#{fid}
+  </update>
+  
+  <!--获取列表信息  -->
+  <select id="getRestaurantList" resultType="map">
+  	select t.fid,t.RestaurantNo,t.RestaurantName,t.DeviceNo,t.RestaurantLocl,
+  		   t.RestaurantType,d.value RestaurantTypeName,
+			t.fstatus,t.manager,h.holderName managerName,
+			CONVERT(varchar(100), t.createDate, 20) createDate,
+			CONVERT(varchar(100), t.updateDate, 20) updateDate,t.remark
+	 from FP_Restaurant t
+	 left join HolderData h on t.manager=h.HolderNo
+	 left join DictionaryData d on t.RestaurantType = d.name 
+	 where d.typeName = 'restaurantType' and t.fstatus = 1
+  </select>
+  
+  <select id="getRestaurantListCount" resultType="integer">
+  	select count(1)
+	 from FP_Restaurant t
+	 left join HolderData h on t.manager=h.HolderNo
+	 left join DictionaryData d on t.RestaurantType = d.name 
+	 where d.typeName = 'restaurantType' and t.fstatus = 1
+  </select>
+  
+  <!--获取一条信息  -->
+  <select id="getOneRestaurant" resultType="map">
+  	select t.fid,t.RestaurantNo,t.RestaurantName,t.RestaurantLocl,t.RestaurantType,
+			t.fstatus,t.manager,h.holderName managerName,
+			CONVERT(varchar(100), t.createDate, 20) createDate,
+			CONVERT(varchar(100), t.updateDate, 20) updateDate,t.remark
+	 from FP_Restaurant t
+	 left join HolderData h on t.manager=h.HolderNo
+	 where t.fid=#{fid}
+  </select>
+  
+  <!--删除一条数据  -->
+  <update id="delRestaurant">
+  	update FP_Restaurant set fstatus = 0 where fid=#{fid}
+  </update>
+  
+  <!--为餐厅分配设备  -->
+  <update id="apportionDevices">
+  	<!-- declare
+  		@deviceNo varchar(200);
+  	begin
+  		set @deviceNo=(select t.DeviceNo from FP_Restaurant t where t.fid=#{restaurantID});
+  		if(@deviceNo is not null AND @deviceNo != '')
+  		begin
+  			update FP_Restaurant 
+		  	   set DeviceNo=#{deviceNo}+','+DeviceNo,
+		  	       updateDate = GETDATE()
+		  	 where fid=#{restaurantID}
+  		end
+  		else
+  		begin
+  			update FP_Restaurant 
+		  	   set DeviceNo=#{deviceNo},
+		  	       updateDate = GETDATE()
+		  	 where fid=#{restaurantID}
+  		end
+  	end; -->
+  	insert into FP_RestaurantDevice(restaurantID,deviceNo,creator,createDate)
+  	values(#{restaurantID},#{deviceNo},#{creator},GETDATE())
+  	
+  </update>
+  
+  <!--取消某个设备  -->
+  <update id="unApportionDevices">
+  	<!-- begin
+  		update FP_Restaurant 
+	  	   set DeviceNo=replace(','+DeviceNo+',' , ','+#{deviceNo}+',' , ','),
+	  	       updateDate = GETDATE()
+	  	 where fid=#{restaurantID}
+		update FP_Restaurant 
+	  	   set DeviceNo=SUBSTRING(DeviceNo,2,datalength(DeviceNo)-2) ,
+	  	       updateDate = GETDATE()
+	  	 where fid=#{restaurantID}
+  	end; -->
+  	delete from FP_RestaurantDevice where restaurantID=#{restaurantID} and DeviceNo=#{deviceNo}
+  </update>
+  
+  <!--获取设备信息  -->
+  <select id="getDeviceList" resultType="map">
+  	<!-- select * from (
+  	可选择的设备 
+  	select t.DeviceNo,t.DeviceName,'1' "resultType" from DeviceUnit t 
+	 where t.DeviceNo not in (${deviceNos2}) and t.DeviceNo not in (${deviceNos3})
+	union all
+	已选的设备 
+	select t.DeviceNo,t.DeviceName,'2' "resultType" from DeviceUnit t where t.DeviceNo in (${deviceNos2})
+	union all
+	被其他餐厅占用的设备 
+	select t.DeviceNo,t.DeviceName,'3' "resultType" from DeviceUnit t where t.DeviceNo in (${deviceNos3})
+	) aa order by aa.DeviceNo desc -->
+	select * from (
+	select t.password "pass",t.controlSN "deviceSn",t.DeviceNo,t.DeviceName,'1' "resultType" from DeviceUnit t where t.deviceNo not in(
+	select rd.deviceNo from FP_RestaurantDevice rd)
+	union all 
+	select t.password "pass",t.controlSN "deviceSn",t.DeviceNo,t.DeviceName,'2' "resultType" from DeviceUnit t where t.deviceNo in(
+	select rd.deviceNo from FP_RestaurantDevice rd where rd.restaurantID=#{restaurantID})
+	union all
+	select t.password "pass",t.controlSN "deviceSn",t.DeviceNo,t.DeviceName,'3' "resultType" from DeviceUnit t where t.deviceNo in(
+	select rd.deviceNo from FP_RestaurantDevice rd where rd.restaurantID != #{restaurantID})
+	) aa order by aa.DeviceNo desc
+  </select>
+  
+  <!--根据设备ID获取设备信息  -->
+  <select id="getDeviceInfoWithID" resultType="map">
+  	select du.password "pass",du.controlSN "deviceSn",du.deviceNo,du.deviceName,du.IP from DeviceUnit du where du.DeviceNo=#{deviceNo}
+  </select>
+  
+  <!--根据设备ID获取人员信息  -->
+  <select id="getPerListWithDeviceID" resultType="map">
+  	select ha.holderNo "id",h.HolderName "name",c.cardID "idcardNum",
+						h.idCode "iDNumber" from FP_HolderAccount ha 
+	left join HolderData h on ha.holderNo=h.holderNo
+	left join (select aa.* from (
+							select dd.CardNo,dd.cardID,dd.HolderNo,
+							ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+								from CardData dd) aa where aa. sindex=1) c on h.HolderNo=c.HolderNo
+	where ha.fid in(
+	select ar.holderAccountID from FP_AccountRoleRelation ar where ar.consumeRoleID in(
+	select rr.consumeTypeID from FP_RestaurantRoleRelation rr where rr.restaurantID in
+	(select t.restaurantID from FP_RestaurantDevice t where t.deviceNo=#{deviceNo})
+	)
+	)
+  </select>
+  
+</mapper>

@@ -1,0 +1,245 @@
+var total;
+var curpage=1;//当前页
+var pagesize=20;//每页显示的条数
+$(function(){
+	getList();
+	getPage(total);
+	initDate();
+	getGoodsTypeList();
+})
+//分页
+function getPage(total){
+	layui.use("laypage",function(){
+		var laypage=layui.laypage;
+		laypage.render({
+			elem:"test",
+			limit:pagesize,//每页显示条数
+			count:total,//总条数
+			layout:['count','prev','page','next','limit','refresh','skip'],
+			jump:function(obj,first){
+				curpage=obj.curr;
+				pagesize=obj.limit;
+				if(!first){
+					getList();
+				}
+			}
+		})
+	})
+}//end
+//初始化日期
+function initDate(){
+	layui.use("laydate", function() {
+	    var laydate = layui.laydate
+	    lay('.test-item').each(function() {
+			laydate.render({
+				elem: this,
+				trigger:"click"
+			});
+		});
+	})
+}
+//点击搜索
+$("#supplierSearch").click(function(){
+	getList();
+	getPage(total);
+})
+//初始化物品库存列表
+function getList(){
+	var type=$("#departmentno").val();
+	var goodsName=$("#goodsName").val();
+	var model=$("#model").val();
+	var obj={"curpage":curpage,"pagesize":pagesize,"type":type,"goodsName":goodsName,"model":model};
+	$.ajax({
+		url:url+"/zcInStore/getStoreCount",
+		type:"post",
+		data:obj,
+		async:false,
+		success:function(data){
+			total=data.count;
+			$("#cont").empty();
+			if(data.flag){
+				var res=data.result;
+				var index=1;
+				for(var item of res){
+					var typeName=item.typeName==undefined?"":item.typeName;
+					var goodsName=item.goodsName==undefined?"":item.goodsName;
+					var model=item.model==undefined?"":item.model;
+					var brand=item.brand==undefined?"":item.brand;
+					var specs=item.specs==undefined?"":item.specs;
+					var size=item.size==undefined?"":item.size;
+					var upperLimit=item.upperLimit==undefined?"":item.upperLimit;
+					var lowerLimit=item.lowerLimit==undefined?"":item.lowerLimit;
+					var sumval=item.sumval==undefined?"":item.sumval;
+					var remark=item.remark==undefined?"":item.remark;
+					var text="<td>"+sumval+"</td>";
+					var $tr=$("<tr><td>"+index+"</td><td>"+typeName+"</td><td>"+goodsName+"</td><td>"+model+"</td><td>"+brand+"</td>" +
+							"<td>"+specs+"</td><td>"+size+"</td><td>"+lowerLimit+"</td>"+text+"" +
+							"<td>"+remark+"</td><td class='no-print'><a href='inventoryDetails.html?fid="+item.fid+"' class='mo layui-btn layui-btn-xs'>详情修改</a></td></tr>");
+					if(sumval<lowerLimit){
+						$tr.find("td").css({
+							"color":"red"
+						})
+					}
+					/*if(sumval>upperLimit){
+						$tr.find("td").css({
+							"color":"orange",
+						})
+					}*/
+					
+					index++;
+					$("#cont").append($tr);
+				}
+			}
+		}
+	})
+}
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}
+//物品类别下拉树初始化
+function getGoodsTypeList(){
+	$.ajax({
+		url:url+'/zcGoodsType/getList',
+		type:'POST',//类型
+		data:{"res":"true"},
+		dataType:'json',//数据类型
+		success:function(data){
+			if(!data.flag){
+				layer.msg(data.reason,{"time":2000});
+				return;
+			}
+			layui.use(['element', 'tree', 'layer', 'form', 'upload'], function () {
+			    var $ = layui.jquery, tree = layui.tree;
+			    tree.render({
+			        elem: "#classtree",
+			        data: data.result,
+			        onlyIconControl:true,
+			        click: function (node) {
+			        	$("#departmentno").val(node.data.id);
+			        	$("#departmentname").html(node.data.title);
+			        	getGoodsList(node.data.id);
+			            var $select = $($(this)[0].elem).parents(".layui-form-select");
+			            $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name).end().find("input:hidden[name='departmentno']").val(node.id);
+			        }
+			    
+			    });
+			    $(".downpanel").on("click", ".layui-select-title", function (e) {
+			        $(".layui-form-select").not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+			        $(this).parents(".downpanel").toggleClass("layui-form-selected");
+			        layui.stope(e);
+			    }).on("click", "dl i", function (e) {
+			        layui.stope(e);
+			    });
+			    $(document).on("click", function (e) {
+			        $(".layui-form-select").removeClass("layui-form-selected");
+			    });
+			});
+		},
+		error:function(data){}
+	})
+}
+//获取物品资料列表
+function getGoodsList(fid){
+	var obj={"type":fid};
+	$.ajax({
+		url:url+"/zcGoods/getList",
+		type:"post",
+		data:obj,
+		success:function(data){
+			$("#goodsName option").not("option:first").remove();
+			$("#model option").not("option:first").remove();
+			if(data.flag){
+				for(var item of data.result){
+					var goodsCode=item.goodsCode==undefined?"":item.goodsCode;
+					var goodsName=item.goodsName==undefined?"":item.goodsName;
+					var model=item.model==undefined?"":item.model;
+					var brand=item.brand==undefined?"":item.brand;
+					var specs=item.specs==undefined?"":item.specs;
+					var size=item.size==undefined?"":item.size;
+					var upperLimit=item.upperLimit==undefined?"":item.upperLimit;
+					var lowerLimit=item.lowerLimit==undefined?"":item.lowerLimit;
+					var $opt=$("<option data-goodsid="+item.fid+" value="+item.goodsCode+">"+goodsName+"</option>");
+					var $opt1=$("<option data-brand="+brand+" data-specs="+specs+" data-size="+size+" value="+item.fid+">"+model+"</option>")
+					$("#goodsName").append($opt);
+					$("#model").append($opt1);
+				}
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+
+/**
+ * 导出全部数据Excel
+ * 
+ */
+$("#export").click(function(){
+	layer.confirm("选择导出数据",{
+		title:"提示信息",
+		btn:["导出当前数据","导出全部数据"],
+		yes:function(index,layero){
+			$(".no-print").remove();
+		    var table1 = document.querySelector("#dayindaju1");
+		    var sheet = XLSX.utils.table_to_sheet(table1,{raw:true});//将一个table对象转换成一个sheet对象
+		    openDownloadDialog(sheet2blob(sheet),'物品库存.xlsx');
+		    window.location.reload();
+		},
+		btn2:function(index,layero){
+			var type=$("#departmentno").val();
+			var goodsName=$("#goodsName").val();
+			var model=$("#model").val();
+			var obj={"type":type,"goodsName":goodsName,"model":model};
+			var i=layer.load(2);
+			$.ajax({
+				url:url+"/zcInStore/getStoreCount",
+				type:"post",
+				data:obj,
+				success:function(data){
+					layer.close(i);
+					layer.close(index);
+					if(data.flag){
+						var index=1;
+						var res=data.result;
+						var $table = $("<table id='tableData' style='display:none'><tr><td>序号</td><td>物品类别</td><td>物品名称</td><td>型号</td><td>品牌</td>" +
+								"<td>规格</td><td>尺寸</td><td>预警上限</td><td>预警下限</td><td>库存数量</td><td>备注</td></tr></table>");
+						for(var item of res){
+							var typeName=item.typeName==undefined?"":item.typeName;
+							var goodsName=item.goodsName==undefined?"":item.goodsName;
+							var model=item.model==undefined?"":item.model;
+							var brand=item.brand==undefined?"":item.brand;
+							var specs=item.specs==undefined?"":item.specs;
+							var size=item.size==undefined?"":item.size;
+							var upperLimit=item.upperLimit==undefined?"":item.upperLimit;
+							var lowerLimit=item.lowerLimit==undefined?"":item.lowerLimit;
+							var sumval=item.sumval==undefined?"":item.sumval;
+							var remark=item.remark==undefined?"":item.remark;
+							var $tr=$("<tr><td>"+index+"</td><td>"+typeName+"</td><td>"+goodsName+"</td><td>"+model+"</td><td>"+brand+"</td>" +
+									"<td>"+specs+"</td><td>"+size+"</td><td>"+upperLimit+"</td><td>"+lowerLimit+"</td><td>"+sumval+"</td>" +
+									"<td>"+remark+"</td></tr>");
+							index++;
+							$table.append($tr);
+						}
+					      $("body").append($table);
+					      var table = document.querySelector("#tableData");
+					      var sheet = XLSX.utils.table_to_sheet(table,{raw:true});//将一个table对象转换成一个sheet对象
+					      openDownloadDialog(sheet2blob(sheet),'物品库存.xlsx');
+					      $("#tableData").remove();
+					}else{
+						layer.msg(data.reason,{time:2000});
+					}
+				},
+				error:function(){
+					layer.close(i);
+				}
+			})
+			}
+		})
+});

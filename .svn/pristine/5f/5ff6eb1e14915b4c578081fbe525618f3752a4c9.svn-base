@@ -1,0 +1,483 @@
+$(function(){
+	getDate();//给出入库时间赋值
+	getList();//物品类别
+	getGoodsList("");//初始化物品信息
+	getSupplierList();//初始化供应商
+	getManufactureList();//初始化制造商
+	getWareHouseList();//初始化仓库
+	initDate();//初始化日期
+	initTable(res);
+	getApproverList();
+});
+var res=[];
+//获取当前日期时间
+function getDate(){
+	var date=new Date();
+	var year = date.getFullYear();
+	var month = (date.getMonth()+1)<=9?("0"+(date.getMonth()+1)):(date.getMonth()+1);
+	var day =(date.getDate())<=9?("0"+(date.getDate())):(date.getDate());
+	var hour=(date.getHours())<=9?("0"+(date.getHours())):(date.getHours());//date.getHours();
+	var minute=(date.getMinutes())<=9?("0"+(date.getMinutes())):(date.getMinutes());//date.getMinutes();
+	var second=(date.getSeconds())<=9?("0"+(date.getSeconds())):(date.getSeconds());//date.getSeconds();
+	var html=year+"-"+month+"-"+day;
+	var html2=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+	$("#inStorageDate").val(html)//给出入库日期 赋值
+}//end
+
+//物品类别下拉树初始化
+function getList(){
+	$.ajax({
+		url:url+'/zcGoodsType/getList',
+		type:'POST',//类型
+		data:{"res":"true"},
+		dataType:'json',//数据类型
+		success:function(data){
+			if(!data.flag){
+				layer.msg(data.reason,{"time":2000});
+				return;
+			}
+			layui.use(['element', 'tree', 'layer', 'form', 'upload'], function () {
+			    var $ = layui.jquery, tree = layui.tree;
+			    tree.render({
+			        elem: "#classtree",
+			        data: data.result,
+			        onlyIconControl:true,
+			        click: function (node) {
+			        	$("#departmentno").val(node.data.id);
+			        	$("#departmentname").html(node.data.title);
+			        	getGoodsList(node.data.id);
+			            var $select = $($(this)[0].elem).parents(".layui-form-select");
+			            $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name).end().find("input:hidden[name='departmentno']").val(node.id);
+			        }
+			    
+			    });
+			    $(".downpanel").on("click", ".layui-select-title", function (e) {
+			        $(".layui-form-select").not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+			        $(this).parents(".downpanel").toggleClass("layui-form-selected");
+			        layui.stope(e);
+			    }).on("click", "dl i", function (e) {
+			        layui.stope(e);
+			    });
+			    $(document).on("click", function (e) {
+			        $(".layui-form-select").removeClass("layui-form-selected");
+			    });
+			});
+		},
+		error:function(data){}
+	})
+}
+//获取物品资料列表
+function getGoodsList(fid){
+	var obj={"type":fid};
+	$.ajax({
+		url:url+"/zcGoods/getList",
+		type:"post",
+		data:obj,
+		success:function(data){
+			console.log(data);
+			$("#goodsName option").not("option:first").remove();
+			$("#model option").not("option:first").remove();
+			if(data.flag){
+				for(var item of data.result){
+					var goodsCode=item.goodsCode==undefined?"":item.goodsCode;
+					var goodsName=item.goodsName==undefined?"":item.goodsName;
+					var model=item.model==undefined?"":item.model;
+					var brand=item.brand==undefined?"":item.brand;
+					var specs=item.specs==undefined?"":item.specs;
+					var size=item.size==undefined?"":item.size;
+					var upperLimit=item.upperLimit==undefined?"":item.upperLimit;
+					var lowerLimit=item.lowerLimit==undefined?"":item.lowerLimit;
+					var $opt=$("<option data-goodsid="+item.fid+" value="+item.goodsCode+">"+goodsName+"</option>");
+					var $opt1=$("<option data-brand="+brand+" data-specs="+specs+" data-size="+size+" value="+item.fid+">"+model+"</option>")
+					$("#goodsName").append($opt);
+					$("#model").append($opt1);
+				}
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+//初始化供应商
+function getSupplierList(){
+	$.ajax({
+		url:url+"/zcSupplier/getList",
+		type:"post",
+		success:function(data){
+			$("#supplier option").not("option:first").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var supplierName=item.name==undefined?"":item.name;
+					var country=item.country==undefined?"":item.country;
+					var manager=item.manager==undefined?"":item.manager;
+					var managerPhone=item.managerPhone==undefined?"":item.managerPhone;
+					var email=item.email==undefined?"":item.email;
+					var location=item.location==undefined?"":item.location;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+supplierName+"</option>");
+					$("#supplier").append($opt);
+				}
+			}
+		}
+	})
+}
+//初始化制造商
+function getManufactureList(){
+	$.ajax({
+		url:url+"/zcManufacture/getList",
+		type:"post",
+		success:function(data){
+			$("#manufacture option").not("option:first").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var manufactureName=item.name==undefined?"":item.name;
+					var country=item.country==undefined?"":item.country;
+					var nature=item.nature==undefined?"":item.nature;
+					var location=item.location==undefined?"":item.location;
+					var manager=item.manager==undefined?"":item.manager;
+					var managerPhone=item.managerPhone==undefined?"":item.managerPhone;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+manufactureName+"</option>");
+					$("#manufacture").append($opt);
+				}
+			}
+		}
+	})
+}
+//初始化仓库
+function getWareHouseList(){
+	$.ajax({
+		url:url+"/zcStore/getList",
+		type:"post",
+		success:function(data){
+			$("#wareHouse option").not("option:first").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var storeName=item.storeName==undefined?"":item.storeName;
+					var storeLocal=item.storeLocal==undefined?"":item.storeLocal;
+					var size=item.size==undefined?"":item.size;
+					var manager=item.manager==undefined?"":item.manager;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+storeName+"</option>");
+					$("#wareHouse").append($opt);
+				}
+			}
+		}
+	})
+}
+//初始化日期
+function initDate(){
+	layui.use("laydate", function() {
+	    var laydate = layui.laydate
+	    lay('.test-item').each(function() {
+			laydate.render({
+				elem: this,
+				trigger:"click"
+			});
+		});
+	})
+}
+
+//读取RFID标签
+$("#labelCode").keydown(function(event){
+	if(event.keyCode==13){
+		$("#createInStorage")[0].click();
+		$("#labelCode").val("");
+	}
+})
+
+//点击保存提交数据
+$("#save").click(function(){
+	saveInStorage();
+})
+//提交数据
+function saveInStorage(){
+	if($("#holdername").val()==""){
+		layer.msg("请选择审批人!",{time:2000});
+		return;
+	}
+	var arr=[];
+	for(var item of res){
+		arr.push({
+			"labelCode":item.RFID.toUpperCase(),
+			"goodsType":item.typeName,//物品类别,
+			"goodsName":item.goodsName,//物品名称
+			"goodsCode":item.goodsCode,//物品编码
+			"type":item.type,//物品类型
+			"goodsID":item.goodsID,//物品id
+			"model":item.model,//物品型号
+			"inStoreDate":item.inStorageDate,//入库日期
+			"storeID": item.storeID,//入库仓库
+			"manufacturerID":item.manufacturerID,//制造商
+			"supplierID":item.supplierID,//供应商
+		})
+	}
+	for(var i=0;i<$("td[data-field='typeName']").length;i++){
+		var labelCode=$("td[data-field='RFID']").eq(i).find(".layui-table-cell").html().toUpperCase();
+		var shelf=$("td[data-field='goodsShelves']").eq(i).find(".layui-table-cell").html();
+		var useDate=$("td[data-field='putDate']").eq(i).find(".layui-table-cell").html();
+		var retireDate=$("td[data-field='decommissioningTime']").eq(i).find(".layui-table-cell").html();
+		var shopType=$("td[data-field='ProcurementMethod']").eq(i).find(".layui-table-cell").html();
+		var shopNo=$("td[data-field='contractNumber']").eq(i).find(".layui-table-cell").html();
+		var shopDate=$("td[data-field='purchaseDate']").eq(i).find(".layui-table-cell").html();
+		var endDate=$("td[data-field='afterSales']").eq(i).find(".layui-table-cell").html();
+		var goodsSn=$("td[data-field='series']").eq(i).find(".layui-table-cell").html();
+		var remark=$("td[data-field='remark']").eq(i).find(".layui-table-cell").html();
+		if(useDate==""){
+			useDate=null;
+		}
+		if(retireDate==""){
+			retireDate=null;
+		}
+		if(shopDate==""){
+			shopDate=null;
+		}
+		if(endDate==""){
+			endDate=null;
+		}
+		for(var item of arr){
+			if(labelCode==item.labelCode){
+				item.shelf=shelf;
+				item.useDate=useDate;
+				item.retireDate=retireDate;
+				item.shopType=shopType;
+				item.shopNo=shopNo;
+				item.shopDate=shopDate;
+				item.endDate=endDate;
+				item.goodsSn=goodsSn;
+				item.remark=remark;
+			}
+		}
+	}
+	console.log(arr)
+	$.ajax({
+		url:url+"/zcInStore/updateStoreGoods",
+		contentType:"application/json",
+		type:"post",
+		data:JSON.stringify({
+			"inDate":$("#inStorageDate").val(),
+			"operator":window.top.holderno,
+			"approver":$("#holdername").val(),
+			"remark":$("#description").val(),
+			"goodsList":arr
+			}),
+		success:function(data){
+			console.log(data);	
+			if(data.flag){
+				var res=data.printList;
+				layer.msg(data.reason,{time:1000},function(){
+					layer.confirm("是否打印入库单据?",function(index){
+						layer.close(index);
+						createPrintTable(res);
+					})
+				})
+			}else{
+				layer.msg(data.reason,{time:2000});
+				
+			}
+		}
+	})
+}
+function createPrintTable(res){
+	$("#printDanJu tr:gt(0)").empty();
+	for(var item of res){
+		var $tr=$("<tr><td>"+item.bill+"</td><td>"+item.typeName+"</td><td>"+item.goodsName+"</td><td>"+item.model+"</td>" +
+				"<td>"+item.brand+"</td><td>"+item.specs+"</td><td>"+item.size+"</td><td>"+item.sumval+"</td><td>"+item.inDate+"</td></tr>");
+		$("#printDanJu").append($tr);
+	}
+	printTable('printDanJu');
+}
+
+//点击生成
+$("#createInStorage").click(function(){
+	var labelCode=$("#labelCode").val();//rfid标签
+	var typeName=$("#departmentname").html();//物品类别
+	var type=$("#departmentno").val();//物品类型
+	var goodsID=$("#goodsName option:selected").attr("data-goodsid");//物品id
+	var goodsCode=$("#goodsName").val();//物品编码
+	var goodsName=$("#goodsName option:selected").html();//物品名称
+	var model=$("#model option:selected").html();//物品型号
+	var brand=$("#model option:selected").attr("data-brand");//品牌
+	var specs=$("#model option:selected").attr("data-specs");//规格
+	var size=$("#model option:selected").attr("data-size");//尺寸
+	var inStorageDate=$("#inStorageDate").val();//入库日期
+	var supplier=$("#supplier option:selected").html();//供应商
+	var supplierID=$("#supplier").val();//供应商id
+	var manufacture=$("#manufacture option:selected").html();//制造商
+	var manufacturerID=$("#manufacture").val();//制造商id
+	var wareHouse=$("#wareHouse option:selected").html();//入库仓库
+	var storeID=$("#wareHouse").val();//仓库id
+	var goodsShelves=$("#goodsShelves").val();//存放货架
+	var putDate=$("#putDate").val();//投运日期
+	var decommissioningTime=$("#decommissioningTime").val();//退役时间
+	var ProcurementMethod=$("#ProcurementMethod").val();//采购方式
+	var contractNumber=$("#contractNumber").val();//采购合同编号
+	var purchaseDate=$("#purchaseDate").val();//采购日期
+	var afterSales=$("#afterSales").val();//售后到期日期
+	
+	if(labelCode==""){
+		layer.msg("RFID标签不能为空!",{time:2000});
+		return;
+	}
+	if(labelCode.length!=24){
+		layer.msg("RFID标签错误!",{time:2000});
+		return;
+	}
+	if(typeName==""){
+		layer.msg("物品类别不能为空!",{time:2000});
+		return;
+	}
+	if(goodsCode==""){
+		layer.msg("物品名称不能为空!",{time:2000});
+		return;
+	}
+	if($("#model").val()==""){
+		layer.msg("物品型号不能为空!",{time:2000});
+		return;
+	}
+	for(var item of res){
+		if(item.RFID==labelCode){
+			layer.msg("物品RFID标签不能重复!",{time:2000});
+			return;
+		}
+	}
+	
+	res.push({
+		"type":type,//物品类型
+		"goodsID":goodsID,//物品id
+		"goodsCode":goodsCode,//物品编码
+		"storeID":storeID,
+		"manufacturerID":manufacturerID,
+		"supplierID":supplierID,
+		"typeName":typeName,
+		"goodsName":goodsName,
+		"RFID":labelCode,
+		"model":model,
+		"brand":brand,
+		"specs":specs,
+		"size":size,
+		"inStorageDate":inStorageDate,
+		"wareHouse":wareHouse,
+		"goodsShelves":goodsShelves,
+		"shelvesLocation":"",
+		"manufacture":manufacture,
+		"supplier":supplier,
+		"putDate":putDate,
+		"decommissioningTime":decommissioningTime,
+		"ProcurementMethod":ProcurementMethod,
+		"contractNumber":contractNumber,
+		"purchaseDate":purchaseDate,
+		"afterSales":afterSales,
+		"series":"",
+		"remark":"",
+	});
+	initTable(res);
+})
+//初始化表格
+function initTable(res){
+	layui.use('table', function(){
+		  var table = layui.table;
+		  table.render({
+		    elem: '#test',
+		    cols: [[//标题栏
+		      {field:'typeName', width:100 ,title: '物品类别', },
+		      {field:'goodsName', width:100 , title: '物品名称'},
+		      {field:'RFID', width:150 ,title: '物品RFID标签'},
+		      {field:'model',width:80,  title: '型号'},
+		      {field:'brand', width:80, title: '品牌'},
+		      {field:'specs', width:80, title: '规格'},
+		      {field:'size', width:80, title: '尺寸'},
+		      {field:'inStorageDate',width:100 , title: '入库日期'},
+		      {field:'wareHouse', width:100 ,title: '入库仓库'},
+		      {field:'goodsShelves', width:120,title: '存放货架',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'shelvesLocation',width:100 , title: '货架位置',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'manufacture', width:100 ,title: '制造商'},
+		      {field:'supplier', width:100 ,title: '供应商'},
+		      {field:'putDate', width:100 ,title: '投运时间',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'decommissioningTime',width:100 , title: '退役时间',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'ProcurementMethod',width:100 , title: '采购方式',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'contractNumber',width:150 , title: '采购合同编号',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'purchaseDate', width:150 ,title: '采购日期',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'afterSales',width:150 , title: '售后到期日期',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'series', width:150 ,title: '出厂序列号',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+		      {field:'remark', width:150 ,title: '备注',edit: 'text',style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},	
+		      {fixed: 'right', title:'操作', toolbar: '#barDemo'}
+		    ]],
+		    data:res
+		  });
+		//监听工具条
+		  table.on('tool(demo)', function(obj){
+		    var data = obj.data;
+		    if(obj.event === 'del'){
+		      layer.confirm('确定删除?', function(index){
+		        obj.del();
+		        //从数组中删除此条数据
+		        for(var i=0;i<res.length;i++){
+		    		if(res[i].RFID==data.RFID){
+		    			res.splice(i,1);
+		    		}
+		    	}
+		        layer.close(index);
+		      });
+		    }
+		});
+    });
+}
+/*//部门下拉树初始化
+function getDeptTree(){
+	$.ajax({
+		url:url+'/DepartmentData/getDeptTree',
+		type:'POST',//类型
+		dataType:'json',//数据类型
+		data:{"res":"false"},
+		success:function(data){
+			layui.use(['element', 'tree', 'layer', 'form', 'upload'], function () {
+			    var $ = layui.jquery, tree = layui.tree;
+			    tree.render({
+			        elem: "#classtree2",
+			        data: data.result,
+			        onlyIconControl:true,
+			        click: function (node) {
+			        	$("#deptID").val(node.data.id);
+			        	$("#deptName").html(node.data.title);
+			            var $select = $($(this)[0].elem).parents(".layui-form-select");
+			            $select.removeClass("layui-form-selected").find(".layui-select-title span").html(node.name).end().find("input:hidden[name='departmentno']").val(node.id);
+			            queryHolderDataListByDepartmentNo(node.data.id);
+			        }
+			    });
+			    $(".downpanel2").on("click", ".layui-select-title", function (e) {
+			        $(".layui-form-select").not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+			        $(this).parents(".downpanel2").toggleClass("layui-form-selected");
+			        layui.stope(e);
+			    }).on("click", "dl i", function (e) {
+			        layui.stope(e);
+			    });
+			});
+		
+		},
+		error:function(data){}
+	})
+}*/
+function getApproverList(){
+	$.ajax({
+		url:url+'/zcApproval/getApproverList',
+		type:"post",
+		success:function(data){
+			 $("#holdername").find("option:not(:first)").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var holderno=(item.holderNo==undefined)?"":item.holderNo;
+					var holdername=(item.holderName==undefined)?"":item.holderName;
+					if(item.ifApproverZC=="1"){
+						var $opt=$("<option value='"+holderno+"'>"+holdername+"</option>");
+						$("#holdername").append($opt);
+					}
+				}
+			}
+		}
+	})
+}

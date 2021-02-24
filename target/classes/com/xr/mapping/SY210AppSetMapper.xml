@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.SY210AppSetMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.SY210AppSet" >
+    <id column="AppSetKey" property="appsetkey" jdbcType="INTEGER" />
+    <result column="DeviceNo" property="deviceno" jdbcType="SMALLINT" />
+    <result column="AppSetNo" property="appsetno" jdbcType="SMALLINT" />
+    <result column="EntryReader" property="entryreader" jdbcType="VARCHAR" />
+    <result column="ExitReader" property="exitreader" jdbcType="VARCHAR" />
+    <result column="DoorExit" property="doorexit" jdbcType="VARCHAR" />
+    <result column="DoorPINTimeZone" property="doorpintimezone" jdbcType="VARCHAR" />
+    <result column="HolderPINTimeZone" property="holderpintimezone" jdbcType="VARCHAR" />
+    <result column="HolidayTimeZone" property="holidaytimezone" jdbcType="VARCHAR" />
+    <result column="HolidayExit" property="holidayexit" jdbcType="VARCHAR" />
+    <result column="WeekTimeZone" property="weektimezone" jdbcType="VARCHAR" />
+    <result column="WeekExit" property="weekexit" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="PreHolidayTimeZone" property="preholidaytimezone" jdbcType="VARCHAR" />
+    <result column="PreHolidayExit" property="preholidayexit" jdbcType="VARCHAR" />
+    <result column="NextHolidayTimeZone" property="nextholidaytimezone" jdbcType="VARCHAR" />
+    <result column="NextHolidayExit" property="nextholidayexit" jdbcType="VARCHAR" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    AppSetKey, DeviceNo, AppSetNo, EntryReader, ExitReader, DoorExit, DoorPINTimeZone, 
+    HolderPINTimeZone, HolidayTimeZone, HolidayExit, WeekTimeZone, WeekExit, Description, 
+    PreHolidayTimeZone, PreHolidayExit, NextHolidayTimeZone, NextHolidayExit, NetNode
+  </sql>
+  
+  <!-- 门区权限设置时 给人员设置权限 -->
+  <select id="querySY210AppSetByDeviceNoAndEntryReader" resultMap="BaseResultMap" parameterType="com.xr.entity.SY210AppSet">
+    select AppSetKey,DeviceNo,AppSetNo,EntryReader,ExitReader,
+    DoorExit,Description from SY210AppSet 
+ where  DeviceNo=#{deviceno,jdbcType=SMALLINT} 
+ and EntryReader=#{entryreader,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- 查询门区不为空的AppsetNo列表 -->
+  <select id="querySY210AppSetNoList" resultMap="BaseResultMap">
+   select AppSetKey,AppSetno,EntryReader from SY210AppSet where EntryReader>'0000'
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from SY210AppSet
+    where AppSetKey = #{appsetkey,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SY210AppSet
+    where AppSetKey = #{appsetkey,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.SY210AppSet" >
+    insert into SY210AppSet (AppSetKey, DeviceNo, AppSetNo, 
+      EntryReader, ExitReader, DoorExit, 
+      DoorPINTimeZone, HolderPINTimeZone, HolidayTimeZone, 
+      HolidayExit, WeekTimeZone, WeekExit, 
+      Description, PreHolidayTimeZone, PreHolidayExit, 
+      NextHolidayTimeZone, NextHolidayExit, NetNode
+      )
+    values (#{appsetkey,jdbcType=INTEGER}, #{deviceno,jdbcType=SMALLINT}, #{appsetno,jdbcType=SMALLINT}, 
+      #{entryreader,jdbcType=VARCHAR}, #{exitreader,jdbcType=VARCHAR}, #{doorexit,jdbcType=VARCHAR}, 
+      #{doorpintimezone,jdbcType=VARCHAR}, #{holderpintimezone,jdbcType=VARCHAR}, #{holidaytimezone,jdbcType=VARCHAR}, 
+      #{holidayexit,jdbcType=VARCHAR}, #{weektimezone,jdbcType=VARCHAR}, #{weekexit,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{preholidaytimezone,jdbcType=VARCHAR}, #{preholidayexit,jdbcType=VARCHAR}, 
+      #{nextholidaytimezone,jdbcType=VARCHAR}, #{nextholidayexit,jdbcType=VARCHAR}, #{netnode,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.SY210AppSet" >
+    insert into SY210AppSet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appsetkey != null" >
+        AppSetKey,
+      </if>
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="appsetno != null" >
+        AppSetNo,
+      </if>
+      <if test="entryreader != null" >
+        EntryReader,
+      </if>
+      <if test="exitreader != null" >
+        ExitReader,
+      </if>
+      <if test="doorexit != null" >
+        DoorExit,
+      </if>
+      <if test="doorpintimezone != null" >
+        DoorPINTimeZone,
+      </if>
+      <if test="holderpintimezone != null" >
+        HolderPINTimeZone,
+      </if>
+      <if test="holidaytimezone != null" >
+        HolidayTimeZone,
+      </if>
+      <if test="holidayexit != null" >
+        HolidayExit,
+      </if>
+      <if test="weektimezone != null" >
+        WeekTimeZone,
+      </if>
+      <if test="weekexit != null" >
+        WeekExit,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="preholidaytimezone != null" >
+        PreHolidayTimeZone,
+      </if>
+      <if test="preholidayexit != null" >
+        PreHolidayExit,
+      </if>
+      <if test="nextholidaytimezone != null" >
+        NextHolidayTimeZone,
+      </if>
+      <if test="nextholidayexit != null" >
+        NextHolidayExit,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appsetkey != null" >
+        #{appsetkey,jdbcType=INTEGER},
+      </if>
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="appsetno != null" >
+        #{appsetno,jdbcType=SMALLINT},
+      </if>
+      <if test="entryreader != null" >
+        #{entryreader,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreader != null" >
+        #{exitreader,jdbcType=VARCHAR},
+      </if>
+      <if test="doorexit != null" >
+        #{doorexit,jdbcType=VARCHAR},
+      </if>
+      <if test="doorpintimezone != null" >
+        #{doorpintimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holderpintimezone != null" >
+        #{holderpintimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holidaytimezone != null" >
+        #{holidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayexit != null" >
+        #{holidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="weektimezone != null" >
+        #{weektimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="weekexit != null" >
+        #{weekexit,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="preholidaytimezone != null" >
+        #{preholidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="preholidayexit != null" >
+        #{preholidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="nextholidaytimezone != null" >
+        #{nextholidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="nextholidayexit != null" >
+        #{nextholidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.SY210AppSet" >
+    update SY210AppSet
+    <set >
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="appsetno != null" >
+        AppSetNo = #{appsetno,jdbcType=SMALLINT},
+      </if>
+      <if test="entryreader != null" >
+        EntryReader = #{entryreader,jdbcType=VARCHAR},
+      </if>
+      <if test="exitreader != null" >
+        ExitReader = #{exitreader,jdbcType=VARCHAR},
+      </if>
+      <if test="doorexit != null" >
+        DoorExit = #{doorexit,jdbcType=VARCHAR},
+      </if>
+      <if test="doorpintimezone != null" >
+        DoorPINTimeZone = #{doorpintimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holderpintimezone != null" >
+        HolderPINTimeZone = #{holderpintimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holidaytimezone != null" >
+        HolidayTimeZone = #{holidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayexit != null" >
+        HolidayExit = #{holidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="weektimezone != null" >
+        WeekTimeZone = #{weektimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="weekexit != null" >
+        WeekExit = #{weekexit,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="preholidaytimezone != null" >
+        PreHolidayTimeZone = #{preholidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="preholidayexit != null" >
+        PreHolidayExit = #{preholidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="nextholidaytimezone != null" >
+        NextHolidayTimeZone = #{nextholidaytimezone,jdbcType=VARCHAR},
+      </if>
+      <if test="nextholidayexit != null" >
+        NextHolidayExit = #{nextholidayexit,jdbcType=VARCHAR},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where AppSetKey = #{appsetkey,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.SY210AppSet" >
+    update SY210AppSet
+    set DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      AppSetNo = #{appsetno,jdbcType=SMALLINT},
+      EntryReader = #{entryreader,jdbcType=VARCHAR},
+      ExitReader = #{exitreader,jdbcType=VARCHAR},
+      DoorExit = #{doorexit,jdbcType=VARCHAR},
+      DoorPINTimeZone = #{doorpintimezone,jdbcType=VARCHAR},
+      HolderPINTimeZone = #{holderpintimezone,jdbcType=VARCHAR},
+      HolidayTimeZone = #{holidaytimezone,jdbcType=VARCHAR},
+      HolidayExit = #{holidayexit,jdbcType=VARCHAR},
+      WeekTimeZone = #{weektimezone,jdbcType=VARCHAR},
+      WeekExit = #{weekexit,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR},
+      PreHolidayTimeZone = #{preholidaytimezone,jdbcType=VARCHAR},
+      PreHolidayExit = #{preholidayexit,jdbcType=VARCHAR},
+      NextHolidayTimeZone = #{nextholidaytimezone,jdbcType=VARCHAR},
+      NextHolidayExit = #{nextholidayexit,jdbcType=VARCHAR},
+      NetNode = #{netnode,jdbcType=NVARCHAR}
+    where AppSetKey = #{appsetkey,jdbcType=INTEGER}
+  </update>
+</mapper>

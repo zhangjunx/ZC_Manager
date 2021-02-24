@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.Applet_ManageDao">
+ 
+   <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by accountid desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+     <!-- 申请账户的方法 -->
+    <insert id="insertAccount" parameterType="com.xr.entity.Applet_AccountData" useGeneratedKeys="true" keyProperty="accountid" >
+         INSERT INTO dbo.Applet_AccountData
+         <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="corporatename != null" >
+            CorporateName,
+          </if>
+          <if test="loginaccount != null">
+            LoginAccount,
+          </if>
+          <if test="loginpassword != null">
+            LoginPassword,
+          </if>
+          <if test="ipaddress != null">
+            IpAddress,
+          </if>
+          <if test="holderno != null">
+            HolderNo,
+          </if>
+          <if test="validitybegintime != null">
+            ValidityBeginTime,
+          </if>
+          <if test="validityendtime != null">
+            ValidityEndTime,
+          </if>
+          <if test="departmentno != null">
+             DepartmentNo,
+          </if>
+          <if test="peoplenumber != null">
+             PeopleNumber,
+          </if>
+            <if test="facecount != null">
+             FaceCount,
+          </if>
+          <if test="validitystatus != null">
+            ValidityStatus,
+          </if>
+          <if test="appcode != null">
+           AppCode,
+          </if>
+          <if test="remark != null">
+            Remark,
+          </if>
+           <if test="logophotos != null">
+            logophotos,
+          </if>
+           <if test="lconname != null">
+            lconname
+          </if>
+         </trim>
+         <trim prefix="values (" suffix=")" suffixOverrides="," >
+	          <if test="corporatename != null" >
+	            #{corporatename},
+	          </if>
+	          <if test="loginaccount != null">
+	            #{loginaccount},
+	          </if>
+	          <if test="loginpassword != null">
+	            #{loginpassword},
+	          </if>
+	          <if test="ipaddress != null">
+	            #{ipaddress},
+	          </if>
+	          <if test="holderno != null">
+	            #{holderno},
+	          </if>
+	          <if test="validitybegintime != null">
+	            #{validitybegintime},
+	          </if>
+	          <if test="validityendtime != null">
+	            #{validityendtime},
+	          </if>
+	           <if test="departmentno != null">
+	             #{departmentno},
+	          </if>
+	          <if test="peoplenumber != null">
+	             #{peoplenumber},
+	          </if>
+	          <if test="facecount != null">
+	             #{facecount},
+	          </if>
+	          <if test="validitystatus != null">
+	             #{validitystatus},
+	          </if>
+	          <if test="appcode != null">
+	              #{appcode},
+	          </if>
+	          <if test="remark != null">
+	              #{remark},
+	          </if>
+	           <if test="logophotos != null">
+	            #{logophotos},
+	          </if>
+	           <if test="lconname != null">
+	            #{lconname}
+	          </if>
+         </trim>
+    </insert>
+    
+   <!-- 给申请账户赋予权限的方法 -->
+  <insert id="insertAccountModel" parameterType="java.util.List">
+     INSERT INTO dbo.Applet_RoleModel
+        (AccountId, ModelNo )
+         <foreach collection="list" index="index" item="item" separator="union">
+           select #{item.accountid},#{item.modelno}
+         </foreach> 
+  </insert>
+ 
+   <!-- 查询小程序所有账户 -->
+   <select id="selectAppletAccount" resultType="Map">
+   <include refid="c_start"></include>
+   select *  from (
+        SELECT  
+   AccountId AS accountid,
+   CorporateName AS corporatename,
+   IpAddress AS ipaddress,
+   LoginAccount AS loginaccount,
+   c.LoginPassword AS loginpassword,
+   c.HolderNo AS holderno,
+   h.HolderName AS holdername,
+  CONVERT(VARCHAR(20),ValidityBeginTime,120) AS validitybegintime,
+  CONVERT(VARCHAR(20),ValidityEndTime,120) AS validityendtime,
+   c.DepartmentNo AS departmentno,
+   d.DepartmentName AS departmentname,
+   FaceCount as facecount,
+   PeopleNumber AS peoplenumber,
+   ValidityStatus AS validitystatus,
+   Remark AS remark,
+   convert(varchar(max),convert(varbinary(max),logophotos)) as logophotos,
+   c.lconname
+FROM 
+ dbo.Applet_AccountData c
+ INNER JOIN 
+   dbo.DepartmentData d ON d.DepartmentNo = c.DepartmentNo
+INNER JOIN 
+ dbo.HolderData h ON h.HolderNo = c.HolderNo ) aa
+		where 1=1
+	    <if test="departmentno != null and departmentno !=''">
+	         and  substring(aa.DepartmentNo,1,3) =substring(#{departmentno},1,3)
+	    </if>
+	    <if test="validitystatus !=null and validitystatus !=''">
+	       and aa.ValidityStatus=#{validitystatus}
+	    </if>
+	    <if test="holderno !=null and holderno !=''">
+	       and aa.holderno=#{holderno}
+	    </if>
+		<include refid="c_end"></include>
+   </select>
+   
+   
+   <!-- 查询账户的总数 -->
+   <select id="selectAppletAccountCount" resultType="Integer">
+      select count(1) from (
+     SELECT  
+   AccountId AS accountid,
+   CorporateName AS corporatename,
+   IpAddress AS ipaddress,
+   LoginAccount AS loginaccount,
+   c.LoginPassword AS loginpassword,
+   c.HolderNo AS holderno,
+   h.HolderName AS holdername,
+  CONVERT(VARCHAR(20),ValidityBeginTime,120) AS validitybegintime,
+  CONVERT(VARCHAR(20),ValidityEndTime,120) AS validityendtime,
+   c.DepartmentNo AS departmentno,
+   d.DepartmentName AS departmentname,
+   FaceCount as facecount,
+   PeopleNumber AS peoplenumber,
+   ValidityStatus AS validitystatus,
+   Remark AS remark,
+   convert(varchar(max),convert(varbinary(max),logophotos)) as logophotos,
+   c.lconname
+FROM 
+ dbo.Applet_AccountData c
+ INNER JOIN 
+   dbo.DepartmentData d ON d.DepartmentNo = c.DepartmentNo
+INNER JOIN 
+ dbo.HolderData h ON h.HolderNo = c.HolderNo ) aa
+       where 1=1
+        <if test="departmentno != null and departmentno !=''">
+	        and  substring(aa.DepartmentNo,1,3) =substring(#{departmentno},1,3)
+	    </if>
+	    <if test="validitystatus !=null and validitystatus !=''">
+	       and aa.ValidityStatus=#{validitystatus}
+	    </if>
+	    <if test="holderno !=null and holderno !=''">
+	       and aa.holderno=#{holderno}
+	    </if>
+   </select>
+   
+   <!-- 通过accountid来禁用或者启用,申请的账号 -->
+  <update id="updateAccountStatus" parameterType="com.xr.entity.Applet_AccountData">
+     UPDATE dbo.Applet_AccountData SET ValidityStatus =#{validitystatus} WHERE AccountId =#{accountid} 
+  </update>
+  
+  <!-- 	 *  修改小程序账号 *  用于账户管理里面的修改 -->
+  <update id="updateAccount" parameterType="com.xr.entity.Applet_AccountData">
+    UPDATE dbo.Applet_AccountData 
+    SET  CorporateName =#{corporatename},
+	      LoginAccount = #{loginaccount},
+		  LoginPassword = #{loginpassword},
+		  IpAddress =#{ipaddress},
+		  ValidityBeginTime = #{validitybegintime},
+		  ValidityEndTime = #{validityendtime},
+		  DepartmentNo =#{departmentno},
+		  FaceCount = #{facecount},
+		  PeopleNumber = #{peoplenumber},
+		  ValidityStatus = #{validitystatus},
+		  AppCode = #{appcode},
+		  remark = #{remark},
+		    LogoPhotos = #{logophotos},
+		  lconname = #{lconname}
+	  WHERE  AccountId =  #{accountid}
+  </update>
+  
+  
+  <!-- 删除申请账户的方法 -->
+  <delete id="deleteAccount">
+    DELETE FROM dbo.Applet_AccountData WHERE AccountId =#{accountid}
+  </delete>
+  <!-- 删除账户关联模块的方法 -->
+  <delete id="deleteAccountModel">
+    DELETE FROM dbo.Applet_RoleModel WHERE AccountId=#{accountid}
+  </delete>
+  <!-- 删除账户所设置的轮播图-->
+  <delete id="deleteAccountPhoto">
+   DELETE FROM dbo.Applet_AccountPhotoData WHERE AccountId=#{accountid}
+  </delete>
+  
+  <!--通过accountid来查询用户申请的账号信息  -->
+  <select id="selectOneAccount" resultType="Map">
+	 SELECT 
+	  AccountId AS accountid,
+	  CorporateName AS corporatename,
+	  LoginAccount AS loginaccount,
+	  LoginPassword AS loginpassword,
+	  IpAddress AS ipaddress,
+	  HolderNo AS holderno,
+	  CONVERT(VARCHAR(20),ValidityBeginTime,120) AS validitybegintime,
+	   CONVERT(VARCHAR(20),ValidityEndTime,120) AS  validityendtime,
+	  a.DepartmentNo AS departmentno,
+	  d.DepartmentName AS departmentname,
+	  FaceCount AS facecount,
+	  PeopleNumber AS peoplenumber,
+	  ValidityStatus AS validitystatus,
+	  Remark AS remark,
+	  convert(varchar(max),convert(varbinary(max),logophotos)) as logophotos,
+	  lconname
+	FROM dbo.Applet_AccountData a 
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = a.DepartmentNo
+	where accountid =#{accountid}
+  </select>
+  
+  <!-- 通过accountid来查询用户关联的模块信息 -->
+  <select id="selectRoleModel" resultType="com.xr.entity.Applet_RoleModel">
+        SELECT id, accountid,modelno FROM dbo.Applet_RoleModel WHERE AccountId=#{accountid}
+  </select>
+ 
+   <!-- 小程序树形结构* 查询小程序的菜单和模块 -->
+   <select id="selectAppletManage" resultType="Map">
+		SELECT 'c'+CAST(t.MenuNo AS VARCHAR(20)) "id",t.MenuName "title",'' "parent" FROM Applet_MenuData t
+         UNION ALL
+         SELECT 'm'+CAST(t1.ModelNo AS VARCHAR(20)) "id",t1.ModelName "title",'c'+CAST(t1.MenuNo AS VARCHAR(20)) "parent" FROM Applet_ModelData t1
+   </select>
+   
+   
+   <!-- 通过模块编号来删除模块 -->
+   <delete id="deleteAppletModel">
+     DELETE FROM dbo.Applet_ModelData WHERE ModelNo=#{modelno}
+   </delete>
+   
+
+   
+   
+   <!-- **************************************** -->
+   <!-- 	 * 这是小程序登录时,用于查询账号的使用权限* 查看小程序账户使用是否到期,是否有权限使用小程序 -->
+   <select id="queryCheckHolder" resultType="com.xr.entity.Applet_AccountData">
+		 SELECT 
+		  accountid,
+		  corporatename,
+		  holderno,
+		  ValidityBeginTime,
+		  ValidityEndTime,
+		  DepartmentNo,
+		  FaceCount,
+		  PeopleNumber,
+		  ValidityStatus,
+		  Remark
+		 FROM  dbo.Applet_AccountData WHERE DepartmentNo=#{departmentno} AND ValidityStatus='0'
+		 AND GETDATE() BETWEEN ValidityBeginTime AND ValidityEndTime  
+   </select>
+   
+   <!--  * 用于小程序登录成功后* 查询accountid账号所拥有的相关模块 -->
+   <select id="queryHaveModel" resultType="Map">
+	SELECT
+		n.AppletNo AS "id",
+		n.AppletName "title",
+		CASE
+		WHEN n.UnderNo IS NULL THEN
+		''
+		ELSE
+		n.UnderNo
+		END "parent",
+		'' "children"
+	FROM dbo.Applet_StructureData n
+	inner JOIN dbo.Applet_RoleModel r ON n.AppletNo = r.ModelNo
+	where r.AccountId=#{accountid}
+   </select>
+   
+   <!--   * 查询小程序所有账户
+	  * 用于管理照片 -->
+	<select id="queryAccountData" resultType="Map">
+        SELECT accountid, corporatename FROM dbo.Applet_AccountData WHERE ValidityStatus='0' 
+	</select>
+	
+	<!-- 通过accoountid查询账户显示的照片 -->
+	 <select id="queryAccountPhoto" resultType="com.xr.entity.Applet_AccountPhotoData">
+	     SELECT  id,accountid,appletphoto  FROM dbo.Applet_AccountPhotoData where accountid=#{accountid} 
+	 </select>
+   
+   <!-- * 小程序广告栏新增照片的方法
+	 * 用于给账户新增照片 -->
+   <insert id="insertAccountPhoto" parameterType="com.xr.entity.Applet_AccountPhotoData">
+        INSERT INTO dbo.Applet_AccountPhotoData
+          (AccountId, AppletPhoto)
+        VALUES  (#{accountid},#{appletphoto})
+   </insert>
+   
+   <!-- * 小程序广告栏修改照片的方法* 用于给账户修改照片 -->
+   <insert id="updateAccountPhoto" parameterType="com.xr.entity.Applet_AccountPhotoData">
+      UPDATE dbo.Applet_AccountPhotoData SET AppletPhoto=#{appletphoto} WHERE ID=#{id}
+   </insert>
+   
+   <!-- * 通过id删除账户照片 -->
+   <delete id="deleteOneAccountPhoto">
+     delete from dbo.Applet_AccountPhotoData where id=#{id}
+   </delete>
+   
+   
+   <!--  * 通过部门编号来查询是否已经申请了账户* 用于判断是否已经申请过账户* 一个公司只允许有一个账户 -->
+   <select id="queryAccount" resultType="com.xr.entity.Applet_AccountData">
+      SELECT  
+	   AccountId as accountid,
+	   CorporateName as corporatename,
+	   LoginAccount as loginaccount,
+	   LoginPassword as loginpassword,
+	   IpAddress as ipaddress,
+	   HolderNo as holderno,
+	   ValidityBeginTime as validitybegintime,
+	   ValidityEndTime as validityendtime,
+	   DepartmentNo as departmentno,
+	   FaceCount as facecount,
+	   PeopleNumber as peoplenumber,
+	   ValidityStatus as validitystatus,
+	   Remark as remark
+	 FROM dbo.Applet_AccountData WHERE DepartmentNo=#{deparmentno}
+   </select>
+   
+   
+   
+</mapper>

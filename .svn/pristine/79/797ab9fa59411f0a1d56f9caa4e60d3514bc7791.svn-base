@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZC_BorrowMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--查询借用单据记录  -->
+	<select id="getBorrowedBillList" resultType="map">
+		<include refid="c_start"></include>
+		select distinct t.*,d.departmentName "borrowUnitNme" ,h1.holderName "borrowPerName",h2.holderName "operatorName",
+			h3.holderName "approverName",count(1) over(partition by t.fid) sumVal
+		from ZC_BorrowRecord t
+		left join ZC_BorrowRecordGoods r on t.fid=r.borrowID
+		left join DepartmentData d on t.borrowUnit = d.departmentNo
+		left join HolderData h1 on t.borrowPer = h1.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join HolderData h3 on t.approver = h3.holderNo
+		left join ZC_BorrowRecordGoods g on t.fid=g.borrowID
+		where 1=1
+		<if test="operateDate != null and operateDate != ''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	<select id="getBorrowedBillListCount" resultType="integer">
+		select count(1) from (
+		select distinct t.*,d.departmentName "borrowUnitNme" ,h1.holderName "borrowPerName",h2.holderName "operatorName",
+			h3.holderName "approverName",count(1) over(partition by t.fid) sumVal
+		from ZC_BorrowRecord t
+		left join ZC_BorrowRecordGoods r on t.fid=r.borrowID
+		left join DepartmentData d on t.borrowUnit = d.departmentNo
+		left join HolderData h1 on t.borrowPer = h1.holderNo
+		left join HolderData h2 on t.operator = h2.holderNo
+		left join HolderData h3 on t.approver = h3.holderNo
+		left join ZC_BorrowRecordGoods g on t.fid=g.borrowID
+		where 1=1
+		<if test="operateDate != null and operateDate != ''">
+			and CONVERT(varchar(100), t.operateDate, 23) = #{operateDate}
+		</if>
+		<if test="bill != null and bill != ''">
+			and t.bill like '%'+#{bill}+'%' 
+		</if>
+		) aa
+	</select>
+	  
+	<!--获取借用记录列表  -->
+	<select id="getBorrowedList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,r.bill,d.departmentName "borrowUnitName",h.holderName "borrowPerName",g.imagePath,
+			r.phone,CONVERT(varchar(100),r.borrowDate, 23) borrowDate,
+			CONVERT(varchar(100),r.startDate, 23) "borrowStartDate",
+			CONVERT(varchar(100),r.endDate, 23) "borrowEndDate",
+			CONVERT(varchar(100),r.operateDate, 23) borrowOperateDate,
+			h2.holderName "borrowOperatorName",g.specs,g.brand,g.size,ss.storeName,r.remark "mremark"
+		from ZC_BorrowRecordGoods t
+		inner join ZC_BorrowRecord r on t.borrowID = r.fid
+		left join DepartmentData d on r.borrowUnit = d.departmentNo
+		left join HolderData h on r.borrowPer = h.holderNo
+		left join HolderData h2 on r.operator = h2.HolderNo
+		left join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_Store ss on t.storeID = ss.fid
+		where 1=1
+		<!--查询条件：借用单位  -->
+		<if test="borrowUnit != null and borrowUnit != ''">
+			and r.borrowUnit = #{borrowUnit}
+		</if>
+		<!--查询条件：借用人  -->
+		<if test="borrowPerName != null and borrowPerName != ''">
+			and h.holderName like '%'+#{borrowPerName}+'%'
+		</if>
+		<!--查询条件：联系电话  -->
+		<if test="phone != null and phone != ''">
+			and r.phone like '%'+#{phone}+'%'
+		</if>
+		<!--查询条件：借用日期  -->
+		<if test="operateDate != null and operateDate != ''">
+			and r.operateDate = CONVERT(varchar(100),#{operateDate}, 23)
+		</if>
+		<!--查询条件：标签号  -->
+		<if test="labelCode != null and labelCode != ''">
+			and t.labelCode = #{labelCode}
+		</if>
+		<!--查询条件：单据号 -->
+		<if test="bill != null and bill != ''">
+			and r.bill like '%'+#{bill}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getBorrowedListCount" resultType="integer">
+		select count(1)
+		from ZC_BorrowRecordGoods t
+		inner join ZC_BorrowRecord r on t.borrowID = r.fid
+		left join DepartmentData d on r.borrowUnit = d.departmentNo
+		left join HolderData h on r.borrowPer = h.holderNo
+		left join HolderData h2 on r.operator = h2.HolderNo
+		left join ZC_Goods g on t.goodsID = g.fid
+		left join ZC_Store ss on t.storeID = ss.fid
+		where 1=1
+		<!--查询条件：借用单位  -->
+		<if test="borrowUnit != null and borrowUnit != ''">
+			and r.borrowUnit = #{borrowUnit}
+		</if>
+		<!--查询条件：借用人  -->
+		<if test="borrowPerName != null and borrowPerName != ''">
+			and h.holderName like '%'+#{borrowPerName}+'%'
+		</if>
+		<!--查询条件：联系电话  -->
+		<if test="phone != null and phone != ''">
+			and r.phone like '%'+#{phone}+'%'
+		</if>
+		<!--查询条件：借用日期  -->
+		<if test="operateDate != null and operateDate != ''">
+			and r.operateDate = CONVERT(varchar(100),#{operateDate}, 23)
+		</if>
+		<!--查询条件：标签号  -->
+		<if test="labelCode != null and labelCode != ''">
+			and t.labelCode = #{labelCode}
+		</if>
+		<!--查询条件：单据号 -->
+		<if test="bill != null and bill != ''">
+			and r.bill like '%'+#{bill}+'%'
+		</if>
+	</select>
+	
+	<!--更新库中的物品状态为借出  -->
+	<update id="updateStoreGoodsStatus">
+		update ZC_InStoreGoods
+		   set status = #{storeStatus}
+		 where labelCode in
+		 <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		 	#{l.labelCode}
+		 </foreach>
+	</update>
+	
+	<!-- 添加至借用记录信息 -->
+	<select id="insertBorrowRecord" resultType="integer">
+		insert into ZC_BorrowRecord (bill,borrowUnit,borrowPer,phone,borrowDate,startDate,endDate,operator,operateDate,approver,approvalResult,remark)
+		values(#{bill},#{borrowUnit},#{borrowPer},#{phone},convert(datetime,#{operateDate}, 20),convert(datetime,#{startDate}, 20),
+			convert(datetime,#{endDate}, 20),#{operator},convert(datetime,#{operateDate}, 20),#{approver},0,#{mremark})
+		SELECT @@IDENTITY
+	</select>
+	
+	<!--添加借用记录物品信息  -->
+	<update id="insertBorrowRecordGoods">
+		insert into ZC_BorrowRecordGoods(labelCode,goodsID,inStoreID,goodsName,goodsType,goodsCode,type,model,inStoreDate,
+			storeID,shelf,supplierID,manufacturerID,useDate,retireDate,
+			shopType,shopNo,shopDate,endDate,goodsSn,remark,
+			deviceHigh,rightUnit,rightDept,erpCode,erpDeviceCode,projectNo,projectName,status,borrowStatus,borrowID)
+		select t.labelCode,t.goodsID,t.inStoreID,t.goodsName,t.goodsType,t.goodsCode,t.type,t.model,t.inStoreDate,
+			t.storeID,t.shelf,t.supplierID,t.manufacturerID,t.useDate,t.retireDate,
+			t.shopType,t.shopNo,t.shopDate,t.endDate,t.goodsSn,t.remark,
+			t.deviceHigh,t.rightUnit,t.rightDept,t.erpCode,t.erpDeviceCode,t.projectNo,t.projectName,t.status,1,#{borrowID}
+		 from ZC_InStoreGoods t where 1=1 and t.labelCode in
+		 <foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		 	#{l.labelCode}
+		 </foreach>
+	</update>
+	
+	<!--物品正常归还更新借用记录状态  -->
+	<update id="updateBorrowGoodsStatus">
+		update ZC_BorrowRecordGoods
+		   set borrowStatus = #{borrowStatus},
+		   	   returnType = 1
+		 where labelCode in
+		<foreach collection="goodsList" item="l" open="(" close=")" separator=",">
+		 	#{l.labelCode}
+		 </foreach>
+	</update>
+	
+	<!--==================================================非正常归还==================================================  -->
+	<select id="getSumWithLabelCode" resultType="map">
+		select * from ZC_InStoreGoods t where t.labelCode = #{newLabelCode}
+	</select>
+	
+	<!--更新物品非正常归还时，库存物品的相关信息  -->
+	<update id="updateBorrowGoodsLabel">
+		update ZC_InStoreGoods
+		   set labelCode = #{newLabelCode},
+		   	   status = 1
+		 where labelCode = #{oldLabelCode}
+	</update>
+	
+	<!--更新借出记录相关信息  -->
+	<update id="updateBorrowGoodsStatus2">
+		update ZC_BorrowRecordGoods
+		   set labelCode = #{newLabelCode},
+		   	   borrowStatus = #{borrowStatus},
+		   	   returnType = #{returnType},
+		   	   newLabelCode = #{newLabelCode}
+		 where labelCode = #{oldLabelCode}
+	</update>
+	
+	<!--标签更换记录  -->
+	<update id="insertLabelChangeRecord">
+		insert into ZC_LabelChangeRecord(newLabelCode,oldLabelCode,operator,operateDate)
+		values(#{newLbelCode},#{oldLabelCode},#{operator},GETDATE())
+	</update>
+</mapper>

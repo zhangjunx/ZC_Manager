@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.LH_MyLogMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.LH_MyLog" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="Content1" property="content1" jdbcType="NVARCHAR" />
+    <result column="Content2" property="content2" jdbcType="NVARCHAR" />
+    <result column="Content3" property="content3" jdbcType="NVARCHAR" />
+    <result column="ReceiverPeople" property="receiverpeople" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="SeePerson" property="seeperson" jdbcType="NVARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.LH_MyLog" extends="BaseResultMap" >
+    <result column="Photo1" property="photo1" jdbcType="LONGVARBINARY" />
+    <result column="Photo2" property="photo2" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, Content1, Content2, Content3, ReceiverPeople, CreateDate, 
+    UpdateDate, Deleted, SeePerson
+  </sql>
+  <sql id="Blob_Column_List" >
+    Photo1, Photo2
+  </sql>
+  
+  <select id="getLogList" resultType="Map">
+      select id,holderno,holdername,content1,content2,content3,
+      receiverpeople,deleted,seeperson,photo1,
+      convert(varchar(20),createdate,20) createdate,
+       convert(varchar(20),UpdateDate,20) updatedate
+       from LH_MyLog 
+   <where>
+      <if test="id != null and id!='' " >
+        ID=#{id}
+      </if>
+      <if test="holderno != null and holderno!='' " >
+        and HolderNo=#{holderno}
+      </if>
+      <if test="holdername != null and holdername!='' " >
+        and HolderName=#{holdername}
+      </if>
+      <if test="receiverpeople != null and receiverpeople!='' " >
+        and ReceiverPeople=#{receiverpeople}
+      </if>
+      
+  </where>
+   order by ID desc
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from LH_MyLog
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from LH_MyLog
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.LH_MyLog" >
+    insert into LH_MyLog (ID, HolderNo, HolderName, 
+      Content1, Content2, Content3, 
+      ReceiverPeople, CreateDate, UpdateDate, 
+      Deleted, SeePerson, Photo1, 
+      Photo2)
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=NVARCHAR}, #{holdername,jdbcType=NVARCHAR}, 
+      #{content1,jdbcType=NVARCHAR}, #{content2,jdbcType=NVARCHAR}, #{content3,jdbcType=NVARCHAR}, 
+      #{receiverpeople,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updatedate,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=NVARCHAR}, #{seeperson,jdbcType=NVARCHAR}, #{photo1,jdbcType=LONGVARBINARY}, 
+      #{photo2,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.LH_MyLog" >
+    insert into LH_MyLog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="content1 != null" >
+        Content1,
+      </if>
+      <if test="content2 != null" >
+        Content2,
+      </if>
+      <if test="content3 != null" >
+        Content3,
+      </if>
+      <if test="receiverpeople != null" >
+        ReceiverPeople,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="seeperson != null" >
+        SeePerson,
+      </if>
+      <if test="photo1 != null" >
+        Photo1,
+      </if>
+      <if test="photo2 != null" >
+        Photo2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="content1 != null" >
+        #{content1,jdbcType=NVARCHAR},
+      </if>
+      <if test="content2 != null" >
+        #{content2,jdbcType=NVARCHAR},
+      </if>
+      <if test="content3 != null" >
+        #{content3,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverpeople != null" >
+        #{receiverpeople,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="seeperson != null" >
+        #{seeperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        #{photo1,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="photo2 != null" >
+        #{photo2,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.LH_MyLog" >
+    update LH_MyLog
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="content1 != null" >
+        Content1 = #{content1,jdbcType=NVARCHAR},
+      </if>
+      <if test="content2 != null" >
+        Content2 = #{content2,jdbcType=NVARCHAR},
+      </if>
+      <if test="content3 != null" >
+        Content3 = #{content3,jdbcType=NVARCHAR},
+      </if>
+      <if test="receiverpeople != null" >
+        ReceiverPeople = #{receiverpeople,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="seeperson != null" >
+        SeePerson = #{seeperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        Photo1 = #{photo1,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="photo2 != null" >
+        Photo2 = #{photo2,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.LH_MyLog" >
+    update LH_MyLog
+    set HolderNo = #{holderno,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      Content1 = #{content1,jdbcType=NVARCHAR},
+      Content2 = #{content2,jdbcType=NVARCHAR},
+      Content3 = #{content3,jdbcType=NVARCHAR},
+      ReceiverPeople = #{receiverpeople,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      SeePerson = #{seeperson,jdbcType=NVARCHAR},
+      Photo1 = #{photo1,jdbcType=LONGVARBINARY},
+      Photo2 = #{photo2,jdbcType=LONGVARBINARY}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.LH_MyLog" >
+    update LH_MyLog
+    set HolderNo = #{holderno,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      Content1 = #{content1,jdbcType=NVARCHAR},
+      Content2 = #{content2,jdbcType=NVARCHAR},
+      Content3 = #{content3,jdbcType=NVARCHAR},
+      ReceiverPeople = #{receiverpeople,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      SeePerson = #{seeperson,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

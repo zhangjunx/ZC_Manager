@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DepartureRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DepartureRecord" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="IDCard" property="idcard" jdbcType="NVARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="ExpireDate" property="expiredate" jdbcType="TIMESTAMP" />
+    <result column="LeaveType" property="leavetype" jdbcType="NVARCHAR" />
+    <result column="LeaveTypeName" property="leavetypename" jdbcType="NVARCHAR" />
+    <result column="LeaveReason" property="leavereason" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="DimissionScan" property="dimissionscan" jdbcType="NVARCHAR" />
+    <result column="HandoverScan" property="handoverscan" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, IDCard, StartDate, ExpireDate, LeaveType, LeaveTypeName, 
+    LeaveReason, CreatePerson, CreateDate, UpdatePerson, UpdateDate, DelPerson, DelDate, 
+    Deleted, DimissionScan, HandoverScan
+  </sql>
+  
+  <select id="queryDepartureRecordList" resultType="map">
+	select dr.id,dr.holderno,dr.holdername,dd.holderno holderno1,
+	(select departmentname from DepartmentData where
+	DepartmentNo=substring(dd.DepartmentNo,0,4)) compname,
+	(select departmentname from DepartmentData where DepartmentNo=dd.DepartmentNo)
+	deptname,
+	dr.idcard,convert(varchar(100),dr.startdate,23) startdate,
+	convert(varchar(100),dr.expiredate,23) expiredate,dr.leavetype,dr.leavetypename,dr.leavereason
+	from DepartureRecord dr left join DepartureData dd on
+	dr.HolderNo=dd.HolderNo
+	<where>
+	<!--  <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+     #{item}
+     </foreach> -->
+		<if test="departmentno != null and departmentno!='' ">
+			and dd.departmentno like #{departmentno}+'%'
+		</if>
+		<if test="holderno!=null and holderno!=''">
+			and dr.holderno=#{holderno}
+		</if>
+		<if test="holdername != null and holdername!=''">
+			and dr.holdername like '%'+#{holdername}+'%'
+		</if>
+      </where>
+      order by dr.id desc
+  </select>
+  
+  <!-- 通过工号查 最后一次  离职记录信息 -->
+  <select id="queryDepartureRecordByHolderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select a.id,d.HolderNo,d.HolderName,d.StartDate,d.ExpireDate,
+d.LeaveType,d.LeaveTypeName,d.LeaveReason
+  from (select max(ID) id from DepartureRecord
+   where HolderNo=#{holderno,jdbcType=VARCHAR})a 
+  inner join DepartureRecord d on d.ID=a.id
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DepartureRecord
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DepartureRecord
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.DepartureRecord" >
+    insert into DepartureRecord (ID, HolderNo, HolderName, 
+      IDCard, StartDate, ExpireDate, 
+      LeaveType, LeaveTypeName, LeaveReason, 
+      CreatePerson, CreateDate, UpdatePerson, 
+      UpdateDate, DelPerson, DelDate, 
+      Deleted, DimissionScan, HandoverScan
+      )
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=NVARCHAR}, #{startdate,jdbcType=TIMESTAMP}, #{expiredate,jdbcType=TIMESTAMP}, 
+      #{leavetype,jdbcType=NVARCHAR}, #{leavetypename,jdbcType=NVARCHAR}, #{leavereason,jdbcType=NVARCHAR}, 
+      #{createperson,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=NVARCHAR}, #{dimissionscan,jdbcType=NVARCHAR}, #{handoverscan,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.DepartureRecord" >
+    insert into DepartureRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="idcard != null" >
+        IDCard,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate,
+      </if>
+      <if test="leavetype != null" >
+        LeaveType,
+      </if>
+      <if test="leavetypename != null" >
+        LeaveTypeName,
+      </if>
+      <if test="leavereason != null" >
+        LeaveReason,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="dimissionscan != null" >
+        DimissionScan,
+      </if>
+      <if test="handoverscan != null" >
+        HandoverScan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredate != null" >
+        #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetype != null" >
+        #{leavetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetypename != null" >
+        #{leavetypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavereason != null" >
+        #{leavereason,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="dimissionscan != null" >
+        #{dimissionscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="handoverscan != null" >
+        #{handoverscan,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DepartureRecord" >
+    update DepartureRecord
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        IDCard = #{idcard,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate = #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetype != null" >
+        LeaveType = #{leavetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavetypename != null" >
+        LeaveTypeName = #{leavetypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="leavereason != null" >
+        LeaveReason = #{leavereason,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="dimissionscan != null" >
+        DimissionScan = #{dimissionscan,jdbcType=NVARCHAR},
+      </if>
+      <if test="handoverscan != null" >
+        HandoverScan = #{handoverscan,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.DepartureRecord" >
+    update DepartureRecord
+    set HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      IDCard = #{idcard,jdbcType=NVARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      ExpireDate = #{expiredate,jdbcType=TIMESTAMP},
+      LeaveType = #{leavetype,jdbcType=NVARCHAR},
+      LeaveTypeName = #{leavetypename,jdbcType=NVARCHAR},
+      LeaveReason = #{leavereason,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      DimissionScan = #{dimissionscan,jdbcType=NVARCHAR},
+      HandoverScan = #{handoverscan,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

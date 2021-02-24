@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.IODataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.IOData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="DeviceNo" property="deviceno" jdbcType="SMALLINT" />
+    <result column="DoorNo" property="doorno" jdbcType="SMALLINT" />
+    <result column="CardNo" property="cardno" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="IODate" property="iodate" jdbcType="TIMESTAMP" />
+    <result column="BeginDate" property="begindate" jdbcType="TIMESTAMP" /><!-- 新增的 -->
+    <result column="EndDate" property="enddate" jdbcType="TIMESTAMP" /><!-- 新增的 -->
+    <result column="IOTime" property="iotime" jdbcType="VARCHAR" />
+    <result column="BeginTime" property="begintime" jdbcType="VARCHAR" /><!-- 新增的 -->
+    <result column="EndTime" property="endtime" jdbcType="VARCHAR" /><!-- 新增的 -->
+    <result column="No1" property="no1" jdbcType="SMALLINT" />
+    <result column="No2" property="no2" jdbcType="SMALLINT" />
+    <result column="No3" property="no3" jdbcType="SMALLINT" />
+    <result column="No4" property="no4" jdbcType="SMALLINT" />
+    <result column="IOStatus" property="iostatus" jdbcType="SMALLINT" />
+    <result column="ManualCard" property="manualcard" jdbcType="SMALLINT" />
+    <result column="Reason" property="reason" jdbcType="VARCHAR" />
+    <result column="DeviceName" property="devicename" jdbcType="NVARCHAR" />
+    <result column="DeviceTypeNo" property="devicetypeno" jdbcType="NVARCHAR" />
+    <result column="DoorName" property="doorname" jdbcType="VARCHAR" />
+    <result column="UID" property="uid" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="DeptNo" property="deptno" jdbcType="NVARCHAR" />
+    <result column="DeptName" property="deptname" jdbcType="NVARCHAR" />
+    <result column="IODateTime" property="iodatetime" jdbcType="TIMESTAMP" />
+    <result column="IOStatusLang" property="iostatuslang" jdbcType="NVARCHAR" />
+    <result column="HolderType" property="holdertype" jdbcType="NCHAR" />
+    <result column="Format" property="format" jdbcType="NCHAR" />
+    <result column="Temperatures" property="temperatures" jdbcType="DECIMAL" />
+    <result column="Humiditys" property="humiditys" jdbcType="DECIMAL" />
+    <result column="ExciterID" property="exciterid" jdbcType="INTEGER" />
+    <result column="CH" property="ch" jdbcType="DECIMAL" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+    <result column="Photo" property="photo" jdbcType="LONGVARBINARY" />
+    <result column="IOPhoto" property="iophoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, DeviceNo, DoorNo, CardNo, HolderNo, IODate, IOTime, No1, No2, No3, No4, IOStatus, 
+    ManualCard, Reason, DeviceName, DeviceTypeNo, DoorName, UID, HolderName, DeptNo, 
+    DeptName, IODateTime, IOStatusLang, HolderType, Format, Temperatures, Humiditys, 
+    ExciterID, CH, NetNode
+  </sql>
+  
+  <!-- 查询当前最大记录值MaxDataNo -->
+  <select id="queryMaxDataNo" resultType="java.lang.Integer">
+      select Max(DataNo) datano from IOData
+  </select>
+  
+  <!-- 进出实时监控时 点击刷新清屏后获取的数据 -->
+  <select id="queryIOCurrRecordListByMaxDataNo" resultType="Map">
+        select a.datano,a.holderno,a.holdername,a.doorno,a.doorname,
+      convert(varchar(10),a.iodate,23) iodate,a.iotime,a.iostatus,
+      a.deptno,a.deptname, a.deviceno,a.devicename,
+      a.uid,a.cardno,a.opentype,a.opentypename,a.temperatures,
+   iop.Photo iophoto,hp.dataphoto dataphoto from IOData a 
+   left join IODataPhoto iop  on iop.IODataID=a.DataNo 
+   left join HolderPhoto hp  on hp.HolderNo=a.HolderNo
+  where DateDiff(dd,a.IODate,getdate())=0
+     and a.DataNo>#{datano,jdbcType=INTEGER}
+     order by a.DataNo desc 
+  </select>
+  
+  <!-- 实时定位时 点击某个人查看其最后位置 信息-->
+<select id="queryIORecordByBigData" resultMap="BaseResultMap">
+select top 10 DataNo, DeviceNo, DoorNo, CardNo, HolderNo, IODate, IOTime, No1, No2, No3, No4, IOStatus, 
+    Reason, DeviceName, DeviceTypeNo, DoorName, UID, HolderName, DeptNo, 
+    DeptName, IODateTime, IOStatusLang, HolderType 
+      from IOData  order by DataNo desc
+</select>
+
+
+
+<!-- 实时定位时 点击某个人查看其最后位置 信息-->
+<select id="queryIOLastAreaByDataNo" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+select i.DataNo,i.HolderNo,i.HolderName,i.DeptNo,i.DeptName,
+ i.IOTime,i.DoorNo,i.DoorName,i.IOStatus,
+ (select DataPhoto from HolderPhoto h 
+ where HolderNo=i.HolderNo) as photo from IOData i
+ where DataNo=#{datano,jdbcType=INTEGER}
+</select>
+  
+  <!--根据部门分组 查询部门下人员 再查人员最后进出位置  -->
+  <select id="queryIOLastAreaList" resultType="Map">
+  select c.DepartmentNo,c.DepartmentName,c.HolderNo,c.HolderName,
+ e.HolderNo,e.HolderName,e.DataNo,e.DeptNo,e.IOStatus
+ from (select h.HolderNo,h.HolderName,h.DepartmentNo,
+ a.DepartmentName from (select DepartmentNo,
+ DepartmentName  from DepartmentData d
+where DepartmentNo in
+<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+   #{item}
+</foreach> 
+group by DepartmentNo,DepartmentName) a 
+inner join HolderData h on h.DepartmentNo=a.DepartmentNo)c 
+left join (select i.DataNo,i.HolderNo,i.HolderName,i.DeptNo,i.DeptName,i.IOStatus
+ from (select Max(DataNo) DataNo,HolderNo,DeptNo from IOData
+where convert(varchar(100),IODate,23)=convert(varchar(10),getdate(),23)
+and IOStatus in(11,12)
+ group by HolderNo,DeptNo)b inner join IOData i 
+ on i.DataNo=b.DataNo and b.HolderNo=i.HolderNo and i.DeptNo=b.DeptNo)e 
+ on c.HolderNo=e.HolderNo and c.DepartmentNo=e.DeptNo
+order by c.DepartmentNo,c.HolderNo,e.DataNo asc
+ <!-- select c.DepartmentNo,c.DepartmentName,c.HolderNo,c.HolderName,
+ e.HolderNo,e.HolderName,e.DataNo,e.DeptNo,e.DeptName,e.DoorNo,e.DoorName,
+e.IODate,e.IOTime,e.DeviceNo,e.DeviceName,e.UID,e.CardNo,e.IOStatus
+ from (select h.HolderNo,h.HolderName,h.DepartmentNo,
+ a.DepartmentName from (select DepartmentNo,
+ DepartmentName  from DepartmentData d
+where DepartmentNo in
+<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+   #{item}
+</foreach>  
+ group by DepartmentNo,DepartmentName 
+) a 
+inner join HolderData h on h.DepartmentNo=a.DepartmentNo)c 
+left join (select i.DataNo,i.HolderNo,i.HolderName,i.DeptNo,i.DeptName,
+i.DoorNo,i.DoorName,i.DeviceNo,i.DeviceName,i.UID,
+i.CardNo,i.IOStatus,i.IODate,i.IOTime
+ from (select Max(DataNo) DataNo,HolderNo,DeptNo from IOData
+where convert(varchar(100),IODate,23)=convert(varchar(10),getdate(),23)
+and IOStatus in(11,12)
+ group by HolderNo,DeptNo)b inner join IOData i 
+ on i.DataNo=b.DataNo and b.HolderNo=i.HolderNo and i.DeptNo=b.DeptNo)e 
+ on c.HolderNo=e.HolderNo and c.DepartmentNo=e.DeptNo
+order by c.DepartmentNo,c.HolderNo,e.DataNo asc -->
+  </select>
+  
+  
+  <!-- 查询出差请假的当前人数 -->
+  <select id="getLastLeaveInfo" resultType="Map">
+select h.HolderNo,h.HolderName,a.ThemeNo,a.TopicType,a.DepartmentNo deptno
+ from (select ThemeNo,HolderNo,DepartmentNo,CauseType,DetailedPlace
+,BeginTime,EndTime,TopicType,AuditStatus
+ from KQ_Theme where 
+ AuditStatus='12' and 
+ TopicType in ('qj','cc') 
+and convert(varchar(20),getdate(),20)
+ between convert(varchar(20),BeginTime,20) and convert(varchar(20),EndTime,20)
+and DepartmentNo in
+<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+   #{item}
+</foreach>  
+)a inner join HolderData h on h.HolderNo=a.HolderNo
+  </select>
+  
+   <!-- 查询监控记录 今天 本周 本月  通过人员工号 -->
+  <select id="queryIORecordByHolder" resultMap="BaseResultMap" parameterType="Map">
+ 	select DataNo,HolderNo,HolderName,DoorNo,DoorName,IODate,IOTime,IOStatus,
+     DeptNo,DeptName,DeviceNo,DeviceName,UID,CardNo,OpenType,OpenTypeName,temperatures from IOData 
+     where  HolderNo=#{holderno,jdbcType=VARCHAR}
+     <if test="dd!=null and dd==0 ">
+         and DateDiff(day,IODate,getdate())=0 
+     </if>
+     <if test="dd!=null and dd==1">
+         and DateDiff(week,IODate,getdate())=0
+     </if>
+     <if test="dd!=null and dd==2">
+         and DateDiff(month,IODate,getdate())=0  
+     </if>
+      ORDER BY DataNo desc
+  </select>
+  
+   <!-- 查询监控记录 -->
+  <select id="queryIORecordList" resultType="Map">
+     select i.datano,i.holderno,i.holdername,i.doorno,i.doorname,
+     convert(varchar(10),i.iodate,23) iodate,i.iotime,i.iostatus,
+     i.deptno,i.deptname,i.deviceno,i.devicename,i.uid,i.cardno,
+     i.opentype,i.opentypename,i.temperatures 
+     from IOData i 
+     <where>
+       <if test="begindate != null" >
+         and convert(varchar(10),i.IODate,23)>=#{begindate,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="enddate != null" >
+         and convert(varchar(10),i.IODate,23) &lt;=#{enddate,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="begintime != null and begintime!=''" >
+        and convert(varchar(100),i.IODate,24) >= #{begintime,jdbcType=VARCHAR} 
+      </if>
+      <if test="endtime != null and endtime!=''" >
+        and convert(varchar(100),i.IODate,24) &lt;= #{endtime,jdbcType=VARCHAR}
+      </if>  
+      <if test="iostatus != null and iostatus!=''" >
+        and i.IOStatus=#{iostatus,jdbcType=SMALLINT}
+      </if>
+      <if test="deptno != null and deptno!=''" >
+        and i.DeptNo=#{deptno,jdbcType=NVARCHAR}
+      </if>
+      <if test="holderno != null and holderno!=''" >
+        and i.HolderNo=#{holderno,jdbcType=VARCHAR}
+      </if>
+      <if test="doorno != null and doorno!=''" >
+        and i.DoorNo=#{doorno,jdbcType=SMALLINT}
+      </if>  
+      <if test="st!=null and st!=''" >
+        and i.IOStatus in(11,12)
+      </if>  
+      <if test="dat!=null and dat!=''" >
+        and convert(varchar(10),i.IODate,23)=convert(varchar(10),getdate(),23)
+      </if>  
+     </where>
+     order by convert(varchar(100),i.IODate,20) desc
+  
+  <!-- select i.datano,i.holderno,i.holdername,i.doorno,i.doorname,
+     convert(varchar(10),i.iodate,23) iodate,i.iotime,i.iostatus,
+     i.deptno,i.deptname,i.deviceno,i.devicename,i.uid,i.cardno,
+     i.opentype,i.opentypename,i.temperatures 
+     from IOData i 
+     <where>
+       <if test="begindate != null" >
+         and convert(varchar(10),i.IODate,23)>=#{begindate,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="enddate != null" >
+         and convert(varchar(10),i.IODate,23) &lt;=#{enddate,jdbcType=TIMESTAMP} 
+      </if>
+      <if test="begintime != null and begintime!=''" >
+        and convert(varchar(100),i.IODate,24) >= #{begintime,jdbcType=VARCHAR} 
+      </if>
+      <if test="endtime != null and endtime!=''" >
+        and convert(varchar(100),i.IODate,24) &lt;= #{endtime,jdbcType=VARCHAR}
+      </if>  
+      <if test="iostatus != null and iostatus!=''" >
+        and i.IOStatus=#{iostatus,jdbcType=SMALLINT}
+      </if>
+      <if test="deptno != null and deptno!=''" >
+        and i.DeptNo=#{deptno,jdbcType=NVARCHAR}
+      </if>
+      <if test="holderno != null and holderno!=''" >
+        and i.HolderNo=#{holderno,jdbcType=VARCHAR}
+      </if>
+      <if test="doorno != null and doorno!=''" >
+        and i.DoorNo=#{doorno,jdbcType=SMALLINT}
+      </if>  
+      <if test="st!=null and st!=''" >
+        and i.IOStatus in(11,12)
+      </if>  
+      <if test="dat!=null and dat!=''" >
+        and convert(varchar(10),i.IODate,23)=convert(varchar(10),getdate(),23)
+      </if>  
+     </where>
+     order by convert(varchar(100),i.IODate,20) desc -->
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from IOData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from IOData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.IOData" >
+    insert into IOData (DataNo, DeviceNo, DoorNo, 
+      CardNo, HolderNo, IODate, 
+      IOTime, No1, No2, 
+      No3, No4, IOStatus, 
+      ManualCard, Reason, DeviceName, 
+      DeviceTypeNo, DoorName, UID, 
+      HolderName, DeptNo, DeptName, 
+      IODateTime, IOStatusLang, HolderType, 
+      Format, Temperatures, Humiditys, 
+      ExciterID, CH, NetNode
+      )
+    values (#{datano,jdbcType=INTEGER}, #{deviceno,jdbcType=SMALLINT}, #{doorno,jdbcType=SMALLINT}, 
+      #{cardno,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{iodate,jdbcType=TIMESTAMP}, 
+      #{iotime,jdbcType=VARCHAR}, #{no1,jdbcType=SMALLINT}, #{no2,jdbcType=SMALLINT}, 
+      #{no3,jdbcType=SMALLINT}, #{no4,jdbcType=SMALLINT}, #{iostatus,jdbcType=SMALLINT}, 
+      #{manualcard,jdbcType=SMALLINT}, #{reason,jdbcType=VARCHAR}, #{devicename,jdbcType=NVARCHAR}, 
+      #{devicetypeno,jdbcType=NVARCHAR}, #{doorname,jdbcType=VARCHAR}, #{uid,jdbcType=NVARCHAR}, 
+      #{holdername,jdbcType=NVARCHAR}, #{deptno,jdbcType=NVARCHAR}, #{deptname,jdbcType=NVARCHAR}, 
+      #{iodatetime,jdbcType=TIMESTAMP}, #{iostatuslang,jdbcType=NVARCHAR}, #{holdertype,jdbcType=NCHAR}, 
+      #{format,jdbcType=NCHAR}, #{temperatures,jdbcType=DECIMAL}, #{humiditys,jdbcType=DECIMAL}, 
+      #{exciterid,jdbcType=INTEGER}, #{ch,jdbcType=DECIMAL}, #{netnode,jdbcType=NVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.IOData" useGeneratedKeys="true" keyProperty="datano">
+    insert into IOData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deviceno != null" >
+        DeviceNo,
+      </if>
+      <if test="doorno != null" >
+        DoorNo,
+      </if>
+      <if test="cardno != null" >
+        CardNo,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="iodate != null" >
+        IODate,
+      </if>
+      <if test="iotime != null" >
+        IOTime,
+      </if>
+      <if test="no1 != null" >
+        No1,
+      </if>
+      <if test="no2 != null" >
+        No2,
+      </if>
+      <if test="no3 != null" >
+        No3,
+      </if>
+      <if test="no4 != null" >
+        No4,
+      </if>
+      <if test="opentype != null" >
+        opentype,
+      </if>
+      <if test="opentypename != null" >
+        opentypename,
+      </if>
+      <if test="iostatus != null" >
+        IOStatus,
+      </if>
+      <if test="manualcard != null" >
+        ManualCard,
+      </if>
+      <if test="reason != null" >
+        Reason,
+      </if>
+      <if test="devicename != null" >
+        DeviceName,
+      </if>
+      <if test="devicetypeno != null" >
+        DeviceTypeNo,
+      </if>
+      <if test="doorname != null" >
+        DoorName,
+      </if>
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="deptno != null" >
+        DeptNo,
+      </if>
+      <if test="deptname != null" >
+        DeptName,
+      </if>
+      <if test="iodatetime != null" >
+        IODateTime,
+      </if>
+      <if test="iostatuslang != null" >
+        IOStatusLang,
+      </if>
+      <if test="holdertype != null" >
+        HolderType,
+      </if>
+      <if test="format != null" >
+        Format,
+      </if>
+      <if test="temperatures != null" >
+        Temperatures,
+      </if>
+      <if test="humiditys != null" >
+        Humiditys,
+      </if>
+      <if test="exciterid != null" >
+        ExciterID,
+      </if>
+      <if test="ch != null" >
+        CH,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deviceno != null" >
+        #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="doorno != null" >
+        #{doorno,jdbcType=SMALLINT},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="iodate != null" >
+        #{iodate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iotime != null" >
+        #{iotime,jdbcType=VARCHAR},
+      </if>
+      <if test="no1 != null" >
+        #{no1,jdbcType=SMALLINT},
+      </if>
+      <if test="no2 != null" >
+        #{no2,jdbcType=SMALLINT},
+      </if>
+      <if test="no3 != null" >
+        #{no3,jdbcType=SMALLINT},
+      </if>
+      <if test="no4 != null" >
+        #{no4,jdbcType=SMALLINT},
+      </if>
+      <if test="opentype != null">
+        #{opentype},
+      </if>
+      <if test="opentypename != null">
+        #{opentypename},
+      </if>
+      <if test="iostatus != null" >
+        #{iostatus,jdbcType=SMALLINT},
+      </if>
+      <if test="manualcard != null" >
+        #{manualcard,jdbcType=SMALLINT},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="devicename != null" >
+        #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="devicetypeno != null" >
+        #{devicetypeno,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorname != null" >
+        #{doorname,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno != null" >
+        #{deptno,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="iodatetime != null" >
+        #{iodatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iostatuslang != null" >
+        #{iostatuslang,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdertype != null" >
+        #{holdertype,jdbcType=NCHAR},
+      </if>
+      <if test="format != null" >
+        #{format,jdbcType=NCHAR},
+      </if>
+      <if test="temperatures != null" >
+        #{temperatures,jdbcType=DECIMAL},
+      </if>
+      <if test="humiditys != null" >
+        #{humiditys,jdbcType=DECIMAL},
+      </if>
+      <if test="exciterid != null" >
+        #{exciterid,jdbcType=INTEGER},
+      </if>
+      <if test="ch != null" >
+        #{ch,jdbcType=DECIMAL},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.IOData" >
+    update IOData
+    <set >
+      <if test="deviceno != null" >
+        DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      </if>
+      <if test="doorno != null" >
+        DoorNo = #{doorno,jdbcType=SMALLINT},
+      </if>
+      <if test="cardno != null" >
+        CardNo = #{cardno,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="iodate != null" >
+        IODate = #{iodate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iotime != null" >
+        IOTime = #{iotime,jdbcType=VARCHAR},
+      </if>
+      <if test="no1 != null" >
+        No1 = #{no1,jdbcType=SMALLINT},
+      </if>
+      <if test="no2 != null" >
+        No2 = #{no2,jdbcType=SMALLINT},
+      </if>
+      <if test="no3 != null" >
+        No3 = #{no3,jdbcType=SMALLINT},
+      </if>
+      <if test="no4 != null" >
+        No4 = #{no4,jdbcType=SMALLINT},
+      </if>
+      <if test="iostatus != null" >
+        IOStatus = #{iostatus,jdbcType=SMALLINT},
+      </if>
+      <if test="manualcard != null" >
+        ManualCard = #{manualcard,jdbcType=SMALLINT},
+      </if>
+      <if test="reason != null" >
+        Reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="devicename != null" >
+        DeviceName = #{devicename,jdbcType=NVARCHAR},
+      </if>
+      <if test="devicetypeno != null" >
+        DeviceTypeNo = #{devicetypeno,jdbcType=NVARCHAR},
+      </if>
+      <if test="doorname != null" >
+        DoorName = #{doorname,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        UID = #{uid,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno != null" >
+        DeptNo = #{deptno,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname != null" >
+        DeptName = #{deptname,jdbcType=NVARCHAR},
+      </if>
+      <if test="iodatetime != null" >
+        IODateTime = #{iodatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iostatuslang != null" >
+        IOStatusLang = #{iostatuslang,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdertype != null" >
+        HolderType = #{holdertype,jdbcType=NCHAR},
+      </if>
+      <if test="format != null" >
+        Format = #{format,jdbcType=NCHAR},
+      </if>
+      <if test="temperatures != null" >
+        Temperatures = #{temperatures,jdbcType=DECIMAL},
+      </if>
+      <if test="humiditys != null" >
+        Humiditys = #{humiditys,jdbcType=DECIMAL},
+      </if>
+      <if test="exciterid != null" >
+        ExciterID = #{exciterid,jdbcType=INTEGER},
+      </if>
+      <if test="ch != null" >
+        CH = #{ch,jdbcType=DECIMAL},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.IOData" >
+    update IOData
+    set DeviceNo = #{deviceno,jdbcType=SMALLINT},
+      DoorNo = #{doorno,jdbcType=SMALLINT},
+      CardNo = #{cardno,jdbcType=INTEGER},
+      HolderNo = #{holderno,jdbcType=VARCHAR},
+      IODate = #{iodate,jdbcType=TIMESTAMP},
+      IOTime = #{iotime,jdbcType=VARCHAR},
+      No1 = #{no1,jdbcType=SMALLINT},
+      No2 = #{no2,jdbcType=SMALLINT},
+      No3 = #{no3,jdbcType=SMALLINT},
+      No4 = #{no4,jdbcType=SMALLINT},
+      IOStatus = #{iostatus,jdbcType=SMALLINT},
+      ManualCard = #{manualcard,jdbcType=SMALLINT},
+      Reason = #{reason,jdbcType=VARCHAR},
+      DeviceName = #{devicename,jdbcType=NVARCHAR},
+      DeviceTypeNo = #{devicetypeno,jdbcType=NVARCHAR},
+      DoorName = #{doorname,jdbcType=VARCHAR},
+      UID = #{uid,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      DeptNo = #{deptno,jdbcType=NVARCHAR},
+      DeptName = #{deptname,jdbcType=NVARCHAR},
+      IODateTime = #{iodatetime,jdbcType=TIMESTAMP},
+      IOStatusLang = #{iostatuslang,jdbcType=NVARCHAR},
+      HolderType = #{holdertype,jdbcType=NCHAR},
+      Format = #{format,jdbcType=NCHAR},
+      Temperatures = #{temperatures,jdbcType=DECIMAL},
+      Humiditys = #{humiditys,jdbcType=DECIMAL},
+      ExciterID = #{exciterid,jdbcType=INTEGER},
+      CH = #{ch,jdbcType=DECIMAL},
+      NetNode = #{netnode,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+</mapper>

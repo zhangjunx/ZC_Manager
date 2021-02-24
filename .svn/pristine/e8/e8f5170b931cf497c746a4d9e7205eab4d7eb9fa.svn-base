@@ -1,0 +1,167 @@
+package com.xr.util;
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import sun.misc.BASE64Encoder;
+
+public class FilePathCreate {
+	public static void main(String[] args) {
+		File file = new File("C:\\Users\\Administrator\\Desktop\\1587438053799.png");
+	    String fileName = file.getName();
+	    System.out.println("文件"+fileName+"的大小是："+file.length());
+	}
+	
+	/**
+	 * 判断文件路径是否存在
+	 * @param path
+	 * @return
+	 */
+	public static boolean checkExist(String path){
+		File filePath = new File(path);
+		if(filePath.exists()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/**
+	 * 创建文件夹路径
+	 * @param path
+	 */
+	public static void createPath(String path){
+		File filePath = new File(path);
+		filePath.mkdirs();
+	}
+	
+	/**
+	 * 上传文件
+	 * uploadPath：文件上传路径，不包含文件名
+	 * 当前支持上传图片（png，jpg）
+	 * size：上传图片最大字节数，若为空，则认为没有大小限制
+	 * 返回结果：
+	 * 101：图片太大
+	 * 102：不支持的图片格式
+	 * @param file
+	 * @param uploadPath
+	 * @return
+	 */
+	public static String uploadFile(MultipartFile file,String uploadPath,Long size){
+		Long len = file.getSize();//文件大小
+		if(size != null){//图片大小验证
+			if(len>size){
+				return "101";
+			}
+		}
+		
+		if(!file.isEmpty() && file != null){
+			long fileRealName = new Date().getTime();//获取时间戳，以时间戳作为存储名称
+			
+			int pointIndex = file.getOriginalFilename().indexOf(".");//点号的位置
+		    String fileSuffix = file.getOriginalFilename().substring(pointIndex);//截取文件后缀
+		    
+			File savedFile = new File(uploadPath+"\\"+fileRealName+fileSuffix);//服务器文件存取路径
+			try {
+				file.transferTo(savedFile);
+				return fileRealName+fileSuffix;
+			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "0";
+			}
+		}else{
+			return "0";
+		}
+	}
+	
+	/**
+	 * 删除文件
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+        if (file.exists() && file.isFile()) {
+        	boolean b = false;
+        	int count = 0;
+        	while(!b){
+        		if(count<=3){
+        			System.gc();
+                	b = file.delete();
+        		}else{
+        			break;
+        		}
+        	}
+            return b;
+        } else {
+        	System.out.println("文件不存在！");
+            return false;
+        }
+    }
+	
+	/**
+	 * 根据图片路径获取base64
+	 * @return
+	 */
+	public static String getPhotoBase64(String filePath){
+		InputStream in = null;
+		byte[] data = null;
+		try {
+			in = new FileInputStream(filePath);
+			data = new byte[in.available()];
+			in.read(data);
+			in.close();
+		} catch (IOException e) {
+			return "-1";
+		}
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(data);
+	}
+	
+	/**
+     * 对图片进行缩小
+     * @param originalImage 原始图片
+     * @param times 缩小倍数
+     * @return 缩小后的Image
+     */
+    public static BufferedImage zoomOutImage(BufferedImage  originalImage, Integer times){
+        int width = 71;
+        int height = 99;
+        BufferedImage newImage = new BufferedImage(width,height,originalImage.getType());
+        Graphics g = newImage.getGraphics();
+        g.drawImage(originalImage, 0,0,width,height,null);
+        g.dispose();
+        return newImage;
+    }
+    
+    /**
+     * 根据文件路径获取文件列表
+     * @param path
+     * @return
+     */
+    public List getFileList(String path) { 
+		List list = new ArrayList(); 
+		try { 
+			File file = new File(path); 
+			String[] filelist = file.list(); 
+			for (int i = 0; i < filelist.length; i++) { 
+				list.add(path+"\\"+filelist[i]); 
+			} 
+		} catch (Exception e) { 
+			e.printStackTrace(); 
+		} 
+		return list; 
+	} 
+}

@@ -1,0 +1,411 @@
+$(function(){
+	getSupplierList();//初始化供应商
+	selectStoreName();//初始化仓库
+	selectManufacturerName();//初始化制造商
+	initTable();
+	initDate();
+});
+//初始化供应商
+function getSupplierList(){
+	$.ajax({
+		url:url+"/zcSupplier/getList",
+		type:"post",
+		success:function(data){
+			$("#supplierName1 option").not("option:first").remove();
+			if(data.flag){
+				var res=data.result;
+				for(var item of res){
+					var supplierName=item.name==undefined?"":item.name;
+					var country=item.country==undefined?"":item.country;
+					var manager=item.manager==undefined?"":item.manager;
+					var managerPhone=item.managerPhone==undefined?"":item.managerPhone;
+					var email=item.email==undefined?"":item.email;
+					var location=item.location==undefined?"":item.location;
+					var remark=item.remark==undefined?"":item.remark;
+					var $opt=$("<option value="+item.fid+">"+supplierName+"</option>");
+					$("#supplierName1").append($opt);
+				}
+			}
+		}
+	})
+}
+//初始化日期
+function initDate(){
+	layui.use("laydate", function() {
+	    var laydate = layui.laydate
+	    lay('.test-item').each(function() {
+			laydate.render({
+				elem: this,
+				trigger:"click"
+			});
+		});
+	    lay('.layui-input').each(function() {
+			laydate.render({
+				elem: this,
+				trigger:"click"
+			});
+		});
+	})
+}
+//仓库
+function selectStoreName(){
+	  $.ajax({
+			url:url+"/zcStore/getList",
+			type:"post",
+			async:false,
+			success:function(data){
+				$("#storeName1 option").not("option:first").remove();
+				if(data.flag){
+					var res=data.result;
+					for(var item of res){
+						var storeName=item.storeName==undefined?"":item.storeName;
+						var storeLocal=item.storeLocal==undefined?"":item.storeLocal;
+						var size=item.size==undefined?"":item.size;
+						var manager=item.manager==undefined?"":item.manager;
+						var remark=item.remark==undefined?"":item.remark;
+					    var $opt="<option value="+item.fid+">"+storeName+"</option>";
+					    $("#storeName1").append($opt);
+					}
+				}
+			}
+		})
+}
+//制造商
+function selectManufacturerName(){
+	  $.ajax({
+			url:url+"/zcManufacture/getList",
+			type:"post",
+			async:false,
+			success:function(data){
+				$("#manufacturerName1 option").not("option:first").remove();
+				if(data.flag){
+					var res=data.result;
+					for(var item of res){
+						var manufactureName=item.name==undefined?"":item.name;
+						var country=item.country==undefined?"":item.country;
+						var nature=item.nature==undefined?"":item.nature;
+						var location=item.location==undefined?"":item.location;
+						var manager=item.manager==undefined?"":item.manager;
+						var managerPhone=item.managerPhone==undefined?"":item.managerPhone;
+						var remark=item.remark==undefined?"":item.remark;
+						var $opt="<option value="+item.fid+">"+manufactureName+"</option>";
+						$("#manufacturerName1").append($opt);
+					}
+				}
+			}
+		})
+}
+//点击搜索
+$("#createInStorage").click(function(){
+	initTable();
+})
+//初始化表格
+function initTable(){
+	var bill=$("#bill").val();
+	var supplierName=$("#supplier").val();
+	var shelf=$("#shelf").val();
+	var rightUnit=$("#rightUnit").val();
+	var rightDept=$("#rightDept").val();
+	var shopNo=$("#shopNo").val();
+	var deviceHigh=$("#deviceHigh").val();
+	var status=$("#inventoryStatus").val();
+	var projectName=$("#projectName").val();
+	var erpCode=$("#erpCode").val();
+	var projectNo=$("#projectNo").val();
+	
+	layui.use('table', function(){
+		  var table = layui.table;
+		  table.render({
+		    elem: '#test',
+		    url:url+"/zcInStore/getStoreGoods",
+		    where: {
+		    	goodsID: getUrlParam("fid"),
+		    	bill:bill,
+		    	supplierName:supplierName,
+		    	shelf:shelf,
+		    	rightUnit:rightUnit,
+		    	rightDept:rightDept,
+		    	shopNo:shopNo,
+		    	deviceHigh:deviceHigh,
+		    	status:status,
+		    	projectName:projectName,
+		    	erpCode:erpCode,
+		    	projectNo:projectNo
+		      },
+		      parseData: function(res){ //res 即为原始返回的数据
+			    	console.log(res)
+			        return {
+			          "code": res.flag==true?"0":"", //解析接口状态
+			          "msg": res.reason, //解析提示文本
+			          "count": res.count, //解析数据长度
+			          "data": res.result //解析数据列表
+			        };
+			      },
+		    cols: [[//标题栏
+		      {field:'bill', width:200 ,title: '入库单号',},
+		      {field:'goodsType', width:150 ,title: '物品类别', },
+		      {field:'goodsName', width:150 , title: '物品名称'},
+		      {field:'labelCode', width:300 ,title: '物品RFID标签'},
+		      {field:'model',width:100,  title: '型号'},
+		      {field:'brand', width:100, title: '品牌'},
+		      {field:'specs', width:100, title: '规格'},
+		      {field:'size', width:100, title: '尺寸'},
+		      {field:'imagePath', width:100, title: '图片',templet:function(d){
+		    	  if(d.imagePath!=undefined&&d.imagePath!=""){
+		    		  if(d.imagePath.indexOf("ZC_Manager")!=-1){
+		    			  return "<img src="+d.imagePath+" style='width:60px'>";
+		    		  }else{
+		    			  return "";
+		    		  }
+		    	  }else{
+		    		  return "";
+		    	  }
+		      }},
+		      {field:'inStorageDate',width:140, title: '入库日期',templet: function(d){
+		          return timestampToTime(d.inStoreDate);
+		      }},
+//		      {field:'storeName', width:150 ,title: '入库仓库',templet:selectStoreName},
+//		      {field:'shelf', width:120,title: '存放货架',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',},
+//		      {field:'manufacturerName', width:150 ,title: '制造商',templet:selectManufacturerName},
+//		      {field:'supplierName', width:150 ,title: '供应商',templet:selectSupplierName},
+//		      {field:'useDate', width:100 ,title: '投运时间',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',templet: function(d){
+//		          if(d.useDate==undefined){
+//		        	 return "";
+//		          }else{
+//		        	  return timestampToTime(d.useDate);
+//		          }
+//		      }},
+//		      {field:'retireDate',width:100 , title: '退役时间',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',templet: function(d){
+//		          if(d.retireDate==undefined){
+//		        	  return "";
+//		          }else{
+//		        	  return timestampToTime(d.retireDate);
+//		          }
+//		      }},
+//		      {field:'deviceHigh',width:100 , title: '设备高度',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'rightUnit',width:100 , title: '产权单位',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'rightDept',width:100 , title: '产权部门',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'erpCode',width:100 , title: 'ERP资产编码',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'erpDeviceCode',width:150 , title: 'ERP设备台账编码',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'projectNo',width:150 , title: '项目编号',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'projectName',width:150 , title: '项目名称',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'shopType',width:100 , title: '采购方式',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'shopNo',width:150 , title: '采购合同编号',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+//		      {field:'shopDate', width:150 ,title: '采购日期',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',templet: function(d){
+//		          if(d.shopDate==undefined){
+//		        	 return "";
+//		          }else{
+//		        	  return timestampToTime(d.shopDate);
+//		          }
+//		      }},
+//		      {field:'endDate',width:150 , title: '售后到期日期',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;',templet: function(d){
+//		          if(d.endDate==undefined){
+//		        	 return "";
+//		          }else{
+//		        	  return timestampToTime(d.endDate);
+//		          }
+//		      }},
+//		      {field:'goodsSn', width:150 ,title: '出厂序列号',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},
+		      {field:'status',width:80 , title: '库存状态',templet: function(d){
+		         return d.status=="1"?"正常":"借出";
+		      }},
+//		      {field:'remark', width:150 ,title: '备注',edit:true,style: 'outline: 1px solid #e6e6e6;outline-offset: -5px;'},	
+		      {title:'操作',width:110, toolbar: '#barDemo'}
+		    ]],
+		/*    done:function(res,curr,count){
+		    	//仓库下拉框赋值
+		    	for(var i=0;i<$(".storename").length;i++){
+		    		var storeid=res.data[i].storeID;
+		    		$(".storename").eq(i).val(storeid);
+		    	}
+		    	//制造商下拉框赋值
+		    	for(var i=0;i<$(".manufacturername").length;i++){
+		    		var manufacturerID=res.data[i].manufacturerID;
+		    		$(".manufacturername").eq(i).val(manufacturerID);
+		    	}
+		    	//供应商下拉框赋值
+		    	for(var i=0;i<$(".suppliername").length;i++){
+		    		var supplierID=res.data[i].supplierID;
+		    		$(".suppliername").eq(i).val(supplierID);
+		    	}
+		    },*/
+		    page:true
+		  });
+		//监听工具条
+		  table.on('tool(demo)', function(obj){
+		    var data = obj.data;
+		    if(obj.event==="save"){
+		    	console.log(data)
+		    	var storeID=data.storeID==undefined?"":data.storeID;
+		    	var shelf=data.shelf==undefined?"":data.shelf;
+		    	var manufacturerID=data.manufacturerID==undefined?"":data.manufacturerID;
+		    	var supplierID=data.supplierID==undefined?"":data.supplierID;
+		    	var useDate=data.useDate==undefined?"":data.useDate;
+		    	var retireDate=data.retireDate==undefined?"":data.retireDate;
+		    	var deviceHigh=data.deviceHigh==undefined?"":data.deviceHigh;
+		    	var rightUnit=data.rightUnit==undefined?"":data.rightUnit;
+		    	var rightDept=data.rightDept==undefined?"":data.rightDept;
+		    	var erpCode=data.erpCode==undefined?"":data.erpCode;
+		    	var erpDeviceCode=data.erpDeviceCode==undefined?"":data.erpDeviceCode;
+		    	var projectNo=data.projectNo==undefined?"":data.projectNo;
+		    	var projectName=data.projectName==undefined?"":data.projectName;
+		    	var shopType=data.shopType==undefined?"":data.shopType;
+		    	var shopNo=data.shopNo==undefined?"":data.shopNo;
+		    	var shopDate=data.shopDate==undefined?"":data.shopDate;
+		    	var endDate=data.endDate==undefined?"":data.endDate;
+		    	var goodsSn=data.goodsSn==undefined?"":data.goodsSn;
+		    	var param=data.parm==undefined?"":data.parm;
+		    	var remark=data.remark==undefined?"":data.remark;
+		    	
+		    	$("#storeName1").val(storeID);
+		    	$("#shelf1").val(shelf);
+		    	$("#manufacturerName1").val(manufacturerID);
+		    	$("#supplierName1").val(supplierID);
+		    	$("#useDate1").val(useDate);
+		    	$("#retireDate1").val(retireDate);
+		    	$("#deviceHigh1").val(deviceHigh);
+		    	$("#rightUnit1").val(rightUnit);
+		    	$("#rightDept1").val(rightDept);
+		    	$("#erpCode1").val(erpCode);
+		    	$("#erpDeviceCode1").val(erpDeviceCode);
+		    	$("#projectNo1").val(projectNo);
+		    	$("#projectName1").val(projectName);
+		    	$("#shopType1").val(shopType);
+		    	$("#shopNo1").val(shopNo);
+		    	$("#shopDate1").val(shopDate);
+		    	$("#endDate1").val(endDate);
+		    	$("#goodsSn1").val(goodsSn);
+		    	$("#remark1").val(remark);
+		    	$("#param").val(param);
+		    	var fid=data.fid;
+		    	layer.open({
+		    		type:1,
+		    		title:"详情",
+		    		content:$("#inventoryDetails"),
+		    		area:["50%","65%"],
+		    		btn:["确定","取消"],
+		    		yes:function(index){
+		    			var storeID=$("#storeName1").val();
+		    			var shelf=$("#shelf1").val();
+		    			var manufacturerID=$("#manufacturerName1").val();
+		    			var supplierID=$("#supplierName1").val();
+		    			var useDate=$("#useDate1").val();
+		    			var retireDate=$("#retireDate1").val();
+		    			var deviceHigh=$("#deviceHigh1").val();
+		    			var rightUnit=$("#rightUnit1").val();
+		    			var rightDept=$("#rightDept1").val();
+		    			var erpCode=$("#erpCode1").val();
+		    			var erpDeviceCode=$("#erpDeviceCode1").val();
+		    			var projectNo=$("#projectNo1").val();
+		    			var projectName=$("#projectName1").val();
+		    			var shopType=$("#shopType1").val();
+		    			var shopNo=$("#shopNo1").val();
+		    			var shopDate=$("#shopDate1").val();
+		    			var endDate=$("#endDate1").val();
+		    			var goodsSn=$("#goodsSn1").val();
+		    			var remark=$("#remark1").val();
+		    			var param=$("#param").val();
+		    			var obj={
+				    			"fid":fid,
+				    			"storeID":storeID,
+				    			"supplierID":supplierID,
+				    			"manufacturerID":manufacturerID,
+				    			"shelf":shelf,
+				    			"useDate":useDate,
+				    			"retireDate":retireDate,
+				    			"deviceHigh":deviceHigh,
+				    			"rightUnit":rightUnit,
+				    			"rightDept":rightDept,
+				    			"erpCode":erpCode,
+				    			"erpDeviceCode":erpDeviceCode,
+				    			"projectNo":projectNo,
+				    			"projectName":projectName,
+				    			"shopType":shopType,
+				    			"shopNo":shopNo,
+				    			"shopDate":shopDate,
+				    			"endDate":endDate,
+				    			"goodsSn":goodsSn,
+				    			"remark":remark,
+				    			"param":param,
+				    	}
+				    	saveInfo(obj,index);
+		    		},
+		    		btn2:function(index){
+		    			layer.close(index);
+		    			$("#inventoryDetails").hide();
+		    		},
+		    		cancel:function(index){
+		    			layer.close(index);
+		    			$("#inventoryDetails").hide();
+		    		}
+		    	})
+		    	
+		    	/*var storeID=obj.tr.find("td[data-field='storeName'] select").val();
+		    	var supplierID=obj.tr.find("td[data-field='supplierName'] select").val();
+		    	var manufacturerID=obj.tr.find("td[data-field='manufacturerName'] select").val();
+		    	var useDate=data.useDate==undefined?"":timestampToTime(data.useDate);
+		    	var retireDate=data.retireDate==undefined?"":timestampToTime(data.retireDate);
+		    	var shopDate=data.shopDate==undefined?"":timestampToTime(data.shopDate);
+		    	var endDate=data.endDate==undefined?"":timestampToTime(data.endDate);
+		    	var obj={
+		    			"fid":data.fid,
+		    			"storeID":storeID,
+		    			"supplierID":supplierID,
+		    			"manufacturerID":manufacturerID,
+		    			"shelf":data.shelf==undefined?"":data.shelf,
+		    			"useDate":useDate,
+		    			"retireDate":retireDate,
+		    			"deviceHigh":data.deviceHigh==undefined?"":data.deviceHigh,
+		    			"rightUnit":data.rightUnit==undefined?"":data.rightUnit,
+		    			"rightDept":data.rightDept==undefined?"":data.rightDept,
+		    			"erpCode":data.erpCode==undefined?"":data.erpCode,
+		    			"erpDeviceCode":data.erpDeviceCode==undefined?"":data.erpDeviceCode,
+		    			"projectNo":data.projectNo==undefined?"":data.projectNo,
+		    			"projectName":data.projectName==undefined?"":data.projectName,
+		    			"shopType":data.shopType==undefined?"":data.shopType,
+		    			"shopNo":data.shopNo==undefined?"":data.shopNo,
+		    			"shopDate":shopDate,
+		    			"endDate":endDate,
+		    			"goodsSn":data.goodsSn==undefined?"":data.goodsSn,
+		    			"remark":data.remark==undefined?"":data.remark,
+		    	}
+		    	saveInfo(obj);*/
+		    }
+		});
+    });
+}
+//点击保存提交数据
+function saveInfo(obj,index){
+	$.ajax({
+		url:url+"/zcInStore/updateGoodsParm",
+		type:"post",
+		data:obj,
+		success:function(data){
+			if(data.flag){
+				layer.msg(data.reason,{time:1000},function(){
+					initTable();
+					layer.close(index);
+	    			$("#inventoryDetails").hide();
+				})
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return decodeURIComponent(r[2]); return null;
+}
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}

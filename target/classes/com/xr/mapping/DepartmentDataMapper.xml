@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.DepartmentDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.DepartmentData" >
+    <id column="DepartmentNo" property="departmentno" jdbcType="VARCHAR" />
+    <result column="DepartmentName" property="departmentname" jdbcType="VARCHAR" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="UnderNo" property="underno" jdbcType="VARCHAR" />
+    <result column="NetNode" property="netnode" jdbcType="NVARCHAR" />
+    <result column="UnderName" property="undername" jdbcType="VARCHAR" /><!-- 新添的 上级部门名称 -->
+    <result column="CompanyNo" property="companyno" jdbcType="VARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DepartmentNo, DepartmentName, Description, UnderNo, NetNode
+  </sql>
+  
+  <!--通过部门查人员   -->
+  <select id="getHolderByDept" resultType="Map">
+     select holderno,holdername,departmentno 
+     from HolderData where departmentno=#{deptno}
+  </select>
+  
+  <!-- 通过部门查人员  批量查询 -->
+  <select id="getHolderByDeptBatch" resultType="map">
+      select holderno,holdername,departmentno from HolderData where departmentno in
+      <foreach collection="list" item="item" separator="," open="(" close=")" index="index">
+          #{item}
+      </foreach>
+  </select>
+  
+  <select id="getDeptTree" resultType="map">
+  	select d.DepartmentNo "id",d.DepartmentName "title",
+   case when d.UnderNo is null then '' else d.UnderNo end "parent", '' "children" 
+   from DepartmentData d 
+  </select>
+  
+  <select id="getMyDeptTree" resultType="map" parameterType="java.lang.String">
+  select d.DepartmentNo "id",d.DepartmentName "title",
+case when d.UnderNo is null then '' else d.UnderNo end "parent", '' "children" 
+ from DepartmentData d 
+ where substring(d.DepartmentNo,1,3)=substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)
+  </select>
+  
+  <select id="getMyDeptList" resultType="map" parameterType="java.lang.String">
+  select d.departmentno "deptno",d.DepartmentName "deptname",
+case when d.UnderNo is null then '' else d.UnderNo end "underno" 
+ from DepartmentData d 
+ where substring(d.DepartmentNo,1,3)=substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)
+ order by Len(d.DepartmentNo) asc
+  </select>
+  
+  <!-- 新增部门时  自动获取部门号  查询最大值 部门号 由上级部门 -->
+  <select id="queryMaxDeptNo" resultType="java.lang.String" parameterType="java.lang.String">
+     select Max(a.DepartmentNo) departmentno from (select DepartmentNo from DepartmentData
+     where UnderNo=#{underno,jdbcType=VARCHAR} )a 
+  </select>
+  
+   <!-- 新增部门时  自动获取部门号  查询最大值 部门号  没有上级部门-->
+  <select id="queryMaxDeptNon" resultType="java.lang.String">
+     select Max(DepartmentNo) departmentno from  DepartmentData 
+  </select>
+  
+  <!-- 删除部门时 查看该部门下是否有人 -->
+  <select id="queryHolderListByDept" parameterType="java.lang.String" resultType="com.xr.entity.HolderData">
+      select top 2 HolderNo,HolderName,DepartmentNo from HolderData
+      where DepartmentNo=#{departmentno,jdbcType=VARCHAR}
+  </select>
+  
+  <!--  查下级部门   删除部门时   查看是否 有下级部门-->
+  <select id="queryDeptListByUnder" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select DepartmentNo,DepartmentName,UnderNo from DepartmentData 
+     where UnderNo=#{underno,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据登录人的部门 查询其所在公司下的所有部门 -->
+  <select id="queryDeptListByLoginPerson" resultMap="BaseResultMap" parameterType="com.xr.entity.DepartmentData">
+      select DepartmentNo,DepartmentName,UnderNo,
+      (select DepartmentName from DepartmentData where DepartmentNo=d.UnderNo) UnderName,
+      substring(d.DepartmentNo,1,3) CompanyNo,
+  (select DepartmentName from DepartmentData where DepartmentNo=substring(d.DepartmentNo,1,3)) CompanyName
+          from DepartmentData d
+         <where>
+            <if test="underno!=null and underno!=''">
+              and UnderNo like #{underno}+'%'
+            </if>
+         </where> 
+  </select>
+  
+  
+  
+  <!-- 查询部门跟所属公司 -->
+  <select id="queryDeptAndUnderNoList" resultMap="BaseResultMap">
+   select d.DepartmentNo,d.DepartmentName,d.UnderNo,
+    (select DepartmentName from DepartmentData where DepartmentNo=d.UnderNo) UnderName 
+    from DepartmentData d where (UnderNo!=null or UnderNo!='')
+  </select>
+  
+ 
+  
+  <!-- 查询部门信息列表 -->
+  <select id="queryDeptList" resultMap="BaseResultMap" >
+    select DepartmentNo,DepartmentName,UnderNo,
+    (select DepartmentName from DepartmentData where DepartmentNo=d.UnderNo) UnderName,
+    Description
+    from DepartmentData d
+  <where>
+    <if test="departmentno!=null and departmentno!='' ">
+      and DepartmentNo like #{departmentno}+'%'
+    </if>
+    <if test="departmentname!=null and departmentname!='' ">
+       and DepartmentName like '%'+#{departmentname}+'%'
+    </if>
+     <if test="underno != null and underno!=''" >
+       and UnderNo like #{underno}+'%'
+      </if>
+  </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from DepartmentData
+    where DepartmentNo = #{departmentno,jdbcType=VARCHAR}
+  </select>
+  <!-- 删除部门信息 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DepartmentData
+    where DepartmentNo = #{departmentno,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.xr.entity.DepartmentData" >
+    insert into DepartmentData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="departmentno != null" >
+        DepartmentNo,
+      </if>
+      <if test="departmentname != null" >
+        DepartmentName,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="underno != null" >
+        UnderNo,
+      </if>
+      <if test="netnode != null" >
+        NetNode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="departmentno != null" >
+        #{departmentno,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentname != null" >
+        #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="underno != null" >
+        #{underno,jdbcType=VARCHAR},
+      </if>
+      <if test="netnode != null" >
+        #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 修改部门信息  -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.DepartmentData" >
+    update DepartmentData
+    <set >
+      <if test="departmentname != null" >
+        DepartmentName = #{departmentname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="underno != null" >
+        UnderNo = #{underno,jdbcType=VARCHAR},
+      </if>
+      <if test="netnode != null" >
+        NetNode = #{netnode,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DepartmentNo = #{departmentno,jdbcType=VARCHAR}
+  </update>
+   
+   <!--* 通过部门编号查询部门名称
+     * @param deptno  csc -->
+  <select id="queryDeptName" resultType="String">
+	SELECT DepartmentName FROM dbo.DepartmentData WHERE DepartmentNo =#{deptno}
+  </select>
+  
+</mapper>

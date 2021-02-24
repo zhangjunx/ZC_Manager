@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加通道</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/deviceManger.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content" id="a">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">添加通道</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" onclick="saveInfo()" class="layui-bg-blue">确定</a></div>
+					<div class="subbtn fl"><a href="door_list.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+            <input type="hidden" id="DeviceTypeCode">
+            <input type="hidden" id="AreaID">
+            <div class="main-table" id="form">
+                <div class="search-box main-form ">
+            		<div class="form-term  clearfix">
+                    	<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable"><span>*</span>归属设备：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" 
+			                	style="text-align:center,height: 32px;" >
+			                	<span id="DeviceNoName"></span>
+			                    <input type="hidden" id="DeviceNo">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+                    </div>
+            	</div>
+            </div>
+            <div class="main-table" style="display: none;top: 118px;" id="form1">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>门区编号：</div>
+                        <div class="control clearfix">
+                        	<select class="" id="DoorChannel" onchange="selDoorChannel()">
+								
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>门区名称：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="DoorName" class="input">
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>进入读卡器ID：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="EntryReaderCH" class="input">
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>类型：</div>
+                        <div class="control clearfix">
+                        	<select class="" id="EntryReaderType">
+								
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>外出读卡器ID：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="ExitReaderCH" class="input">
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>类型：</div>
+                        <div class="control clearfix">
+                        	<select class="" id="ExitReaderType">
+								
+							</select>
+                        </div>
+                    </div>
+            	</div>
+        	</div>
+        	
+        	<div class="main-table" style="display: none;top: 118px;" id="form2">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>门区编号：</div>
+                        <div class="control clearfix">
+                        	<select class="" id="DoorChannel1" onchange="selDoorChannel()">
+								
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>门区名称：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="DoorName1" class="input">
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>读卡器ID：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="EntryReaderCH1" class="input">
+						</div>
+                    </div>
+                    
+                   <div class="layui-form">
+                     <div class="layui-form-item">
+					    <label class="layui-form-label" style="color:#666;font-size:14px;width:91px;">出入类型:</label>
+					    <div class="layui-input-block">
+					      <input type="radio" value="进入" name="door1" title="进入" checked>
+					      <input type="radio" value="外出" name="door1" title="外出">
+					    </div>
+					  </div>
+                    </div>
+                    
+            	</div>
+        	</div>
+        	
+        	<div class="main-table" style="display: none;top: 118px;" id="form3">
+                <div class="search-box main-form">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>通道编号：</div>
+                        <div class="control clearfix">
+                        	<select id="stChannelNum">
+								
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>门区名称：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="stChannelName" class="input">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>终端名称：</label>
+                        <div class="control clearfix terminalName">
+	                       <select id="terminalName">
+	                       		<option value="">请选择</option>
+	                       </select>
+						</div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>设备SN：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="snNumber" class="input">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>员工组：</label>
+                        <div class="control clearfix">
+	                       <select id="holderGrop">
+	                       </select>
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>访客组：</label>
+                        <div class="control clearfix">
+	                       <select id="visitorGrop">
+	                       </select>
+						</div>
+                    </div>
+                    <div class="layui-form">
+                     <div class="layui-form-item">
+					    <label class="layui-form-label" style="color:#666;font-size:14px;width:91px;">出入类型:</label>
+					    <div class="layui-input-block">
+					      <input type="radio" value="进入" name="door" title="进入" checked>
+					      <input type="radio" value="外出" name="door" title="外出">
+					    </div>
+					  </div>
+                    </div>
+                    <!-- <div class="form-term  clearfix" id="sttreeDvsID">
+                    	<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable"><span></span>关联门区：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect" 
+			                	style="text-align:center,height: 32px;" >
+			                	<span id="stIDName"></span>
+			                    <input type="hidden" id="stID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="stDoortree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+                    </div> -->
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span></span>设备信息：</label>
+                        <div class="control clearfix">
+	                        <button class="layui-btn  layui-btn-sm layui-btn-normal" id="terminalWatch">点击查看</button>
+						</div>
+                    </div>
+            	</div>
+        	</div>
+    	</div>
+    </div>
+    <div id="terminalInformation" style="display:none" class="terminalInfo">
+    	<p>
+    		<label>终端类型名称:</label><span class="terminal" id="terName"></span>
+    	</p>
+    	<p>
+    		<label>终端类型标识:</label><span class="terminal" id="identifier"></span>
+    	</p>
+    	<p>
+    		<label>终端类型描述:</label><span class="terminal" id="description"></span>
+    	</p>
+    	<p>
+    		<label>终端id:</label><span class="terminal" id="terminalId"></span>
+    	</p>
+    	<p>
+    		<label>终端位置:</label><span class="terminal" id="location"></span>
+    	</p>
+    	<p>
+    		<label>终端ip:</label><span class="terminal" id="ip"></span>
+    	</p>
+    	<p>
+    		<label>终端描述:</label><span class="terminal" id="terDescription"></span>
+    	</p>
+    	<p>
+    		<label>软件版本号:</label><span class="terminal" id="soft_ware"></span>
+    	</p>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+     <script type="text/javascript" src="js/md5.js"></script>
+    <script type="text/javascript" src="js/door_add.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>考勤管理-新增排班</title>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/public1.css" />
+		<link rel="stylesheet" href="css/list_style.css" />
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="css/jedate-6.5.0/skin/jedate.css">
+	</head>
+	<style>
+	  #Check span{
+	  	height: 20px;
+    	width: 20px;
+    	background:#F5222D;
+    	display: inline-block;
+    	margin-top: 2px;
+    	position: relative;
+	  }
+	  #Check span img{
+	  	position: absolute;
+	    top: 0px;
+	    left:0px;
+	    display:none;
+	  }
+	  #Check span .block{
+	  	display:block;
+	  }
+	  #Check span.crr{
+	  background:#F5222D url(img/duei.png)  no-repeat top 2px !important;
+	  }
+	  #sure{
+	  	display: block;
+	    padding: 0 16px;
+	    line-height: 28px;
+	    color: #fff;
+	    border-radius: 3px;
+	  }
+	</style>
+	<body>
+		<div id="cme-main">
+			<div class="main-content">
+				<div class="main-tab">
+	                <div class="label fl curr"><a href="javascript:;">新增排班</a></div>
+	                <div class="btn-box fr">
+	                    <div class="subbtn fl"><button class="layui-bg-blue" id="sure">确定</button></div>
+						<div class="subbtn fl"><a href="attendance_shift_management.html" class="layui-bg-orange">取消</a></div>
+	                </div>
+	            </div>
+	            <div class="main-table">
+					<div class="main-form">
+	                    <!--input开始-->
+						<div class="form-term clearfix">
+							<div class="lable"><span>*</span>班次名称：</div>
+							<div class="control">
+								<input type="text" id="shiftname" name="shiftname" placeholder="班次名称" class="input">
+							</div>
+	                    </div>
+	                    <div class="form-term clearfix">
+	                            <div class="lable"><span>*</span>班次简称：</div>
+	                            <div class="control">
+	                                <input type="text" id="Abbreviation" name="Abbreviation" placeholder="只能输入最多2个汉字或字母" class="input">
+	                            	<span style="color:red;display:none">只能输入最多2个汉字或字母，请检查输入!</span>
+	                            </div>
+	                        </div>
+	                    <div class="form-term clearfix">
+	                        <div class="lable"><span></span>备&emsp;&emsp;注：</div>
+	                        <div class="control">
+	                            <textarea onKeyUp="javascript:checkWord(this);" onMouseDown="javascript:checkWord(this);" placeholder="备注" id="remark" name="remark"
+	                            style="height:80px; width:218px;resize:none;overflow:hidden;padding: 5px; border-radius: 3px; border: 1px solid #ddd;"></textarea>
+	                            <div>您还可以输入<span style=" font-size: 14px;" id="wordCheck">50</span>个字 </div>
+	                        </div>
+	                    </div>
+	                    <div class="form-term clearfix">
+	                         <div class="lable"><span>*</span>班次颜色：</div>
+	                         <div class="control" id="Check">
+	                              <span class="CheckF1 CheckF" ><input type='radio' value="01" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s block"></span>
+	                             <span class="CheckA2 CheckF" style="background:#FA541C;"><input type='radio' value="02" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckE3 CheckF" style="background:#722ED1;"><input type='radio' value="03" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckC4 CheckF" style="background:#52C41A;"><input type='radio' value="04" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF5 CheckF" style="background:#1890FF;"><input type='radio' value="05" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF6 CheckF" style="background:#FA8C16;"><input type='radio' value="06" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF7 CheckF" style="background:#FAAD14;"><input type='radio' value="07" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF8 CheckF" style="background:#A0D911;"><input type='radio' value="08" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF9 CheckF" style="background:#13C2C2;"><input type='radio' value="09" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                             <span class="CheckF10 CheckF" style="background:#FADB14;"><input type='radio' value="10" style="opacity: 0;"><img alt="" src="img/duei.png" class="img_s"></span>
+	                         </div>
+	                     </div>
+	                    <!--input结束-->
+	                    <div class="form-term clearfix">
+	                            <div class="segment">
+	                                <h4 class="title">班段一</h4>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox1"  style="float: none; width:60px;">上班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="workfirsttime" name="workfirsttime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date worktime" id="starttime" name="starttime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                       <select class="datee">
+	                                       		<option value="d">当日</option>
+	                                       		<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worklatest" id="worklasttime" name="worklasttime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox2" style="float: none; width:60px;">下班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee datee1">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="leavefirsttime" name="leavefirsttime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                        <select class="datee datee2">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worktime" id="endtime" name="endtime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                        <select class="datee datee3">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worklatest" id="leavelasttime" name="leavelasttime" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                            </div>
+	                            <div class=" ">
+	                        	<div class="main-process">
+	                        		<div class="sub-process clearfix">
+			                    		<div class="main-process-right fl">
+	                                                <div class="timeline-box">
+	                                                    <div class="timeline-content">
+	                                                        <div class="main-line">
+	                                                            <span class="time-line" style="width: 10%;"> <time></time> </span>
+	                                                            <span class="time-line" style="width: 10%; margin-left: 10%; background: #F5222D;"> <time> </time> </span>
+	                                                            <!-- <span>eiuh </span> -->
+	                                                            <span class="time-lines" style="width: 10%;"> <time></time> </span>
+	                                                            <span class="time-lines" style="width: 10%; margin-right: 10%; background: #F5222D; "> <time> </time> </span>
+	                                                        </div>
+	                                                        <div class="main-title">
+	                                                            <span class="title-l1">打卡正常区域</span>
+	                                                            <span class="title-l1" style="position: absolute;left: 10%;">迟到打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 25%;">早退打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 15%;">打卡正常区域</span>
+	                                                        </div>
+	                                                        <ul class="timeline-list clearfix">
+	                                                            <li class="list">
+	                                                                <div class="time time1">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list">
+	                                                                <div class="time2 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	
+	                                                            <li class="list">
+	                                                                <div class="time3 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                          <!--  未显示开始  -->
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+																<!--  未显示结束  -->
+	                                                            <li class="list">
+	                                                                <div class="time4 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time5 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time6 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                        </ul>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                            
+	                                        </div>
+			                    		
+	                        	</div>
+	                        </div>  
+	                        </div>
+	                         <div class="form-term clearfix">
+	                            <div class="segment">
+	                                <h4 class="title">班段二</h4>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox3" style="float: none; width:60px;">上班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="workfirsttime2" name="workfirsttime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>  
+	                                        <input type="text" readonly class="layui-input date worktime" id="starttime2" name="starttime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                       <select class="datee">
+	                                       		<option value="d">当日</option>
+	                                       		<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worklatest" id="worklasttime2" name="worklasttime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox4" style="float: none; width:60px;">下班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee datee4">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="leavefirsttime2" name="leavefirsttime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                        <select class="datee datee5">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worktime" id="endtime2" name="endtime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                        <select class="datee datee6">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worklatest" id="leavelasttime2" name="leavelasttime2" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                            </div>
+	                            <div class=" ">
+	                        	<div class="main-process">
+	                        		<div class="sub-process clearfix">
+			                    		<div class="main-process-right fl">
+	                                                <div class="timeline-box">
+	                                                    <div class="timeline-content">
+	                                                        <div class="main-line">
+	                                                            <span class="time-line" style="width: 10%;"> <time></time> </span>
+	                                                            <span class="time-line" style="width: 10%; margin-left: 10%; background: #F5222D;"> <time> </time> </span>
+	                                                            <!-- <span>eiuh </span> -->
+	                                                            <span class="time-lines" style="width: 10%; "> <time></time> </span>
+	                                                            <span class="time-lines" style="width: 10%; margin-right: 10%;background: #F5222D; "> <time> </time> </span>
+	                                                        </div>
+	                                                        <div class="main-title">
+	                                                            <span class="title-l1">打卡正常区域</span>
+	                                                            <span class="title-l1" style="position: absolute;left: 10%;">迟到打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 25%;">早退打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 15%;">打卡正常区域</span>
+	                                                        </div>
+	                                                        <ul class="timeline-list clearfix">
+	                                                            <li class="list">
+	                                                                <div class="time time7">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list">
+	                                                                <div class="time8 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	
+	                                                            <li class="list">
+	                                                                <div class="time9 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                          <!--  未显示开始  -->
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+																<!--  未显示结束  -->
+	                                                            <li class="list">
+	                                                                <div class="time10 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time11 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time12 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                        </ul>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                            
+	                                        </div>
+			                    		
+	                        	</div>
+	                        </div>  
+	                        </div>
+	                         <div class="form-term clearfix">
+	                            <div class="segment">
+	                                <h4 class="title">班段三</h4>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox5" style="float: none; width:60px;">上班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="workfirsttime3" name="workfirsttime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                        <select class="datee">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date worktime" id="starttime3" name="starttime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                       <select class="datee">
+	                                       		<option value="d">当日</option>
+	                                       		<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date worklatest" id="worklasttime3" name="worklasttime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                                <div class="control clearfix segment_item " id="control">
+	                                    <span class="checkbox" id="checkbox6"  style="float: none; width:60px;">下班打卡：</span>
+	                                    <dt>
+	                                        <span>最早打卡：</span>
+	                                        <select class="datee datee7">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select>
+	                                        <input type="text" readonly class="layui-input date workearliest" id="leavefirsttime3" name="leavefirsttime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>工作时间：</span>
+	                                       <select class="datee datee8">
+	                                       		<option value="d">当日</option>
+	                                       		<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worktime" id="endtime3" name="endtime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                    <dt>
+	                                        <span>最晚打卡：</span>
+	                                        <select class="datee datee9">
+	                                        	<option value="d">当日</option>
+	                                        	<option value="z">昨日</option>
+	                                            <option value="c">次日</option>
+	                                        </select> 
+	                                        <input type="text" readonly class="layui-input date worklatest" id="leavelasttime3" name="leavelasttime3" autocomplete=off style=" display: inline-block;"/> 
+	                                    </dt>
+	                                </div>
+	                            </div>
+	                            <div class=" ">
+	                        	<div class="main-process">
+	                        		<div class="sub-process clearfix">
+			                    		<div class="main-process-right fl">
+	                                                <div class="timeline-box">
+	                                                    <div class="timeline-content">
+	                                                        <div class="main-line">
+	                                                            <span class="time-line" style="width: 10%;"> <time></time> </span>
+	                                                            <span class="time-line" style="width: 10%; margin-left: 10%; background: #F5222D;"> <time> </time> </span>
+	                                                            <!-- <span>eiuh </span> -->
+	                                                            <span class="time-lines" style="width: 10%; "> <time></time> </span>
+	                                                            <span class="time-lines" style="width: 10%; margin-right: 10%;background: #F5222D; "> <time> </time> </span>
+	                                                        </div>
+	                                                        <div class="main-title">
+	                                                            <span class="title-l1">打卡正常区域</span>
+	                                                            <span class="title-l1" style="position: absolute;left: 10%;">迟到打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 25%;">早退打卡区域</span>
+	                                                            <span class="title-l1" style="position: absolute;right: 15%;">打卡正常区域</span>
+	                                                        </div>
+	                                                        <ul class="timeline-list clearfix">
+	                                                            <li class="list">
+	                                                                <div class="time time13">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list">
+	                                                                <div class="time14 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	
+	                                                            <li class="list">
+	                                                                <div class="time15 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                          <!--  未显示开始  -->
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list" style="opacity: 0;">
+	                                                                <div class="time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+																<!--  未显示结束  -->
+	                                                            <li class="list">
+	                                                                <div class="time16 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time17 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                            <li class="list">
+	                                                                <div class="time18 time">00:00</div>
+	                                                                <div class="node"></div>
+	                                                            </li>
+	                                                        </ul>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                            
+	                                        </div>
+			                    		
+	                        	</div>
+	                        </div>  
+	                        </div>
+	                </div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../hyf/path_js.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		 <script type="text/javascript" src="js/layer/layer.js"></script>
+    	<script type="text/javascript" src="js/common.js"></script>
+    	<script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/layer/layer.js"></script>
+		<script type="text/javascript" src="css/jedate-6.5.0/src/jedate.js"></script>
+		<script type="text/javascript" src="js/CSCDisplayNo.js"></script>
+		<script type="text/javascript" src="js/csc_queryShift.js"></script>
+		<script type="text/javascript" src="js/csc_timetool.js"></script>  
+	</body>
+</html>

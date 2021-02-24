@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.VisitorsCardAppSetMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.VisitorsCardAppSet" >
+    <id column="DataKey" property="datakey" jdbcType="INTEGER" />
+    <result column="VisitorsInfoID" property="visitorsinfoid" jdbcType="INTEGER" />
+    <result column="AppSetKey" property="appsetkey" jdbcType="INTEGER" />
+    <result column="CardNo" property="cardno" jdbcType="NVARCHAR" />
+    <result column="CardID" property="cardid" jdbcType="NVARCHAR" />
+    <result column="StatusAppSet" property="statusappset" jdbcType="NVARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="dateDate" property="datedate" jdbcType="TIMESTAMP" />
+    <result column="OperatorName" property="operatorname" jdbcType="NVARCHAR" />
+    <result column="OperatorDate" property="operatordate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataKey, VisitorsInfoID, AppSetKey, CardNo, CardID, StatusAppSet, StartDate, dateDate, 
+    OperatorName, OperatorDate
+  </sql>
+  
+  <!-- 根据AppSetkey和CardID 查访客是否已分配门区 -->
+  <select id="queryVisitorsCardAppSetByCardID" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select DataKey, VisitorsInfoID, AppSetKey, CardNo, 
+      CardID, StatusAppSet from VisitorsCardAppSet
+      where  CardID=#{cardid,jdbcType=NVARCHAR} 
+      <!-- and VisitorsInfoID=#{visitorsinfoid,jdbcType=INTEGER} -->
+  </select>
+  
+  <!-- 批量添加 -->
+  <insert id="insertVisitorsCardAppSetBatch">
+       insert into VisitorsCardAppSet ( VisitorsInfoID, AppSetKey, 
+      CardNo, CardID, StatusAppSet,StartDate, 
+      dateDate, OperatorName, OperatorDate)
+      <foreach collection="list" item="item" index="index" separator="union all" >
+      (select #{item.visitorsinfoid}, #{item.appsetkey}, 
+      #{item.cardno}, #{item.cardid}, #{item.statusappset}, 
+      #{item.startdate}, #{item.datedate}, #{item.operatorname}, 
+      #{item.operatordate})
+      </foreach>
+  </insert>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from VisitorsCardAppSet
+    where DataKey = #{datakey,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from VisitorsCardAppSet
+    where DataKey = #{datakey,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.VisitorsCardAppSet" >
+    insert into VisitorsCardAppSet (DataKey, VisitorsInfoID, AppSetKey, 
+      CardNo, CardID, StatusAppSet, 
+      StartDate, dateDate, OperatorName, 
+      OperatorDate)
+    values (#{datakey,jdbcType=INTEGER}, #{visitorsinfoid,jdbcType=INTEGER}, #{appsetkey,jdbcType=INTEGER}, 
+      #{cardno,jdbcType=NVARCHAR}, #{cardid,jdbcType=NVARCHAR}, #{statusappset,jdbcType=NVARCHAR}, 
+      #{startdate,jdbcType=TIMESTAMP}, #{datedate,jdbcType=TIMESTAMP}, #{operatorname,jdbcType=NVARCHAR}, 
+      #{operatordate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.VisitorsCardAppSet" >
+    insert into VisitorsCardAppSet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datakey != null" >
+        DataKey,
+      </if>
+      <if test="visitorsinfoid != null" >
+        VisitorsInfoID,
+      </if>
+      <if test="appsetkey != null" >
+        AppSetKey,
+      </if>
+      <if test="cardno != null" >
+        CardNo,
+      </if>
+      <if test="cardid != null" >
+        CardID,
+      </if>
+      <if test="statusappset != null" >
+        StatusAppSet,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="datedate != null" >
+        dateDate,
+      </if>
+      <if test="operatorname != null" >
+        OperatorName,
+      </if>
+      <if test="operatordate != null" >
+        OperatorDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datakey != null" >
+        #{datakey,jdbcType=INTEGER},
+      </if>
+      <if test="visitorsinfoid != null" >
+        #{visitorsinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="appsetkey != null" >
+        #{appsetkey,jdbcType=INTEGER},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=NVARCHAR},
+      </if>
+      <if test="statusappset != null" >
+        #{statusappset,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datedate != null" >
+        #{datedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorname != null" >
+        #{operatorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="operatordate != null" >
+        #{operatordate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.VisitorsCardAppSet" >
+    update VisitorsCardAppSet
+    <set >
+      <if test="visitorsinfoid != null" >
+        VisitorsInfoID = #{visitorsinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="appsetkey != null" >
+        AppSetKey = #{appsetkey,jdbcType=INTEGER},
+      </if>
+      <if test="cardno != null" >
+        CardNo = #{cardno,jdbcType=NVARCHAR},
+      </if>
+      <if test="cardid != null" >
+        CardID = #{cardid,jdbcType=NVARCHAR},
+      </if>
+      <if test="statusappset != null" >
+        StatusAppSet = #{statusappset,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="datedate != null" >
+        dateDate = #{datedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorname != null" >
+        OperatorName = #{operatorname,jdbcType=NVARCHAR},
+      </if>
+      <if test="operatordate != null" >
+        OperatorDate = #{operatordate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DataKey = #{datakey,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.VisitorsCardAppSet" >
+    update VisitorsCardAppSet
+    set VisitorsInfoID = #{visitorsinfoid,jdbcType=INTEGER},
+      AppSetKey = #{appsetkey,jdbcType=INTEGER},
+      CardNo = #{cardno,jdbcType=NVARCHAR},
+      CardID = #{cardid,jdbcType=NVARCHAR},
+      StatusAppSet = #{statusappset,jdbcType=NVARCHAR},
+      StartDate = #{startdate,jdbcType=TIMESTAMP},
+      dateDate = #{datedate,jdbcType=TIMESTAMP},
+      OperatorName = #{operatorname,jdbcType=NVARCHAR},
+      OperatorDate = #{operatordate,jdbcType=TIMESTAMP}
+    where DataKey = #{datakey,jdbcType=INTEGER}
+  </update>
+</mapper>

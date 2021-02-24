@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_ArrangeDataMapper" >
+
+
+<!--   * 作用:通过部门编号来查询部门下的人员* 用于排班时通过部门选择人员 -->
+<select id="queryDapartmentStaff" resultType="Map">
+	 select 
+	   H.holderno as holderno,H.holdername as holdername,
+	   D.departmentno as departmentno,D.DepartmentName as departmentname 
+	 from HolderData H
+	   inner join
+	(select DepartmentNo,DepartmentName from DepartmentData where
+	substring(DepartmentNo,1,3)=
+	substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3))<!--查询登录人所属公司的所有部门 -->
+	D on H.departmentno=D.DepartmentNo <!--联合查询找出每个部门下的所有人 -->
+	where D.departmentno
+	in(<foreach collection="list" index="index" item="item" open=" " separator="," close=" ">
+             ${item.departmentno}</foreach>)
+</select>
+
+<!--  * 对于选中的人进行排班时* 进行批量查询,查询是否存在排班重复 -->
+<select id="queryArrangeData" resultType="Map" parameterType="java.util.List">
+       SELECT DISTINCT holderno FROM dbo.KQ_ArrangeData  where
+		        HolderNo  in(
+	        <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.holderno}
+	        </foreach>) 
+	        and YearNo in(
+	         <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.yearno}
+	         </foreach>)
+	          and MonthNo in(
+	          <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.monthno}
+	        </foreach>)
+	           and Day in(
+	          <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.day}
+	        </foreach>)
+</select>
+
+<!-- * 对选中人员进行排班* 批量添加用于排班 -->
+<insert id="insertArrangeData" parameterType="java.util.List">
+      INSERT INTO dbo.KQ_ArrangeData
+        (HolderNo,YearNo,MonthNo,Day,ShiftNo)
+         <foreach collection="list" index="index" item="item" open="" separator="union" close=""  >
+          select #{item.holderno},#{item.yearno},#{item.monthno},#{item.day},#{item.shiftno} 
+          </foreach>
+</insert>
+
+  <!--  * 通过工号查询班次信息中的* (序号,班次名称,班次简称,颜色编号) *用于排班中心-->
+  <select id="queryshiftdata" resultType="Map" parameterType="java.lang.String">
+  SELECT
+		k.shiftno AS shiftno,
+		k.shiftname AS shiftname,
+		k.nickname AS nickname,
+		k.codeno AS codeno
+	FROM
+	dbo.KQ_ShiftData k  INNER JOIN (select departmentno,departmentname as title,underno from DepartmentData where substring(DepartmentNo,1,3)= 
+    substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)) d ON d.DepartmentNo=k.departmentno
+  </select>
+
+   <!-- *班次编号(shiftno)* 查询班次是否在当月使用中 -->
+  <select id="checkUseArrange" resultType="Map">
+	 SELECT
+	   holderno,
+	   yearno,
+	   monthno,
+	   day,
+	   shiftno 
+	 FROM dbo.KQ_ArrangeData
+	 WHERE ShiftNo=#{shiftno} 
+	 <!--  and convert(int,MonthNo)-MONTH(GETDATE()) = 0-->
+  </select>
+  
+     <!--*  查询人员的班次信息* 用于人员班次管理 -->
+     <select id="selectArrange" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+		SELECT 
+		        h.HolderNo as holderno,
+		        h.HolderName as holdername,
+		        k.YearNo as yearno,
+		        k.MonthNo as monthno,
+		        k.day as day,
+		        k.shiftno as shiftno,
+				s.shiftname as shiftname,
+				s.nickname as nickname,
+				s.codeno as codeno
+		FROM    HolderData AS h
+		        INNER JOIN dbo.KQ_ArrangeData AS k ON k.HolderNo = h.HolderNo
+				left JOIN dbo.KQ_ShiftData AS s ON s.ShiftNo = k.ShiftNo
+		<where>
+		    <if test="yearno !=null and yearno != ''">
+		       k.yearno=#{yearno}
+		    </if>
+		    <if test="monthno != null and monthno != ''">
+		      and   k.monthno=#{monthno}
+		    </if>
+		    <if test="holderno != null and holderno !=''">
+		      and   h.holderno=#{holderno}
+		    </if>
+		     <if test="holdername != null and holdername !=''">
+		      and   h.holdername=#{holdername}
+		    </if>
+		    <if test="departmentno != null and departmentno !=''">
+		      and  h.departmentno=#{departmentno}
+		    </if>
+		</where>
+		GROUP BY h.HolderNo ,
+                         h.HolderName ,
+                         k.YearNo ,
+                         k.MonthNo ,
+                         k.Day ,
+                         k.ShiftNo ,
+                         s.ShiftName ,
+                         s.NickName ,
+                         s.CodeNo
+     </select>
+  
+    <!--  * 通过排班表实体类修改* 用于人员的班次管理 -->
+  <update id="updateArrange" parameterType="com.xr.entity.KQ_ArrangeData">
+         UPDATE dbo.KQ_ArrangeData 
+	         SET 
+	         HolderNo = #{holderno},
+	         YearNo=#{yearno},
+	         monthno=#{monthno},
+	         Day=#{day}, 
+	         shiftno=#{shiftno}
+         where
+           HolderNo =#{holderno} and YearNo=#{yearno} and
+           monthno=#{monthno} and Day=#{day}
+  </update>
+  
+	  <!--  * 用于页面上显示成缺勤的人点击时是添加 -->
+	<insert id="insertArrange" parameterType="com.xr.entity.KQ_ArrangeData">
+	      INSERT INTO dbo.KQ_ArrangeData
+			(HolderNo,YearNo,MonthNo,Day,ShiftNo)
+			values(#{holderno},#{yearno},#{monthno},#{day},#{shiftno})
+	</insert>
+  
+  <!--
+     * 通过(工号,年,月)将已经排过班的信息删除.
+     * 以便于人再次排班-->
+   <delete id="delArrange" parameterType="com.xr.entity.KQ_ShiftSeek">
+       delete from dbo.KQ_ArrangeData 
+      <where>
+       <if test="holderno != null and holderno !=''">
+         holderno=#{holderno}
+       </if>
+       <if test="yearno != null and yearno !=''">
+        and yearno=#{yearno}
+       </if>
+       <if test="day != null and day !=''">
+        and day=#{day}
+       </if>
+       <if test="monthno!= null and monthno !=''">
+       and monthno=#{monthno}
+       </if>
+       </where>
+   </delete>
+     
+     
+     <!-- 通过区域查询查询门区 -->
+     <select id="getDoorList" resultType="Map">
+        select t.DoorNo,t.DoorName,a.AreaID,a.AreaName from DoorUnit t
+		left join DeviceUnit u on t.DeviceNo = u.DeviceNo 
+		left join AreaList a on u.AreaID = a.AreaID
+	 where 1=1
+     </select>
+     
+     
+     <!--* 查询人员查用班次* 用于班次分配中的查询 -->
+   <select id="selectDistributionShift" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+	SELECT
+		m.OftenNO AS oftenno,
+		m.holderno AS holderno,
+		m.holdername AS
+		holdername,
+		m.departmentname AS departmentname,
+		m.shiftno AS shiftno,
+		s.shiftname AS shiftname,
+		s.CodeNo AS codeno
+		FROM dbo.KQ_ShiftData s
+	RIGHT JOIN
+	(SELECT 
+		h.HolderNo, 
+		h.HolderName, 
+		d.DepartmentNo,  
+		d.DepartmentName ,
+		o.ShiftNo,
+		o.OftenNO 
+	FROM  dbo.HolderData h
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo =h.DepartmentNo
+	INNER JOIN dbo.KQ_OftenShiftData o ON o.HolderNo =h.HolderNo) m ON m.ShiftNo= s.ShiftNo
+	where 1=1
+	     <if test="departmentno != null and departmentno !=''">
+	        and m.departmentno=#{departmentno}
+	     </if>
+	     <if test="holderno != null and holderno !=''">
+	        and m.holderno=#{holderno}
+	     </if>
+	     	GROUP BY m.holderno,m.holdername,
+	        m.departmentname,m.shiftno,
+	        s.shiftname,s.CodeNo,m.OftenNO
+</select>
+
+<!-- 作用:给员工分配常用班次时,查询该员工是否已经分配相同的常用班次 -->
+<select id="queryBatchHolderShift" resultType="Map" parameterType="java.util.List">
+       SELECT o.oftenno,o.holderno,o.shiftno,s.ShiftName as shiftname FROM dbo.KQ_OftenShiftData o  
+       INNER JOIN dbo.KQ_ShiftData s  ON  s.ShiftNo = o.ShiftNo  
+       where   o.holderno in(
+        <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.holderno}
+	    </foreach>)
+	    and o.shiftno in(
+	    <foreach collection="list" index="index" item="item" separator=",">
+	            #{item.shiftno}
+	    </foreach>)
+</select>
+
+<!-- 作用:给员工分配常用班次 -->
+<insert id="insertDistributionShift" parameterType="java.util.List">
+   INSERT INTO  dbo.KQ_OftenShiftData(HolderNo,ShiftNo)
+   <foreach collection="list" index="index" item="item" separator="union">
+           select #{item.holderno},#{item.shiftno}
+   </foreach>
+</insert>
+
+<!-- 人员常用班次的批量删除 -->
+<delete id="deleteDistributionShift" parameterType="java.util.List">
+   DELETE FROM dbo.KQ_OftenShiftData WHERE HolderNo IN (
+   <foreach collection="list" index="index" item="item" separator=",">
+         #{item.holderno}
+   </foreach>
+   )
+</delete>
+
+    <!-- 通过工号查询员工经常上的班次
+       * 通过查询人员经常使用的班次中的,上班的worktime(工作时间)来排序的 -->
+	<select id="selectShiftno" resultType="Map">
+	  SELECT 
+		DISTINCT
+		        o.ShiftNo AS shiftno,
+                 b.WorkTime 
+		FROM    dbo.KQ_OftenShiftData o
+		        INNER JOIN ( SELECT ShiftNo ,
+		                            WorkTime
+		                     FROM   dbo.KQ_ShiftSection
+		                     WHERE  SectionStatus = '上班'
+		                   ) b ON b.ShiftNo = o.ShiftNo
+		WHERE   o.HolderNo = #{holderno}
+		ORDER BY b.WorkTime
+	</select>
+
+	<!--  * 通过年月日来查询员工每日的班次 -->
+	<select id="selectArrayShift" resultType="com.xr.entity.KQ_ArrangeData" parameterType="com.xr.entity.KQ_Analysis">
+	     SELECT  datano,holderno,yearno,monthno,day,shiftno FROM dbo.KQ_ArrangeData
+	     where holderno=#{holderno} and yearno=#{yearno} and monthno=#{monthno} and day=#{day}
+	</select>
+	
+		<!--  * 参数(传入的参数)根据参数查询所被排版人员的工号* 用于分析每人每天所上的班 -->
+	<select id="selectHolderNo" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+	   SELECT 
+		    HolderNo as holderno
+	   FROM dbo.HolderData 
+		where 1=1
+		    <if test="departmentno!=null and departmentno!=''">
+		      and DepartmentNo=#{departmentno}
+		    </if>
+		     <if test="holderno!=null and holderno!=''">
+		      and holderno=#{holderno}
+		     </if>
+		GROUP BY HolderNo
+	</select>
+	
+	<!--  删除单个人员的常用班次 -->
+	<delete id="deleteOneShift">
+	    DELETE FROM dbo.KQ_OftenShiftData WHERE ShiftNo=#{shiftno} AND HolderNo=#{holderno}
+	</delete>
+     
+  
+</mapper>

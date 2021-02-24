@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.AdminDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.AdminData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="VARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="VARCHAR" />
+    <result column="CompNo" property="compno" jdbcType="VARCHAR" />
+    <result column="CompName" property="compname" jdbcType="VARCHAR" />
+    <result column="DeptNo" property="deptno" jdbcType="VARCHAR" />
+    <result column="DeptName" property="deptname" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, HolderNo, HolderName, CompNo, CompName, DeptNo, DeptName, Remark
+  </sql>
+  
+  <!-- 通过工号查询人的权限 -->
+  <select id="queryAdminDataByHolderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select DataNo, HolderNo, HolderName, CompNo, 
+     CompName, DeptNo, DeptName, Remark from AdminData 
+     where HolderNo=#{holderno,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from AdminData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from AdminData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.AdminData" >
+    insert into AdminData (DataNo, HolderNo, HolderName, 
+      CompNo, CompName, DeptNo, 
+      DeptName, Remark)
+    values (#{datano,jdbcType=INTEGER}, #{holderno,jdbcType=VARCHAR}, #{holdername,jdbcType=VARCHAR}, 
+      #{compno,jdbcType=VARCHAR}, #{compname,jdbcType=VARCHAR}, #{deptno,jdbcType=VARCHAR}, 
+      #{deptname,jdbcType=VARCHAR}, #{remark,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.AdminData" >
+    insert into AdminData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="compno != null" >
+        CompNo,
+      </if>
+      <if test="compname != null" >
+        CompName,
+      </if>
+      <if test="deptno != null" >
+        DeptNo,
+      </if>
+      <if test="deptname != null" >
+        DeptName,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="compno != null" >
+        #{compno,jdbcType=VARCHAR},
+      </if>
+      <if test="compname != null" >
+        #{compname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null" >
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.AdminData" >
+    update AdminData
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=VARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=VARCHAR},
+      </if>
+      <if test="compno != null" >
+        CompNo = #{compno,jdbcType=VARCHAR},
+      </if>
+      <if test="compname != null" >
+        CompName = #{compname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptno != null" >
+        DeptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="deptname != null" >
+        DeptName = #{deptname,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.AdminData" >
+    update AdminData
+    set HolderNo = #{holderno,jdbcType=VARCHAR},
+      HolderName = #{holdername,jdbcType=VARCHAR},
+      CompNo = #{compno,jdbcType=VARCHAR},
+      CompName = #{compname,jdbcType=VARCHAR},
+      DeptNo = #{deptno,jdbcType=VARCHAR},
+      DeptName = #{deptname,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+</mapper>

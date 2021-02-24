@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HY_MeetingSummaryMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HY_MeetingSummary" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="meetingid" property="meetingid" jdbcType="VARCHAR" />
+    <result column="recorder" property="recorder" jdbcType="VARCHAR" />
+    <result column="filepath" property="filepath" jdbcType="VARCHAR" />
+    <result column="context" property="context" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creatdate" property="creatdate" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="VARCHAR" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="meetingid" property="meetingid" jdbcType="VARCHAR" />
+    
+    <result column="recordename" property="recordename" jdbcType="VARCHAR" />
+    <result column="creatorname" property="creatorname" jdbcType="VARCHAR" />
+    <result column="editorname" property="editorname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fno, name, recorder, filepath, context, creator, creatdate, editor, editdate, remark
+  </sql>
+  
+  <select id="getSummaryList" resultType="map">
+  	select t.fno, t.name,t.meetingid, t.recorder, t.filepath, t.context, 
+	       t.creator, t.creatdate, t.editor, t.editdate, t.remark,
+		   h1.HolderName recordename,h2.HolderName creatorname,h3.HolderName editorname 
+	  from HY_MeetingSummary t
+	left join HolderData h1 on t.recorder = h1.HolderNo
+	left join HolderData h2 on t.creator = h2.HolderNo
+	left join HolderData h3 on t.editor = h3.HolderNo
+	where t.status = 1
+  </select>
+  
+  <select id="getOneSummaryInfo" resultType="map">
+  	select t.fno, t.name,t.meetingid, t.recorder, t.filepath, t.context, 
+	       t.creator, t.creatdate, t.editor, t.editdate, t.remark,
+		   h1.HolderName recordename,h2.HolderName creatorname,h3.HolderName editorname 
+	  from HY_MeetingSummary t
+	left join HolderData h1 on t.recorder = h1.HolderNo
+	left join HolderData h2 on t.creator = h2.HolderNo
+	left join HolderData h3 on t.editor = h3.HolderNo
+	where t.meetingid = #{meetingid}
+	  and t.status = 1
+  </select>
+  
+  <update id="saveOneSummaryInfo">
+  	begin
+  		update HY_MeetingSummary 
+  		   set status = 0 
+  		 where meetingid=#{meetingid} 
+  		   and status = 1;
+  		insert into HY_MeetingSummary(name,meetingid, recorder, filepath, context, creator, creatdate, editor, editdate, remark,status)
+    	values(#{name},#{meetingid},#{recorder},#{filepath},#{context},#{creator},#{creatdate},#{editor},#{editdate},#{remark},1);
+  	end;
+  	
+  </update>
+  
+  <select id="getSummaryPath" resultType="map">
+  	select * from HY_MeetingSummary where meetingid=#{meetingid} and status = 1
+  </select>
+  
+</mapper>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>成品资料</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <!--<link rel="stylesheet" href="../css/style_.css" />  -->
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <!-- <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief"> -->
+                <div class="label fl curr"><a href="javascript:;">成品资料</a></div>
+                <div class="btn-box fr">
+                     <div class="subbtn fl"><a href="product_add.html" class="blue addMain" id="insertProductData">新增</a></div>
+                     <div class="subbtn fl"><a href="javascript:;" class="blue delMain" id="deleteProductData">删除</a></div>
+                     <div class="subbtn fl"><a href="p_importFile.html" class="blue addMain" id="daoruSpareParts">批量导入</a></div>
+                     <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="printProductData">打印</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl">
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>成品条码：</div>
+                            <div class="control clearfix">
+								<input type="text" name="itemcode" id="itemcode1" placeholder="请输入成品条码" class="input">
+                            </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>成品名称：</div>
+                            <div class="control clearfix">
+                                <input type="text" name="itemname" id="itemname1" placeholder="请输入成品名称" class="input">
+                            </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>所属类别：</div>
+                            <div class="control clearfix">
+                               <select id="itemtype1">
+                                     <option value="">--请选择--</option>
+                               </select>
+                            </div>
+                        </div>
+                        <div class="btn fl">
+                            <a href="javascript:;" id="queryBtn">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+					<table class="grade" id="dayindaju1">
+						<tr>
+							<td width="40" class="no-print"><span class="checkbox" id="selectAll" style="float: none;">全选</span></td>
+							<td width="100">成品条码</td>
+							<td width="100">成品名称</td>
+							<td width="100">规格</td>
+							<td width="100">型号</td>
+							<td width="100">计量单位</td>
+							<td width="100">所属类别</td>
+							<td width="100">备注</td>
+							<td width="100" class="no-print">操作</td>
+						</tr>
+						<tbody id="cont">
+
+							 
+						</tbody>
+					</table>
+					<div class="pages" id="test">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/product_list.js"></script>
+     <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+   <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+</body>
+
+</html>

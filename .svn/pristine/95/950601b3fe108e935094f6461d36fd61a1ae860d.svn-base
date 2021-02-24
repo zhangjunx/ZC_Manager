@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.XGRouteDao">
+
+    <!--  * 通过巡更路表实体类* 添加巡更线路 -->
+    <insert id="insertRoute" parameterType="com.xr.entity.XGRoute" useGeneratedKeys="true" keyProperty="routeid">
+          INSERT INTO dbo.XG_Route
+	         (RouteName, PlaceSeveral)
+	      VALUES(#{routename},#{placeseveral})
+    </insert>
+    
+    <!-- * 根据线路表的routeid* 删除线路表数据的方法*用于添加失败时的处理和平常删除 -->
+     <delete id="deleteRoute">
+        DELETE  FROM dbo.XG_Route WHERE RouteId=#{routeid}
+     </delete>
+     
+     <!-- * 批量添加* 巡更路线节点 -->
+     <insert id="insertRouteNode" parameterType="java.util.List">
+        INSERT INTO XG_RouteNode
+        (RouteId, DoorNo, DoorName, DeviceNo,Direction,NodeOrder)
+         <foreach collection="list" index="index" item="item" separator="union all">
+             select #{item.routeid},#{item.doorno},#{item.doorname},#{item.deviceno},#{item.direction},#{item.nodeorder}
+         </foreach>
+     </insert>
+     
+     
+     <!--  * 查询线路信息 * 通过holderno * 查询登陆用户所能管理的线路和线路节点信息 -->
+     <select id="queryRouteAndNode" resultType="Map">
+	    SELECT
+	    DISTINCT
+			R.RouteId as routeid,
+			R.RouteName as routename,
+			N.DoorNo AS doorno,
+			n.DoorName AS doorname,
+			n.NodeOrder AS nodeorder,
+			n.Direction AS direction,
+			n.DeviceNo AS deviceno
+		FROM dbo.XG_Rights S INNER JOIN dbo.XG_Route R
+		ON S.RouteID = R.RouteId INNER JOIN dbo.XG_RouteNode N
+		ON n.RouteId=R.RouteId 
+		<where>
+		     <if test="routeid != null and routeid !=''">
+		        R.routeid=#{routeid}
+		     </if>
+		     <if test="holderno!=null and holderno !=''">
+		       and  S.holderno=#{holderno}
+		     </if>
+		 </where>
+		 GROUP BY r.routeid ,r.RouteName,n.DoorNo,n.DoorName,n.NodeOrder,n.DeviceNo,n.Direction
+		  ORDER BY r.routeid,nodeorder
+     </select>
+     
+     <!--  * 通过线路ID* 查找该线路ID绑定的所有节点ID* 用于批量删除 -->
+     <select id="queryRouteNodeID" resultType="java.lang.Integer">
+	  SELECT 
+	      N.NodeId AS nodeid
+	   FROM dbo.XG_Route R INNER JOIN dbo.XG_RouteNode N
+	      ON N.RouteId = R.RouteId WHERE R.RouteId=#{routeid}
+     </select>
+     
+     <!-- *通过实体类中的线路ID来修改,线路信息 -->
+     <update id="updateRoute" parameterType="com.xr.entity.XGRoute">
+         UPDATE dbo.XG_Route 
+         <set >
+      <if test="routename != null" >
+        routename=#{routename},
+      </if>
+      <if test="placeseveral != null" >
+        placeseveral = #{placeseveral}
+      </if>
+       where routeid = #{routeid}
+    </set>
+     </update>
+     
+     <!-- *通过线路ID查询到的所有节点ID然后进行删除节点* @param list 批量删除 -->
+     <delete id="deleteRouteNode" parameterType="java.util.List">
+          DELETE FROM dbo.XG_RouteNode WHERE NodeId IN 
+            <foreach collection="list" index="index" item="item" open="(" separator="," close=")">   
+             ${item}   
+           </foreach>
+     </delete>
+     
+     
+     <!-- **********************************************8 -->
+     
+     <!--  * 查询所有线路* 用于用户路线的管理 -->
+     <select id="queryAllRoute" resultType="Map">
+          SELECT RouteID,RouteName FROM dbo.XG_Route
+     </select>
+     <!--  根据员工登录的工号查询该公司下面-* 能登陆系统的用户 -->
+     <select id="querySignHolder" resultType="Map">
+	SELECT h.holderno,h.holdername FROM holderdata h INNER JOIN
+	(SELECT departmentno,departmentname,underno FROM DepartmentData where
+	substring(DepartmentNo,1,3)=
+	substring((select DepartmentNo from HolderData where HolderNo=#{holderno}),1,3)) d ON
+	d.DepartmentNo = h.DepartmentNo
+	WHERE h.HolderStatus='11'
+     </select>
+     
+     <!--* 通过前端传过来的id* 查询该用户已经管理的线路ID * @param holderno-->
+     <select id="queryRightsRouteID" resultType="Map">
+        SELECT routeid FROM dbo.XG_Rights WHERE holderno=#{holderno}
+     </select>
+     
+     <!--  给用户配置巡更路线 -->
+      <insert id="insertRights" parameterType="com.xr.entity.XGRights">
+         INSERT INTO dbo.XG_Rights
+        (holderno, RouteID)
+             values(#{holderno},#{routeid})   
+     </insert>
+     
+     <!-- **删除用户所管理的线路* 用于用户线路管理 -->
+     <delete id="deleteRights" parameterType="com.xr.entity.XGRights">
+         delete from dbo.XG_Rights where holderno=#{holderno} and routeid=#{routeid}
+     </delete>
+     
+     
+     
+</mapper>

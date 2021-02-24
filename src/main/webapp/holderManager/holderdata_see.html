@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>查看人员信息</title>
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/public1.css" />
+	<link rel="stylesheet" href="../css/style_.css" />
+	<link rel="stylesheet" href="../css/list_style.css" />
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">查看人员信息</a></div>
+                 <div class="btn-box fr">
+					<div class="subbtn fl"><a href="holderdata_list.html" class="layui-bg-orange">返回</a></div>
+                </div> 
+            </div>
+			<!-- <div id="divSelectLi" class="tenant-model-body"> -->
+				<div class="main-table">
+				
+					<div class="main-form fl">
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</div>
+							<div class="control clearfix">
+								<input type="text" name="holderno" id="holderno" class="input" readonly>
+							</div>
+						</div>
+					<!-- 	<div class="form-term fl clearfix">
+							<div class="lable"><span></span>所属公司：</div>
+							<div class="control clearfix">
+								<input type="text" name="companyname" id="companyname" class="input" readonly>
+							</div>
+						</div> -->
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>所在部门：</div>
+							<div class="control clearfix">
+								<input type="text" name="departmentno" id="departmentno" class="input" readonly>
+							</div>
+						</div>
+					
+						<!-- <div class="form-term fl clearfix">
+							<div class="lable"><span></span>职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务：</div>
+							<div class="control clearfix">
+								<input type="text" name="titleno" id="titleno" class="input" readonly>
+							</div>
+						</div> -->
+						
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</div>
+							<div class="control clearfix">
+								<input type="text" name="holdername" id="holdername" class="input" readonly>
+							</div>
+						</div>
+						<!-- <div class="form-term fl clearfix">
+							<div class="lable"><span></span>身份证号：</div>
+							<div class="control clearfix">
+								<input type="text" name="idcode" id="idcode" class="input" readonly>
+							</div>
+						</div> -->
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</div>
+							<div class="control clearfix">
+									<input type="text" name="sexname" id="sexname" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+								<div class="lable"><span></span>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族：</div>
+								<div class="control clearfix">
+									<input type="text" name="nationname" id="nationname" class="input" readonly>
+								</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>身份证号：</div>
+							<div class="control clearfix">
+								<input type="text" name="idcode" id="idcode" class="input">
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>出生日期：</div>
+							<div class="control clearfix">
+								<input type="text" name="birthday" id="birthday" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>籍&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;贯：</div>
+							<div class="control clearfix">
+								<input type="text" name="nativeplace" id="nativeplace" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>家庭地址：</div>
+							<div class="control clearfix">
+								<input type="text" name="superiorno2" readonly id="superiorno2" class="input" style="width: 574px;">
+							</div>
+						</div>
+						
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>入职日期：</div>
+							<div class="control clearfix">
+								<input type="text" name="startdate" id="startdate" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+								<div class="lable"><span></span>职位：</div>
+								<div class="control clearfix">
+									<input type="text" name="emptype" id="emptype" class="input" readonly>
+								</div>
+						</div>
+						
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>联系电话：</div>
+							<div class="control clearfix">
+								<input type="text" name="mobilephone" id="mobilephone" class="input" readonly>
+							</div>
+						</div>
+						
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>电子邮箱：</div>
+							<div class="control clearfix">
+								<input type="text" name="email" id="email" class="input" readonly>
+							</div>
+						</div>
+						
+						<!-- <div class="form-term fl clearfix">
+								<div class="lable"><span></span>政治面貌：</div>
+								<div class="control clearfix">
+									<input type="text" name="politicface" id="politicface" class="input" readonly>
+								</div>
+						</div> -->
+						<div class="form-term fl clearfix" style="display:none">
+								<div class="lable"><span></span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</div>
+								<div class="control clearfix">
+									<input type="text" name="maxeducation" id="maxeducation" class="input" readonly>
+								</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>毕业院校：</div>
+							<div class="control clearfix">
+								<input type="text" name="graduateschool" id="graduateschool" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix" style="display:none">
+							<div class="lable"><span></span>所学专业：</div>
+							<div class="control clearfix">
+								<input type="text" name="majorsubject" id="majorsubject" autocomplete="new-password" class="input" readonly>
+							</div>
+						</div>
+						
+						<!-- <div class="form-term fl clearfix">
+								<div class="lable"><span></span>婚姻状况：</div>
+								<div class="control clearfix">
+									<input type="text" name="marrystatus" id="marrystatus" class="input" readonly>
+								</div>
+						</div> -->
+						
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>登录密码：</div>
+							<div class="control clearfix">
+								<input type="password" name="loginpassword" id="loginpassword" class="input" readonly>
+							</div>
+						</div>
+						
+						 <div class="form-term fl clearfix">
+							<div class="lable"><span></span>登录权限：</div>
+							<div class="control clearfix">
+								<input type="text" name="holderstatus" id="holderstatus" class="input" readonly>
+							</div>
+						</div>
+						<div class="form-term fl clearfix">
+							<div class="lable"><span></span>用户角色：</div>
+							<div class="control clearfix">
+								<!-- <input type="text" name="holderpower" id="holderpower" class="input" readonly> -->
+								<input type="text" name="roleid" id="roleid" class="input" readonly>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+	
+
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+	 <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/holderdata_see.js"></script>
+ 
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_AnalysisMapper" >
+
+	<!--  * 参数(传入的参数)根据参数查询所被排版人员的工号 -->
+	<select id="selectHolderNo" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+	   SELECT distinct a.holderno FROM dbo.KQ_ArrangeData a 
+		INNER JOIN dbo.HolderData h 
+		ON h.HolderNo = a.HolderNo
+		<where>
+		    <if test="yearno != null and yearno!=''">
+		       a.YearNo=#{yearno}
+		    </if>
+		    <if test="monthno!= null and monthno!=''">
+		      and a.MonthNo=#{monthno}
+		    </if>
+		    <if test="departmentno!=null and departmentno!=''">
+		      and h.DepartmentNo=#{departmentno}
+		    </if>
+		     <if test="holderno!=null and holderno!=''">
+		      and h.holderno=#{holderno}
+		     </if>
+		</where>
+	</select>
+	
+	<!-- * 参数(年,月,日,工号)* 根据参数查询所被排版人员每天应该上的班次 -->
+	<select id="selectHolderArrange" resultType="Map" parameterType="com.xr.entity.KQ_ArrangeData">
+	SELECT
+		h.HolderNo as holderno,
+		h.DepartmentNo as departmentno,
+		k.YearNo as yearno,
+		k.MonthNo as monthno,
+		k.Day as day,
+		k.ShiftNo as shiftno,
+		s.ShiftName as shiftname,
+		s.Nickname as nickname,
+		s.ClassNo as classno,
+		s.SectionStatus as sectionstatus,
+		s.WhichEarliest AS whichearliest,
+		s.WorkEarliest as workearliest,
+		s.WhichWork AS whichwork,
+		s.WorkTime as worktime,
+		s.WhichLatest AS whichlatest,
+		s.WorkLatest as worklatest,
+		s.NodeOrder AS nodeorder
+	FROM dbo.HolderData AS h INNER join
+	(SELECT HolderNo,YearNo,Day,ShiftNo,MonthNo FROM dbo.KQ_ArrangeData WHERE
+	Day=#{day} AND MonthNo=#{monthno} AND YearNo=#{yearno} AND
+	HolderNo=#{holderno})AS k ON k.HolderNo = h.HolderNo
+	left JOIN
+	(SELECT 
+		s.ShiftNo,ShiftName,Nickname,
+		n.ClassNo,n.SectionStatus,
+		n.WhichEarliest,n.WorkEarliest,
+		n.WhichWork,n.WorkTime,
+		n.WhichLatest,n.WorkLatest,
+		n.NodeOrder
+	FROM dbo.KQ_ShiftData AS s INNER JOIN dbo.KQ_ShiftSection AS n 
+	ON s.ShiftNo= n.ShiftNo)
+	AS s ON s.ShiftNo=k.ShiftNo
+	ORDER BY nodeorder, s.ClassNo
+	</select>
+	
+	<!--参数(工号,开始时间,结束时间)* 根据参数查询特定时间段是否存在打卡记录.用于判断考勤 -->
+	<select id="selectIodate" resultType="Map" parameterType="com.xr.entity.KQ_Analysis">
+        SELECT 
+            holderno,
+		    CONVERT(VARCHAR(20),MIN(iodate),20) AS small,
+		    CONVERT(VARCHAR(20), MAX(IODate),20) AS large
+		FROM iodata i INNER JOIN (SELECT deviceno FROM dbo.DoorUnit WHERE Enable='20') u ON  u.DeviceNo = i.DeviceNo
+		   <where>
+		     holderNo=#{holderno} 
+		    AND CONVERT(VARCHAR(20),IODate,20) BETWEEN #{starttime} AND #{endtime}
+		    </where>
+		    GROUP BY  holderno
+	</select>
+
+
+
+</mapper>

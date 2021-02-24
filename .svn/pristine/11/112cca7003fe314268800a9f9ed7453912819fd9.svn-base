@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>物品入库</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" /> 
+    <link rel="stylesheet" href="../zjx/purchase_list.css" />
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css"> 
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/fixedGoodsManagement.css" /> 
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">物品入库</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="javascript:;" id="save" style="background:#4d8ae4;">保存</a></div>
+                    <!-- <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('printDanJu')" id="printInsertProduct_SDData">打印</a></div> -->
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl">
+                    	 <div class="form-term fl clearfix" style="margin-right:5px">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span>*</span>物品类别：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>物品名称：</div>
+                            <div class="control clearfix">
+                                	<select id="goodsName">
+                                		<option value="">请选择</option>
+                                	</select>
+                            </div>
+                     </div>
+                     <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>物品型号：</div>
+                            <div class="control clearfix">
+                                	<select id="model">
+                                		<option value="">请选择</option>
+                                	</select>
+                            </div>
+                     </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库日期：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input" id="inStorageDate" readonly/>
+                          </div>
+                        </div>
+                      <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>供应商：</div>
+                            <div class="control clearfix">
+                                <select id="supplier">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div> 
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>制造商：</div>
+                            <div class="control clearfix">
+                                <select id="manufacture">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div> 
+ 						<div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库仓库：</div>
+                            <div class="control clearfix">
+                                <select id="wareHouse">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>存放位置：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="goodsShelves"/>
+                            </div>
+                        </div>  
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>货架位置：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="shelvesLocation"/>
+                            </div>
+                        </div>  
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>项目编号：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="projectNo"/>
+                            </div>
+                        </div>  
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>项目名称：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="projectName"/>
+                            </div>
+                        </div>  
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>投运日期：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input test-item" id="putDate" readonly/>
+                          </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>退役时间：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input test-item" id="decommissioningTime" readonly/>
+                          </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>采购方式：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input" id="ProcurementMethod"/>
+                          </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>采购合同编号：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input" id="contractNumber"/>
+                          </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>采购日期：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input test-item" id="purchaseDate" readonly/>
+                          </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>售后到期日期：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input test-item" id="afterSales" readonly/>
+                          </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出厂序列号：</div>
+                            <div class="control clearfix">
+                            		<input type="text" class="input" id="series"/>
+                          </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>参数及配置：</div>
+                            <div class="control clearfix">
+                            		<textarea id="param" class="textinput"
+									style="padding:5px;width: 233px; height: 50px;box-sizing:border-box; resize: none; border: 1px solid #ddd"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>备注：</div>
+                            <div class="control clearfix">
+                           		<input type="text" class="input" id="remark"/>
+                          </div>
+                        </div>
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>RFID标签：</div>
+                            <div class="control clearfix">
+                                <input type="text" class="input" id="labelCode" autocomplete="off"/>
+                            </div>
+                         </div>
+                        <div class="btn fl">
+                            <a href="javascript:;" id="createInStorage">生成</a>
+                        </div>
+                          <div class="btn fl">
+                            <a href="javascript:;" id="tsc">设备技术规范</a>
+                        </div>
+                         <div class="fl" id="fileBox" style="margin-left:10px;line-height:30px">
+                            	<!-- <a href='javascript:;'>测试1</a>
+                            	<a href='javascript:;'>测试1</a>
+                            	<a href='javascript:;'>测试1</a> -->
+                         </div>
+                    </div>
+                    <!--查询条件-->
+                    <table class="layui-hide" id="test" lay-filter="demo"></table>
+                   <div style="display:none">
+                   	 <table id="printDanJu" class="instoragePrint">
+                    	<tr> 
+                    	   <td>入库单据</td>
+                    	   <td>物品类别</td>
+                    	   <td>物品名称</td>
+                    	   <td>型号</td>
+                    	   <td>品牌</td>
+			               <td>规格</td>
+			               <td>尺寸</td>
+			               <td>数量</td>
+			               <td>入库日期</td>
+			            </tr>
+                    </table>
+                   </div>
+                   <div class="search-box main-form fl">
+                   	<!-- <h2 style="margin-bottom:20px">审批人：</h2> -->
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span>*</span>审批人：</div>
+                            <div class="control clearfix">
+                                <select id="holdername">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div>
+                         <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>入库物品描述：</div>
+                            <div class="control clearfix">
+								<textarea id="description" class="textinput"
+									style="padding:5px;width: 233px; height: 32px;box-sizing:border-box; resize: none; border: 1px solid #ddd"></textarea>
+							</div>
+                        </div>
+					</div>
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="barDemo">
+         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	</script>
+	
+	
+	
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/itemInStorage.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+  	<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+   
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+#the file uploadtopath
+filePath=C:\\tools\\file
+
+#alf device adviceImg path
+adviceImgPath = http://192.168.1.196:8080/ZC_Manager/adviceImg/
+
+#goods image path
+realGoodsPath = D:/workspace/ZC_WorkSpace/ZC_Manager/src/main/webapp/fileImage/goodsImage/
+goodsImgPath = http://192.168.1.196:8080/ZC_Manager/fileImage/goodsImage/
+
+#150 service username and password
+userName150=zzsyris
+password150=E10ADC3949BA59ABBE56E057F20F883E
+servicePath150=http://192.168.1.150:8085/
+
+#administrator login-password
+supper_password=E10ADC3949BA59ABBE56E057F20F883E

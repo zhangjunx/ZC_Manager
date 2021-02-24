@@ -1,0 +1,299 @@
+package com.xr.service.impl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
+
+import com.xr.dao.ZC_InStoreMapper;
+import com.xr.service.ZC_InStoreService;
+import com.xr.util.FilePathCreate;
+
+@Service
+public class ZC_InStoreServiceImpl implements ZC_InStoreService {
+	
+	@Autowired
+	private ZC_InStoreMapper inStoreMapper;
+	
+	@Value("${filePath}")  
+	private String basePath; 
+	
+	/**
+	 * 获取单据号：
+	 * XR+YYYY+MM+DD+10位时间戳
+	 */
+	public static String getBillNo(){
+		String result = "";
+		Calendar calendar = Calendar.getInstance(); 
+		int y = calendar.get(Calendar.YEAR);
+		int m = calendar.get(Calendar.MONTH)+1;
+		int d = calendar.get(Calendar.DATE);
+		String yy = y+"";
+		String mm = m+"";
+		String dd = d+"";
+		if(mm.length() == 1){
+			mm = "0"+mm;
+		}
+		if(dd.length() == 1){
+			dd = "0"+dd;
+		}
+		//获取当前时间戳10位
+		long tt = System.currentTimeMillis();
+		
+		result = "XR"+String.valueOf(yy)+String.valueOf(mm)+String.valueOf(dd)+String.valueOf(tt/1000);
+		System.out.println(result);
+		return result;
+	}
+
+	/**
+	 * 物品入库
+	 */
+	@Override
+	public Map<String, Object> updateStoreGoods(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		//1.验证每条数据的参数不能为空（labelCode,type,goodsName,model,operator,inDate,approver）
+		Map<String,Object> resultMap1 = checkParmNull(map);
+		if(!resultMap1.get("result").toString().equals("1")){
+			return resultMap1;
+		}
+		//2.验证每条数据的labelCode库中是否存在
+		Map<String,Object> resultMap2 = checkLabelRepeat(map);
+		if(!resultMap2.get("result").toString().equals("1")){
+			return resultMap2;
+		}
+		//3.生成入库单号
+		String bill = getBillNo();
+		map.put("bill", bill);
+		//4.保存入库信息
+		int b1 = inStoreMapper.saveInStoreInfo(map);
+		//5.保存物品信息
+		map.put("inStoreID", b1);
+		int b2 = inStoreMapper.saveInStoreGoodsInfo(map);
+		//6.保存物品记录信息
+		int b3 = inStoreMapper.saveInStoreGoodsRecordInfo(map);
+		//获取打印列表
+		Map<String,Object> printList = printIntBill(map);
+		resultMap.put("result", 1);
+		resultMap.put("printList", printList.get("result"));
+		resultMap.put("flag", true);
+		resultMap.put("reason", "入库完成！");
+		return resultMap;
+	}
+
+	/**
+	 * 验证每条数据的参数不能为空（labelCode,type,goodsName,model,operator,inDate,approver）
+	 * @param map
+	 * @return
+	 */
+	private Map<String, Object> checkParmNull(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		if(map.get("goodsList") == null || ((List<Map<String, Object>>) map.get("goodsList")).size() == 0){
+			resultMap.put("result", 0);
+			resultMap.put("flag", false);
+			resultMap.put("reason", "物品为空，入库失败！");
+			return resultMap;
+		}
+		
+		if(map.get("operator") == null || map.get("operator").toString().equals("")){
+			resultMap.put("result", 0);
+			resultMap.put("flag", false);
+			resultMap.put("reason", "入库人员不能为空，入库失败！");
+			return resultMap;
+		}
+		
+		if(map.get("inDate") == null || map.get("inDate").toString().equals("")){
+			resultMap.put("result", 0);
+			resultMap.put("flag", false);
+			resultMap.put("reason", "入库日期不能为空，入库失败！");
+			return resultMap;
+		}
+		
+		if(map.get("approver") == null || map.get("approver").toString().equals("")){
+			resultMap.put("result", 0);
+			resultMap.put("flag", false);
+			resultMap.put("reason", "审批人不能为空，入库失败！");
+			return resultMap;
+		}
+		
+		//labelCode,type,goodsName,model
+		List<Map<String,Object>> goodsList = (List<Map<String, Object>>) map.get("goodsList");//获取物品列表
+		for(int i = 0;i<goodsList.size();i++){
+			if(goodsList.get(i).get("labelCode") == null || goodsList.get(i).get("labelCode").toString().equals("") ){
+				resultMap.put("result", goodsList.get(i));
+				resultMap.put("flag", false);
+				resultMap.put("reason", "标签号不能为空，入库失败！");
+				return resultMap;
+			}
+			
+			if(goodsList.get(i).get("type") == null || goodsList.get(i).get("type").toString().equals("") ){
+				resultMap.put("result", goodsList.get(i));
+				resultMap.put("flag", false);
+				resultMap.put("reason", "type不能为空，入库失败！");
+				return resultMap;
+			}
+			
+			if(goodsList.get(i).get("goodsName") == null || goodsList.get(i).get("goodsName").toString().equals("") ){
+				resultMap.put("result", goodsList.get(i));
+				resultMap.put("flag", false);
+				resultMap.put("reason", "物品名称不能为空，入库失败！");
+				return resultMap;
+			}
+			
+			if(goodsList.get(i).get("model") == null || goodsList.get(i).get("model").toString().equals("") ){
+				resultMap.put("result", goodsList.get(i));
+				resultMap.put("flag", false);
+				resultMap.put("reason", "物品型号不能为空，入库失败！");
+				return resultMap;
+			}
+		}
+		resultMap.put("result", 1);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "");
+		return resultMap;
+	}
+	
+	/**
+	 * 验证labelCode是否重复
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public Map<String, Object> checkLabelRepeat(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> goodsList = (List<Map<String, Object>>) map.get("goodsList");//获取物品列表
+		List<Map<String,Object>> list = inStoreMapper.checkLabelRepeat(goodsList);
+		if(list.size()>0){
+			resultMap.put("result", list);
+			resultMap.put("flag", false);
+			resultMap.put("reason", "标签号库中已经存在！");
+		}else{
+			resultMap.put("result", 1);
+			resultMap.put("flag", true);
+			resultMap.put("reason", "");
+		}
+		return resultMap;
+	}
+	
+
+	/**
+	 * 打印入库单据
+	 */
+	@Override
+	public Map<String, Object> printIntBill(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> list = inStoreMapper.printIntBill(map);
+		resultMap.put("result", list);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "查询成功！");
+		return resultMap;
+	}
+	
+	/**
+	 * 查询入库记录
+	 */
+	@Override
+	public Map<String, Object> getInStoreRecord(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> list = inStoreMapper.getInStoreRecord(map);
+		int count = inStoreMapper.getInStoreRecordCount(map);
+		resultMap.put("result", list);
+		resultMap.put("count", count);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "查询成功！");
+		return resultMap;
+	}
+	
+	/**
+	 * 查询入库记录物品
+	 */
+	@Override
+	public Map<String, Object> getInStoreGoodsRecord(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> list = inStoreMapper.getInStoreGoodsRecord(map);
+		int count = inStoreMapper.getInStoreGoodsRecordCount(map);
+		resultMap.put("result", list);
+		resultMap.put("count", count);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "查询成功！");
+		return resultMap;
+	}
+	
+	/**
+	 * 重新入库
+	 */
+	@Override
+	public Map<String, Object> updateReStoreGoods(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/*
+	 * 获取技术规范文档列表
+	 * (non-Javadoc)
+	 * @see com.xr.service.ZC_InStoreService#getSkillBaseFileList(java.util.Map)
+	 */
+	@Override
+	public Map<String, Object> getSkillBaseFileList(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<>();
+		return resultMap;
+	}
+
+	//==================================================以下是库存统计=====================================================
+	/**
+	 * 查询库存统计
+	 */
+	@Override
+	public Map<String, Object> getStoreCount(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> list = inStoreMapper.getStoreCount(map);
+		int count = inStoreMapper.getStoreCountCount(map);
+		resultMap.put("result", list);
+		resultMap.put("count", count);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "查询成功！");
+		return resultMap;
+	}
+	
+	/**
+	 * 查询库存详细
+	 */
+	@Override
+	public Map<String, Object> getStoreGoods(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String,Object>> list = inStoreMapper.getStoreGoods(map);
+		int count = inStoreMapper.getStoreGoodsCount(map);
+		resultMap.put("result", list);
+		resultMap.put("count", count);
+		resultMap.put("flag", true);
+		resultMap.put("reason", "查询成功！");
+		return resultMap;
+	}
+
+	/**
+	 * 修改物品信息
+	 */
+	@Override
+	public Map<String, Object> updateGoodsParm(Map<String, Object> map) {
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		if(map.get("fid") == null || map.get("fid").toString().equals("")){
+			resultMap.put("flag", false);
+			resultMap.put("result", 0);
+			resultMap.put("reason", "fid不能！");
+			return resultMap;
+		}
+		int b = inStoreMapper.updateGoodsParm(map);
+		resultMap.put("flag", true);
+		resultMap.put("result", b);
+		resultMap.put("reason", "更新成功！");
+		return resultMap;
+	}
+
+}

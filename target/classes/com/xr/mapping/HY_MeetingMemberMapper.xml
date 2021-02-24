@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HY_MeetingMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HY_MeetingMember" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="meetingid" property="meetingid" jdbcType="INTEGER" />
+    <result column="signindate" property="signindate" jdbcType="TIMESTAMP" />
+    <result column="signbackdate" property="signbackdate" jdbcType="TIMESTAMP" />
+    <result column="signinstatus" property="signinstatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.HY_MeetingMember" extends="BaseResultMap" >
+    <result column="signbackstatus" property="signbackstatus" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    fno, meetingid, signindate, signbackdate, signinstatus
+  </sql>
+  <sql id="Blob_Column_List" >
+    signbackstatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from HY_MeetingMember
+    where fno = #{fno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from HY_MeetingMember
+    where fno = #{fno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.HY_MeetingMember" >
+    insert into HY_MeetingMember (fno, meetingid, signindate, 
+      signbackdate, signinstatus, signbackstatus
+      )
+    values (#{fno,jdbcType=INTEGER}, #{meetingid,jdbcType=INTEGER}, #{signindate,jdbcType=TIMESTAMP}, 
+      #{signbackdate,jdbcType=TIMESTAMP}, #{signinstatus,jdbcType=VARCHAR}, #{signbackstatus,jdbcType=VARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.HY_MeetingMember" >
+    insert into HY_MeetingMember
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fno != null" >
+        fno,
+      </if>
+      <if test="meetingid != null" >
+        meetingid,
+      </if>
+      <if test="signindate != null" >
+        signindate,
+      </if>
+      <if test="signbackdate != null" >
+        signbackdate,
+      </if>
+      <if test="signinstatus != null" >
+        signinstatus,
+      </if>
+      <if test="signbackstatus != null" >
+        signbackstatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fno != null" >
+        #{fno,jdbcType=INTEGER},
+      </if>
+      <if test="meetingid != null" >
+        #{meetingid,jdbcType=INTEGER},
+      </if>
+      <if test="signindate != null" >
+        #{signindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signbackdate != null" >
+        #{signbackdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signinstatus != null" >
+        #{signinstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="signbackstatus != null" >
+        #{signbackstatus,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.HY_MeetingMember" >
+    update HY_MeetingMember
+    <set >
+      <if test="meetingid != null" >
+        meetingid = #{meetingid,jdbcType=INTEGER},
+      </if>
+      <if test="signindate != null" >
+        signindate = #{signindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signbackdate != null" >
+        signbackdate = #{signbackdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signinstatus != null" >
+        signinstatus = #{signinstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="signbackstatus != null" >
+        signbackstatus = #{signbackstatus,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xr.entity.HY_MeetingMember" >
+    update HY_MeetingMember
+    set meetingid = #{meetingid,jdbcType=INTEGER},
+      signindate = #{signindate,jdbcType=TIMESTAMP},
+      signbackdate = #{signbackdate,jdbcType=TIMESTAMP},
+      signinstatus = #{signinstatus,jdbcType=VARCHAR},
+      signbackstatus = #{signbackstatus,jdbcType=VARBINARY}
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.HY_MeetingMember" >
+    update HY_MeetingMember
+    set meetingid = #{meetingid,jdbcType=INTEGER},
+      signindate = #{signindate,jdbcType=TIMESTAMP},
+      signbackdate = #{signbackdate,jdbcType=TIMESTAMP},
+      signinstatus = #{signinstatus,jdbcType=VARCHAR}
+    where fno = #{fno,jdbcType=INTEGER}
+  </update>
+</mapper>

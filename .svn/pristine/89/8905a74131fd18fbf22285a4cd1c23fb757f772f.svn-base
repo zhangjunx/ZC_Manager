@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>成品出库</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../zjx/purchase_list.css" />
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <!-- <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief"> -->
+                <div class="label fl curr"><a href="javascript:;">成品出库</a></div>
+                <div class="btn-box fr">
+                	<div class="subbtn fl"><a href="javascript:;" class="blue" id="readM1Card">读卡</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" id="save1" style="background: #4d8ae4;">保存</a></div>
+                    <div class="subbtn fl"><a href="javascript:;" class="orange"
+                            onclick="printTable('dayindaju1')" id="printOutProduct_SDData">打印</a></div>
+                </div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl">
+                    <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库单号：</div>
+                            <div class="control clearfix">
+                                <input type="text" placeholder="" name="sdbill" class="input sdbill33" id="out_sdbill" readonly>
+                            </div>
+                        </div>
+                        
+                       <!--  <div class="form-term fl clearfix">
+                            <div class="lable" >所属部门：</div>
+                            <div class="control clearfix">
+                               <select id="sdpersondept" name="sdpersondept">
+                            		<option value="">请选择</option> 
+                            	</select>
+                            </div>
+                        </div>  -->
+                        
+                         <div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>所在部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> 
+									<input type="hidden" id="departmentno">
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"	style="left: 125px; top: 34px; min-width: 234px;">
+									<dd>
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+                        
+                        <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>出库人员：</div>
+                            <div class="control clearfix">
+                               <div class="control clearfix">
+                            	<select id="sdperson" name="sdperson">
+                            		 <option value="">请选择</option>
+                            	</select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>录入人员：</div>
+                            <div class="control clearfix">
+                               <select id="operator" name="operator">
+                               </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>出库日期：</div>
+                            <div class="control clearfix">
+								<input type="text" name="sddate" id="test1" class="input" readonly>
+                            </div>
+                        </div>
+                                                                                                         
+                        <div class="form-term fl clearfix">
+                            <div class="lable"><span></span>所在仓库：</div>
+                            <div class="control clearfix">
+                               <div class="control clearfix">
+                            	<!-- <select id="warecode" name="warecode" onchange="queryAreaCodeList()"> -->
+                            	<select id="warecode" name="warecode" >
+                            		<!-- <option value="">--请选择--</option> -->
+                            		 <option value="">请选择</option> 
+                            	</select>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="form-term fl clearfix" >
+                            <div class="lable"><span></span>领用项目：</div>
+                            <div class="control clearfix">
+                               <select id="projectid" >
+                                   <option value="">--请选择--</option>
+                               </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!--查询条件-->
+                    <table class="grade">
+                          <tr>
+                                <td width="40">序号</td>
+                                <td width="100">成品条码</td>
+                                <td width="100">成品名称</td>
+                                <td width="100">当前库存</td>
+                                <td width="100">数量</td>
+                                <td width="100">单价</td>
+                                <td width="100">金额</td>
+                                <td width="100">规格</td>
+                                <td width="100">型号</td>
+                                <td width="100">计量单位</td>
+                                <td width="100">成品类别</td>
+                                <td width="100">备注</td>
+                                <!-- <td width="200">所在仓库区域</td> -->
+                                <!-- <td width="100">所在仓库区域名称</td> -->
+                               
+                            </tr>
+                          <tbody id="cont">
+                             <tr>
+                                <td class="center">1</td>
+                                <td class="center">
+                                	<input type="text" name="itemcode" class="itemcode" autocomplete="off">
+                                </td>
+                                <td class="center itemname" ></td>
+                                <td class="center storage" ></td>
+                                <td class="center">
+                                	<input type="text"  name="quantity" class="quantity" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="price" class="price" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="sumamount" class="sumamount" autocomplete="off">
+                                </td>
+                                <td class="center spec"></td>
+                                <td class="center type"></td>
+                                <td class="center unitname"></td>
+                                <td class="center itemtype"></td>
+                                <td class="center remark"></td>
+                               <!--  <td class="center">
+                                	<select class="areacode" name="areacode">
+                                		<option value="">请选择</option> 
+                                	</select>
+                                </td> -->
+                                
+                            </tr>
+                            <tr>
+                                <td class="center">2</td>
+                                <td class="center">
+                                	<input type="text" name="itemcode" class="itemcode" autocomplete="off">
+                                </td>
+                                <td class="center itemname" ></td>
+                                <td class="center storage" ></td>
+                                <td class="center">
+                                	<input type="text"  name="quantity" class="quantity" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="price" class="price" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="sumamount" class="sumamount" autocomplete="off">
+                                </td>
+                                <td class="center spec"></td>
+                                <td class="center type"></td>
+                                <td class="center unitname"></td>
+                                <td class="center itemtype"></td>
+                                <td class="center remark"></td>
+                              <!--   <td class="center">
+                                	<select class="areacode" name="areacode">
+                                		<option value="">请选择</option> 
+                                	</select>
+                                </td> -->
+                                
+                            </tr>
+                            <tr>
+                                <td class="center">3</td>
+                                <td class="center">
+                                	<input type="text" name="itemcode" class="itemcode" autocomplete="off">
+                                </td>
+                                <td class="center itemname" ></td>
+                                <td class="center storage" ></td>
+                                <td class="center">
+                                	<input type="text"  name="quantity" class="quantity" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="price" class="price" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="sumamount" class="sumamount" autocomplete="off">
+                                </td>
+                                <td class="center spec"></td>
+                                <td class="center type"></td>
+                                <td class="center unitname"></td>
+                                <td class="center itemtype"></td>
+                                <td class="center remark"></td>
+                              <!--   <td class="center">
+                                	<select class="areacode" name="areacode">
+                                		<option value="">请选择</option> 
+                                	</select>
+                                </td> -->
+                                
+                            </tr>
+                            <tr>
+                                <td class="center">4</td>
+                                <td class="center">
+                                	<input type="text" name="itemcode" class="itemcode" autocomplete="off">
+                                </td>
+                                <td class="center itemname" ></td>
+                                <td class="center storage" ></td>
+                                <td class="center">
+                                	<input type="text"  name="quantity" class="quantity" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="price" class="price" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="sumamount" class="sumamount" autocomplete="off">
+                                </td>
+                                <td class="center spec"></td>
+                                <td class="center type"></td>
+                                <td class="center unitname"></td>
+                                <td class="center itemtype"></td>
+                                <td class="center remark"></td>
+                              <!--   <td class="center">
+                                	<select class="areacode" name="areacode">
+                                		<option value="">请选择</option> 
+                                	</select>
+                                </td> -->
+                                
+                            </tr>
+                            <tr>
+                                <td class="center">5</td>
+                                <td class="center">
+                                	<input type="text" name="itemcode" class="itemcode" autocomplete="off">
+                                </td>
+                                <td class="center itemname" ></td>
+                                <td class="center storage" ></td>
+                                <td class="center">
+                                	<input type="text"  name="quantity" class="quantity" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="price" class="price" autocomplete="off">
+                                </td>
+                                <td class="center">
+                                	<input type="text"  name="sumamount" class="sumamount" autocomplete="off">
+                                </td>
+                                <td class="center spec"></td>
+                                <td class="center type"></td>
+                                <td class="center unitname"></td>
+                                <td class="center itemtype"></td>
+                                <td class="center remark"></td>
+                               <!--  <td class="center">
+                                	<select class="areacode" name="areacode">
+                                		<option value="">请选择</option> 
+                                	</select>
+                                </td> -->
+                                
+                            </tr>
+
+                            
+
+                        </tbody>
+                    </table>
+                    <input type="button" value="追加一行" id="addTab" style="width:86px;height:32px;border:none;background:#48B9F1;color:#fff;cursor:pointer">
+                    <div class="pages" id="test">
+                    </div>
+                  <div class="stockBill">
+               		<div id="dayindaju1" class="layui-container">
+               			<div class="layui-row">
+               				<h1>中兴铸业-工厂成品出库单</h1>
+               			</div>
+               			<div class="productrk">
+               					<div class="lable bumen"></div>
+               					<div class="lable riqi"></div>
+               					<div class="lable danhao"></div>
+               			</div>
+               			<table class="grade">
+                          <tr>
+                               <!--  <td width="100">成品条码</td> -->
+                                <td width="100">材料名称</td>
+                                <td width="100">计量单位</td>
+                                <td width="100">规格</td>
+                                <td width="100">型号</td>
+                                <td width="100">数量</td>
+                                <!-- <td width="100">单价</td>
+                                <td width="100">金额</td> -->
+                                
+                               <!--  <td width="100">成品类别</td> -->
+                                <td width="100">用途</td>
+                                <!-- <td width="200">所在仓库区域</td> -->
+                            </tr>
+                            <tbody id="product">
+                            	
+                            </tbody>
+						</table>
+						
+						<div class="productrk">
+               					<div class="lable">操作员：<span class="caozuo"></span></div>
+               					<div class="lable">出库员：<span class="chuku"></span></div>
+               					<div class="lable">姓名：__________</div>
+               			</div>
+               			
+               		</div>
+               </div>
+              </div>
+               
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+     <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/p_sd_out_of_stock.js"></script>
+    <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+     
+    </body>
+
+</html>

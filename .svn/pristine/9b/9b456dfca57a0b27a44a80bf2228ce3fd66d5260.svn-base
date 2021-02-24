@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.KQ_ApproverMapper">
+
+   <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by approverno desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+
+ <!-- 通过实体类,来查询人员的信息,用于出差,请假等业务,查询选择审批人员 -->
+ <select id="queryHolder" resultType="Map" parameterType="com.xr.entity.KQ_ShiftSeek">
+	SELECT 
+		h.HolderNo as holderno,
+		h.HolderName as holdername,
+		h.DepartmentNo as departmentno,
+		d.DepartmentName departmentname
+	FROM
+	dbo.HolderData h
+	INNER JOIN dbo.DepartmentData d ON d.DepartmentNo = h.DepartmentNo
+	 <where>
+	      <if test="holderno != null and holderno!=''">
+	         h.HolderNo=#{holderno}
+	      </if>
+	       <if test="holdername != null and holdername !=''">
+	        and h.holdername like '%'+#{holdername}+'%'
+	      </if>
+	      <if test="departmentno != null and departmentno!=''">
+	        and h.DepartmentNo=#{departmentno}
+	      </if>
+	       <if test="idcode != null and idcode !=''">
+	        and h.idcode=#{idcode}
+	      </if>
+	 </where>
+ </select>
+ 
+ 
+ <!--审批人审批后 添加审批记录 -->
+ <insert id="insertApprover" parameterType="com.xr.entity.KQ_Approver">
+        INSERT INTO dbo.KQ_Approver
+        ( ThemeNo ,RankNo ,HolderNo ,AuditStatus ,Remark ,ApprovalTime)
+VALUES (#{themeno},#{rankno},#{holderno},#{auditstatus},#{remark},GETDATE())
+ </insert>
+ 
+ <!-- 通过工号查询审批记录 -->
+ <select id="queryApprover" resultType="Map" parameterType="com.xr.entity.KQ_Theme">
+  <include refid="c_start"></include>
+       select * from (
+                SELECT  a.ApproverNo AS approverno ,
+                        b.HolderNo AS holderno ,
+                        b.HolderName AS holdername ,
+                        b.departmentname AS departmentname ,
+                        b.topictype AS topictype ,
+                        b.place AS place ,
+                        b.causetype AS causetype ,
+                        b.detailedplace AS detailedplace ,
+                        CONVERT(VARCHAR(20), b.applytime, 20) AS applytime ,
+                        CONVERT(VARCHAR(20), b.begintime, 20) AS begintime ,
+                        CONVERT(VARCHAR(20), b.endtime, 20) AS endtime ,
+                        CONVERT(VARCHAR(20), b.punchtime, 20) AS punchtime ,
+                        b.tauditstatus AS tauditstatus ,<!--这是记录的状态-->
+                        b.operationstatus AS operationstatus ,
+                        b.tremark AS tremark ,<!-- 申请备注 -->
+                        a.AuditStatus AS auditstatus ,<!--审批状态-->
+                        a.Remark AS aremark ,<!--审批备注-->
+                        CONVERT(VARCHAR(20), a.ApprovalTime, 20) AS approvaltime<!--审批时间-->
+                FROM    dbo.KQ_Approver a
+                        INNER JOIN ( SELECT t.ThemeNo ,
+                                            t.HolderNo ,
+                                            h.HolderName ,
+                                            DepartmentName AS departmentname ,
+                                            t.TopicType AS topictype ,
+                                            t.Place AS place ,
+                                            t.CauseType AS causetype ,
+                                            t.DetailedPlace AS detailedplace ,
+                                            CONVERT(VARCHAR(20), t.ApplyTime, 20) AS applytime ,
+                                            CONVERT(VARCHAR(20), t.BeginTime, 20) AS begintime ,
+                                            CONVERT(VARCHAR(20), t.EndTime, 20) AS endtime ,
+                                            CONVERT(VARCHAR(20), t.PunchTime, 20) AS punchtime ,
+                                            t.AuditStatus AS tauditstatus ,<!--这是记录的状态-->
+                                            t.OperationStatus AS operationstatus ,
+                                            t.Remark AS tremark<!-- 申请备注 -->
+                                     FROM   dbo.HolderData h
+                                            INNER JOIN dbo.KQ_Theme t ON t.HolderNo = h.HolderNo
+                                            INNER JOIN dbo.DepartmentData ON DepartmentData.DepartmentNo = h.DepartmentNo
+                                   ) b ON b.ThemeNo = a.ThemeNo
+                         <where>
+						   <if test="holderno!=null and holderno!=''">
+						       a.holderno=#{holderno}
+						   </if>
+						   <if test="topictype!=null and topictype !=''">
+						     and b.topictype=#{topictype}
+						   </if>
+						</where>
+                                   ) aa
+				 <include refid="c_end"></include>
+   </select>
+   
+    <!-- 通过工号查询审批记录的总条数,用于queryApprover方法的分页 -->
+ <select id="queryApproverCount" resultType="Integer" parameterType="com.xr.entity.KQ_Theme">
+       select count(1) from (
+     SELECT  a.ApproverNo AS approverno ,
+                        b.HolderNo AS holderno ,
+                        b.HolderName AS holdername ,
+                        b.departmentname AS departmentname ,
+                        b.topictype AS topictype ,
+                        b.place AS place ,
+                        b.causetype AS causetype ,
+                        b.detailedplace AS detailedplace ,
+                        CONVERT(VARCHAR(20), b.applytime, 20) AS applytime ,
+                        CONVERT(VARCHAR(20), b.begintime, 20) AS begintime ,
+                        CONVERT(VARCHAR(20), b.endtime, 20) AS endtime ,
+                        CONVERT(VARCHAR(20), b.punchtime, 20) AS punchtime ,
+                        b.tauditstatus AS tauditstatus ,<!--这是记录的状态-->
+                        b.operationstatus AS operationstatus ,
+                        b.tremark AS tremark ,<!-- 申请备注 -->
+                        a.AuditStatus AS auditstatus ,<!--审批状态-->
+                        a.Remark AS aremark ,<!--审批备注-->
+                        CONVERT(VARCHAR(20), a.ApprovalTime, 20) AS approvaltime<!--审批时间-->
+                FROM    dbo.KQ_Approver a
+                        INNER JOIN ( SELECT t.ThemeNo ,
+                                            t.HolderNo ,
+                                            h.HolderName ,
+                                            DepartmentName AS departmentname ,
+                                            t.TopicType AS topictype ,
+                                            t.Place AS place ,
+                                            t.CauseType AS causetype ,
+                                            t.DetailedPlace AS detailedplace ,
+                                            CONVERT(VARCHAR(20), t.ApplyTime, 20) AS applytime ,
+                                            CONVERT(VARCHAR(20), t.BeginTime, 20) AS begintime ,
+                                            CONVERT(VARCHAR(20), t.EndTime, 20) AS endtime ,
+                                            CONVERT(VARCHAR(20), t.PunchTime, 20) AS punchtime ,
+                                            t.AuditStatus AS tauditstatus ,<!--这是记录的状态-->
+                                            t.OperationStatus AS operationstatus ,
+                                            t.Remark AS tremark<!-- 申请备注 -->
+                                     FROM   dbo.HolderData h
+                                            INNER JOIN dbo.KQ_Theme t ON t.HolderNo = h.HolderNo
+                                            INNER JOIN dbo.DepartmentData ON DepartmentData.DepartmentNo = h.DepartmentNo
+                                   ) b ON b.ThemeNo = a.ThemeNo
+                         <where>
+						   <if test="holderno!=null and holderno!=''">
+						       a.holderno=#{holderno}
+						   </if>
+						   <if test="topictype!=null and topictype !=''">
+						     and b.topictype=#{topictype}
+						   </if>
+						</where>
+                                   ) aa
+		
+   </select>
+  
+</mapper>

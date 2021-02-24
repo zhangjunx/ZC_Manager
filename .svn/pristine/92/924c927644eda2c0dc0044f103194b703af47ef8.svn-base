@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>班次管理</title>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/public1.css" />
+		<link rel="stylesheet" href="css/list_style.css" />
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="css/style_.css" />
+		<style>
+		   #banCi tr td{
+		   		background:#fff;
+		   		font-weight:normal;
+		   		line-height:28px;
+		   }
+		   #banCi tr td div span{
+		   		color:#333;
+		   		margin-left:30px;
+		   }
+			
+		</style>
+	</head>
+	<body>
+		<div id="cme-main">
+			<div class="main-content">
+				<div class="main-tab">
+					<div class="label fl curr"><a href="javascript:;">班次管理</a></div>
+	                <div class="btn-box fr">
+	                    <div class="subbtn fl"><a href="attendance_add_shift_schedules1.html" class="blue addMain" id="insertAttendance">新增班次</a></div>
+	                </div>
+	             </div>
+				<div class="main-table">
+					<!--查询结果如下-->
+					<table class="grade" id="banCi">
+                            <tr>
+								<td width="40">序号</td>
+								<td width="80">班次名称</td>
+								<td width="80">简称</td>
+								<td width="100">工作时间</td>
+								<td width="40">操作</td>
+							</tr>
+					      <!-- <tbody id="banCi">
+					      			
+                          </tbody> -->
+	                   </table>
+            		
+            			<!-- 分页 -->
+                     <div class="pages" id="test"> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	    <script type="text/javascript" src="../hyf/path_js.js"></script>
+	    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	    <script type="text/javascript" src="js/layer/layer.js"></script>
+	    <script type="text/javascript" src="js/common.js"></script>
+	    <script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="css/jedate-6.5.0/src/jedate.js"></script>
+		<script type="text/javascript" src="js/csc_queryBanCi.js"></script>
+</html>

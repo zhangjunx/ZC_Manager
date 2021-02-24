@@ -1,0 +1,77 @@
+ .stockBill{
+	display:none;
+}  
+#dayindaju1 .layui-row{
+	text-align:center;
+	
+}
+#dayindaju1 .grade{
+	margin-top:20px;
+}
+#dayindaju1 .grade #product tr td{
+	background:#fff;
+}
+#dayindaju1 .productrk{
+	margin-top:20px;
+	display:flex;
+	justify-content:space-between;
+}
+#product tr td{
+	color:#666;
+}
+
+
+
+/* 备品件统计弹出层 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.main-table .search-box .form-term .control{
+	position:relative;
+	width: calc(100% - 125px);
+}
+.main-table .search-box .form-term .lable{
+	width:115px;
+}
+
+
+.main-table .search-box .form-term .control .sel{
+	border: 1px solid #ddd;
+    position: absolute;
+    left: 0;
+    top: 33px;
+    width: 231px;
+    overflow:auto;
+   	height:100px;
+    background: #fff;
+    padding-top: 9px;
+    display: none;
+  
+}
+.main-table .search-box .form-term .control .sel li{
+	padding: 4px 5px;
+	
+}
+.main-table .search-box .form-term .control .sel li:hover{
+	 cursor: pointer;
+    background: #1e9fff;
+    color: #fff;
+}

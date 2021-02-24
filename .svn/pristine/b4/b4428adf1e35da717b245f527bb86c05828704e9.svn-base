@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>武警车行通道</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/monitorSystem.css">
+</head>
+
+<body>
+	<img src="image/closeYeMian.png" class="closeYeMian">
+	<div class="layui-fluid">
+		<img src="image/armedVehiclePassage.png" class="bg">
+	</div>
+    <script src="../hyf/path_js.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="js/armedVehiclePassage.js"></script>
+</body>
+
+</html>

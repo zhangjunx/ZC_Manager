@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.AEFServiceMapper" >
+  <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by DeviceNo desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+  <!--根据设备SN号获取部门列表  -->
+  <select id="getGroupList" resultType="map">
+  	select t.DepartmentNo "DepartmentNo",t.DepartmentName "DepartmentName" from DepartmentData t
+			where t.DepartmentNo in(
+			select h.DepartmentNo from HolderData h 
+			 inner join HolderPhoto p on h.holderNo=p.holderNo
+				 where h.UpdateDate is not null
+				   and h.CreateDate is not null
+				   and h.DepartmentNo is not null
+				   and h.DepartmentNo>0
+				   and h.holderNo in(
+					select dp.holderNo from DoorPermHolder dp where dp.deviceNo = (select du.deviceNo from DeviceUnit du where du.controlSn = #{deviceSn})
+				   )
+			)
+  </select>
+  
+  <!--获取访客的组织架构信息  -->
+  <select id="getGroupListVistors" resultType="map">
+  	select 'v_001' "DepartmentNo",'访客组' "DepartmentName" 
+  </select>
+  
+  <!--获取自助等级的组织架构信息  -->
+  <select id="getGroupListVistorsWX" resultType="map">
+  	select 'WX_001' "DepartmentNo",'自助登记组' "DepartmentName" 
+  </select>
+  
+  <!--根据组ID（部门ID）获取用户  -->
+  <select id="getHolderList" resultType="map">
+  	select * from (
+	  	select t.HolderNo "HolderNo",t.CreateDate "CreateDate",t.UpdateDate "UpdateDate",t.departmentNo "departmentNo" from HolderData t 
+			 where t.UpdateDate is not null
+			   and t.CreateDate is not null
+			   and t.DepartmentNo is not null
+			   and t.DepartmentNo>0
+			   and t.holderNo in(
+						select dp.holderNo from DoorPermHolder dp where dp.deviceNo = (select du.deviceNo from DeviceUnit du where du.controlSn = #{deviceSn})
+					   )
+	) aa where 1=1
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.departmentNo=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--根据组ID（访客组ID）获取用户  -->
+  <select id="getHolderListVistors" resultType="map">
+  	select * from (
+		select 'v_'+ cast(v.id as varchar) "HolderNo",GETDATE() "CreateDate",GETDATE() "UpdateDate",'v_001' "departmentNo" ,v.limitType,v.limitCount,
+				CONVERT(varchar(100), v.startDate, 120) startDate ,CONVERT(varchar(100), v.endDate, 120) endDate
+		  from VisitorsInfo v
+		  inner join (select ff.doorNo from DeviceUnit du 
+		                inner join DoorUnit ff on du.DeviceNo = ff.deviceNo
+					   where du.controlSn = #{deviceSn}) aa 
+		on LEN(','+CAST(v.doorArr AS varchar)+',')-LEN(REPLACE(','+CAST(v.doorArr AS varchar)+',',','+CAST(aa.doorNo AS varchar)+',',''))>0
+			where v.applyStatus = 20
+	) aa where 1=1
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.departmentNo=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--根据组ID（自主登记组ID）获取用户  -->
+  <select id="getHolderListVistorsWX" resultType="map">
+  	select * from (
+		select 'WX_'+ cast(v.id as varchar) "HolderNo",GETDATE() "CreateDate",GETDATE() "UpdateDate",'WX_001' "departmentNo"  
+		  from WX_VisitorsInfoAdd v
+		  left join WX_VisitorsInfo wx on v.visitorsInfoID = wx.ID
+		 where wx.applyStatus = '30'
+		   and v.visitorsStatus in('10','20')
+		   and CONVERT(varchar(100), GETDATE(), 23) = CONVERT(varchar(100), v.visitorsDate, 23)
+	) aa where 1=1
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.departmentNo=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--获取用户信息，根据IDS与部门ID  -->
+  <select id="groupUser" resultType="map">
+  	 select aa.* from (
+  	 	SELECT t.IdCode "idNumber" ,
+		        t.HolderNo "userId" ,
+		        t.HolderName "userName" ,
+		        CONVERT(varchar(100), t.Birthday, 23) "birthDay" ,
+		        d.DepartmentNo "groupId" ,
+		        d.DepartmentName "groupName",
+				cast(p.id as varchar) "photoId",
+				c.cardID "icNumber",
+				t.CreateDate "CreateDate",
+				t.UpdateDate "UpdateDate" 
+			  FROM dbo.HolderData t
+			  LEFT JOIN dbo.DepartmentData d ON t.DepartmentNo = d.DepartmentNo
+			  inner join HolderPhoto p on t.holderNo=p.holderNo
+			  left join (select aa.* from (
+							select dd.CardNo,dd.cardID,dd.HolderNo,
+							ROW_NUMBER() OVER (partition by dd.HolderNo order by dd.CardNo) sindex
+							 from CardData dd) aa where aa. sindex=1) c on t.HolderNo=c.HolderNo
+		  	 where 1=1 and d.DepartmentNo > 0 and t.UpdateDate is not null and d.DepartmentNo is not null and p.DataPhoto is not null
+  	 ) aa where 1=1
+  	<if test="holderNos != null and holderNos != ''">
+  		and aa.userId in (${holderNos})
+  	</if>
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.groupId=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--获取用户信息，根据IDS与部门ID(访客)  -->
+  <select id="groupUserVistors" resultType="map">
+  	 select aa.* from (
+		select v.idCardNo "idNumber",
+		       'v_'+ cast(v.id as varchar) "userId",
+			   v.visitorsName "userName",
+			   '' "birthDay" ,
+			   'v_001' "groupId",
+			   '访客组' "groupName" ,
+			   'v_'+cast(vp.id as varchar) "photoId",
+			   v.carNo "icNumber",
+			   GETDATE() "CreateDate",
+			   GETDATE() "UpdateDate"
+		  from VisitorsInfo v
+		  inner join VisitorsPhoto vp on v.id = vp.visitorsID
+  	 ) aa where 1=1
+  	<if test="holderNos != null and holderNos != ''">
+  		and aa.userId in (${holderNos})
+  	</if>
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.groupId=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--获取用户信息，根据IDS与部门ID(自主登记)  -->
+  <select id="groupUserVistorsWX" resultType="map">
+  	 select aa.* from (
+		select v.idCardNo "idNumber",
+		       'WX_'+ cast(v.id as varchar) "userId",
+			   v.visitorsName "userName",
+			   '' "birthDay" ,
+			   'WX_001' "groupId",
+			   '自主登记组' "groupName" ,
+			   'WX_'+cast(vp.id as varchar) "photoId",
+			   v.carNo "icNumber",
+			   GETDATE() "CreateDate",
+			   GETDATE() "UpdateDate"
+		  from WX_VisitorsInfoAdd v
+		  inner join WX_VisitorsPhoto vp on v.id = vp.visitorsID
+		where  CONVERT(varchar(100), GETDATE(), 23) = CONVERT(varchar(100), v.visitorsDate, 23)
+  	 ) aa where 1=1
+  	<if test="holderNos != null and holderNos != ''">
+  		and aa.userId in (${holderNos})
+  	</if>
+  	<if test="departmentNo != null and departmentNo != ''">
+  		and aa.groupId=#{departmentNo}
+  	</if>
+  </select>
+  
+  <!--上传人脸比对图片  -->
+  <update id="imageUplod">
+  	insert into IODataPhoto(PicName,Photo,IODataID,CapDateTime)
+	values(#{picPath},#{photo},#{IODataID},CONVERT(varchar,GETDATE(),120))
+  </update>
+  
+  <!--获取上传人脸图片的ID  -->
+  <select id="getMaxPhotoID" resultType="integer">
+  	select t.ID from IODataPhoto t where t.PicName=#{picPath}
+  </select>
+  
+  <!--更新IODataPhoto字段  -->
+  <update id="updateImage">
+  	begin
+	  	update IODataPhoto set IODataID = #{recordFid}
+	  	 where ID=#{signAvatar};
+  	end;
+  </update>
+  
+  <!--根据卡号获取卡ID  -->
+  <select id="getOneCardInfo" resultType="map">
+  	select t.CardNo "CardNo",t.CardID "CardID" from CardData t where UPPER(t.CardID) = UPPER(#{CardNo})
+  </select>
+  
+  <!--上传通行记录  -->
+  <select id="saveRecord" resultType="integer">
+  	insert into IOData(DeviceNo,DoorNo,CardNo,HolderNo,IODate,IOTime,
+				   IOStatus,DeviceName,DeviceTypeNo,DoorName,
+				   HolderName,DeptNo,DeptName,IODateTime,
+				   IOStatusLang,OpenType,OpenTypeName,UID) 
+		values (#{DeviceNo},#{DoorNo},#{CardNo},#{HolderNo},
+				CONVERT(varchar(100), #{IODate}, 20),#{IOTime},
+				#{IOStatus},#{DeviceName},#{DeviceTypeNo},#{DoorName},#{HolderName},
+				#{DeptNo},#{DeptName},
+				CONVERT(varchar(100), #{IODateTime}, 20),#{IOStatusLang},#{OpenType},#{OpenTypeName},#{UID})
+		SELECT @@IDENTITY AS fid
+  </select>
+  
+  <!--获取当前一条数据，用于推送武警进出监控页面  -->
+  <select id="getThisRecordWithID" resultType="map">
+  	select t.doorNo,t.deptName,t.holderName,t.holderNo,p.photo,pp.DataPhoto "basePhoto" ,
+			 CONVERT(varchar(100),t.IODate, 20) IODate,t.doorName,t.IOStatusLang
+	    from IoData t
+	  left join IODataPhoto p on t.DataNo = p.IODataID
+	  left join HolderPhoto pp on t.holderNo = pp.holderNo
+	  where t.DataNo = #{DataNo}
+	    and t.doorNo in (select l.doorID from DoorUnitOperateLimit l where l.pageID=1)
+  </select>
+  
+  <!--根据sn获取设备对应的门区状态  -->
+  <select id="getDoorWithAEFService" resultType="map">
+  	select d.doorlimit,d.doorNo,d.entryReaderCH "IOType" from DoorUnit d
+	 inner join DeviceUnit u on d.deviceNo = u.deviceNo
+	 where u.controlSN = #{deviceSn}
+  </select>
+  
+  <!--根据用户ID获取用户信息  -->
+  <select id="getOneVisitorInfoWithID" resultType="map">
+  	select * from VisitorsInfo t where 'v_'+cast(t.ID as varchar)  = #{userId}
+  </select>
+  
+  <update id="updateLimitCount">
+  	update VisitorsInfo 
+  	   set limitCount = #{limitCount}
+  	 where 'v_'+cast(ID as varchar)  = #{userId}
+  </update>
+  
+  <!--更新自助登记 的登记人员的进出状态  -->
+  <update id="updateWXVisitorsStatus">
+  	update WX_VisitorsInfoAdd
+  	   set visitorsStatus = #{status}
+  	 where 'WX_'+cast(id as varchar) = #{userId}
+  	   and visitorsStatus != '30'
+  </update>
+  
+  <!--获取设备信息  -->
+  <select id="getOneDeviceInfo" resultType="map">
+  	select d.doorNo,d.DoorName,d.entryReaderCH "IOStatus",t.deviceNo "DeviceNo",t.deviceName "DeviceName" ,p.*
+	  from DeviceUnit t
+	  left join DeviceUnitParm p on t.DeviceNo=p.DeviceNo
+	  left join DoorUnit d on t.deviceNo = d.DeviceNo
+  	 where t.ControlSN = #{deviceSn}
+  </select>
+  
+  <!--上传图片，保存路径  -->
+  <update id="saveImagePath">
+  	insert into FaceImageData(fno,holderNo,imagePath,status,uploadDate)
+	values (#{fno},#{holderNo},#{imagePath},1,GETDATE())
+  </update>
+  
+  <!--下载图片（部门人员）  -->
+  <select id="getImagePath" resultType="map">
+  	select cast(t.id as varchar) ID,t.HolderNo,t.DataPhoto "DataPhoto" 
+  	  from HolderPhoto t where cast(t.id as varchar) = #{avatarId}
+  </select>
+  
+  <!--下载图片（访客人员）  -->
+  <select id="getImagePathVisitors" resultType="map">
+  	select 'v_'+cast(t.id as varchar),cast(t.visitorsID as varchar) visitorsID,t.photoData "DataPhoto" 
+  	  from VisitorsPhoto t where 'v_'+cast(t.id as varchar) = #{avatarId}
+  </select>
+  
+  <!--下载图片（自助登记人员）  -->
+  <select id="getImagePathVisitorsWX" resultType="map">
+  	select 'WX_'+cast(t.id as varchar),cast(t.visitorsID as varchar) visitorsID,t.photoData "DataPhoto" 
+  	  from WX_VisitorsPhoto t where 'WX_'+cast(t.id as varchar) = #{avatarId}
+  </select>
+  
+  
+</mapper>

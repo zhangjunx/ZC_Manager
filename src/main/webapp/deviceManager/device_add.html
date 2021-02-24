@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加设备</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+   <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../css/Shuttle.css">
+    <link rel="stylesheet" href="css/deviceManger.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content" id="a">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">添加设备</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" onclick="saveInfo()" class="layui-bg-blue">确定</a></div>
+					<div class="subbtn fl"><a href="device_list.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>设备编号：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="DeviceCode" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>设备类型：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="DeviceTypeCode">
+								
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>设备厂家：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="ManufacturerCode">
+								
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>设备型号：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="ControlType">
+								
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>设备名称：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="DeviceName" class="input" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                    	<div class="layui-unselect layui-form-select downpanel" style="width: 358px;">
+                    		<div class="lable"><span>*</span>所属区域：</div>
+			                <div class="control clearfix layui-select-title layui-input layui-unselect">
+			                	<span id="AreaIDName"></span>
+			                    <input type="hidden" id="AreaID">
+			                    <i class="layui-edge"></i>
+			                </div>
+			                <dl class="layui-anim layui-anim-upbit" style="left: 125px;top:34px;min-width: 234px;">
+			                    <dd>
+			                        <ul id="classtree" class="input"></ul>
+			                    </dd>
+			                </dl>
+			            </div>
+			            
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>设备IP：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="IP" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>端口号：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="Port" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>设备ID：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="DeviceID">
+								
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>安装位置：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="InstallLocation" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>设备SN：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="ControlSN" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>登录用户：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="UserName" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>登录密码：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="PassWord" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+					<div class="form-term  clearfix">
+                        <div class="lable"><span></span>是否启用：</div>
+                        <div class="control clearfix layui-form" style="text-align:left">
+                        	<div class="layui-form-item" style="position: relative;top: -7px;">
+						        <div class="layuiDiv">
+						            <input type="checkbox" id="DeviceEnabled" checked lay-skin="switch" lay-filter="formDemo" lay-text="开启|关闭">
+						        </div>
+						    </div>
+                        </div>
+                	</div>
+                	
+                	<div class="form-term  clearfix" id="DeviceParmDiv" style="display:none">
+                        <div class="lable"><span></span>参数设置：</div>
+                        <div class="control clearfix">
+							<input type="button" id="openwin" value="设备参数" style="background-color: darkseagreen; border-radius: 5px;height: 29px;">
+                        </div>
+                    </div>
+            	</div>
+        	</div>
+    	</div>
+    </div>
+    
+    <!--设备参数弹窗  -->
+    <div class="vehicleInfo_shadow" id="DeviceParm"></div>
+    <div class="vehicleInfo" id="DeviceParm1" style="left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%);width:66%">
+		<div class="layer_top">
+   			<h2 class="title">设备参数</h2>
+   			<img src="img/cha.png" class="quxiao" id="quxiao">
+   		</div>
+		<div class="vehicle_top" style="padding-left:10px;padding-right:10px;">
+			<div class="form-term clearfix" id="roomtimetable">
+				<div class="search-box main-form fl">
+					<div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">补光灯模式：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="flashMode">
+								<option value="0">关闭</option>
+								<option value="1">强制打开</option>
+								<option value="2">自动控制</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;" >
+                        <div class="lable lable_align">待机时间：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="standyInterval" class="input" placeholder="待机时间，单位秒">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">开门方式：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="openDoor">
+								<option value="0">自身继电器</option>
+								<option value="1">网络继电器</option>
+								<option value="2">韦根</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">网继电器地址及端口：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="relayAddr" class="input" placeholder="网继电器地址及端口">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">韦根协议：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="weigand">
+								<option value="WG26">WG26</option>
+								<option value="WG32">WG32</option>
+								<option value="WG34">WG34</option>
+								<option value="WG36">WG36</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">开门时间间隔：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="openInterval" class="input" placeholder="开门时间间隔，单位秒">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">自动重启：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="autoReboot">
+								<option value="0">关闭</option>
+								<option value="1">开启</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">自动重启：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="rebootInterval">
+								<option value="0">自动</option>
+								<option value="1">每天</option>
+								<option value="2">每周</option>
+								<option value="3">每10天</option>
+								<option value="4">每20天</option>
+								<option value="5">每30天</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">自动重启时间：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="rebootTime" class="input" placeholder="hh:mm,00:00代表设备自主决定">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">上传人脸图片：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="upAvatar">
+								<option value="0">不上传</option>
+								<option value="1">上传</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">上传背景图片：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="upBgFlag">
+								<option value="0">不上传</option>
+								<option value="1">上传</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">进/出：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="inOut">
+								<option value="0">出</option>
+								<option value="1">进</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">请求时间间隔：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="requestInterval" class="input" placeholder="请求时间间隔,单位秒">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">读卡时间间隔：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="readCarInterval" class="input" placeholder="读卡时间间隔,单位秒">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">设备密码：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="adminPassWord" class="input" placeholder="设备密码">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <label class="lable lable_align">开启活体：</label>
+                        <div class="control clearfix">
+	                        <select class="" id="livenessSwitch">
+								<option value="0">关</option>
+								<option value="1">开</option>
+							</select>
+						</div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">识别阈值：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="oneOne" class="input" placeholder="识别阈值oneOne">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix" style="float: left;">
+                        <div class="lable lable_align">识别阈值：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="oneN" class="input" placeholder="识别阈值oneN">
+                        </div>
+                    </div>
+				</div>
+	        </div>
+		</div>
+		
+		<div class="holder_bottom">
+			<div>
+				<a href="javascript:;" id="sureBtn" class="layui-bg-blue bottom_sure">确定</a>
+				<a href="javascript:;" class="layui-bg-orange bottom_qx" id="bottom_qx">取消</a>
+			</div>
+		</div>
+	</div>
+    
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/device_add.js"></script>
+</body>
+
+</html>

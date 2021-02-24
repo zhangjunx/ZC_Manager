@@ -1,0 +1,423 @@
+
+.search-box{
+	width:100%;
+}
+.center{
+	float:left;
+}
+.center .checkbox{
+	height: 18px;
+    line-height: 18px;
+    display: inline-block;
+    padding-left: 16px;
+    width: auto;
+    margin-right: 15px;
+    overflow: hidden;
+    background: url(../img/form_check.png) no-repeat left 0px;
+}
+.center .checkbox.curr{
+	display: inline-block;
+    padding-left: 16px;
+    width: auto;
+    margin-right: 15px;
+    overflow: hidden;
+    background: url(../img/form_check_on.png) no-repeat left 3px;
+}
+.btn_right{
+	float:right;
+}
+dl {
+    float: left;
+    background: #eee;
+    padding: 10px 10px;
+}
+
+dl dt.infor_left {
+    float: left;
+    width: 116px;
+    height: 146px;
+    margin: 0;
+    line-height: 144px;
+	text-align:center;
+	border: 1px dashed #50AEFF;
+    background-color: #0F65AF;    
+}
+
+dl div.infor_right {
+    float: right;
+}
+
+dl div.infor_right dd {
+    font-size: 14px;
+    width: 230px;
+    line-height: 26px;
+}
+
+dl div.infor_right dd span {
+    width: 70px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+}
+
+.main-table .approval_pending .scroll{
+	width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+	
+}
+.main-table .approval_pending dl{
+	float:none;
+	display:inline-block;
+}
+.approval_pending .select {
+    margin-left: 10px;
+}
+
+.approval_pending {
+    background: #eee;
+    padding: 15px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.approval_pending .rightTop {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.approval_pending .rightTop a {
+    font-size: 22px;
+}
+
+.approval_pending .rightTop a.tongYi {
+    color: #008EDE;
+}
+
+.approval_pending .rightTop a.boHui {
+    color: #DE1016;
+    margin-left: 20px;
+}
+
+.approval_pending .vehicleInfo {
+    float: left;
+    padding: 20px 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 20px;
+    background: url(../img/car.png) no-repeat right bottom;
+    background-color: #329CD8;
+    border-radius: 6px;
+}
+
+.approval_pending .vehicleInfo li {
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    width: 190px;
+}
+
+.approval_pending .vehicleInfo li span {
+    font-size: 14px;
+    color: #fff;
+    margin-right: 5px;
+}
+
+.approval_pending .delete {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
+
+.approval_pending .approval_tit {
+    line-height: 30px;
+    padding-left: 10px;
+}
+.approval_pending .approval_tit .checkbox{
+	height: 18px;
+    line-height: 18px;
+    display: inline-block;
+    padding-left: 16px;
+    width: auto;
+    margin-right: 15px;
+    overflow: hidden;
+    background: url(../img/form_check.png) no-repeat left 0px;
+    vertical-align: text-bottom;
+}
+.approval_pending .approval_tit .checkbox.curr{
+	display: inline-block;
+    padding-left: 16px;
+    width: auto;
+    margin-right: 15px;
+    overflow: hidden;
+    background: url(../img/form_check_on.png) no-repeat left 3px;
+    vertical-align: text-bottom;
+}
+
+/* 未审批 */
+
+.approval_pending .approval_tit .approval_status {
+    padding-left: 45px;
+    box-sizing: border-box;
+    background: url(../img/approval_pending.png) no-repeat 15px center;
+    display: inline-block;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+
+/* 已审批 */
+
+ .approval_pending .approval_tit .approval_audited {
+    padding-left: 45px;
+    box-sizing: border-box;
+    background: url(../img/approved.png) no-repeat 15px center;
+    display: inline-block;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+ .approval_pending .approval_tit .apply_time {
+    display: inline-block;
+    font-size: 14px;
+    margin-left:20px;
+    vertical-align: middle;
+}
+
+.approval_pending .approval_tit .apply_time span {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+
+/* 审批设置 */
+.approval_self{
+	border:1px solid #ddd;
+	height:99%;
+	border-radius: 5px;
+}
+.approval_self .approval_center{
+	width:380px;
+	border-right:1px solid #ddd;
+	height:100%;
+	float:left;
+}
+.approval_self .approval_center h2{
+	font-size:18px;
+	line-height:60px;
+	color:#666;
+	padding-left:20px;
+	border-bottom:1px solid #ddd;
+}
+.approval_self .approval_center .approval_role{
+	width:100%;
+	height:calc(100% - 60px);
+	overflow:auto;
+	box-sizing:border-box;
+}
+
+/*修改滚动条样式*/
+.approval_self .approval_center .approval_role::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_center .approval_role li{
+	font-size: 18px;
+    border: 1px solid #ddd;
+    text-align: left;
+    color: #333;
+    line-height: 60px;
+    width: 261PX;
+    cursor: pointer;
+    height: 60px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding-left:59px;
+    box-sizing:border-box;
+    border-radius:3px;
+    background:url(../img/wx_approver2.png) no-repeat 24px center;
+}
+.approval_self .approval_center .approval_role li.current{
+	background:url(../img/wx_approver1.png) no-repeat 24px center;
+	color:#008EDE;
+	border-color:#008EDE;
+}
+.approval_self .approval_right{
+	width:calc(100% - 381px);
+	height:100%;
+	float:right;
+}
+.approval_self .approval_right .dept{
+	width:300px;
+	height: calc(100% - 60px);
+	padding:20px 0;
+	box-sizing:border-box;
+	float:left;
+}
+.approval_self .approval_right .dept .deptTree{
+	height: calc(100% - 13px);
+    overflow: auto;
+    margin-left:11px;
+    border-right: 1px solid #ddd;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .dept .dept_title{
+	font-size:18px;
+	color:#008EDE;
+	padding-left:60px;
+	background:url(../img/wx_approver3.png) no-repeat 20px center;
+	border-right: 1px solid #ddd;
+}
+.approval_self .approval_right h2{
+	font-size:18px;
+	line-height:60px;
+	color:#666;
+	padding-left:20px;
+	border-bottom:1px solid #ddd;
+}
+.approval_self .approval_right .approval_person{
+	width: calc(100% - 300px);
+	height:calc(100% - 60px);
+	overflow:auto;
+	padding-top: 8px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+}
+.approval_self .approval_right .approval_dept{
+	height: calc(100% - 20px);
+	width:100%;
+	padding-top:20px;
+	box-sizing:border-box;
+	overflow: auto;
+	border-right:1px solid #ddd;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .approval_dept::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .approval_dept li{
+	font-size:14px;
+	width:210px;
+	margin:0 auto;
+	line-height:50px;
+	text-align:left;
+	cursor:pointer;
+	padding-left:50px;
+	box-sizing:border-box;
+	background:url(../img/wx_approver4.png) no-repeat 33px center;
+	border-radius:3px;
+}
+.approval_self .approval_right .approval_dept li.current{
+	background-color:#eee;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .approval_person::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .approval_person li{
+	display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 260px;
+    height: 110px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin:10px;
+    line-height: 110px;
+    cursor: pointer;
+}
+.approval_self .approval_right .approval_person li.cur{
+	background: url(../img/check.png) no-repeat right bottom;
+	border-color:rgb(9,179,255);
+}
+.approval_self .approval_right .approval_person li .personPhoto{
+	width: 75px;
+    height: 87px;
+    float: left;
+}
+.approval_self .approval_right .approval_person li .personPhoto img{
+	width:75px;
+	height:87px;
+    vertical-align: middle;
+}
+.approval_self .approval_right .approval_person li .holderInfo{
+	float: left;
+	width:160px;
+    padding-top: 19px;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+.approval_self .approval_right .approval_person li .holderInfo p{
+	line-height: 28px;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>添加平台</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+   <link rel="stylesheet" href="../zjx/accessControl.css" /> 
+    <link rel="stylesheet" href="../css/Shuttle.css">
+    <link rel="stylesheet" href="css/deviceManger.css" media="all">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content" id="a">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">添加平台</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;" class="layui-bg-blue" id="btnSure">确定</a></div>
+					<div class="subbtn fl"><a href="platformManager.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+            <div class="main-table">
+            	<input type="hidden" id="fid">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>平台编码：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="platFormCode" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>平台名称：</label>
+                        <div class="control clearfix">
+	                       <input type="text" id="platFormName" class="input" autocomplete="off">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>平台厂家：</label>
+                        <div class="control clearfix">
+	                         <input type="text" id="platFormManufacture" class="input" autocomplete="off">
+						</div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <label class="lable"><span>*</span>平台地址：</label>
+                        <div class="control clearfix">
+	                       <input type="text" id="baseUrl" class="input" autocomplete="off">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span></span>appKey：</label>
+                        <div class="control clearfix">
+	                        <input type="text" id="appKey" class="input" autocomplete="off">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>appId：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="appId" class="input" autocomplete="off" required="required">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>appSecret：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="appSecret" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>用户名：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="userName" class="input" autocomplete="off">
+                        </div>
+                    </div>
+                    
+                    <div class="form-term  clearfix">
+                        <label class="lable"><span></span>密码：</label>
+                        <div class="control clearfix">
+							 <input type="text" id="password" class="input" autocomplete="off">
+						</div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>是否启用：</div>
+                        <div class="control clearfix layui-form" style="text-align:left">
+                        	<div class="layui-form-item" style="position: relative;top: -7px;">
+						        <div class="layuiDiv">
+						            <input type="checkbox" id="status" checked lay-skin="switch" lay-filter="formDemo" lay-text="开启|关闭">
+						        </div>
+						    </div>
+                        </div>
+                	</div>
+            	</div>
+        	</div>
+    	</div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/platform_add.js"></script>
+</body>
+
+</html>

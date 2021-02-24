@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.HY_MeetingRoomMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.HY_MeetingRoom" >
+    <id column="fno" property="fno" jdbcType="INTEGER" />
+    <result column="roomname" property="roomname" jdbcType="VARCHAR" />
+    <result column="roomno" property="roomno" jdbcType="VARCHAR" />
+    <result column="roomplace" property="roomplace" jdbcType="VARCHAR" />
+    <result column="roomsize" property="roomsize" jdbcType="VARCHAR" />
+    <result column="usergoods" property="usergoods" jdbcType="VARCHAR" />
+    <result column="signinplace" property="signinplace" jdbcType="VARCHAR" />
+    <result column="signbackplace" property="signbackplace" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="creatdate" property="creatdate" jdbcType="TIMESTAMP" />
+    <result column="editor" property="editor" jdbcType="VARCHAR" />
+    <result column="editdate" property="editdate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="signinplacename" property="signinplacename" jdbcType="VARCHAR" />
+    <result column="signbackplacename" property="signbackplacename" jdbcType="VARCHAR" />
+    <result column="creatorname" property="creatorname" jdbcType="VARCHAR" />
+    <result column="editorname" property="editorname" jdbcType="VARCHAR" />
+    <result column="usergoodsname" property="usergoodsname" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap2" type="com.xr.entity.DoorUnit" >
+    <id column="doorno" property="doorno" jdbcType="INTEGER" />
+    <result column="doorname" property="doorname" jdbcType="VARCHAR" />
+    <result column="deviceno" property="deviceno" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap3" type="com.xr.entity.DictionaryData" >
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    fno, roomname, roomno, roomplace, roomsize, usergoods, status, creator, creatdate, 
+    editor, editdate, remark
+  </sql>
+  
+  <sql id="c_start">
+  	select _res.* from (
+	  select row_number() over (order by fno desc) tindex ,_tmp.* from (
+  </sql>
+  
+  <sql id="c_end">
+  	) _tmp ) _res where 1=1
+  	<if test="curpage != null and curpage != ''">
+  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+  	</if>
+  </sql>
+  
+  <select id="getRoomList" resultMap="BaseResultMap">
+  	<include refid="c_start"></include>
+    select t.fno, t.roomname, t.roomno, t.roomplace, t.roomsize, t.usergoods, t.status, 
+		   t.signinplace,t.signbackplace,
+		   t.creator,h1.HolderName creatorname, t.creatdate, 
+		   t.editor,h2.HolderName editorname, t.editdate, t.remark 
+	 from HY_MeetingRoom t
+	 left join HolderData h1 on t.creator=h1.HolderNo
+	 left join HolderData h2 on t.editor=h2.HolderNo
+	 where 1 = 1
+	 <if test="roomname != null and roomname != '' ">
+	   and t.roomname like '%'+ #{roomname} + '%'
+	 </if>
+	 <if test="roomplace != null and roomplace != '' ">
+	   and t.roomplace like '%' + #{roomplace} + '%'
+	 </if>
+	 <include refid="c_end"></include>
+  </select>
+  
+  <select id="getRoomListCount" resultType="integer">
+    select count(1)
+	 from HY_MeetingRoom t
+	 left join HolderData h1 on t.creator=h1.HolderNo
+	 left join HolderData h2 on t.editor=h2.HolderNo
+	 where 1=1
+	 <if test="roomname != null and roomname != '' ">
+	   and t.roomname like '%'+ #{roomname} + '%'
+	 </if>
+	 <if test="roomplace != null and roomplace != '' ">
+	   and t.roomplace like '%' + #{roomplace} + '%'
+	 </if>
+  </select>
+  
+  <update id="saveRoomInfo">
+  	insert into HY_MeetingRoom
+  		(roomname, roomno, roomplace, roomsize, usergoods, status, signinplace,
+  		 signbackplace, creator, creatdate, editor, editdate, remark)
+  	values(#{roomname},#{roomno},#{roomplace},#{roomsize},#{usergoods},#{status},#{signinplace},
+  	       #{signbackplace},#{creator},#{creatdate},#{editor},#{editdate},#{remark})
+  </update>
+  
+  <update id="editRoomInfo">
+  	update HY_MeetingRoom 
+  	   set roomname=#{roomname},
+  	       roomno=#{roomno},
+  	       roomplace=#{roomplace},
+  	       roomsize=#{roomsize},
+  	       usergoods=#{usergoods},
+  	       signinplace=#{signinplace},
+  	       signbackplace=#{signbackplace},
+  	       status=#{status},
+  	       editor=#{editor},
+  	       editdate=#{editdate},
+  	       remark=#{remark}
+  	 where fno=#{fno}
+  </update>
+  
+  <select id="getOneRoomInfo" resultType="map">
+  	select t.fno, t.roomname, t.roomno, t.roomplace, t.roomsize, t.usergoods, t.status, 
+		   t.signinplace,t.signbackplace,
+		   t.creator,h1.HolderName creatorname, t.creatdate, 
+		   t.editor,h2.HolderName editorname, t.editdate, t.remark 
+	 from HY_MeetingRoom t
+	 left join HolderData h1 on t.creator=h1.HolderNo
+	 left join HolderData h2 on t.editor=h2.HolderNo
+	where t.fno=#{fno}
+  </select>
+  
+  <update id="delRoomInfo">
+  	delete from HY_MeetingRoom where fno=#{fno} and status=0
+  </update>
+  
+  <select id="getDoorList" resultType="map">
+  	  select t.DoorNo,t.DoorName,a.AreaID,a.AreaName,bb.IOSTatus,convert(varchar(100),bb.IODate,23)+' '+bb.IOTime CPDateTime 
+  	    from DoorUnit t
+		left join DeviceUnit u on t.DeviceNo = u.DeviceNo 
+		left join AreaList a on u.AreaID = a.AreaID
+		left join (select * from(
+					  select d.*,ROW_NUMBER() over(partition by d.DeviceNo,d.DoorNo order by d.IODate,d.IOTime desc) rowindex 
+						from DIDODATA d) aa 
+					 where aa.rowindex=1) bb on t.DeviceNo = bb.DeviceNo and t.DoorNo = bb.DoorNo
+	 where 1=1
+	<if test="doorno != null and doorno != '' ">
+  		and t.DoorNo in(${doorno})
+  	</if>
+  </select>
+  
+  <select id="getMaxIndex" resultType="integer">
+  	select count(1) from DictionaryData t where t.TypeName='goods'
+  </select>
+  
+  <update id="addGoodsToDictionary">
+  	begin
+  	<foreach collection="list" item="l" open="" separator="" close="">
+		insert into DictionaryData(TypeName,name,value,CreateDate,Deleted)
+  		values('goods',#{l.index},#{l.goodsName},CONVERT(varchar,GETDATE(),20),1);
+	</foreach>
+  	end;
+  </update>
+  
+  <select id="getGoodsList" resultMap="BaseResultMap3">
+  	select t.TypeName,t.name,t.value from DictionaryData t 
+  	 where t.TypeName='goods' and t.Deleted = 1
+  	<if test="goodsno != null and goodsno != '' ">
+  		and t.name in(${goodsno})
+  	</if>
+  </select>
+  
+  <select id="getRoomView" resultType="map">
+  	SELECT t.fno,t.roomname,t.roomplace FROM HY_MeetingRoom t
+	 INNER JOIN dbo.HY_Meeting m ON t.fno = m.roomid  and m.meetingstatus = 2
+  </select>
+  
+  <select id="getMeetingList" resultType="map">
+  	 SELECT t.roomid,t.meetingstatus,CONVERT(varchar(100), t.startdate, 23) meetingdate,
+			DateName(hour,t.startdate)+':'+DateName(minute,t.startdate)+'~'+DateName(hour,t.enddate)+':'+DateName(minute,t.enddate) meetingtime,
+			t.mettingtitle,t.mettingtype,d.value mettingtypename,t.promoter,h.HolderName promotername
+			 FROM HY_Meeting t 
+		 LEFT JOIN DictionaryData d ON t.mettingtype = d.name AND d.TypeName = 'meetingtype'
+		 LEFT JOIN HolderData h ON t.promoter = h.HolderNo
+		 INNER JOIN HY_MeetingRoom m ON t.roomid = m.fno AND t.meetingstatus = 2
+  </select>
+  
+  <select id="getOneOutRoomInfo" resultType="map">
+  	select * from HY_MeetingRoomOut where meetingid=#{meetingid}
+  </select>
+</mapper>

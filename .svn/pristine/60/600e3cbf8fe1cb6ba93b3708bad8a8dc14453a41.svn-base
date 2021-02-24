@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.XGClassDao">   
+ <!-- 查询所有班次 -->
+ <select id="queryAllClass" resultType="com.xr.entity.XGClass">
+   SELECT 
+       s.ClassId AS classid,
+	   r.RouteName AS routename,
+	   s.ClassName AS classname,
+	   s.StartingTimeOfShift AS startingtimeofshift,
+	   s.ClosingTimeOfShift AS closingtimeofshift,
+	   s.PatrolDuration AS patrolduration,<!--巡更时间段长度-->
+	   s.PatrolIntervalLength AS patrolintervallength,<!--巡更间隔时长-->
+	   s.ClassErrorRange AS classerrorrange<!--巡更最短时长-->
+     FROM  dbo.XG_Class s INNER JOIN dbo.XG_Route r ON r.RouteId = s.RouteID
+ </select>  
+ <!-- 根据路线ID查询所有班次 -->
+ <select id="queryXGClass" resultType="Map" parameterType="com.xr.entity.XGClass">
+   SELECT 
+       s.ClassId AS classid,
+	   r.RouteName AS routename,
+	   s.ClassName AS classname,
+	   s.StartingTimeOfShift AS startingtimeofshift,
+	   s.ClosingTimeOfShift AS closingtimeofshift,
+	   s.PatrolDuration AS patrolduration,<!--巡更时间段长度-->
+	   s.PatrolIntervalLength AS patrolintervallength,<!--巡更间隔时长-->
+	   s.ClassErrorRange AS classerrorrange,<!--巡更最短时长-->
+	   CONVERT(VARCHAR(20),s.AddTime,20) AS addtime
+     FROM  dbo.XG_Class s INNER JOIN dbo.XG_Route r ON r.RouteId = s.RouteID
+     <where>
+         <if test="routeid != null">
+            r.routeid=#{routeid}
+         </if>
+         <if test="classid != null">
+          and   s.classid=#{classid}
+         </if>
+     </where>
+ </select>
+ <!-- *批量添加班次 -->
+ <insert id="insertClassInfor" parameterType="java.util.List">
+     INSERT INTO dbo.XG_Class
+        ( RouteID,ClassName,StartingTimeOfShift,ClosingTimeOfShift,PatrolDuration,PatrolIntervalLength,ClassErrorRange,HolderNo,AddTime )
+      <foreach collection="list" index="index" item="item" separator="union">   
+         select #{item.routeid},#{item.classname},#{item.startingtimeofshift},#{item.closingtimeofshift},
+         #{item.patrolduration},#{item.patrolintervallength},#{item.classerrorrange},#{item.holderno},GETDATE()
+      </foreach>
+  </insert>
+  
+  <!--*根据班次ID编辑班次信息  -->
+  <update id="updateClass" parameterType="java.util.List">
+     <foreach collection="list" item="item" index="index"  separator=";">
+          UPDATE dbo.XG_Class 
+            <trim prefix="SET" suffixOverrides=",">
+             <if test="item.classname != null">
+                classname = #{item.classname},
+             </if>
+             <if test="item.startingtimeofshift != null">
+              startingtimeofshift=#{item.startingtimeofshift},
+             </if>
+             <if test="item.closingtimeofshift != null">
+              closingtimeofshift=#{item.closingtimeofshift},
+             </if>
+              <if test="item.classerrorrange != null">
+               classerrorrange =#{item.classerrorrange},
+              </if>
+             <if test="item.patrolduration != null">
+              patrolduration = #{item.patrolduration},
+             </if>
+             <if test="item.patrolintervallength != null">
+              patrolintervallength=#{item.patrolintervallength}
+             </if>
+          </trim>
+          where classid=#{item.classid}
+          </foreach>
+   </update>
+   <!--*根据班次ClassId删除班次信息  -->
+  <delete id="deleteClassInfor">
+      DELETE  FROM dbo.XG_Class  WHERE ClassId=#{ClassId}
+  </delete>
+   
+</mapper>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.PurchaseDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.PurchaseData" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="PurchaseOrder" property="purchaseorder" jdbcType="NVARCHAR" />
+    <result column="PurchasePerson" property="purchaseperson" jdbcType="NVARCHAR" />
+    <result column="PurchasePersonName" property="purchasepersonname" jdbcType="NVARCHAR" />
+    <result column="PurchaseItemCode" property="purchaseitemcode" jdbcType="NVARCHAR" />
+    <result column="PurchaseItemName" property="purchaseitemname" jdbcType="NVARCHAR" />
+    <result column="PurchaseQuantity" property="purchasequantity" jdbcType="DECIMAL" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="SumAmount" property="sumamount" jdbcType="DECIMAL" />
+    <result column="PurchaseDate" property="purchasedate" jdbcType="TIMESTAMP" />
+    <result column="ApplyStatus" property="applystatus" jdbcType="NVARCHAR" />
+    <result column="ApplyName" property="applyname" jdbcType="NVARCHAR" />
+    <result column="PurchaseApprove" property="purchaseapprove" jdbcType="NVARCHAR" />
+    <result column="PurchaseApproveName" property="purchaseapprovename" jdbcType="NVARCHAR" />
+    <result column="CreatePerson" property="createperson" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="DelPerson" property="delperson" jdbcType="NVARCHAR" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, PurchaseOrder, PurchasePerson, PurchasePersonName, PurchaseItemCode, PurchaseItemName, 
+    PurchaseQuantity, Price, SumAmount, PurchaseDate, ApplyStatus, ApplyName, PurchaseApprove, 
+    PurchaseApproveName, CreatePerson, CreateDate, UpdatePerson, UpdateDate, DelPerson, 
+    DelDate, Deleted
+  </sql>
+  
+  <!-- 查询采购列表 -->
+  <select id="queryPurchaseDataList" resultMap="BaseResultMap" parameterType="com.xr.entity.PurchaseData" >
+   select  DataNo, PurchaseOrder, PurchasePerson, PurchasePersonName, PurchaseItemCode, PurchaseItemName, 
+    PurchaseQuantity, Price, SumAmount, PurchaseDate, ApplyStatus, ApplyName, PurchaseApprove, 
+    PurchaseApproveName, CreatePerson, CreateDate, UpdatePerson, UpdateDate, DelPerson, 
+    DelDate, Deleted  from PurchaseData
+   <where>
+      <if test="purchaseorder != null and purchaseorder!=''" >
+        PurchaseOrder=#{purchaseorder,jdbcType=NVARCHAR} 
+      </if>
+      <if test="purchaseperson != null and purchaseperson!=''" >
+        and PurchasePerson=#{purchaseperson,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchasepersonname != null and purchasepersonname!=''" >
+        and PurchasePersonName=#{purchasepersonname,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchaseitemcode != null and purchaseitemcode!=''" >
+        and PurchaseItemCode=#{purchaseitemcode,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchaseitemname != null and purchaseitemname!=''" >
+        and PurchaseItemName=#{purchaseitemname,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchasequantity != null and purchasequantity!=''" >
+        and PurchaseQuantity=#{purchasequantity,jdbcType=DECIMAL}
+      </if>
+      <if test="purchasedate != null and purchasedate!=''" >
+        and PurchaseDate=#{purchasedate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="applystatus != null and applystatus!=''" >
+        and ApplyStatus=#{applystatus,jdbcType=NVARCHAR}
+      </if>
+      <if test="applyname != null and applyname!=''" >
+        and ApplyName#{applyname,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchaseapprove != null and purchaseapprove!=''" >
+        and PurchaseApprove=#{purchaseapprove,jdbcType=NVARCHAR}
+      </if>
+      <if test="purchaseapprovename != null and purchaseapprovename!=''" >
+        and PurchaseApproveName=#{purchaseapprovename,jdbcType=NVARCHAR}
+      </if>
+   </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from PurchaseData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from PurchaseData
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.PurchaseData" >
+    insert into PurchaseData (DataNo, PurchaseOrder, PurchasePerson, 
+      PurchasePersonName, PurchaseItemCode, 
+      PurchaseItemName, PurchaseQuantity, Price, 
+      SumAmount, PurchaseDate, ApplyStatus, 
+      ApplyName, PurchaseApprove, PurchaseApproveName, 
+      CreatePerson, CreateDate, UpdatePerson, 
+      UpdateDate, DelPerson, DelDate, 
+      Deleted)
+    values (#{datano,jdbcType=INTEGER}, #{purchaseorder,jdbcType=NVARCHAR}, #{purchaseperson,jdbcType=NVARCHAR}, 
+      #{purchasepersonname,jdbcType=NVARCHAR}, #{purchaseitemcode,jdbcType=NVARCHAR}, 
+      #{purchaseitemname,jdbcType=NVARCHAR}, #{purchasequantity,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{sumamount,jdbcType=DECIMAL}, #{purchasedate,jdbcType=TIMESTAMP}, #{applystatus,jdbcType=NVARCHAR}, 
+      #{applyname,jdbcType=NVARCHAR}, #{purchaseapprove,jdbcType=NVARCHAR}, #{purchaseapprovename,jdbcType=NVARCHAR}, 
+      #{createperson,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{updateperson,jdbcType=NVARCHAR}, 
+      #{updatedate,jdbcType=TIMESTAMP}, #{delperson,jdbcType=NVARCHAR}, #{deldate,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.PurchaseData" >
+    insert into PurchaseData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="purchaseorder != null" >
+        PurchaseOrder,
+      </if>
+      <if test="purchaseperson != null" >
+        PurchasePerson,
+      </if>
+      <if test="purchasepersonname != null" >
+        PurchasePersonName,
+      </if>
+      <if test="purchaseitemcode != null" >
+        PurchaseItemCode,
+      </if>
+      <if test="purchaseitemname != null" >
+        PurchaseItemName,
+      </if>
+      <if test="purchasequantity != null" >
+        PurchaseQuantity,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="sumamount != null" >
+        SumAmount,
+      </if>
+      <if test="purchasedate != null" >
+        PurchaseDate,
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus,
+      </if>
+      <if test="applyname != null" >
+        ApplyName,
+      </if>
+      <if test="purchaseapprove != null" >
+        PurchaseApprove,
+      </if>
+      <if test="purchaseapprovename != null" >
+        PurchaseApproveName,
+      </if>
+      <if test="createperson != null" >
+        CreatePerson,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+      <if test="delperson != null" >
+        DelPerson,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseorder != null" >
+        #{purchaseorder,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseperson != null" >
+        #{purchaseperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchasepersonname != null" >
+        #{purchasepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseitemcode != null" >
+        #{purchaseitemcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseitemname != null" >
+        #{purchaseitemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchasequantity != null" >
+        #{purchasequantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sumamount != null" >
+        #{sumamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasedate != null" >
+        #{purchasedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null" >
+        #{applystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyname != null" >
+        #{applyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseapprove != null" >
+        #{purchaseapprove,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseapprovename != null" >
+        #{purchaseapprovename,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.PurchaseData" >
+    update PurchaseData
+    <set >
+      <if test="purchaseorder != null" >
+        PurchaseOrder = #{purchaseorder,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseperson != null" >
+        PurchasePerson = #{purchaseperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchasepersonname != null" >
+        PurchasePersonName = #{purchasepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseitemcode != null" >
+        PurchaseItemCode = #{purchaseitemcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseitemname != null" >
+        PurchaseItemName = #{purchaseitemname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchasequantity != null" >
+        PurchaseQuantity = #{purchasequantity,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="sumamount != null" >
+        SumAmount = #{sumamount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasedate != null" >
+        PurchaseDate = #{purchasedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applystatus != null" >
+        ApplyStatus = #{applystatus,jdbcType=NVARCHAR},
+      </if>
+      <if test="applyname != null" >
+        ApplyName = #{applyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseapprove != null" >
+        PurchaseApprove = #{purchaseapprove,jdbcType=NVARCHAR},
+      </if>
+      <if test="purchaseapprovename != null" >
+        PurchaseApproveName = #{purchaseapprovename,jdbcType=NVARCHAR},
+      </if>
+      <if test="createperson != null" >
+        CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delperson != null" >
+        DelPerson = #{delperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.PurchaseData" >
+    update PurchaseData
+    set PurchaseOrder = #{purchaseorder,jdbcType=NVARCHAR},
+      PurchasePerson = #{purchaseperson,jdbcType=NVARCHAR},
+      PurchasePersonName = #{purchasepersonname,jdbcType=NVARCHAR},
+      PurchaseItemCode = #{purchaseitemcode,jdbcType=NVARCHAR},
+      PurchaseItemName = #{purchaseitemname,jdbcType=NVARCHAR},
+      PurchaseQuantity = #{purchasequantity,jdbcType=DECIMAL},
+      Price = #{price,jdbcType=DECIMAL},
+      SumAmount = #{sumamount,jdbcType=DECIMAL},
+      PurchaseDate = #{purchasedate,jdbcType=TIMESTAMP},
+      ApplyStatus = #{applystatus,jdbcType=NVARCHAR},
+      ApplyName = #{applyname,jdbcType=NVARCHAR},
+      PurchaseApprove = #{purchaseapprove,jdbcType=NVARCHAR},
+      PurchaseApproveName = #{purchaseapprovename,jdbcType=NVARCHAR},
+      CreatePerson = #{createperson,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      DelPerson = #{delperson,jdbcType=NVARCHAR},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+</mapper>

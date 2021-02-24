@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>人员自助登记</title>
+    <link rel="icon" href="img/prison1.gif" sizes="32x32">
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="layui-container personRegistration">
+        <div class="layui-row personRegistration_top">
+            <div class="layui-col-md9">
+                <h2 class="personRegistration_tit">人员自助登记</h2>
+              <input type="text" class="readICCard" id="syrisRead"> 
+            </div>
+            <div class="layui-col-md3">
+                 <div class="person_time">
+                 	<div class="person_hour"></div>
+                 	<div class="person_date"></div>
+                 </div>
+            </div>
+        </div>
+        <div class="personRegistration_box">
+        <div class="information">
+            <div class="information_left">
+            	<div class="information_police">
+                <h3 class="title_police">警察信息</h3>
+                <dl>
+                    <dt class="infor_left"><img src="img/upload.png" class="sir_img"></dt>
+                    <div class="infor_right">
+                        <dd> <label class="alarm">警号:</label><span class="receiverpeopleid"></span> </dd>
+                        <dd> <label class="pliceName">姓名:</label><span class="receiversname"> </span> </dd>
+                        <!-- <dd> <label class="job">职务:</label><span class="zhiWu"> </span> </dd> -->
+                         <dd> <label class="prison">部门:</label><span class="jianQu"> </span> </dd> 
+                        <dd> <label class="infoTime">时间:</label><span class="shiJian"> </span> </dd>
+                    </div>
+                    
+                </dl>
+           </div>
+            </div>
+            <div class="information_right">
+            	<div class="information_police">
+                <h3 class="title_police migrants">外协人员信息</h3>
+                <div class="coordination">
+                <dl>
+                    <dt class="infor_left">
+                    	<img src="img/upload.png" class="upload" id="upload1">
+                    	<div class="delete">
+                    		<img src="img/delete.png" data-no="1">
+                    	</div>
+                    </dt>
+                    <div class="infor_right">
+                    	<dd> <label class="cardNumber" id="cardNumber1">身份证号:</label><span class="outsourcing_number" id="outsourcing_number1"></span></dd>
+                        <dd> <label class="peopleName" id="peopleName1">人员姓名:</label><span class="outsourcing_name" id="outsourcing_name1"></span> </dd>
+                        <dd> <label class="peopleType" id="peopleType1">人员性别:</label><span class="outsourcing_type" id="outsourcing_type1"></span> </dd>
+                        <dd> <label class="readTime" id="readTime1">登记时间:</label><span class="outsourcing_time" id="outsourcing_time1"></span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left">
+                    	<img src="img/upload.png" class="upload" id="upload2">
+                    	<div class="delete">
+                    		<img src="img/delete.png" data-no="2">
+                    	</div>
+                    </dt>
+                    <div class="infor_right">
+                    	<dd> <label class="cardNumber" id="cardNumber2">身份证号:</label><span class="outsourcing_number" id="outsourcing_number2"></span></dd>
+                        <dd> <label class="peopleName" id="peopleName2">人员姓名:</label><span class="outsourcing_name" id="outsourcing_name2"></span> </dd>
+                       	<dd> <label class="peopleType" id="peopleType2">人员性别:</label><span class="outsourcing_type" id="outsourcing_type2"></span> </dd>
+                        <dd> <label class="readTime" id="readTime2">登记时间:</label><span class="outsourcing_time" id="outsourcing_time2"></span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left">
+                    	<img src="img/upload.png" class="upload" id="upload3">
+                    	<div class="delete">
+                    		<img src="img/delete.png" data-no="3">
+                    	</div>
+                    </dt>
+                    <div class="infor_right">
+                     	<dd> <label class="cardNumber" id="cardNumber3">身份证号:</label><span class="outsourcing_number" id="outsourcing_number3"></span></dd>
+                        <dd> <label class="peopleName" id="peopleName3">人员姓名:</label><span class="outsourcing_name" id="outsourcing_name3"></span> </dd>
+                        <dd> <label class="peopleType" id="peopleType3">人员性别:</label><span class="outsourcing_type" id="outsourcing_type3"></span> </dd>
+                        <dd> <label class="readTime" id="readTime3">登记时间:</label><span class="outsourcing_time" id="outsourcing_time3"></span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left" >
+                    	<img src="img/upload.png" class="upload" id="upload4">
+                    	<div class="delete">
+                    		<img src="img/delete.png" data-no="4">
+                    	</div>
+                    </dt>
+                    <div class="infor_right">
+                    	<dd> <label class="cardNumber" id="cardNumber4">身份证号:</label><span class="outsourcing_number" id="outsourcing_number4"></span></dd>
+                        <dd> <label class="peopleName" id="peopleName4">人员姓名:</label><span class="outsourcing_name" id="outsourcing_name4"></span> </dd>
+                        <dd> <label class="peopleType" id="peopleType4">人员性别:</label><span class="outsourcing_type" id="outsourcing_type4"></span> </dd>
+                        <dd> <label class="readTime" id="readTime4">登记时间:</label><span class="outsourcing_time" id="outsourcing_time4"></span> </dd>
+                    </div>
+                </dl>
+                <dl>
+                    <dt class="infor_left" >
+                    	<img src="img/upload.png" class="upload" id="upload5">
+                    	<div class="delete">
+                    		<img src="img/delete.png" data-no="5">
+                    	</div>
+                    </dt>
+                    <div class="infor_right">
+                    	<dd> <label class="cardNumber" id="cardNumber5">身份证号:</label><span class="outsourcing_number" id="outsourcing_number5"></span></dd>
+                        <dd> <label class="peopleName" id="peopleName5">人员姓名:</label><span class="outsourcing_name" id="outsourcing_name5"></span> </dd>
+                        <dd> <label class="peopleType" id="peopleType5">人员性别:</label><span class="outsourcing_type" id="outsourcing_type5"></span> </dd>
+                        <dd> <label class="readTime" id="readTime5">登记时间:</label><span class="outsourcing_time" id="outsourcing_time5"></span> </dd>
+                    </div>
+                </dl>
+               
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="approval_select">
+        	<div class="approval_selectLeft">
+        		<div class="information_police">
+                <h3 class="title_police">事由</h3>
+                <div class="selectArea">
+                	<select class="visiterReason">
+                		<option value="">请选择</option>
+                		<!-- <option value="1">外加工</option>
+                		<option value="2">医疗原因</option>
+                		<option value="3">施工提审</option>
+                		<option value="4">其他原因</option> -->
+                	</select>
+                </div>
+                
+            </div>
+        	</div>
+        	<div class="approval_selectRight">
+        		<div class="information_police">
+                <!-- <h3 class="title_police">进出事由</h3>
+                <div class="things">
+                	<div class="things_box">
+                			<img src="img/outside.png">
+                			<p data-visitorsreason="2">外加工</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/medical.png">
+                			<p data-visitorsreason="3">医疗原因</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/constructionReview.png">
+                			<p data-visitorsreason="4">施工提审</p>
+                		<div class="shadow"></div>
+                	</div>
+                	<div class="things_box">
+                			<img src="img/other.png">
+                			<p data-visitorsreason="5">其他原因</p>
+                		<div class="shadow"></div>
+                	</div>
+                </div> -->
+                	<ul class="tab">
+                		<li>工作时间审批</li>
+                		<li>非工作时间审批</li>
+                	</ul>
+                	<div class="dept_right">
+                		<select class="dept_r1">
+                			<option value="">请选择部门</option>
+                		</select>
+                		<select class="dept_r2">
+                			<option value="">请选择部门</option>
+                		</select>
+                		<select class="approvePerson">
+                			<option value="">请选择领导审批人</option>
+                			<!-- <option value="">请选择审批人</option>
+                			<option value="">请选择审批人</option>
+                			<option value="">请选择审批人</option> -->
+                		</select>
+                	</div>
+            </div>
+        	</div>
+        </div>
+          </div>
+        <div class="bottom">
+            <div>
+                <a href="javascript:;" class="sure">
+                	<img src="img/submit.png">
+                </a>
+                <div class="message"></div>
+                <a href="index.html" class="back">
+                	<img src="img/back.png">
+                </a>
+            </div>
+                
+        </div>
+      
+        <div class="prompt">
+        	<div class="prompt_in">
+        		<div class="number">1</div>
+        		<p>读卡区域放置门禁卡或身份证</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">2</div>
+        		<p>进行人证核验</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">3</div>
+        		<p>绑定警察</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">4</div>
+        		<p>选择进出区域</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">5</div>
+        		<p>选择进出事由</p>
+        	</div>
+        	<img src="img/prompt.png">
+        	<div class="prompt_in">
+        		<div class="number">6</div>
+        		<p>点击提交审批</p>
+        	</div>
+        </div> 
+    </div>
+    <div class="shade"></div>
+    <div class="shade2"></div>
+    <div class="areaName">
+    	<ul>
+    		<li>从事外加工工作</li>
+    		<li>医疗原因</li>
+    		<li>施工提审</li>
+    		<li>帮教原因</li>
+    	</ul>
+    </div>
+    <div class="personFace">
+        <div class="face_box">
+        	<img src="img/person2.png" alt="">
+            <video id="video" autoplay></video>
+            <canvas id="canvas" width="533" height="432"></canvas>
+        </div>
+        <div class="face_r">
+            <div class="passport_photo">
+                <img src="img/person.png" id="card_photo" style="width: 192px;height: 160px;">
+                <p>证件照</p>
+            </div>
+            <div class="scene_photo">
+                <img src="img/person.png" alt="" id="img" style="width: 192px;height: 160px;">
+                <p>现场照</p>
+            </div>
+            <div class="layui-clear"></div>
+            <div class="police_information">
+                <!-- <p><label>警号:</label> <span class="personFace_number">1006</span></p>
+                <p>姓名: <span class="personFace_name">王志高</span></p>
+                <p>职务: <span>警察</span></p>
+                <p>监区: <span>一监区</span></p> -->
+            </div>
+            <div class="discriminate">
+                <div class="pass">识别通过</div>
+                <div class="failed">识别失败</div>
+                <div class="success">相似度太低</div>
+            </div>
+        </div>
+        <div class="layui-clear"></div>
+        <div class="face_btn">
+            <a href="javascript:;" class="close">关闭</a>
+            <a href="javascript:;" class="submit_sure">拍照识别</a>
+            <a href="index.html">返回首页</a>
+        </div>
+
+    </div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/layer/layer.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/personRegistration.js"></script>
+</body>
+
+</html>

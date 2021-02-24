@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>门区权限设置</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="css/monitorSystem.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">门区权限设置</a></div>
+            <div class="main-table">
+		   <!-- 审批设置 -->
+            <div class="approval_self">
+            	<div class="approval_center">
+            		<h2>用户列表
+            			<div style="float:right; margin-right:20px">
+            				<input type="text" class="userInput" id="selectHolderno" placeholder="请输入姓名">
+            				<button class="layui-btn layui-btn-sm" id="searchUser">搜索</button>	
+            			</div>
+            		</h2>
+            		<ul class="approval_role">
+            			<!-- <li>监区领导</li>
+            			<li>劳动改造科</li>
+            			<li>监狱医院</li>
+            			<li>生活卫生科</li>
+            			<li>责任监区领导</li>
+            			<li>狱政管理科</li>
+            			<li>监狱值班领导</li> -->
+            		</ul>
+            	</div>
+            	<div class="approval_right">
+            		<h2>选择门区   
+            			<div style="float:right; margin-right:20px">
+            				<label style="font-size:14px">选择页面:</label>
+            				<select class="selectY">
+            					<option value="1">AB门监控系统</option>
+            					<option value="2">门禁状态控制</option>
+            				</select>
+            			</div>
+            		</h2>
+            		<ul class="selectDoorList">
+            			<!--  <li>
+            				<div class="personPhoto">
+            					<img src="img/person1.png">
+            				</div>
+            				<div class="holderInfo">
+            					<p>工号:<span class='holderno'>00000</span></p>
+            					<p>姓名:<span class='holdername'>不知道</span></p>
+            					<p>部门:<span class='dept'>软件部</span></p>
+            				</div>
+            			</li> -->
+            		</ul>
+            	</div>
+            </div>
+			</div>
+		</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/doorUserSet.js"></script>
+</body>
+
+</html>

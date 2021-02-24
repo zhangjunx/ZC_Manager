@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>设备技术规范库</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+     <link rel="stylesheet" href="css/fixedGoodsManagement.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">设备技术规范库</a></div>
+                <div class="main-table">
+                    <!--查询条件-->
+                    <div class="search-box main-form fl" >
+	                     <div class="form-term fl clearfix">
+	                            <div class="lable"><span></span>文件名称：</div>
+	                            <div class="control clearfix">
+	                                <input type="text" class="input" id="fileName"/>
+	                            </div>
+                        </div>  
+                        <div class="btn fl">
+                            <a href="javascript:;" id="createInStorage">搜索</a>
+                        </div>
+                    </div>
+                    <!--查询结果如下-->
+                    <table class="grade" id="dayindaju1">
+                        <thead>
+                            <tr>
+                            	<td width='40'>选择</td>
+                                <td width="40">序号</td>
+                                <td width="100">文件名称</td>
+                                <td width="100">文件路径</td>
+                                <td width="100">上传时间</td>
+                                <td width="100">操作</td>
+                            </tr>
+                         </thead>
+                         <tbody id="cont">
+                            
+                        </tbody>
+                    </table>
+                    <div class="pages" id="test">
+
+                    </div>
+                    <div class="form-btn assignPerson" style="margin-left:0;position:absolute;left:50%;transform:translate(-50%);bottom:10px;">
+						<a href="javascript:;" id="insertMbasedatabtn" class="layui-bg-blue">确定</a>
+						<a href="javascript:;" class="layui-bg-orange" id="abolish">取消</a>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/tsc-select.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>智慧监狱</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/monitorSystem.css">
+</head>
+
+<body>
+	<img src="image/closeYeMian.png" class="closeYeMian">
+	<div class="layui-fluid">
+	<!-- 顶部 -->
+		<div class="layui-row top">
+			<div class="layui-col-md12">
+				<div class="top_logo">
+					<img src="image/prison_logo.png" id="logo">
+					<h1 class="layui-inline title_set"></h1>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row  con">
+		     <div class="grid">
+				<div class="grid-item">
+					 <div class="layui-card" style="height:560px;">
+				        <div class="layui-card-header" style="height:50px;line-height:50px;">
+				   			<h4 class="con_title">门禁状态/控制</h4>
+				   			<div class="con_doorOpen"><img src="image/openDoor2.png">一键全开</div>    
+				   			<div class="con_doorClose"><img src="image/closeDoor2.png">一键自控</div>
+				        </div>
+				        <ul class="layui-card-body doorNameList" >
+				        	<!-- <li class="layui-inline">
+				        		<h3 class="doorName">杨总办公室</h3>
+				        		<img src="image/openDoor.png">
+				        		<div class="doorControl">
+				        			<p>
+				        				<button class="layui-btn layui-btn-sm doorBg">开门</button>
+				        			    <button class="layui-btn layui-btn-sm doorBg">自控</button>
+				        			</p>
+				        			<p>
+				        				<button class="layui-btn layui-btn-sm doorBg">常开</button>
+				        				<button class="layui-btn layui-btn-sm doorBg">常关</button>
+				        			</p>
+				        		</div>
+				        	</li>  -->
+		        		</ul>
+      				</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row" style="padding-bottom:5px;">
+			<table id="demo" lay-filter="test"></table>
+		</div>
+	</div>
+	<div class="layui-form" id="titleSet" style="display:none;margin-top:20px;">
+		<label class="layui-form-label">标题:</label>
+		<div class="layui-input-block">
+      		<input type="text"  lay-verify="required" id="titleValue" placeholder="请输入标题" autocomplete="off" class="layui-input" style="width:240px;">
+    	</div>
+	</div>
+    <script src="../hyf/path_js.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="js/doorStatusControl.js"></script>
+</body>
+
+</html>

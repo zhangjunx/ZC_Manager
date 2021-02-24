@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.XG_PatrolAnalysisDao">
+
+  <!-- 查询系统中所有线路 -->
+  <select id="queryRouteAndNode" resultType="Map">
+	    SELECT 
+		    RouteId  as routeid,<!--线路编号-->
+			RouteName as routename,<!--线路名称-->
+			STUFF(( SELECT ','+CONVERT(varchar(10),CardNo) FROM dbo.XG_CardInformation
+                    WHERE   RouteId = r.RouteId FOR XML PATH('')), 1, 1, '') AS eunite
+	    FROM dbo.XG_Route r
+  </select>
+
+  <!-- 通过线路编号(routeid),查询每个线路下的所有班次 -->
+  <select id="queryClass" resultType="com.xr.entity.XGClass">
+        SELECT 
+	        ClassId ,<!--班次主键-->
+	        ClassName ,<!--班次名称-->
+	        StartingTimeOfShift ,<!--巡更开始时间-->
+	        ClosingTimeOfShift ,<!--巡更结束时间-->
+	        PatrolDuration ,<!--巡更时间段长度(巡更时长)-->
+	        PatrolIntervalLength ,<!--巡更时间间隔长度(休息时间)-->
+	        ClassErrorRange<!--允许时间误差(巡更最短时长)-->
+	 FROM   dbo.XG_Class
+	 WHERE  RouteID = #{routeid}
+  </select>
+
+<!-- 通过线路编号(routeid),查询每个线路下的所有节点信息 -->
+<select id="queryDoorNo" resultType="Map">
+      SELECT
+		  NodeId AS nodeid,
+		  DoorNo AS doorno,
+		  DoorName AS doorname,
+		  NodeOrder AS nodeorder
+	 FROM  dbo.XG_RouteNode WHERE RouteId =#{routeid}
+	  ORDER BY nodeorder
+</select>
+
+<!-- 通过巡更分析的实体类来查询,是否刷卡巡更 -->
+<select id="queryIoDataXG" resultType="Map" parameterType="com.xr.entity.XG_Seek">
+	 SELECT 
+	  doorno,
+	  cardno,
+	  CONVERT(VARCHAR(20), aa.IODate,20) AS iodate
+	 FROM (
+	SELECT  a.DoorNo ,
+	        a.CardNo ,
+	        a.IODate ,
+	        ROW_NUMBER() OVER ( PARTITION BY a.DoorNo ORDER BY a.IODate DESC ) a_index
+	FROM    dbo.IOData a  
+	INNER JOIN dbo.XG_CardInformation f ON f.CardNo = a.CardNo
+	) aa WHERE aa.a_index = 1
+	<if test="doorno != null and doorno !=''">
+      AND aa.DoorNo=#{doorno}
+    </if>
+    <if test="eunite != null">
+      AND aa.CardNo IN (${eunite})
+    </if>
+    <if test="xgstarttime != null and xgendtime!=null ">
+      AND  CONVERT(VARCHAR(20),aa.IODate,20) BETWEEN #{xgstarttime} AND #{xgendtime}
+    </if>
+</select>
+
+<!-- 通过巡更分析的实体类来查询,是否已经生成了相对的结果 -->
+<select id="queryRecord" resultType="boolean" parameterType="com.xr.entity.XG_Seek">
+    SELECT 
+      COUNT(*) AS recordid
+ FROM dbo.XG_Record
+ <where>
+      <if test="doorno != null and doorno !='' ">
+          doorno=#{doorno}
+       </if>
+       <if test="routeid != null and routeid != '' ">
+          and routeid=#{routeid}
+       </if>
+       <if test="datatype != null and datatype !=''">
+         and  datatype=#{datatype} 
+       </if>
+       <if test="xgstarttime!=null and xgendtime !=''">
+           and   CONVERT(VARCHAR(20),CardSwipeTime,20) BETWEEN #{xgstarttime} AND #{xgendtime}
+       </if>
+       <if test="eunite != null and eunite !=''">
+           and CardNo in (${eunite})
+       </if>
+</where>
+</select>
+
+<!-- 在巡更分析的时候,生成正常数据时,查询是否已经存在相同数据的正常记录.-->
+<select id="queryCurrentRecord" resultType="boolean" parameterType="com.xr.entity.XG_Seek">
+	SELECT
+	   COUNT(recordid) AS recordid
+	FROM dbo.XG_Record
+	where doorno=#{doorno} and datatype = #{datatype} and CardNo in (${eunite})
+	and CONVERT(VARCHAR(20),CardSwipeTime,20) = #{contrast}
+</select>
+
+
+<!-- 用于生成巡更数据 -->
+<insert id="insertXGRecord" parameterType="com.xr.entity.XGRecord">
+         INSERT INTO dbo.XG_Record 
+        ( 
+          ClassId ,DoorNo , RouteId  , CardNo,ClassName ,RouteName ,CardSwipeTime ,CardSwipeDesc ,
+          DataType ,PatrolStartingTime ,PatrolEndingTime ,RecordGenerationTime ,RecordDescription
+        )
+         VALUES 
+       ( 
+     	 #{classid},#{doorno},#{routeid},#{cardno},#{classname},#{routename},#{cardswipetime},#{cardswipedesc},
+    	 #{datatype},#{patrolstartingtime},#{patrolendingtime},GETDATE(),#{recorddescription}
+       )
+</insert>
+
+
+
+
+
+
+</mapper>

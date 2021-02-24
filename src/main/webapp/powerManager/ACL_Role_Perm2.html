@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>权限设置-权限分配</title>
+<link rel="stylesheet" href="css/aclPermission.css" /> 
+<link rel="stylesheet" href="../css/public1.css" />
+<link rel="stylesheet" href="../css/shifts.css" />
+<link rel="stylesheet" href="../layui/css/layui.css" media="all">
+<link rel="stylesheet" href="../css/Shuttle.css">
+<link rel="stylesheet" href="../zjx/PolePermission.css">
+<link rel="stylesheet" href="css/model_list.css">
+<link rel="stylesheet" href="css/aclPermission.css">
+
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+				<div class="label fl curr" style="float:left">
+					<a href="javascript:;">权限分配</a>
+				</div>
+				<div class="btn-box fr">
+					<!-- <div class="subbtn fl">
+						<a href="javascript:;" class="layui-bg-blue toolbar_save">保存</a>
+					</div> -->
+				</div>
+			</div>
+			<div class="main-form">
+				<div class="layui-col-md3">
+					<div class="label">角色</div>
+					<ul class="approval_role">
+            			<!-- <li>监区领导</li>
+            			<li>劳动改造科</li>
+            			<li>监狱医院</li>
+            			<li>生活卫生科</li>
+            			<li>责任监区领导</li>
+            			<li>狱政管理科</li>
+            			<li>监狱值班领导</li> -->
+            		</ul>
+				</div>
+				<div class="layui-col-md9">
+					<div class="label">功能权限</div>
+					<div id="content">
+						<table id="dayindaju1"></table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/html" id="demoTreeTableBar1">
+		<a href='javascript:;' class='layui-btn layui-btn-xs' lay-event="add">新增</a>
+		<a href='javascript:;' class='layui-btn layui-btn-xs' lay-event="edit">修改</a>
+         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	</script>
+	<!-- 新增菜单 -->
+	<div id="menu_add_update" style="display: none;">
+		<div class="search-box main-form " style="border:none" id="add_menu_select">
+				<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>是否新增菜单：
+				</div>
+				<div class="control clearfix">
+					<select class="selectYZ">
+						<option value="1">否</option>
+						<option value="0">是</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<!-- 新增菜单 -->
+		<div class="search-box main-form " style="border:none" id="add_menu">
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>菜单名称：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="title1" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>父级名称：
+				</div>
+				<div class="control clearfix">
+					<input type="text" id="parentName1" placeholder=""
+						class="input" readonly />
+				</div>
+			</div>
+
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>序号：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="orderId1" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>图标：
+				</div>
+				<div class="control clearfix" style="height: 40px" id="filespan">
+				    <img src="img/iconSelect.png" class="iconSelect" title="点击更换图片" alt="请选择图片">
+				    <input type="file" id="upload" title="点击更换图片" accept = ".jpg,.png,.gif">
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：
+				</div>
+				<div class="control clearfix">
+					<textarea id="remark1"  class="textinput"
+						style="width: 234px; height: 130px; resize: none; border: 1px solid #ddd"></textarea>
+				</div>
+			</div>
+		</div>
+		<!-- 新增页面 -->
+		<div class="search-box main-form " style="border:none" id="add_yemian">
+			<div class="search-box main-form " style="border:none" id="add_menu_select">
+				<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>是否大屏显示：
+				</div>
+				<div class="control clearfix">
+					<select class="ifScreenFull">
+						<option value="0">否</option>
+						<option value="1">是</option>
+					</select>
+				</div>
+			</div>
+		</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>页面名称：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="title2" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>父级名称：
+				</div>
+				<div class="control clearfix">
+					<input type="text" id="parentName2" placeholder=""
+						class="input" readonly />
+				</div>
+			</div>
+
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>序号：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="orderId2" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>页面路径：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="modelPath2" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：
+				</div>
+				<div class="control clearfix">
+					<textarea id="remark2"  class="textinput"
+						style="width: 234px; height: 130px; resize: none; border: 1px solid #ddd"></textarea>
+				</div>
+			</div>
+		</div>
+			<!-- 新增按钮 -->
+		<div class="search-box main-form " style="border:none" id="add_button">
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>按钮名称：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="title3" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>按钮编码：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="code3" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>归属页面：
+				</div>
+				<div class="control clearfix">
+					<input type="text" id="parentName3" placeholder=""
+						class="input" readonly />
+				</div>
+			</div>
+
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>序号：
+				</div>
+				<div class="control clearfix">
+					<input type="text"  id="orderId3" placeholder=""
+						class="input" />
+				</div>
+			</div>
+			<div class="form-term  clearfix">
+				<div class="lable" style="width: 113px">
+					<span></span>备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：
+				</div>
+				<div class="control clearfix">
+					<textarea id="remark3"  class="textinput"
+						style="width: 234px; height: 130px; resize: none; border: 1px solid #ddd"></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/layer/layer.js"></script>
+	<script type="text/javascript" src="../js/common.js"></script>
+	<script type="text/javascript" src="../layui/layui.all.js"></script>
+	<script type="text/javascript" src="js/ACL_Role_Perm2.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_Roles_DeptMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_Roles_Dept" >
+    <id column="DataNo" property="datano" jdbcType="INTEGER" />
+    <result column="DeptNo" property="deptno" jdbcType="VARCHAR" />
+    <result column="Role_ID" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DataNo, DeptNo, Role_ID
+  </sql>
+  
+  
+  <!-- 批量删除  给部门移除角色 -->
+  <insert id="deleteRoleDeptBatch" parameterType="java.util.List">
+    delete from  ACL_Roles_Dept where DataNo in
+     <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+      #{item}
+     </foreach>
+  </insert>
+  
+  <!-- 批量添加   给部门添加角色-->
+  <insert id="insertRoleDeptBatch" parameterType="java.util.List">
+   insert into ACL_Roles_Dept (DeptNo, Role_ID)
+     <foreach collection="list" item="item" index="index" separator="union all">
+      (select #{item.deptno,jdbcType=VARCHAR},
+      #{item.roleId,jdbcType=INTEGER})
+     </foreach>
+  </insert>
+  
+  <!-- 通过角色id查询角色部门列表 -->
+  <select id="queryACLRoleDeptListByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+     select DataNo, DeptNo, Role_ID from ACL_Roles_Dept
+     where Role_ID=#{roleId,jdbcType=INTEGER}
+  </select>
+  
+   <!-- 根据角色和部门    查是否存在 -->
+  <select id="queryACLRoleDeptListByRoleIdAndDeptNo" parameterType="com.xr.entity.ACL_Roles_Dept">
+     select DataNo from ACL_Roles_Dept 
+     where DeptNo=#{deptno,jdbcType=VARCHAR} 
+     and Role_ID=#{roleId,jdbcType=INTEGER}
+  </select>
+ 
+ 
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_Roles_Dept
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ACL_Roles_Dept
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ACL_Roles_Dept" >
+    insert into ACL_Roles_Dept (DataNo, DeptNo, Role_ID
+      )
+    values (#{datano,jdbcType=INTEGER}, #{deptno,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ACL_Roles_Dept" >
+    insert into ACL_Roles_Dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        DataNo,
+      </if>
+      <if test="deptno != null" >
+        DeptNo,
+      </if>
+      <if test="roleId != null" >
+        Role_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="datano != null" >
+        #{datano,jdbcType=INTEGER},
+      </if>
+      <if test="deptno != null" >
+        #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_Roles_Dept" >
+    update ACL_Roles_Dept
+    <set >
+      <if test="deptno != null" >
+        DeptNo = #{deptno,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        Role_ID = #{roleId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ACL_Roles_Dept" >
+    update ACL_Roles_Dept
+    set DeptNo = #{deptno,jdbcType=VARCHAR},
+      Role_ID = #{roleId,jdbcType=INTEGER}
+    where DataNo = #{datano,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>玺瑞云智慧物联网平台</title>
+	<link rel="icon" href="img/logo3.png" sizes="32x32">
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="css/common.css" />
+	<link rel="stylesheet" href="css/public1.css" />
+</head>
+
+<body>
+	<div id="main-frame">
+		<div id="frame-top">
+			<div class="top-logo-l top-logo">
+				<!-- <div class="logo fl"><img src="img/logo.png"></div> -->
+				<div class="logo fl"><img src="img/logo3.png"></div>
+				<div class="title fl"><div class="title fl" id="iconName">玺瑞云智慧物联网平台</div><span></span></div>
+			</div>
+			<div class="bg"></div>
+			<div class="actionbar">
+				<div class="rt fl">
+					<div class="personnel fl">
+						<a href="personal_data.html" target="mainFrame"><img src="img/person.png" id="photo"></a>
+						<span class="name" id="holderno"></span>
+						<!-- <span class="time"></span> -->
+					</div>
+					<div class="new fl">
+						<a href="javascript:;">
+							<img src="images/icons/newss.png">
+							<span class="tips"></span>
+						</a>
+						<div class="new-box">
+							<div class="sanjiao">
+								<img src="images/icons/triangle_tips.png" alt="">
+							</div>
+							<div class="layui-tab layui-tab-brief">
+								<!-- <ul class="layui-tab-title">
+									<li>全部</li>
+								</ul> -->
+								<div class="layui-tab-content news">
+									<div class="layui-tab-item layui-show">
+										<a href="javascript:;" class="personMsg" target="mainFrame">
+											个人消息
+										</a>
+										<a href="holderManager/retireWarning.html" class="retireMsg" target="mainFrame">
+											退休提示消息
+											<span class="tips"></span>
+										</a>
+										<a href="personalManager/ApprovalInformation.html" class="approveMsg" target="mainFrame">
+											审批消息
+											<span class="tips"></span>
+										</a>
+										<a href="meetingsManagement/meeting_notice_list.html" class="meetingMsg" target="mainFrame">
+											会议消息
+											<span class="tips"></span>
+										</a>
+									</div>
+									<!-- <div class="layui-tab-item">内容2</div>
+									<div class="layui-tab-item">内容3</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="qp fl">
+						<img src="img/qp.png" alt="">
+					</div>
+					<div class="lock Signout fl">
+						<img src="img/Signout.png" alt="">
+					</div>
+					<!-- <div class="set-up fl">
+						<img src="images/icons/set_up.png">
+					</div> -->
+				</div>
+				<div style="display:inline-block;position:absolute;right:320px;color:#fff">
+					<div class="date" style="display:inline-block;font-size:27px; margin-right:10px"></div>
+					<div class="hours" style="display:inline-block;font-size:27px"></div>
+				</div>
+
+				<!-- <div class="personnel fl">
+						<img src="images/head_portrait.png">
+						<span class="name">你好，超级管理员</span>
+						<span class="time"></span>
+					</div>
+					<div class="tid act-list fl">
+						<a href="javascript:;">
+							<div class="new">
+								<img src="images/icons/news.png">消息
+								<span class="tips">99</span>
+							</div>
+						</a>
+						<div class="new-box">
+							<a href="route_setting.html" class="" target="mainFrame">
+								审批1
+							</a>
+							
+							<a href="javascript:;" class="" target="mainFrame">
+								文本
+							</a>
+						</div>
+					</div>
+					<div class="set-up act-list fl">
+						<a href="javascript:;">
+							<img src="images/icons/set_up.png">设置
+						</a>
+					</div>
+					<div class="sign-out act-list fl">
+						<a href="javascript:;">
+							<img src="images/icons/login_out.png">退出
+						</a>
+					</div> -->
+			</div>
+		</div>
+		<div id="frame-left">
+			<!-- <div class="touxiang">
+				<div class="tx">
+					<img src="images/head_portrait.png" alt="">
+				</div>
+				<div class="text">
+					<span class="name">胡兵</span>
+					<span class="lei">特警</span>
+				</div>
+			</div> -->
+			 <!-- < div class="menubar">
+                <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						 <img src="img/my.png"> 
+						<span>个人中心</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="personalManager/holderdata_update_password.html" class="submenu" target="mainFrame">修改密码</a>
+						<a href="personalManager/OvertimeIntermission.html" class="submenu" target="mainFrame">我的申请</a>
+						<a href="personalManager/MyAttendanceChart.html" class="submenu" target="mainFrame">我的考勤</a>
+						<a href="personalManager/ApprovalInformation.html" class="submenu" target="mainFrame">待我审批</a>  
+						<a href="personalManager/approval_record.html" class="submenu" target="mainFrame">审批记录</a>  
+				     </div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/rs1.png">
+						<span>人事管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					     <a href="holderManager/dept_tree_list.html" class="submenu" target="mainFrame">部门管理</a>
+					    <a href="holderManager/holderdata_list.html" class="submenu" target="mainFrame">人事资料</a>
+					    <a href="holderManager/departure_list.html" class="submenu " target="mainFrame">离职资料</a>
+					    <a href="holderManager/departure_record_list.html" class="submenu " target="mainFrame">离职记录</a>
+					    <a href="holderManager/retireWarning.html" class="submenu " target="mainFrame">退休提醒</a>
+						<a href="holderManager/title_list.html" class="submenu " target="mainFrame">职务与薪资</a>
+					</div>
+				</div>
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/bigScreen.png">
+						<span>数据大屏</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="prison/prison.html" class="submenu" target="mainFrame">智慧监狱</a>
+					    <a href="javascript:;" class="submenu" data-url="prison/prison.html">智慧监狱</a>
+					    <a href="javascript:;" class="submenu" target="mainFrame">智慧园区</a>
+					    <a href="javascript:;" class="submenu" data-url="prison/smartCamp.html">智慧营区</a>
+					    <a href="javascript:;" class="submenu" data-url="prison/smartHospital.html">智慧医院</a>
+					    <a href="javascript:;" class="submenu" target="mainFrame">智慧校园</a>
+					</div>
+				</div>
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/bigScreen.png">
+						<span>监控系统</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="deviceManager/prisonerDoor.html" class="submenu" target="mainFrame">犯人通道管理</a> 
+					    <a href="javascript:;" class="submenu" data-url="monitorSystem/prison.html">AB门监控系统</a>
+					    <a href="javascript:;" class="submenu" data-url="monitorSystem/doorStatusControl.html">门禁状态控制</a>
+					    <a href="javascript:;" class="submenu" data-url="monitorSystem/policeVehiclePassage.html">干警车行通道</a>
+					    <a href="javascript:;" class="submenu" data-url="monitorSystem/armedVehiclePassage.html">武警车行通道</a>
+					</div>
+				</div>
+				 
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						 <img src="img/mj.png"> 
+						<span>门禁管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="doorManager/IO_curr_record.html" class="submenu " target="mainFrame">进出实时监控</a>
+						<a href="javascript:;" class="submenu " data-url="doorManager/currentDoorStatus.html">门位状态监控</a>
+						<a href="doorManager/IO_record.html" class="submenu " target="mainFrame">进出记录查询</a>
+						<a href="doorManager/last_record.html" class="submenu " target="mainFrame">人员实时定位</a>
+						<a href="doorManager/door_perm_set.html" class="submenu " target="mainFrame">门禁权限设置</a>
+						<a href="doorManager/door_perm_set1.html" class="submenu " target="mainFrame">门禁权限设置1</a>
+						<a href="doorManager/door_perm_see.html" class="submenu " target="mainFrame">门禁权限查看</a>
+						<a href="doorManager/door_perm_send_record.html" class="submenu " target="mainFrame">权限下发记录</a> 
+						<a href="doorManager/week_zone_list.html" class="submenu " target="mainFrame">通行时段模板</a>
+						<a href="visitorManagement/door_module_list.html" class="submenu " target="mainFrame">通行门区模板</a>
+					</div>
+				</div>
+				
+			    <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/visitor.png">
+						<span>访客管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="visitorManagement/visitor_registration.html" class="submenu" target="mainFrame">访客登记</a>
+					    <a href="visitorManagement/visitor_unaudited.html" class="submenu" target="mainFrame">待我审批</a>
+					    <a href="visitorManagement/visitor_audited.html" class="submenu" target="mainFrame">我已审批</a>
+					    <a href="visitorManagement/visitor_mine.html" class="submenu" target="mainFrame">我的访客</a>
+					    <a href="visitorManagement/visitor_Record.html" class="submenu" target="mainFrame">访客登记记录</a>
+					    <a href="visitorManagement/visitor_IORecord.html" class="submenu " target="mainFrame">访客进出记录</a>
+					    <a href="visitorManagement/door_module_list.html" class="submenu " target="mainFrame">通行门区模板</a>
+					</div>
+				</div>     
+				
+				 <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/selfRegistration.png">
+						<span>自助登记</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="javascript:;" class="submenu" data-url="personVehicleRegistration/index.html">自助登记</a>
+						<a href="personVehicleRegistration/approval_self.html" class="submenu" target="mainFrame">待我审批</a>
+						<a href="personVehicleRegistration/auditedRecordList.html" class="submenu" target="mainFrame">实时监控记录</a>
+					     <a href="personVehicleRegistration/visitorsRegisterRecordList.html" class="submenu" target="mainFrame">所有访客记录</a>
+					     <a href="personVehicleRegistration/visitorsStatic.html" class="submenu" target="mainFrame">访客统计</a>
+					     <a href="personVehicleRegistration/visitorsReason_list.html" class="submenu" target="mainFrame">来访事由</a> 
+					     <a href="personVehicleRegistration/wx_approver.html" class="submenu" target="mainFrame">设置审批人</a> 
+					      <a href="personVehicleRegistration/face_recog_param_list.html" class="submenu" target="mainFrame">人脸识别参数设置</a> 
+					</div>
+				</div>     
+				 <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/meetingM.png">
+						<span>会议管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="meetingsManagement/meetingRoomManagement.html" class="submenu" target="mainFrame">会议室管理</a>
+					    <a href="meetingsManagement/meeting_add.html" class="submenu" target="mainFrame">会议建立</a>
+					    <a href="meetingsManagement/meetingList.html" class="submenu" target="mainFrame">会议管理</a>
+					    <a href="meetingsManagement/meetingRecordList.html" class="submenu " target="mainFrame">会议记录查询</a>
+					</div>
+				</div>        
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/kq1.png">
+						<span>考勤管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="attendance/attendance_shift_management.html" class="submenu" target="mainFrame">班次管理</a>
+						<a href="attendance/attendance_shuttleCenter.html" class="submenu" target="mainFrame">排班中心</a>
+						<a href="attendance/personShiftManage.html" class="submenu" target="mainFrame">班表修查</a>
+						<a href="attendance/attendance_monthly.html" class="submenu" target="mainFrame">考勤月报</a>
+						<a href="attendance/attendance_pointSeting.html" class="submenu" target="mainFrame">考勤点设置</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/device.png">
+						<span>人脸消费</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="FaceConsume/consumption_records.html" class="submenu" target="mainFrame">消费实时监控</a>
+						<a href="FaceConsume/consumptionRecords_query.html" class="submenu" target="mainFrame">消费记录查询</a>
+						<a href="FaceConsume/restaurant_list.html" class="submenu" target="mainFrame">餐厅管理</a> 
+						<a href="FaceConsume/consumptionPattern.html" class="submenu" target="mainFrame">消费模式</a> 
+						<a href="FaceConsume/accountManagement.html" class="submenu" target="mainFrame">账户管理</a> 
+						<a href="FaceConsume/face_terminal.html" class="submenu" target="mainFrame">刷脸终端管理</a> 
+						<a href="FaceConsume/operationLog.html" class="submenu" target="mainFrame">操作记录</a> 
+						<a href="FaceConsume/accountAssignment.html" class="submenu" target="mainFrame">账户分配</a> 
+						
+					</div>
+				</div>
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/device.png">
+						<span>监狱点名</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="prisonRollCall/prisonAreaManagement.html" class="submenu" target="mainFrame">监区管理</a>
+						<a href="prisonRollCall/zoneManagement.html" class="submenu" target="mainFrame">区域管理</a>
+						<a href="prisonRollCall/prisonerManagement.html" class="submenu" target="mainFrame">犯人管理</a>
+						<a href="prisonRollCall/tagManagement.html" class="submenu" target="mainFrame">标签管理</a>
+						<a href="prisonRollCall/prisonAppDevice.html" class="submenu" target="mainFrame">手持终端管理</a>
+						<a href="prisonRollCall/rollCallRecord.html" class="submenu" target="mainFrame">实时点名记录</a>
+						<a href="prisonRollCall/areaPeople.html" class="submenu" target="mainFrame">区域人员分布</a>
+						<a href="prisonRollCall/timeTemplate.html" class="submenu" target="mainFrame">时间模板</a>
+						<a href="prisonRollCall/trackQuery.html" class="submenu" target="mainFrame">轨迹查询</a>
+						<a href="prisonRollCall/statisticalForms.html" class="submenu" target="mainFrame">点名记录查询</a>
+					</div>
+				</div>
+				
+			    <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/patrol.png">
+						<span>在线巡更</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="./patrol/route_setting.html" class="submenu" target="mainFrame">巡更线路</a>
+						<a href="./patrol/card_setting.html" class="submenu" target="mainFrame">巡更人员</a>
+						<a href="./patrol/time_setting.html" class="submenu" target="mainFrame">巡更排班</a>
+						<a href="./patrol/userRoute.html" class="submenu" target="mainFrame">用户线路</a>
+						<a href="./patrol/time_patrol.html" class="submenu" target="mainFrame">实时巡更</a>
+						<a href="./patrol/patrol_record.html" class="submenu" target="mainFrame">巡更记录</a>
+					</div>
+				</div>  
+				
+				
+			 	  <div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/car.png">
+						<span>车辆管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="vehicleManager/vehicle_info.html" class="submenu" target="mainFrame">车辆信息</a>
+					    <a href="vehicleManager/vehicle_currIORecordList.html" class="submenu" target="mainFrame">实时进出记录</a>
+					    <a href="vehicleManager/vehicle_IORecordList.html" class="submenu " target="mainFrame">进出记录查询</a>
+					</div>
+				</div>      
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/littleApplication.png">
+						<span>小程序管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="appletManagement/appletAccount_apply.html" class="submenu" target="mainFrame">账户申请</a>
+					     <a href="appletManagement/applet_Account.html" class="submenu" target="mainFrame">账户管理</a>
+					    <a href="appletManagement/appletImage.html" class="submenu" target="mainFrame">个性设置</a>
+					</div>
+				</div>      
+				 
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/bp1.png">
+						<span>备品件管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="cangkuManager/b_supplier.html" class="submenu" target="mainFrame">备品件供应商</a>
+						<a href="cangkuManager/b_SparePartsData_list.html" class="submenu" target="mainFrame">备品件资料</a>
+						<a href="cangkuManager/b_in_of_stock.html" class="submenu " target="mainFrame">备品件入库</a>
+						<a href="cangkuManager/b_out_of_stock.html" class="submenu " target="mainFrame">备品件出库</a>
+						<a href="cangkuManager/b_stock.html" class="submenu " target="mainFrame">备品件库存</a>
+						<a href="cangkuManager/b_in_list.html" class="submenu" target="mainFrame">备品件入库明细</a>
+						<a href="cangkuManager/b_out_list.html" class="submenu" target="mainFrame">备品件出库明细</a>
+						<a href="cangkuManager/b_in_stock.html" class="submenu " target="mainFrame">备品件入库汇总</a>
+						<a href="cangkuManager/b_out_stock.html" class="submenu " target="mainFrame">备品件出库汇总</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/ycl1.png">
+						<span>原材料管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="cangkuManager/m_supplier.html" class="submenu" target="mainFrame">原材料供应商</a>
+						<a href="cangkuManager/material_list.html" class="submenu" target="mainFrame">原材料资料</a>
+						<a href="cangkuManager/m_in_of_stock.html" class="submenu " target="mainFrame">原材料入库</a>
+						<a href="cangkuManager/m_out_of_stock.html" class="submenu " target="mainFrame">原材料出库</a>
+						<a href="cangkuManager/m_stock.html" class="submenu " target="mainFrame">原材料库存</a>
+				       <a href="cangkuManager/m_in_list.html" class="submenu" target="mainFrame">原材料入库明细</a>
+				        <a href="cangkuManager/m_out_list.html" class="submenu" target="mainFrame">原材料出库明细</a>
+				       <a href="cangkuManager/m_in_stock.html" class="submenu " target="mainFrame">原材料入库汇总</a>
+				       <a href="cangkuManager/m_out_stock.html" class="submenu " target="mainFrame">原材料出库汇总</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/cp1.png">
+						<span>成品管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="cangkuManager/product_list.html" class="submenu" target="mainFrame">成品资料</a>
+						<a href="cangkuManager/p_sd_in_of_stock.html" class="submenu " target="mainFrame">成品入库</a>
+						<a href="cangkuManager/p_sd_out_of_stock.html" class="submenu " target="mainFrame">成品出库</a>
+						<a href="cangkuManager/p_stock.html" class="submenu " target="mainFrame">成品库存</a>
+						<a href="cangkuManager/p_in_list.html" class="submenu" target="mainFrame">成品入库明细</a>
+						<a href="cangkuManager/p_out_list.html" class="submenu" target="mainFrame">成品出库明细</a>
+						<a href="cangkuManager/p_in_stock.html" class="submenu " target="mainFrame">成品入库汇总</a>
+						<a href="cangkuManager/p_out_stock.html" class="submenu " target="mainFrame">成品出库汇总</a>
+					</div>
+				</div>
+				
+				<div class="menu-item">
+					<a href="javascript:;" class="menu" target="mainFrame">
+						<img src="img/ck1.png">
+						<span>仓库管理</span>
+						<i></i>
+					</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+					<div class="submenu-box level-item">
+						<a href="cangkuManager/wareHouse_list.html" class="submenu " target="mainFrame">仓库</a>
+						<a href="cangkuManager/wareHouseArea_list.html" class="submenu " target="mainFrame">仓库分区</a>
+						<a href="cangkuManager/item_type_list.html" class="submenu" target="mainFrame">物品类别</a>
+					</div>
+				</div> 
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/device.png">
+						<span>设备管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="deviceManager/platformManager.html" class="submenu" target="mainFrame">平台管理</a>
+						<a href="deviceManager/device_list.html" class="submenu" target="mainFrame">设备管理</a> 
+						<a href="deviceManager/door_list.html" class="submenu" target="mainFrame">设备通道管理</a> 
+						
+					</div>
+				</div>
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/device.png">
+						<span>资产管理</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+						<a href="javascript:;" class="submenu menus" target="mainFrame">
+							<span>基础数据</span>
+							<i></i>
+						</a>
+						<div class="level-box">
+								<a href="fixedGoodsManagement/wareHouse_list.html" class="submenu-level" target="mainFrame">仓库管理</a>
+								<a href="fixedGoodsManagement/manufacturer.html" class="submenu-level" target="mainFrame">制造商管理</a>
+								<a href="fixedGoodsManagement/supplier.html" class="submenu-level" target="mainFrame">供应商管理</a>
+						</div>
+						<a href="javascript:;" class="submenu menus" target="mainFrame">
+							<span>物品出入库</span>
+							<i></i>
+						</a>
+						<div class="level-box">
+								<a href="fixedGoodsManagement/itemInStorage.html" class="submenu-level" target="mainFrame">物品入库</a>
+								<a href="fixedGoodsManagement/itemOutStorage.html" class="submenu-level" target="mainFrame">物品出库</a>
+								<a href="fixedGoodsManagement/inStorageList.html" class="submenu-level" target="mainFrame">入库记录</a>
+								<a href="fixedGoodsManagement/outStorageList.html" class="submenu-level" target="mainFrame">出库记录</a>
+						</div>
+						<a href="javascript:;" class="submenu menus" target="mainFrame">
+							<span>物品管理</span>
+							<i></i>
+						</a>
+						<div class="level-box">
+								<a href="fixedGoodsManagement/itemManagement.html" class="submenu-level" target="mainFrame">物品资料</a>
+								<a href="fixedGoodsManagement/goodsInventory.html" class="submenu-level" target="mainFrame">物品库存</a>
+								<a href="fixedGoodsManagement/ScrapManagement.html" class="submenu-level" target="mainFrame">报废物品</a>
+								<a href="fixedGoodsManagement/retireManagement.html" class="submenu-level" target="mainFrame">退役物品</a>
+								<a href="fixedGoodsManagement/goodsBorrow.html" class="submenu-level" target="mainFrame">物品借用</a>
+								<a href="fixedGoodsManagement/goodsCheck.html" class="submenu-level" target="mainFrame">物品盘点</a>
+						</div>
+						<a href="javascript:;" class="submenu menus" target="mainFrame">
+							<span>审批信息</span>
+							<i></i>
+						</a>
+						<div class="level-box">
+								<a href="fixedGoodsManagement/reviewedInformation.html" class="submenu-level" target="mainFrame">待审批信息</a>
+						        <a href="fixedGoodsManagement/reviewedRecords.html" class="submenu-level" target="mainFrame">审批记录</a>
+						</div>
+					</div>
+				</div>
+				<div class="menu-item">
+					<a href="javascript:;" class="menu " target="mainFrame">
+						<img src="img/qx1.png"><span>用户角色</span>
+						<i></i>
+					</a>
+					<div class="submenu-box level-item">
+					    <a href="powerManager/dict_list.html" class="submenu" target="mainFrame">常用字典管理</a>    
+					    <a href="powerManager/menu_list.html" class="submenu" target="mainFrame">菜单管理</a> 
+					    <a href="powerManager/model_list.html" class="submenu" target="mainFrame">模块管理</a>
+					    <a href="powerManager/perm_list.html" class="submenu" target="mainFrame">功能管理</a>  
+					    <a href="powerManager/menu_model_perm_tree.html" class="submenu" target="mainFrame">菜单结构管理</a>   
+					    <a href="powerManager/model_list2.html" class="submenu" target="mainFrame">模块管理</a>
+						<a href="powerManager/ACL_Holderno_Role.html" class="submenu" target="mainFrame">人员角色分配</a>
+						<a href="powerManager/ACL_Role_Perm.html" class="submenu" target="mainFrame">角色权限分配</a>
+						<a href="powerManager/ACL_Role_Perm2.html" class="submenu" target="mainFrame">角色权限分配2</a>
+						<a href="powerManager/ACL_Role_Dept.html" class="submenu" target="mainFrame">角色部门分配</a> 
+					</div>
+				</div>
+			</div>   -->
+		</div>
+		<div id="frame-container">
+			<iframe frameborder="no" border="no" name="mainFrame" id="mainFrame" scrolling="auto" src="personal_data.html" width="100%"
+				height="100%">
+				您的浏览器不支持嵌入式框架，或者当前配置为不显示嵌入式框架。
+			</iframe>
+		</div>
+	</div>
+    <script type="text/javascript" src="hyf/path_js.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="js/layer/layer-fullresize.js"></script>
+	<script type="text/javascript" src="layui/layui.all.js"></script>
+	<!-- <script type="text/javascript" src="js/common.js"></script> -->
+	<script type="text/javascript" src="hyf/index_js2.js"></script>
+	
+</body>
+
+</html>

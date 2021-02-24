@@ -1,0 +1,43 @@
+/* 设备通道管理页面 */
+#cme-main .main-content .main-tab .main-table .deviceTree{
+	display: inline-block;
+    vertical-align: top;
+    border-right: 1px solid #ddd;
+    padding-right: 65px;
+    box-sizing: border-box;
+    width: 249px;
+    overflow: auto;
+    height: 100%;
+}
+#cme-main .main-content .main-tab .main-table .tablelist{
+	margin-left: 26px;
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 280px);
+}
+/*  添加设备页面   */
+#cme-main .main-content .main-table .downpanel .control{
+	text-align: left;
+    height: 32px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+#cme-main .main-content .main-table .downpanel .control .layui-edge{
+	border-width:4px;
+	border-top-color:#666;
+}
+.downpanel .layui-select-title span {
+    line-height: 31px;
+}
+.downpanel dl dd:hover {
+    background-color: inherit;
+}
+
+/* 设备管理查看页面 */
+#cme-main #a .main-table .form-term .control span{
+	line-height:29px;
+}
+
+.lable_align{
+	width: 84px;
+}

@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>车辆信息</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+     <link rel="stylesheet" href="../zjx/accessControl.css" />
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">新增车辆</a></div>
+                <div class="btn-box fr">
+					<div class="subbtn fl"><a href="javascript:;"   class="layui-bg-blue" id="insertVehicle">确定</a></div>
+					<div class="subbtn fl"><a href="vehicle_info.html" class="layui-bg-orange" >取消</a></div>
+                </div>
+            </div>
+
+            <div class="main-table">
+            	<form enctype="multipart/form-data" id="fm1">
+                <div class="search-box main-form ">
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车主信息：</div>
+                        <div class="control clearfix">
+                            <a href="javascript:;" class="layui-bg-blue choose">选择</a>
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>车主姓名：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="vehicleName" name="vehicleuse"  placeholder="" class="input" readonly>
+                        </div>
+                    </div>
+                    <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>部门：</div>
+                        <div class="control clearfix">
+                            <input type="text" id="dept" name="userunit" class="input" readonly>
+                        </div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>车辆类型：</div>
+                        <div class="control clearfix">
+                           <select class="vehicleType" name="vehicletype">
+                           		<option value="">请选择</option>
+                           		<option value="单位车">单位车</option>
+                           		<option value="私家车">私家车</option>
+                           </select>
+                        </div>
+                    </div>
+                     <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>车牌号码：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="vehicleNumber" class="input">
+                           <a href="javascript:;" class="province">豫</a>
+                    </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车卡内码：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="carCard" class="input" name="strcode">
+                           <a href="javascript:;" class="layui-bg-blue readCard">读卡</a>
+                    </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车牌类型：</div>
+                        <div class="control clearfix">
+                           <select class="carType" name="lprtype">
+                           		<option value="">请选择</option>
+                           		<option value="蓝底白字">蓝底白字</option>
+                           		<option value="黄底黑字">黄底黑字</option>
+                           		<option value="白底黑字">白底黑字</option>
+                           		<option value="绿底黑字">绿底黑字</option>
+                           		<option value="黑底白字">黑底白字</option>
+                           </select>
+                        </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span>*</span>车牌有效期：</div>
+                        <div class="control clearfix">
+                        	<input type="text" id="startTime" class="input dateYx" name="startdate">-
+                        	<input type="text" id="endTime" class="input dateYx" name="enddate">
+                        </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车身颜色：</div>
+                        <div class="control clearfix">
+                           <select class="carColor" name="vehiclecolor">
+                           		<option value="">请选择</option>
+                           		<option value="红色">红色</option>
+                           		<option value="黑色">黑色</option>
+                           		<option value="白色">白色</option>
+                           </select>
+                        </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车辆品牌：</div>
+                        <div class="control clearfix">
+                           <input type="text" id="vehicleBrand" name="vehiclebrand"  class="input">
+                    </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span>车辆照片：</div>
+                        <div class="control clearfix chooseBox">
+                        	<img src="" class="vehicleZP" id="img" />
+                           <input type="file" name="carPhoto" id="carPhoto" class="input" title="点击更换图片" accept=".jpg,.png,.gif">
+                           +
+                    </div>
+                </div>
+                <div class="form-term  clearfix">
+                        <div class="lable"><span></span></div>
+                        <div class="control clearfix">
+                           <span class="checkbox personRecord">允许用于个人考勤记录</span>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div>
+   <div class="vehicleInfo_shadow"></div>
+   <div class="provinceJc">
+			<div class="layer_top">
+    			<h2 class="title">选择省份</h2>
+    			<img src="img/cha.png" class="quxiao" >
+    		</div>
+			<div class="province_center">
+				<ul>
+					<li>京</li>
+					<li>津</li>
+					<li>沪</li>
+					<li>渝</li>
+					<li>冀</li>
+					<li>晋</li>
+					<li>辽</li>
+					<li>吉</li>
+					<li>黑</li>
+					<li>苏</li>
+					<li>浙</li>
+					<li>皖</li>
+					<li>闽</li>
+					<li>赣</li>
+					<li>鲁</li>
+					<li>豫</li>
+					<li>鄂</li>
+					<li>湘</li>
+					<li>粤</li>
+					<li>琼</li>
+					<li>川</li>
+					<li>黔</li>
+					<li>滇</li>
+					<li>陕</li>
+					<li>甘</li>
+					<li>青</li>
+					<li>台</li>
+					<li>蒙</li>
+					<li>桂</li>
+					<li>藏</li>
+					<li>宁</li>
+					<li>新</li>
+					<li>港</li>
+					<li>澳</li>
+				</ul>
+			</div>
+	</div>
+		<div class="vehicleInfo">
+			<div class="layer_top">
+    			<h2 class="title">选择车主信息</h2>
+    			<img src="img/cha.png" class="quxiao" >
+    		</div>
+			<div class="vehicle_top">
+				<input type="text" placeholder="请输入姓名/工号/卡号" class="vehicle_top_query">
+				<a href="javascript:;" id="queryHolderInfo">搜索</a>
+			</div>
+			<div class="door_center">
+				<ul>
+					
+				</ul>
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">取消</a>
+				</div>
+				
+			</div>
+		</div> 
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+     <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/vehicle_add.js"></script>
+</body>
+
+</html>

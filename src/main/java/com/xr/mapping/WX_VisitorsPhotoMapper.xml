@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.WX_VisitorsPhotoMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.WX_VisitorsPhoto" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="VisitorsID" property="visitorsid" jdbcType="INTEGER" />
+    <result column="PhotoType" property="phototype" jdbcType="NVARCHAR" />
+ <!--  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.xr.entity.WX_VisitorsPhotoWithBLOBs" extends="BaseResultMap" > -->
+    <result column="PhotoData" property="photodata" jdbcType="LONGVARBINARY" />
+    <result column="IDPhoto" property="idphoto" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, VisitorsID, PhotoType
+  </sql>
+  <sql id="Blob_Column_List" >
+    PhotoData, IDPhoto
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from WX_VisitorsPhoto
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+ 
+  <insert id="insert" parameterType="com.xr.entity.WX_VisitorsPhoto" >
+    insert into WX_VisitorsPhoto (ID, VisitorsID, PhotoType, 
+      PhotoData, IDPhoto)
+    values (#{id,jdbcType=INTEGER}, #{visitorsid,jdbcType=INTEGER}, #{phototype,jdbcType=NVARCHAR}, 
+      #{photodata,jdbcType=LONGVARBINARY}, #{idphoto,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.WX_VisitorsPhoto" >
+    insert into WX_VisitorsPhoto
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="visitorsid != null" >
+        VisitorsID,
+      </if>
+      <if test="phototype != null" >
+        PhotoType,
+      </if>
+      <if test="photodata != null" >
+        PhotoData,
+      </if>
+      <if test="idphoto != null" >
+        IDPhoto,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="visitorsid != null" >
+        #{visitorsid,jdbcType=INTEGER},
+      </if>
+      <if test="phototype != null" >
+        #{phototype,jdbcType=NVARCHAR},
+      </if>
+      <if test="photodata != null" >
+        #{photodata,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="idphoto != null" >
+        #{idphoto,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.WX_VisitorsPhoto" >
+    update WX_VisitorsPhoto
+    <set >
+      <if test="visitorsid != null" >
+        VisitorsID = #{visitorsid,jdbcType=INTEGER},
+      </if>
+      <if test="phototype != null" >
+        PhotoType = #{phototype,jdbcType=NVARCHAR},
+      </if>
+      <if test="photodata != null" >
+        PhotoData = #{photodata,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="idphoto != null" >
+        IDPhoto = #{idphoto,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+</mapper>

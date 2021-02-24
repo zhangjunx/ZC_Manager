@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ACL_ModelDataMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ACL_ModelData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="ModelCode" property="modelcode" jdbcType="NVARCHAR" />
+    <result column="ModelName" property="modelname" jdbcType="NVARCHAR" />
+    <result column="MenuNo" property="menuno" jdbcType="INTEGER" />
+    <result column="MenuCode" property="menucode" jdbcType="NVARCHAR" />
+    <result column="OrderId" property="orderid" jdbcType="INTEGER" />
+    <result column="ModelPath" property="modelpath" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Deleted" property="deleted" jdbcType="NVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, ModelCode, ModelName, MenuNo, MenuCode, OrderId, ModelPath, CreateDate, Deleted, 
+    Remark
+  </sql>
+  
+   
+  
+   <!-- 根据菜单id查是否有子功能  删除模块前判断-->
+  <select id="getPermByModel" resultType="Map">
+      select p.id,p.name,p.code,mo.modelcode from ACL_Permissions p 
+      inner join ACL_ModelData mo on mo.modelcode=p.modelcode
+       where mo.id=#{id}
+  </select>
+  
+   <!-- 查询所有模块列表 -->
+  <select id="queryModelList" resultType="Map">
+     select mo.id,mo.modelcode,mo.modelname,mo.remark,
+     me.menucode,me.menuname,me.id menuno,mo.orderid,mo.modelpath
+      from ACL_ModelData mo 
+      left join ACL_MenuData me on mo.Menucode=me.Menucode
+      <where>
+          <if test="ModelName!=null and ModelName!='' ">
+              and mo.ModelName like '%'+#{modelname}+'%'
+          </if>
+           <if test="ModelCode!=null and ModelCode!='' ">
+             and mo.ModelCode=#{modelcode}
+          </if>
+           <if test="id!=null and id!='' ">
+             and mo.id=#{id}
+          </if>
+      </where>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ACL_ModelData
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ACL_ModelData
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ACL_ModelData" >
+    insert into ACL_ModelData (id, ModelCode, ModelName, 
+      MenuNo, MenuCode, OrderId, 
+      ModelPath, CreateDate, Deleted, 
+      Remark)
+    values (#{id,jdbcType=INTEGER}, #{modelcode,jdbcType=NVARCHAR}, #{modelname,jdbcType=NVARCHAR}, 
+      #{menuno,jdbcType=INTEGER}, #{menucode,jdbcType=NVARCHAR}, #{orderid,jdbcType=INTEGER}, 
+      #{modelpath,jdbcType=NVARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{deleted,jdbcType=NVARCHAR}, 
+      #{remark,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ACL_ModelData" >
+    insert into ACL_ModelData
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="modelcode != null" >
+        ModelCode,
+      </if>
+      <if test="modelname != null" >
+        ModelName,
+      </if>
+      <if test="menuno != null" >
+        MenuNo,
+      </if>
+      <if test="menucode != null" >
+        MenuCode,
+      </if>
+      <if test="orderid != null" >
+        OrderId,
+      </if>
+      <if test="modelpath != null" >
+        ModelPath,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="deleted != null" >
+        Deleted,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelcode != null" >
+        #{modelcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="modelname != null" >
+        #{modelname,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuno != null" >
+        #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="menucode != null" >
+        #{menucode,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="modelpath != null" >
+        #{modelpath,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ACL_ModelData" >
+    update ACL_ModelData
+    <set >
+      <if test="modelcode != null" >
+        ModelCode = #{modelcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="modelname != null" >
+        ModelName = #{modelname,jdbcType=NVARCHAR},
+      </if>
+      <if test="menuno != null" >
+        MenuNo = #{menuno,jdbcType=INTEGER},
+      </if>
+      <if test="menucode != null" >
+        MenuCode = #{menucode,jdbcType=NVARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderId = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="modelpath != null" >
+        ModelPath = #{modelpath,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        Deleted = #{deleted,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ACL_ModelData" >
+    update ACL_ModelData
+    set ModelCode = #{modelcode,jdbcType=NVARCHAR},
+      ModelName = #{modelname,jdbcType=NVARCHAR},
+      MenuNo = #{menuno,jdbcType=INTEGER},
+      MenuCode = #{menucode,jdbcType=NVARCHAR},
+      OrderId = #{orderid,jdbcType=INTEGER},
+      ModelPath = #{modelpath,jdbcType=NVARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Deleted = #{deleted,jdbcType=NVARCHAR},
+      Remark = #{remark,jdbcType=NVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

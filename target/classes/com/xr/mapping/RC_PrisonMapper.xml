@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_PrisonMapper" >
+	
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	  
+	<!--获取监区列表  -->
+	<select id="getPrisonList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h.holderName "operatorName" from RC_Prison t
+		  left join HolderData h on t.operator = h.holderNo
+		 where t.status != 0
+		<!--查询条件：监区名称  -->
+		<if test="prisonName != null and prisonName != ''">
+			and t.prisonName like '%'+#{prisonName}+'%'
+		</if>
+		<!--查询条件：监区位置  -->
+		<if test="localtion != null and localtion != ''">
+			and localtion like '%'+#{localtion}+'%'
+		</if>
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getPrisonListCount" resultType="integer">
+		select count(1) from RC_Prison t
+		  left join HolderData h on t.operator = h.holderNo
+		 where t.status != 0
+		<!--查询条件：监区名称  -->
+		<if test="prisonName != null and prisonName != ''">
+			and t.prisonName like '%'+#{prisonName}+'%'
+		</if>
+		<!--查询条件：监区位置  -->
+		<if test="localtion != null and localtion != ''">
+			and localtion like '%'+#{localtion}+'%'
+		</if>
+	</select>
+	
+	<!--添加监狱信息  -->
+	<update id="addPrisonInfo">
+		insert into RC_Prison(prisonName,prisonCode,localtion,leader,operator,operateDate,status,creator,createDate)
+		values(#{prisonName},#{prisonCode},#{localtion},#{leader},#{operator},GETDATE(),#{status},#{operator},GETDATE())
+	</update>
+	
+	<update id="editPrisonInfo">
+		update RC_Prison
+		   set prisonName=#{prisonName},
+		       prisonCode=#{prisonCode},
+		       localtion=#{localtion},
+		       leader=#{leader},
+		       operator=#{operator},
+		       operateDate=GETDATE(),
+		       status = #{status}
+		 where fid=#{fid}
+	</update>
+	
+	<!--获取一条信息  -->
+	<select id="getOnePrisonInfo" resultType="map">
+		select t.* from RC_Prison t where t.fid = #{fid}
+	</select>
+	
+	<!--删除一条信息  -->
+	<update id="delOnePrisonInfo">
+		update RC_Prison 
+		   set status = 0
+		 where fid=#{fid}
+		   and status = 2
+	</update>
+	
+	<!--发放标签  -->
+	<update id="updatePrisonLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},2,1,GETDATE(),#{changer},#{prisonID})
+			SELECT @fid = @@IDENTITY
+			
+			update RC_Prison
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonID}
+		end;
+	</update>
+	
+	<!--更换标签  -->
+	<update id="changePrisonLabel">
+		declare
+			@fid varchar(20);
+		begin 
+			update RC_PrisonLabel
+			   set status = 0
+			 where objID = #{prisonID}
+			   and labelType = 2
+			   and status = 1;
+			
+			insert into RC_PrisonLabel(labelCode,labelType,status,changeDate,changer,objID)
+			values(#{labelCode},2,1,GETDATE(),#{changer},#{prisonID})
+			SELECT @fid = @@IDENTITY
+			
+			update RC_Prison
+			   set labelID = @fid,
+			       labelCode = #{labelCode}
+			 where fid = #{prisonID}
+		end;
+	</update>
+	
+	<!--根据监区名称查询总数  -->
+	<select id="getSumWithName" resultType="map">
+		select t.* from RC_Prison t where t.prisonName=#{prisonName} and t.status != 0
+	</select>
+	
+	<!--根据标签查询总数  -->
+	<select id="getSumWithLabelCode" resultType="integer">
+		select count(1) from RC_Prison t where t.labelCode=#{labelCode} and t.status != 0
+	</select>
+	
+</mapper>

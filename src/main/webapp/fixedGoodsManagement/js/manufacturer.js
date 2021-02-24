@@ -1,0 +1,216 @@
+var total;
+var curpage=1;//当前页
+var pagesize=20;//每页显示的条数
+$(function(){
+	getList();
+	getPage(total);
+})
+//分页
+function getPage(total){
+	layui.use("laypage",function(){
+		var laypage=layui.laypage;
+		laypage.render({
+			elem:"test",
+			limit:pagesize,//每页显示条数
+			count:total,//总条数
+			layout:['count','prev','page','next','limit','refresh','skip'],
+			jump:function(obj,first){
+				curpage=obj.curr;
+				pagesize=obj.limit;
+				if(!first){
+					getList();
+				}
+			}
+		})
+	})
+}//end
+//点击新增弹出层
+$("#insertManufacturer").click(function(){
+	$("#fid").val("");
+	$("#manufactureName").val("");
+	$("#country").val("");
+	$("#nature").val("");
+	$("#location").val("");
+	$("#manager").val("");
+	$("#managerPhone").val("");
+	$("#remark").val("");
+	layer.open({
+		type:1,
+		title:"新增制造商",
+		content:$("#manufacturer"),
+		area:["500px","550px"],
+		btn:["确定","取消"],
+		yes:function(index){
+			saveInfo(index);
+		}
+	})
+})
+
+//点击修改
+$(document).on("click",".mo",function(){
+	$("#fid").val("");
+	$("#manufactureName").val("");
+	$("#country").val("");
+	$("#nature").val("");
+	$("#location").val("");
+	$("#manager").val("");
+	$("#managerPhone").val("");
+	$("#remark").val("");
+	var fid=$(this).attr("data-fid");
+	getOne(fid);
+	layer.open({
+		type:1,
+		title:"修改制造商",
+		content:$("#manufacturer"),
+		area:["500px","550px"],
+		btn:["确定","取消"],
+		yes:function(index){
+			saveInfo(index);
+		}
+	})
+})
+//
+
+//点击删除
+$(document).on("click",".shan",function(){
+	var fid=$(this).attr("data-fid");
+	layer.confirm("确定删除?",{title:"提示信息"},function(index){
+		$.ajax({
+			url:url+"/zcManufacture/delOne",
+			type:"post",
+			data:{"fid":fid},
+			success:function(data){
+				layer.close(index);
+				if(data.flag){
+					layer.msg(data.reason,{time:1000},function(){
+						getList();
+					})
+				}else{
+					layer.msg(data.reason,{time:2000});
+				}
+			}
+		})
+	})
+})
+//提交信息
+function saveInfo(index){
+	var fid=$("#fid").val();
+	var manufactureName=$("#manufactureName").val();//制造商名称
+	var country=$("#country").val();
+	var nature=$("#nature").val();
+	var location=$("#location").val();
+	var manager=$("#manager").val();
+	var managerPhone=$("#managerPhone").val();
+	var remark=$("#remark").val();
+	if(manufactureName==""){
+		layer.msg("请填写制造商名称!",{time:2000});
+		return;
+	}
+	/*if(country==""){
+		layer.msg("请填写制造商国家!",{time:2000});
+		return;
+	}
+	if(nature==""){
+		layer.msg("请填写制造商性质!",{time:2000});
+		return;
+	}*/
+	/*if(location==""){
+		layer.msg("请填写地址!",{time:2000});
+		return;
+	}
+	if(manager==""){
+		layer.msg("请填写联系人!",{time:2000});
+		return;
+	}
+	if(managerPhone==""){
+		layer.msg("请填写联系电话!",{time:2000});
+		return;
+	}*/
+	var obj={"fid":fid,"name":manufactureName,"country":country,"nature":nature,"location":location,"manager":manager,"managerPhone":managerPhone,"remark":remark,"operator":window.top.holderno};
+	$.ajax({
+		url:url+"/zcManufacture/saveInfo",
+		type:"post",
+		data:obj,
+		success:function(data){
+			if(data.flag){
+				layer.msg(data.reason,{time:1000},function(){
+					layer.close(index);
+					getList();
+				})
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+//修改时获取一条信息
+function getOne(fid){
+	$.ajax({
+		url:url+"/zcManufacture/getOne",
+		type:"post",
+		data:{"fid":fid},
+		success:function(data){
+			console.log(data);
+			if(data.flag){
+				var fid=data.result.fid;
+				var manufactureName=data.result.name;
+				var country=data.result.country;
+				var nature=data.result.nature;
+				var location=data.result.location;
+				var manager=data.result.manager;
+				var managerPhone=data.result.managerPhone;
+				var remark=data.result.remark;
+				$("#fid").val(fid);
+				$("#manufactureName").val(manufactureName);
+				$("#country").val(country);
+				$("#nature").val(nature);
+				$("#location").val(location);
+				$("#manager").val(manager);
+				$("#managerPhone").val(managerPhone);
+				$("#remark").val(remark);
+			}else{
+				layer.msg(data.reason,{time:2000});
+			}
+		}
+	})
+}
+//点击搜索
+$("#manufacturerSearch").click(function(){
+	getList();
+	getPage(total);
+})
+//初始化制造商列表
+function getList(){
+	var country=$("#manufacturerCountry1").val();
+	var manufactureName=$("#manufacturerName1").val();
+	var obj={"curpage":curpage,"pagesize":pagesize,"country":country,"name":manufactureName};
+	$.ajax({
+		url:url+"/zcManufacture/getList",
+		type:"post",
+		data:obj,
+		async:false,
+		success:function(data){
+			console.log(data);
+			total=data.count;
+			$("#cont").empty();
+			if(data.flag){
+				var res=data.result;
+				var index=1;
+				for(var item of res){
+					var manufactureName=item.name==undefined?"":item.name;
+					var country=item.country==undefined?"":item.country;
+					var nature=item.nature==undefined?"":item.nature;
+					var location=item.location==undefined?"":item.location;
+					var manager=item.manager==undefined?"":item.manager;
+					var managerPhone=item.managerPhone==undefined?"":item.managerPhone;
+					var remark=item.remark==undefined?"":item.remark;
+					var $tr=$("<tr><td>"+index+"</td><td>"+manufactureName+"</td><td>"+country+"</td><td>"+nature+"</td><td>"+location+"</td>" +
+							"<td>"+manager+"</td><td>"+managerPhone+"</td><td><a href='javascript:;' data-fid="+item.fid+" class='mo layui-btn layui-btn-xs'>修改</a>" +
+						    "<a href='javascript:;' data-fid="+item.fid+" class='shan layui-btn layui-btn-xs layui-btn-danger'>删除</a></td></tr>");
+					index++;
+					$("#cont").append($tr);
+				}
+			}
+		}
+	})
+}

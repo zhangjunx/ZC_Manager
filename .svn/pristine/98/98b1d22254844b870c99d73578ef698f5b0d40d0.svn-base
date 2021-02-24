@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.RC_CallTimeModelMapper" >
+	  <sql id="c_start">
+	  	select _res.* from (
+		  select row_number() over (order by fid desc) tindex ,_tmp.* from (
+	  </sql>
+	  
+	  <sql id="c_end">
+	  	) _tmp ) _res where 1=1
+	  	<if test="curpage != null and curpage != ''">
+	  		and _res.tindex &gt;= (convert(int,#{curpage})-1) * convert(int,#{pagesize})+1 
+	  		and _res.tindex &lt;= convert(int,#{curpage}) * convert(int,#{pagesize})
+	  	</if>
+	  </sql>
+	
+	<!--获取模板列表  -->
+	<select id="getTimeMoldelList" resultType="map">
+		<include refid="c_start"></include>
+		select t.*,h.holderName from RC_CallTimeModel t
+		left join HolderData h on t.operator = h.holderNo
+		<include refid="c_end"></include>
+	</select>
+	
+	<select id="getTimeMoldelListCount" resultType="integer">
+		select count(1) from RC_CallTimeModel t
+		left join HolderData h on t.operator = h.holderNo
+	</select>
+	
+	<select id="getTimeMoldelMemberList" resultType="map">
+		select t.* from RC_CallTimeModelMember t where 1=1 
+		<if test="timeModelID != null and timeModelID != ''">
+			and t.timeModelID = #{timeModelID}
+		</if>
+		
+	</select>
+	
+	<!--根据名称获取总数  -->
+	<select id="getSumWithName" resultType="map">
+		select t.* from RC_CallTimeModel t where t.modelName = #{modelName}
+	</select>
+	
+	<!--新建模板  -->
+	<update id="addTimeMoldel">
+		declare
+			@fid varchar(20);
+		begin
+			insert into RC_CallTimeModel(modelName,operator,operateDate,status)
+			values(#{modelName},#{operator},GETDATE(),1)
+			select @fid=@@IDENTITY
+			
+			<foreach collection="addList" item="l" open="" close="" separator="">
+				insert into RC_CallTimeModelMember(timeModelID,startTime,endTime)
+				values(@fid,#{l.startTime},#{l.endTime})
+			</foreach>
+		end;
+	</update>
+	
+	<update id="addTimeMoldelMember">
+		insert into RC_CallTimeModelMember(timeModelID,startTime,endTime)
+		values(#{timeModelID},#{startTime},#{endTime})
+	</update>
+	
+	<!--更新模板  -->
+	<update id="editTimeMoldel">
+		begin
+			update RC_CallTimeModel
+			   set modelName=#{modelName},
+			   	   operator=#{operator},
+			   	   operateDate=GETDATE(),
+			   	   status=#{status}
+			 where fid=#{fid}
+			
+			<foreach collection="addList" item="l" open="" close="" separator="">
+				insert into RC_CallTimeModelMember(timeModelID,startTime,endTime)
+				values(#{fid},#{l.startTime},#{l.endTime})
+			</foreach>
+			
+			<foreach collection="delList" item="l" open="" close="" separator="">
+				delete from RC_CallTimeModelMember where fid=#{l.fid}
+			</foreach>
+			
+			<foreach collection="updateList" item="l" open="" close="" separator="">
+				update RC_CallTimeModelMember
+				   set startTime=#{l.startTime},
+				   	   endTime=#{l.endTime}
+				 where fid=#{l.fid}
+			</foreach>
+		end;
+	</update>
+	
+	<update id="editTimeMoldelMember">
+		update RC_CallTimeModelMember
+		   set startTime=#{startTime},
+		   	   endTime=#{endTime}
+		 where fid=#{fid}
+	</update>
+	
+	<!--获取一条信息  -->
+	<select id="getOneTimeMoldelInfo" resultType="map">
+		select t.*,h.holderName from RC_CallTimeModel t
+		left join HolderData h on t.operator = h.holderNo
+		where t.fid=#{fid}
+	</select>
+	
+	<select id="getOneTimeMoldelMemberInfo" resultType="map">
+		select t.*,h.holderName from RC_CallTimeModelMember t where t.fid=#{fid}
+	</select>
+	
+	<!--删除一条信息  -->
+	<update id="delOneTimeMoldelInfo">
+		begin
+			delete from RC_CallTimeModel where fid=#{fid};
+			delete from RC_CallTimeModelMember where timeModelID=#{fid};
+		end;
+	</update>
+	
+	<update id="delOneTimeMoldelMemberInfo">
+		delete from RC_CallTimeModelMember where fid=#{fid};
+	</update>
+</mapper>

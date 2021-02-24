@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xr.dao.ZX_HolderTransferMapper" >
+  <resultMap id="BaseResultMap" type="com.xr.entity.ZX_HolderTransfer" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="HolderNo" property="holderno" jdbcType="NVARCHAR" />
+    <result column="HolderName" property="holdername" jdbcType="NVARCHAR" />
+    <result column="IDCode" property="idcode" jdbcType="NVARCHAR" />
+    <result column="DeptNo1" property="deptno1" jdbcType="NVARCHAR" />
+    <result column="DeptName1" property="deptname1" jdbcType="NVARCHAR" />
+    <result column="DeptNo2" property="deptno2" jdbcType="NVARCHAR" />
+    <result column="DeptName2" property="deptname2" jdbcType="NVARCHAR" />
+    <result column="UpdatePerson" property="updateperson" jdbcType="NVARCHAR" />
+    <result column="UpdatePersonName" property="updatepersonname" jdbcType="NVARCHAR" />
+    <result column="UpdateDate" property="updatedate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, HolderNo, HolderName, IDCode, DeptNo1, DeptName1, DeptNo2, DeptName2, UpdatePerson, 
+    UpdatePersonName, UpdateDate
+  </sql>
+  
+  <!-- 查询列表 -->
+  <select id="getHolderTransferList" resultType="Map">
+       select id, holderno, holdername, idcode, 
+       deptno1, deptname1, deptno2, deptname2, 
+       updateperson, updatepersonname, 
+    convert(varchar(10),UpdateDate,23) updatedate from ZX_HolderTransfer 
+    <where>
+	      <if test="id != null and id!='' " >
+	        ID=#{id}
+	      </if>
+	      <if test="holderno != null and holderno!='' " >
+	        and HolderNo=#{holderno}
+	      </if>
+	      <if test="holdername != null and holdername!='' " >
+	        and HolderName like '%'+#{holdername}+'%'
+	      </if>
+	      <if test="idcode != null and idcode!='' " >
+	        and IDCode like '%'+#{idcode}+'%'
+	      </if>
+    </where>
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ZX_HolderTransfer
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ZX_HolderTransfer
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xr.entity.ZX_HolderTransfer" >
+    insert into ZX_HolderTransfer (ID, HolderNo, HolderName, 
+      IDCode, DeptNo1, DeptName1, 
+      DeptNo2, DeptName2, UpdatePerson, 
+      UpdatePersonName, UpdateDate)
+    values (#{id,jdbcType=INTEGER}, #{holderno,jdbcType=NVARCHAR}, #{holdername,jdbcType=NVARCHAR}, 
+      #{idcode,jdbcType=NVARCHAR}, #{deptno1,jdbcType=NVARCHAR}, #{deptname1,jdbcType=NVARCHAR}, 
+      #{deptno2,jdbcType=NVARCHAR}, #{deptname2,jdbcType=NVARCHAR}, #{updateperson,jdbcType=NVARCHAR}, 
+      #{updatepersonname,jdbcType=NVARCHAR}, #{updatedate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xr.entity.ZX_HolderTransfer" useGeneratedKeys="true" keyProperty="id">
+    insert into ZX_HolderTransfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="holderno != null" >
+        HolderNo,
+      </if>
+      <if test="holdername != null" >
+        HolderName,
+      </if>
+      <if test="idcode != null" >
+        IDCode,
+      </if>
+      <if test="deptno1 != null" >
+        DeptNo1,
+      </if>
+      <if test="deptname1 != null" >
+        DeptName1,
+      </if>
+      <if test="deptno2 != null" >
+        DeptNo2,
+      </if>
+      <if test="deptname2 != null" >
+        DeptName2,
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson,
+      </if>
+      <if test="updatepersonname != null" >
+        UpdatePersonName,
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="holderno != null" >
+        #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        #{idcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno1 != null" >
+        #{deptno1,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname1 != null" >
+        #{deptname1,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno2 != null" >
+        #{deptno2,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname2 != null" >
+        #{deptname2,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatepersonname != null" >
+        #{updatepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xr.entity.ZX_HolderTransfer" >
+    update ZX_HolderTransfer
+    <set >
+      <if test="holderno != null" >
+        HolderNo = #{holderno,jdbcType=NVARCHAR},
+      </if>
+      <if test="holdername != null" >
+        HolderName = #{holdername,jdbcType=NVARCHAR},
+      </if>
+      <if test="idcode != null" >
+        IDCode = #{idcode,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno1 != null" >
+        DeptNo1 = #{deptno1,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname1 != null" >
+        DeptName1 = #{deptname1,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptno2 != null" >
+        DeptNo2 = #{deptno2,jdbcType=NVARCHAR},
+      </if>
+      <if test="deptname2 != null" >
+        DeptName2 = #{deptname2,jdbcType=NVARCHAR},
+      </if>
+      <if test="updateperson != null" >
+        UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatepersonname != null" >
+        UpdatePersonName = #{updatepersonname,jdbcType=NVARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        UpdateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xr.entity.ZX_HolderTransfer" >
+    update ZX_HolderTransfer
+    set HolderNo = #{holderno,jdbcType=NVARCHAR},
+      HolderName = #{holdername,jdbcType=NVARCHAR},
+      IDCode = #{idcode,jdbcType=NVARCHAR},
+      DeptNo1 = #{deptno1,jdbcType=NVARCHAR},
+      DeptName1 = #{deptname1,jdbcType=NVARCHAR},
+      DeptNo2 = #{deptno2,jdbcType=NVARCHAR},
+      DeptName2 = #{deptname2,jdbcType=NVARCHAR},
+      UpdatePerson = #{updateperson,jdbcType=NVARCHAR},
+      UpdatePersonName = #{updatepersonname,jdbcType=NVARCHAR},
+      UpdateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

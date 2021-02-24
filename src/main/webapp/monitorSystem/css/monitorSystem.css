@@ -1,0 +1,536 @@
+.layui-fluid{
+	background: #0E2C72;
+	padding:0;
+}
+.top{
+	background:#083C90;
+	padding:10px 15px;
+}
+.top_logo h1{
+	color:#EFFAFC;
+	font-size:3em;
+	margin-left:15px;
+}
+.time{
+	height:100%;
+	color:#8AFFFE;
+	font-size:3em;
+	line-height: 67px;
+}
+.con{
+	padding:20px 15px 10px;
+	box-sizing:border-box;
+}
+.title{
+	color:#7AF7FF;
+	font-size:3em;
+	padding-bottom:25px;
+	box-sizing:border-box;
+	text-align:center;
+}
+.box_l{
+	text-align:center;
+}
+.box_r{
+	text-align:center;
+}
+.status{
+	width:89%;
+	height:42px;
+	color:#01FFFF;
+	font-size:1.5em;
+	border:1px solid #85BAD5;
+	text-align:center;
+	line-height:42px;
+	margin:0 auto;
+	margin-top:20px;
+	overflow:hidden;
+	display:none;
+}
+.person_center{
+	text-align:center;
+	width:12%;
+}
+.person_info{
+	width:73%;
+	border:1px solid #1D8EC2;
+	margin:20px auto;
+}
+.person_info li{
+	display:inline-block;
+	color:#fff;
+	font-size:16px;
+	padding-left:30px;
+	margin:10px;
+	width: 40%;
+}
+.person_info li.holdername{
+	background:url("../image/holdername.png") no-repeat left center;
+}
+.person_info li.holderno{
+	background:url("../image/holderno.png") no-repeat left center;
+}
+.person_info li.dept{
+	background:url("../image/dept.png") no-repeat left center;
+}
+.person_info li.passageTime{
+	background:url("../image/time.png") no-repeat left center;
+}
+.person_l_bg,.person_r_bg{
+    width: 97%;
+    height: 100%;
+    object-fit:cover;
+}
+.status_picture{
+	width: 100%;
+    height: 100px;
+    border-radius: 50%;
+    background: skyblue;
+    color: #fff;
+    font-size: 20px;
+    line-height: 100px;
+}
+.person_left,.person_right {
+	width:28%;
+	height: 263px;
+    overflow: hidden;
+}
+.layui-table-view{
+	width:94%;
+	border-color:#51A9D7;
+	margin:10px auto;
+}
+.layui-table tr th{
+	background:#2283B6;
+	border-color:#51A9D7;
+}
+.layui-table-header{
+	border-color:#51A9D7;
+	background: #2283B6;
+}
+.layui-table tr th span{
+	color:#fff;
+}
+.layui-table tr td{
+	background:#0E2C72 !important;
+	border-color:#51A9D7 !important;
+	color:#fff;
+}
+
+.doorList{
+	width:100%;
+	height:67px;
+	line-height: 67px;
+	white-space:nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+/*修改滚动条样式*/
+.doorList::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+  /**/
+}
+.doorList::-webkit-scrollbar-track{
+  background: #1D8EC2;
+  border-radius:2px;
+}
+.doorList::-webkit-scrollbar-thumb{
+  background: #b6daeb;
+  border-radius:10px;
+}
+.doorList::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.doorList::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+
+
+.doorList li{
+	color:#fff;
+	font-size:16px;
+	cursor:pointer;
+	border: 1px solid #1D8EC2;
+	border-radius:5px;
+	margin-left:15px;
+	padding:0 8px;
+	box-sizing:border-box;
+	height: 32px;
+    line-height: 32px;
+}
+.doorList li.current{
+	background:#1D8EC2;
+}
+
+/* 门禁状态控制页面 */
+.grid{
+	margin: 10px 0;
+}
+.con_title {
+    float: left;
+    color:#EFFAFC;
+    font-size:16px;
+}
+.con_doorOpen {
+    float: right;
+    cursor:pointer;
+    color:#EFFAFC;
+}
+.con_doorOpen:hover{
+	opacity:0.7;
+	transition:0.5s ease;
+}
+.con_doorClose:hover{
+	opacity:0.7;
+	transition:0.5s ease;
+}
+.con_doorOpen img{
+	margin-right:5px;
+}
+.con_doorClose {
+    float: right;
+    margin-right: 20px;
+    cursor:pointer;
+    color:#EFFAFC;
+}
+.con_doorClose img{
+	margin-right:5px;
+}
+.grid .grid-item ul li {
+    margin: 15px 10px;
+    text-align: center;
+}
+.doorControl p{
+	margin-top:10px;
+}
+.layui-card{
+	background: #0E2C72;
+}
+.layui-card-header{
+	border-bottom:1px solid #51A9D7;
+}
+.doorBg{
+	background:url(../image/doorBg.png) no-repeat;
+	width: 76px;
+    height: 42px;
+}
+.doorName{
+	color: #fff;
+    margin-bottom: 10px;
+    font-size: 16px;
+    width:180px;
+}
+.doorNameList{
+    padding: 0;
+    height: calc(100% - 43px);
+    overflow: auto;
+}
+/*修改滚动条样式*/
+.doorNameList::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+  /**/
+}
+.doorNameList::-webkit-scrollbar-track{
+  background: #1D8EC2;
+  border-radius:2px;
+}
+.doorNameList::-webkit-scrollbar-thumb{
+  background: #b6daeb;
+  border-radius:10px;
+}
+.doorNameList::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.doorNameList::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+/* 关闭页面的按钮 */
+.closeYeMian{
+	position: absolute;
+    top: -100px;
+    right: 50px;
+    z-index:999;
+    cursor:pointer;
+}
+
+
+/* 门区权限设置 */
+.approval_self{
+	border:1px solid #ddd;
+	height:99%;
+	border-radius: 5px;
+}
+.approval_self .approval_center{
+	width:380px;
+	border-right:1px solid #ddd;
+	height:100%;
+	float:left;
+}
+.approval_self .approval_center h2{
+	font-size:18px;
+	line-height:60px;
+	color:#666;
+	padding-left:20px;
+	border-bottom:1px solid #ddd;
+}
+.approval_self .approval_center .approval_role{
+	width:100%;
+	height:calc(100% - 60px);
+	overflow:auto;
+	box-sizing:border-box;
+}
+
+/*修改滚动条样式*/
+.approval_self .approval_center .approval_role::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_center .approval_role::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_center .approval_role li{
+	font-size: 14px;
+    border: 1px solid #ddd;
+    text-align: left;
+    color: #333;
+    line-height: 45px;
+    width: 261PX;
+    cursor: pointer;
+    height: 45px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding-left:59px;
+    box-sizing:border-box;
+    border-radius:3px;
+    background:url(../image/wx_approver2.png) no-repeat 24px center;
+}
+.approval_self .approval_center .approval_role li.current{
+	background:url(../image/wx_approver1.png) no-repeat 24px center;
+	color:#008EDE;
+	border-color:#008EDE;
+}
+.approval_self .approval_right{
+	width:calc(100% - 381px);
+	height:100%;
+	float:right;
+}
+.approval_self .approval_right .dept{
+	width:300px;
+	height: calc(100% - 60px);
+	padding:20px 0;
+	box-sizing:border-box;
+	float:left;
+}
+.approval_self .approval_right .dept .deptTree{
+	height: calc(100% - 13px);
+    overflow: auto;
+    margin-left:11px;
+    border-right: 1px solid #ddd;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .dept .deptTree::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .dept .dept_title{
+	font-size:18px;
+	color:#008EDE;
+	padding-left:60px;
+	background:url(../image/wx_approver3.png) no-repeat 20px center;
+	border-right: 1px solid #ddd;
+}
+.approval_self .approval_right h2{
+	font-size:18px;
+	line-height:60px;
+	color:#666;
+	padding-left:20px;
+	border-bottom:1px solid #ddd;
+}
+.approval_self .approval_right .approval_person{
+	width:100%;
+	height:calc(100% - 60px);
+	overflow:auto;
+	padding-top: 8px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+}
+.approval_self .approval_right .approval_dept{
+	height: calc(100% - 20px);
+	width:100%;
+	padding-top:20px;
+	box-sizing:border-box;
+	overflow: auto;
+	border-right:1px solid #ddd;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .approval_dept::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .approval_dept::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .approval_dept li{
+	font-size:14px;
+	width:210px;
+	margin:0 auto;
+	line-height:50px;
+	text-align:left;
+	cursor:pointer;
+	padding-left:50px;
+	box-sizing:border-box;
+	background:url(../image/wx_approver4.png) no-repeat 33px center;
+	border-radius:3px;
+}
+.approval_self .approval_right .approval_dept li.current{
+	background-color:#eee;
+}
+/*修改滚动条样式*/
+.approval_self .approval_right .approval_person::-webkit-scrollbar{
+  width:6px;
+  height:6px;
+  /**/
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-thumb:hover{
+  background: #999;
+}
+.approval_self .approval_right .approval_person::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+.approval_self .approval_right .approval_person li{
+	display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 260px;
+    height: 110px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin:10px;
+    line-height: 110px;
+    cursor: pointer;
+}
+.approval_self .approval_right .approval_person li.cur{
+	background: url(../image/check.png) no-repeat right bottom;
+	border-color:rgb(9,179,255);
+}
+.approval_self .approval_right .approval_person li .personPhoto{
+	width: 75px;
+    height: 87px;
+    float: left;
+}
+.approval_self .approval_right .approval_person li .personPhoto img{
+	width:75px;
+	height:87px;
+    vertical-align: middle;
+}
+.approval_self .approval_right .approval_person li .holderInfo{
+	float: left;
+	width:160px;
+    padding-top: 19px;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+.approval_self .approval_right .approval_person li .holderInfo p{
+	line-height: 28px;
+}
+.selectY{
+	padding: 5px 10px 6px 5px;
+    outline: none;
+    background: none;
+    width: 233px;
+    color: #666;
+    border: 1px solid #ddd;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+}
+.selectDoorList{
+	width: 100%;
+    height: calc(100% - 60px);
+    overflow: auto;
+    padding-top: 8px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+}
+.selectDoorList li{
+	border:1px solid #ddd;
+	display:inline-block;
+	padding:10px;
+	box-sizing:border-box;
+	margin:5px 15px;
+	border-radius:5px;
+	cursor:pointer;
+	width:200px;
+	text-align:center;
+}
+.selectDoorList li:hover{
+	opacity:0.8;
+	transition:all 0.5s ease;
+}
+.selectDoorList li.current{
+	border:1px solid #2277cc;
+}
+.userInput{
+	width: 140px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #ddd;
+    color: #333;
+    background: #fff;
+    margin-right: 5px;
+    border-radius: 3px;
+    box-shadow: rgba(160, 160, 160, 0.1) 1px 1px 3px;
+    vertical-align: middle;
+}

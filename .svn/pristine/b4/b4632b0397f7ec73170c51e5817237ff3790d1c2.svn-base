@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>人事资料</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+    <link rel="stylesheet" href="../css/list_style.css" />
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../deviceManager/css/deviceManger.css">
+    <link rel="stylesheet" href="css/holderdata_list.css">
+</head>
+
+<body>
+	<div id="cme-main">
+		<div class="main-content">
+			<div class="main-tab">
+				<div class="label fl curr">
+					<a href="javascript:;">人事资料</a>
+				</div>
+				<div class="btn-box fr">
+				<!-- <div class="subbtn fl"><a href="javascript:;" class="layui-bg-orange" id="readID">读取身份证</a></div> -->
+						
+					 <div class="subbtn fl">
+						<a href="holderdata_add.html" class="blue addMain"
+								id="insertHolderData">新增</a>
+					</div> 
+					<!-- <div class="subbtn fl">
+						<a href="javascript:;" class="blue delMain" id="deleteHolderData">删除</a>
+					</div> -->
+					<div class="subbtn fl">
+						<a href="import-file.html" class="blue addMain" id="daoruHolder">批量导入</a>
+					</div>
+					<div class="subbtn fl">
+						<a href="javascript:;" class="blue addMain" id="export">导出</a>
+					</div>
+					<div class="subbtn fl">
+						<a href="javascript:;" class="orange"
+							onclick="printTable('dayindaju1')" id="printHolderData">打印</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="main-table">
+				<div class="search-box main-form fl">
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>工号：
+						</div>
+						<div class="control clearfix">
+							<input type="text" class="input" id="holderno1" name="holderno">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>姓名：
+						</div>
+						<div class="control clearfix">
+							<input type="text" class="input" id="holdername1"
+								name="holdername">
+						</div>
+					</div>
+					<div class="form-term fl clearfix">
+							<div class="layui-unselect layui-form-select downpanel"
+								style="width: 358px;">
+								<div class="lable">
+									<span></span>部门：
+								</div>
+								<div class="control clearfix layui-select-title layui-input layui-unselect">
+									<span id="departmentname"></span> <input type="hidden" id="departmentno" >
+									<i class="layui-edge"></i>
+								</div>
+								<dl class="layui-anim layui-anim-upbit"
+									style="left: 125px; top: 34px; min-width: 234px;">
+									<dd style="overflow:visible">
+										<ul id="classtree" class="input"></ul>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					
+					<div class="form-term fl clearfix">
+						<div class="lable">
+							<span></span>身份证号：
+						</div>
+						<div class="control clearfix">
+							<input type="text" name="idcode" id="idcode1" placeholder="" class="input">
+						</div>
+					</div>
+					<div class="btn fl">
+						<a href="javascript:;" id="queryHolderDataByConditionBtn">搜索</a>
+					</div>
+				</div>
+			<div class="table_scroll">
+				<table class="grade personnel" id="dayindaju1">
+					<tr>
+						<td width="40" class="no-print"><span class="checkbox"
+							id="selectAll" style="float: none;">全选</span></td>
+						<!-- <td width="40">序号</td> -->
+						<td width="20">工号</td>
+						<td width="20">姓名</td>
+						<td width="20">性别</td>
+						<td width="80">所属公司</td>
+						<td width="40">部门</td>
+						<td width="40">岗位</td>
+						<td width="100">身份证号</td>
+						<td width="40">入职日期</td>
+						<td width="40">用户角色</td>
+						<td width="40">登录权限</td>
+						<td width="80" class="no-print">操作</td>
+					</tr>
+					<tbody id="cont">
+					</tbody>
+				</table>
+			</div>
+				<div class="pages" id="test"></div>
+
+			</div>
+
+		</div>
+	</div>
+	<div class="holder_add"></div>
+		<div class="holder_box holder_leave">
+			<div class="layer_top">
+    			<h2 class="title">离职原因</h2>
+    			<img src="../img/cha.png" class="quxiao" >
+    		</div>
+			<div class="door_center">
+					<p>
+						<label>离职日期</label>
+						<input type="text" name="expiredate" id="expiredate" class="input test-item" autocomplete="off">
+					</p>
+					<p>
+						<label>离职类型</label>
+						<select name="leavetype" id="leavetype">
+							<option value="0">停薪留职 </option> 
+							<option value="1">人事离职 </option> 
+							<option value="2">被开除</option> 
+						</select>
+					</p>
+					<p>
+						<label>交接扫描表</label>
+						<a href="javascript:;" class="file">选择图片
+    						<input type="file" name="" id="upload2" class="upload">
+						</a>
+						<input type="text" id="filename2" class="filename">
+					</p>
+					<p>
+						<label>离职扫描表</label>
+						<a href="javascript:;" class="file">选择图片
+    						<input type="file" name="" id="upload1" class="upload">
+						</a>
+						<input type="text" id="filename1" class="filename">
+					</p>
+					<p>
+						<label>离职原因</label>
+						<textarea id="leavereason" name="leavereason" class="textinput"></textarea>
+					</p>
+				
+			</div>
+			<div class="holder_bottom">
+				<div>
+					<a href="javascript:;" class="layui-bg-blue bottom_sure">确定</a>
+					<a href="javascript:;" class="layui-bg-orange bottom_qx">取消</a>
+				</div>
+			</div>
+		</div>
+	<div id="holderTransfer" class="main-form" style="display:none">
+		<div class="form-term fl clearfix">
+			<div class="layui-unselect layui-form-select downpanel"
+				style="width: 358px;">
+				<div class="lable">
+					<span></span>选择部门：
+				</div>
+				<div
+					class="control clearfix layui-select-title layui-input layui-unselect" style="border:1px solid #ddd">
+					<span id="departmentname2"></span>
+					 <input type="hidden" id="departmentno2">
+					  <i class="layui-edge"></i>
+				</div>
+				<dl class="layui-anim layui-anim-upbit"
+					style="left: 95px; top: 40px; min-width: 234px;height:200px">
+					<dd>
+						<ul id="classtree2" class="input"></ul>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/holderdata_list.js"></script>
+     <script type="text/javascript" src="../chu/xlsx.full.min.js"></script> 
+     <script type="text/javascript" src="../chu/export.js"></script>
+     <script type="text/javascript" src="../js/jquery-1.4.4.min.js"></script>
+     <script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+</body>
+</html>

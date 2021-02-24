@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>时间设置</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/public1.css" />
+ 	<link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+    <div id="cme-main">
+        <div class="main-content">
+            <div class="main-tab">
+                <div class="label fl curr"><a href="javascript:;">排班设置</a></div>
+                <div class="btn-box fr">
+                    <div class="subbtn fl"><a href="time_setting_add.html" class="blue">新增</a></div>
+                    <!-- <div class="subbtn fl"><a href="javascript:;" class="orange">批量删除</a></div> -->
+                </div>
+            </div>
+
+
+            <div class="main-table">
+                <!--查询条件-->
+                <div class="search-box main-form fl">
+                    <div class="form-term fl clearfix">
+                        <div class="lable"><span></span>选择路线：</div>
+                        <div class="control clearfix">
+                            <select id="road">
+                            	<option value="">请选择</option>
+								</select>
+                        </div>
+                    </div>
+                    <div class="btn fl">
+                        <a href="javascript:;" id="search">搜索</a>
+                    </div>
+                </div>
+                 <!--查询条件-->
+                <table class="grade" id="shift">
+                </table> 
+				 <div class="pages" id="test1">
+                </div> 
+
+            </div>
+
+        </div>
+
+    </div>
+    
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../hyf/path_js.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/layer/layer.js"></script>
+     <script type="text/javascript" src="../layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
+</html>
